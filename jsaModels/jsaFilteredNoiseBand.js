@@ -40,9 +40,9 @@ define(
 				gainLevelNode = config.audioContext.createGainNode();
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-			var m_gainLevel = 0.5, // the point to (or from) which gainEnvNode ramps glide
-				m_freq = 440,
-				m_Q = 150.0,
+			var m_gainLevel = 1.5, // the point to (or from) which gainEnvNode ramps glide
+				m_freq = 880,
+				m_Q = 10.0,
 				m_attackTime = 0.05,
 				m_releaseTime = 1.0,
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
@@ -86,7 +86,7 @@ define(
 
 				// if no input, remember from last time set
 				m_freq = i_freq || m_freq;
-				myInterface.set("Center Frequency", m_freq);
+				myInterface.setParam("Center Frequency", m_freq);
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
 				gainEnvNode.gain.setValueAtTime(0, now);

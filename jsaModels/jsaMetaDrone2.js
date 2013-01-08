@@ -26,7 +26,7 @@ define(
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
-			var m_metagain = 0.6;
+			var m_metagain = 1.8;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
@@ -47,10 +47,10 @@ define(
 				var i;
 				for (i = 0; i < k_maxNumChildren; i += 1) {
 					childModel[i] = jsaFilteredNoiseBandFactory();
-					childModel[i].set("Filter Q", 150);
-					childModel[i].set("Gain", m_metagain);
+					childModel[i].setParam("Filter Q", 150);
+					childModel[i].setParam("Gain", m_metagain);
 					foo = note2Freq(m_baseNote);
-					childModel[i].set("Center Frequency", foo);
+					childModel[i].setParam("Center Frequency", foo);
 				}
 			}());
 
@@ -105,7 +105,7 @@ define(
 					//console.log("will send new base note to " + m_currentNumChildrenActive + " currently active children");
 					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
 						//childModel[i].setCenterFreq(note2Freq(m_baseNote));  // reassign freqs
-						childModel[i].set("Center Frequency", childModel[i].getFreq() * Math.pow(2, bndif / 12));  // glide freqs
+						childModel[i].setParam("Center Frequency", childModel[i].getFreq() * Math.pow(2, bndif / 12));  // glide freqs
 					}
 					m_baseNote = in_bn;
 				}
@@ -130,7 +130,7 @@ define(
 						for (i = m_currentNumChildrenActive; i < in_gens; i += 1) {
 							//console.log("setNumGenerators: will add child to playing list # " + i);
 							var f = note2Freq(m_baseNote);
-							childModel[i].set("Gain", m_metagain);
+							childModel[i].setParam("Gain", m_metagain);
 							childModel[i].play(f);
 						}
 					} else { // in_gens < m_currentNumChildrenActive
@@ -159,7 +159,7 @@ define(
 					var i;
 					m_metagain = i_val;
 					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
-						childModel[i].set("Gain", m_metagain);
+						childModel[i].setParam("Gain", m_metagain);
 					}
 				}
 			);

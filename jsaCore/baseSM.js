@@ -15,6 +15,7 @@ define(
 	["jsaSound/jsaCore/utils"],
 	function (utils) {
 		return function () {
+			var that=this;
 			var aboutText = "";
 			var params = {};
 			var paramname = []; // array of parameter names
@@ -57,35 +58,50 @@ define(
 				}
 			};
 
+
 			bsmInterface.getParams = function () {
 				return params;
 			};
 					
 
-			bsmInterface.setRangeParamNorm = function (i_name, i_val) {
-				if (utils.isInteger(i_name)) {  // "overload" function to accept integer indexes in to parameter list, too.
-					i_name=bsmInterface.getParamNames()[i_name];
-				}
-				
-				if (!params[i_name]) {
-					throw "setRangeParamNorm: Parameter " + i_name + " does not exist";
-				}
+			bsmInterface.getParam = function(i_name, i_prop){
+				i_name=testPName(i_name);
 				var p = params[i_name];
-				p.f(p.value.min + i_val * (p.value.max - p.value.min));
+
+				switch (i_prop){
+					case "name":
+						return i_name;
+					case "type":
+						return p.type;
+					case "val":
+						return p.value.val;
+					case "normval":
+						return (p.value.val - p.value.min)/(p.value.max - p.value.min);
+					case "min":
+						return p.value.min;
+					case "max":
+						return p.value.max;
+					default:
+						return null;
+				}
+			}
+
+
+			bsmInterface.setParamNorm = function (i_name, i_val) {
+				i_name=testPName(i_name);
+				var p = params[i_name];
+				p.value.val=p.value.min + i_val * (p.value.max - p.value.min)
+				p.f(p.value.val);
 			};
 
-			bsmInterface.set = function (i_name) {
-				if (utils.isInteger(i_name)) {  // "overload" function to accept integer indexes in to parameter list, too.
-					i_name=bsmInterface.getParamNames()[i_name];
-				}
+			bsmInterface.setParam = function (i_name) {
+				i_name=testPName(i_name);
 
-				if (!params[i_name]) {
-					throw "set: Parameter " + i_name + " does not exist";
-				}
 				var args = [], i;
 				for (i = 1; i < arguments.length; i += 1) {
 					args.push(arguments[i]);
 				}
+				params[i_name].value.val=arguments[1];
 				params[i_name].f.apply(this, args);
 			};
 
@@ -99,6 +115,22 @@ define(
 			bsmInterface.stop = function () {
 				console.log("baseSM.stop() should probably be overridden ");
 			};
+
+
+			// Takes parameter names or parameter indexes and checks for existence, return parameter string name
+			var testPName = function (i_ind){
+
+				if (utils.isInteger(i_ind)) {  // "overload" function to accept integer indexes in to parameter list, too.
+					i_ind=bsmInterface.getParamNames()[i_ind];
+				} 
+
+				if (!params[i_ind]) {
+					throw "set: Parameter " + o_name + " does not exist";
+				}
+				return i_ind;  // it has passed the existence test and been converted to the proper string name.
+			}
+
+
 			return bsmInterface;
 		};
 	}

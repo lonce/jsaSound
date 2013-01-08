@@ -184,7 +184,7 @@ define(
 			};
 
 			// override the baseSM interface method to set params by moving sliders on the slider box 
-			myInterface.setRangeParamNorm = function (i_pID, i_val) {
+			myInterface.setParamNorm = function (i_pID, i_val) {
 				var plist = myInterface.getParams();
 
 				if (i_pID >= utils.objLength(plist)) {

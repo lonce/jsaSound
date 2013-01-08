@@ -125,6 +125,7 @@ define(
 					"val": m_gainLevel
 				},
 				function (i_val) {
+					console.log("setting noisyFM gain to " + i_val);
 					gainLevelNode.gain.value = m_gainLevel = i_val;
 				}
 			);

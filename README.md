@@ -28,3 +28,20 @@ Some of the sound models use microphone input. These models only work when run o
 one on the localhost will work fine). Also, when the user opens one of these models, the ALLOW/DISALLOW buttons
 show up on the main browser window, not the sound model slider box window so it is easy to miss. If the user
 doesn't push the ALLOW button, the model will not work properly. 
+
+API
+--------------
+
+play()
+release()
+stop()
+
+setParam([name/number],val)
+setParamNorm([name/number], val)
+
+getParam([name/number], ["name", "type", "val", "normval", "min","max"]) // type can be "range" or "text"
+
+getNumParams()
+getAboutText();
+
+

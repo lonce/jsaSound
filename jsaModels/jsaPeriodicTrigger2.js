@@ -104,7 +104,7 @@ define(
 				},
 				function (i_val) {
 					m_gain = parseFloat(i_val);
-					child.set("Gain", m_gain);
+					child.setParam("Gain", m_gain);
 				}
 			);
 
