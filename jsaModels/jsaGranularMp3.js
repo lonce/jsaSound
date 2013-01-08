@@ -254,7 +254,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": "http://localhost/schumannLotusFlower.mp3"
+					"val": "http://animatedsoundworks.com/soundServer/audio/BeingRural22k.mp3""
 				},
 				function (i_val) {
 					m_soundUrl = i_val;

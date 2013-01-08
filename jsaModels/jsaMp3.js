@@ -56,6 +56,7 @@ define(
 			}
 
 			function sendXhr() {
+				
 				//SHOULD XHR BE RE-CONSTRUCTED??
 				xhr.open('GET', m_soundUrl, true);
 				xhr.responseType = 'arraybuffer';
@@ -71,6 +72,7 @@ define(
 					buildModelArchitecture();
 				};
 				xhr.send();
+				
 			}
 
 			myInterface.play = function (i_gain) {
@@ -144,7 +146,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": "http://46.137.211.192/schumannLotusFlower.mp3"
+					"val": "http://animatedsoundworks.com/soundServer/audio/BeingRural22k.mp3"
 				},
 				function (i_val) {
 					m_soundUrl = i_val;
