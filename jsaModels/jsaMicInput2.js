@@ -77,7 +77,7 @@ define(
 			}());
 
 			var myInterface = baseSM();
-			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. <br>")
+			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
 
 
 			myInterface.play = function (i_freq, i_gain) {

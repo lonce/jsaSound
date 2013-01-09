@@ -130,7 +130,9 @@ define(
 							//console.log("setNumGenerators: will add child to playing list # " + i);
 							var f = note2Freq(m_baseNote);
 							childModel[i].setParam("Gain", m_metagain);
-							childModel[i].play(f);
+							if (stopTime > config.audioContext.currentTime){ // if playingP
+								childModel[i].play(f);
+							}
 						}
 					} else { // in_gens < m_currentNumChildrenActive
 						for (i = in_gens; i < m_currentNumChildrenActive; i += 1) {

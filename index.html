@@ -22,10 +22,39 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 	</head>
 	<body>
-		<h1> Dynamically create model GUI with sliders and text boxes for model parameters </h1> 
-		<!-- Here we will dynamically create the sound list for selection -->
+		<h1> jsaSound interactive sound model API</h1>
+		jsaSound helps interactive sound developers and designers to provide sound users (game, web, application developers) with models that have a simple and consistent API exposing exactly the interaction the designer intends. <br>
+		<br>
+		<b> The Sound Model API: </b>
+		<div id="API" >
+			<div id="APItext">
+				play()<br>
+				release()<br>
+				stop()<br>
+				<br>
+				setParam([name, number],val)<br>
+				setParamNorm([name, number], val)<br>
+				<br>
+				getParam([name, number], ["name", "type", "val", "normval", "min","max"]) // type can return "range" or "url"<br>
+				<br>
+				getNumParams()<br>
+				getAboutText();<br>
+			</div>
+		</div>
+		The simplicity and consistency enables clean, readable, generalizable, and reusable code.  This slider box, for example, works with any sound that exposes the API:<br>
 		<b> Choose your sound model: </b>
 		<select id="soundSelector">
 		</select> </br>
+				<br>
+		To see the API in it modest glory (controling an interactive sound in script on a web page) see <a href="DEMO/Demo.html">this DEMO</a>
+		<br>
+		<br>
+		<br>
+		<hr />
+		<div id="Credits">
+		<a href="http://anclab.org">Arts and Creativity Lab, IDMI</a> / <a href="http://www.fas.nus.edu.sg/cnm/">Communications and New Media Department, National University of Singapore</a><br> 
+		Code: <a href="https://github.com/lonce/jsaSound"> https://github.com/lonce/jsaSound</a> <br />
+		Contributors: Lonce Wyse, Pallav Shinghal, Kumar Subramanian
+		</div?
 	</body>
 </html>

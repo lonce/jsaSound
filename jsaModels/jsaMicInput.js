@@ -61,7 +61,7 @@ define(
 				}
 
 				function error() {
-    				alert('Stream generation failed.');
+    				alert('Stream generation failed. Must a) run this sound in the sound-input enabled browser such as Chrome, b) run on a proper server,  c) explicity allow the browser to use sound by pushing the button on the main page.');
 				}
 
 				//var mediaGetter = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -96,7 +96,7 @@ define(
 			}());
 
 			var myInterface = baseSM();
-			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. <br>")
+			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
 
 
 			myInterface.play = function (i_freq, i_gain) {

@@ -71,8 +71,7 @@ define(
 					//SHOULD THIS FUNCTION BE CALLED BEFORE CHANGING buffLoaded ???
 					buildModelArchitecture();
 				};
-				xhr.send();
-				
+				xhr.send();		
 			}
 
 			myInterface.play = function (i_gain) {

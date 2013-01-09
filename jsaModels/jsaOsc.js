@@ -24,7 +24,7 @@ define(
 			var	gainLevelNode = config.audioContext.createGainNode();
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-			var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
+			var m_gainLevel = 0.25;    // the point to (or from) which gainEnvNode ramps glide
 			var m_frequency = 440;
 			var m_attackTime = 0.05;
 			var m_releaseTime = 1.0;

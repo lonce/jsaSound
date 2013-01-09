@@ -56,6 +56,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM();
+			myInterface.setAboutText("This model \"wraps\"  a bunch of jsaNoiseBand models. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
 			// ----------------------------------------
 			myInterface.play = function (i_bn) {
 				var i;
@@ -131,7 +132,9 @@ define(
 							//console.log("setNumGenerators: will add child to playing list # " + i);
 							var f = note2Freq(m_baseNote);
 							childModel[i].setParam("Gain", m_metagain);
-							childModel[i].play(f);
+							if (stopTime > config.audioContext.currentTime){ // if playingP
+								childModel[i].play(f);
+							}
 						}
 					} else { // in_gens < m_currentNumChildrenActive
 						for (i = in_gens; i < m_currentNumChildrenActive; i += 1) {

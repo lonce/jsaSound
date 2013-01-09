@@ -36,10 +36,10 @@ play()
 release()
 stop()
 
-setParam([name/number],val)
-setParamNorm([name/number], val)
+setParam([name, number],val)
+setParamNorm([name, number], val)
 
-getParam([name/number], ["name", "type", "val", "normval", "min","max"]) // type can be "range" or "text"
+getParam([name, number], ["name", "type", "val", "normval", "min","max"]) // type can return "range" or "url"
 
 getNumParams()
 getAboutText();

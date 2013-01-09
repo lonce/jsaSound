@@ -13,7 +13,7 @@ define(
 			}
 
 			function error() {
-    			alert('Stream generation failed.');
+				alert('Stream generation failed. Must a) run this sound in the sound-input enabled browser such as Chrome, b) run on a proper server,  c) explicity allow the browser to use sound by pushing the button on the main page.');
 			}
 
 

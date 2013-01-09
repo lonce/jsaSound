@@ -18,9 +18,9 @@ require.config({
 	}
 });
 require(
-	["require", "http://animatedsoundworks.com/soundServer/jsaModels/jsaFM"], 
+	//["require", "http://animatedsoundworks.com/soundServer/jsaModels/jsaFM"], 
 	//["require", "localhost:8080/jsaModels/jsaFM"], // WHY CANT I LOAD SOUNDs FROM LOCALHOST WHEN I RUN A SERVER THERE??
-	//["require", "jsaSound/jsaModels/jsaFM"], // This loads a model from a local directory
+	["require", "jsaSound/jsaModels/jsaFM"], // This loads a model from a local directory
 	function (require, sndFactory) {
 
 		// First create the sound model from the factory.
@@ -55,6 +55,7 @@ require(
 			
 			snd.setParamNorm(0, normX );  // setting by parameter index
 			//console.log("param 0 has val=" + snd.getParam(0,"val") + ", and normed val=" + snd.getParam(0,"normval"));
+
 			snd.setParamNorm("Modulation Index", normY); // setting by parameter name
 			//console.log("Modulation Index has val=" + snd.getParam("Modulation Index","val") + ", and normed val=" + snd.getParam("Modulation Index","normval"));
 		};
