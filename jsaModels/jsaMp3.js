@@ -29,7 +29,7 @@ define(
 
 			var gainEnvNode, gainLevelNode, sourceNode;
 
-			var m_gainLevel = 0.5;
+			var m_gainLevel = 1.0;
 			var m_attackTime = 0.05;
 			var m_releaseTime = 1.0;
 			var m_soundUrl = "";
@@ -107,7 +107,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 1,
+					"max": 2,
 					"val": m_gainLevel
 				},
 				function (i_val) {

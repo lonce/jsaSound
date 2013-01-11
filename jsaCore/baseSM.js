@@ -12,15 +12,15 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The sound model base class that all models use as a prototype
 //==============================================================================
 define(
-	["jsaSound/jsaCore/utils"],
-	function (utils) {
+	["jsaSound/jsaCore/utils", "jsaSound/jsaCore/GraphNode"],
+	function (utils, GraphNode) {
 		return function () {
 			var that=this;
 			var aboutText = "";
 			var params = {};
 			var paramname = []; // array of parameter names
 
-			var bsmInterface = {};
+			var bsmInterface = GraphNode({},[],[]);
 
 			bsmInterface.setAboutText = function (i_text){
 				aboutText=i_text;

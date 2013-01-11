@@ -56,7 +56,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM();
-			myInterface.setAboutText("This model \"wraps\"  a bunch of jsaNoiseBand models. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
+			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
 			// ----------------------------------------
 			myInterface.play = function (i_bn) {
 				var i;

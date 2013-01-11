@@ -1,0 +1,26 @@
+TODO
+
+
+Do Require Optimization to build library
+
+Write sound model developer documentation for using jsaSound to wrap their creations.
+
+Developer functionality:
+   isPlayingP()
+   isReleasing()
+
+
+Modles loading arbitrary wave/mp3 files from the net:
+   Enable "cross-domain" loading of CMLHttp resources.
+   Load resources asynchronously
+   Allow user to get a callback upon load (so that models know when they are ready be used)
+
+
+Improve example sound model collection
+
+
+
+
+
+
+
