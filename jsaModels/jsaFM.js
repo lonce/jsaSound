@@ -25,67 +25,52 @@ define(
 			var m_modIndex = 1.0;
 			var m_attackTime = 0.05;
 			var m_releaseTime = 1.0;
-			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
-			var now = 0.0;
 
-			// Create the nodes and thier connections. Runs once on load [Don't know why for jsaOc we have to call this on every play(), but not for this model!]
-			var buildModelArchitecture = (function () {
-				// These must be called on every play because of the tragically short lifetime ... however, after the 
-				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
-				oscModulatorNode = config.audioContext.createOscillator();
-				m_CarrierNode = fmodOscFactory();
-				gainEnvNode = config.audioContext.createGainNode();
-				gainLevelNode = config.audioContext.createGainNode();
+            // Setup the fixed nodes that the FM modulator node (oscModulatorNode)
+            // must connect to.
+            // -Kumar
+            // -- BEGIN FIXED SETUP --
+            m_CarrierNode = fmodOscFactory();
+            gainEnvNode = config.audioContext.createGainNode();
+            gainLevelNode = config.audioContext.createGainNode();
 
-				console.log("in BUILD, gain level node is " + gainLevelNode );
+            console.log("in BUILD, gain level node is " + gainLevelNode );
 
-				// Also have to set all of their state values since they all get forgotten, too!!
-				gainLevelNode.gain.value = m_gainLevel;
-				gainEnvNode.gain.value = 0;
-				oscModulatorNode.type = 0;  //sin
+            // Also have to set all of their state values since they all get forgotten, too!!
+            gainLevelNode.gain.value = m_gainLevel;
+            gainEnvNode.gain.value = 0;
 
-				oscModulatorNode.frequency.value = m_mod_freq;
-				m_CarrierNode.setModIndex(m_modIndex);
+            m_CarrierNode.setModIndex(m_modIndex);
 
-				// make the graph connections
-				oscModulatorNode.connect(m_CarrierNode);
-				m_CarrierNode.connect(gainEnvNode);
+            // make the graph connections
+            m_CarrierNode.connect(gainEnvNode);
 
-				gainEnvNode.connect(gainLevelNode);
-
-			}());
-
-			// only the misbehaving oscModulatorNode needs to be rebuilt since it is invalidated by noteOff().
-			var buildModelArchitectureAGAIN = function () {
-				oscModulatorNode = config.audioContext.createOscillator();
-				oscModulatorNode.frequency.value = m_mod_freq;
-				oscModulatorNode.connect(m_CarrierNode);
-			};
+            gainEnvNode.connect(gainLevelNode);
+            // -- END FIXED SETUP --
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
 			myInterface.play = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
+				var now = config.audioContext.currentTime;
 
-				if (stopTime <= now) { // not playing
-					buildModelArchitectureAGAIN();
-					oscModulatorNode.noteOn(now);
-					gainEnvNode.gain.value = 0;
-				} else {  
-					gainEnvNode.gain.cancelScheduledValues(now);
-				}
-				// The rest of the code is for new starts or restarts	
-				stopTime = config.bigNum;
-				oscModulatorNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+                // The model uses an oscillator "voice" as the input that
+                // controls the fmodOsc. We make one of these on every play()
+                // and throw it away on every release(). Note that the
+                // rest of the graph is not remade.
+                // -Kumar
+                if (!oscModulatorNode) {
+                    oscModulatorNode = config.audioContext.createOscillator();
+                    oscModulatorNode.type = 0;  //sin
+                    oscModulatorNode.frequency.value = m_mod_freq;
+                    oscModulatorNode.connect(m_CarrierNode);
+                    oscModulatorNode.noteOn(now);
+                    gainLevelNode.gain.value = m_gainLevel;
 
-				// if no input, remember from last time set
-				m_CarrierNode.setFreq(i_freq || m_car_freq);
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
-
-				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
-
+                    gainEnvNode.gain.cancelScheduledValues(now);
+                    gainEnvNode.gain.setValueAtTime(0, now);
+                    gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
+                }
 
 				if (myInterface.getNumOutConnections() === 0){
 					console.log("connecting MyInterface to audio context desination");
@@ -130,7 +115,11 @@ define(
 					"val": m_mod_freq
 				},
 				function (i_val) {
-					oscModulatorNode.frequency.value = m_mod_freq = i_val;
+                    // Only allow control during the active period
+                    // -Kumar
+                    if (oscModulatorNode) {
+					    oscModulatorNode.frequency.value = m_mod_freq = i_val;
+                    }
 				}
 			);
 
@@ -174,14 +163,28 @@ define(
 			);
 
 			myInterface.release = function () {
-				now = config.audioContext.currentTime;
-				stopTime = now + m_releaseTime;
+                if (oscModulatorNode) {
+                    // Good to keep these local variables instead of
+                    // common model ones
+                    // -Kumar
+                    var now = config.audioContext.currentTime;
+                    var stopTime = now + m_releaseTime;
 
-				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				oscModulatorNode.noteOff(stopTime);
-			};
+                    gainEnvNode.gain.cancelScheduledValues(now);
+                    gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+                    gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+                    // Schedule the osc node to turn off at the stop
+                    // time and forget about the node. I think noteOff()
+                    // can only be called once, based on an earlier discussion
+                    // with Chris Rogers. So it is much simpler to just
+                    // giveup the reference to the "voice" once you
+                    // schedule a noteOff for it.
+                    // -Kumar
+                    oscModulatorNode.noteOff(stopTime);
+                    oscModulatorNode = null;
+                }
+ 			};
 				
 			return myInterface;
 		};
