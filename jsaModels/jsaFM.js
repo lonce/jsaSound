@@ -55,6 +55,13 @@ define(
 
 			}());
 
+			// only the misbehaving oscModulatorNode needs to be rebuilt since it is invalidated by noteOff().
+			var buildModelArchitectureAGAIN = function () {
+				oscModulatorNode = config.audioContext.createOscillator();
+				oscModulatorNode.frequency.value = m_mod_freq;
+				oscModulatorNode.connect(m_CarrierNode);
+			};
+
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
@@ -62,6 +69,7 @@ define(
 				now = config.audioContext.currentTime;
 
 				if (stopTime <= now) { // not playing
+					buildModelArchitectureAGAIN();
 					oscModulatorNode.noteOn(now);
 					gainEnvNode.gain.value = 0;
 				} else {  
