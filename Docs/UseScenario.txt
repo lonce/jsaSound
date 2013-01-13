@@ -26,4 +26,7 @@ Have exactly the same functionality for jsavascript nodes as any other node.
 +++++++++++++++++++++++++++++++++++++++
 	
 References:
-   	
+   Andy Farnell (2008), Designing Sound. MIT Press
+
+	
+	
