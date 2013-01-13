@@ -31,7 +31,7 @@ define(
 
 			// (Re)create the nodes and thier connections.
 			// Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
-			var buildModelArchitecture = function () {
+			var buildModelArchitectureAGAIN = function () {
 				// if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
 				oscNode = config.audioContext.createOscillator();
 				oscNode.type = 1;  //square
@@ -51,7 +51,7 @@ define(
 
 				if (stopTime <= now) { // not playing
 					console.log("rebuild model node architecture!");
-					buildModelArchitecture();   // Yuck - have to do this because we stop() the osc node
+					buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
 					oscNode.noteOn(now);
 					gainEnvNode.gain.value = 0;
 				} else {  	// Already playing

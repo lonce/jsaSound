@@ -87,21 +87,25 @@ define(
             // Getters
             node.numOutputs = function (){
                 return node.numberOfOutputs;
-            }
+            };
 
             node.numInputs = function (){
                 return node.numberOfInputs;
-            }
+            };
+
+            node.hasOutputs = function () {
+                if (node.numberOfOutputs > 0) return true; else return false;
+            };
 
             node.getNumOutConnections = function(){
 
-               if (! (node.numOutConnections >= 0)) {  // node.outputs === []
+               if (!(node.numOutConnections >= 0)) {  // node.outputs === []
                     alert("The model you are trying to use has not provided any ouptut nodes for connections");
                     throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
                     return 0;
                 }
                 return node.numOutConnections;
-            }
+            };
 
             // ### keep and drop
             //

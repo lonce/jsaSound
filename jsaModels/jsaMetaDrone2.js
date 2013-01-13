@@ -57,7 +57,9 @@ define(
 					foo = note2Freq(m_baseNote);
 					childModel[i].setParam("Center Frequency", foo);
 
-					childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
+					if (childModel[i].hasOutputs()){
+						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
+					}
 				}
 				gainLevelNode.connect(config.audioContext.destination);
 			}());
@@ -80,6 +82,11 @@ define(
 				for (i = 0; i < m_currentNumChildrenActive; i += 1) {
 					childModel[i].play(note2Freq(m_baseNote));
 				}
+
+				if (myInterface.getNumOutConnections() === 0){
+					myInterface.connect(config.audioContext.destination);
+				}
+
 			};
 
 			myInterface.release = function () {
