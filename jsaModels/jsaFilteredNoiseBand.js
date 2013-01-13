@@ -48,11 +48,14 @@ define(
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
 
-			// (Re)create the nodes and thier connections.
+			
+			// define the PUBLIC INTERFACE for the model	
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Bandpass noise");
+
+
+			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
-				// These must be called on every play because of the tragically short lifetime ... however, after the 
-				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
-				// Also have to set all of their state values since they all get forgotten, too!!
 
 				m_noiseNode = noiseNodeFactory();
 
@@ -64,7 +67,7 @@ define(
 				gainEnvNode = config.audioContext.createGainNode();
 				gainEnvNode.gain.value = 0;
 
-				gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGainNode();
 				gainLevelNode.gain.value = m_gainLevel;
 
 				// make the graph connections
@@ -72,11 +75,8 @@ define(
 				m_filterNode.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
-				gainLevelNode.connect(config.audioContext.destination);
 			}());
 
-			// define the PUBLIC INTERFACE for the model	
-			var myInterface = baseSM();
 			// ----------------------------------------
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
@@ -91,6 +91,11 @@ define(
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs
+
+
+				if (myInterface.getNumOutConnections() === 0){
+					myInterface.connect(config.audioContext.destination);
+				}
 			};
 
 			// ----------------------------------------
@@ -170,7 +175,7 @@ define(
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainEnvNode.gain.value, now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
 			};

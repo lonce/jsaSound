@@ -7,34 +7,7 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
-    for baseSM and fmodOscFactory
-	
-jsaUtils/utils.js
-	for Array.prototype.prettyString 
-		*/
 
-/* The Audio Stuff
-
- refs:
-	http://stuartmemo.com/making-sine-square-sawtooth-and-triangle-waves/
-	JSyn's Phil Burke:
-		http://www.softsynth.com/webaudio/gainramp.php
-	Google's evangelist Chis Wilson's examples:
-		http://webaudio-io2012.appspot.com/js/examples.js
-			function playOsc(type) 
-
- --------------------------------------------------------------
-  The idea here, besides learning and experimenting with Web Audio capabilities, is to 
-  come up with an architecture that looks like a "sound model" - exposing an interface
-  and hiding stuff a model user shouldn't see or change. All using the particular "good parts"
-  of javascript.
-  
- --------------------------------------------------------------
-// Notes: 
-	Uses new audioContext.createOscillator();
-	*/
 
 // ******************************************************************************************************
 // A "sound model" (which is essentially just an oscillator).
@@ -48,53 +21,40 @@ define(
 		return function () {
 			// defined outside "oscInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	oscNode = config.audioContext.createOscillator();
+			var	oscNode;// = config.audioContext.createOscillator();
 			var	gainEnvNode = config.audioContext.createGainNode();
 			var	gainLevelNode = config.audioContext.createGainNode();
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
-			var m_frequency = 440;   // 
+			var m_frequency = 440;
 			var m_attackTime = 0.02;  //
 			var m_sustainTime = 0.1;
-			var m_releaseTime = 0.2;	   //
+			var m_releaseTime = 0.2;
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
 			var now = 0.0;
 
-			// (Re)create the nodes and thier connections.
-			// Must be called everytime we want to start playing since nodes are *deleted* when they aren't being used.
-			var buildModelArchitecture = function () {
-				// These must be called on every play because of the tragically short lifetime ... however, after the 
-				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
+			// (Re)create the nodes and thier connections. Because oscNode.notOff invalidates the node
+			var buildModelArchitectureAGAIN = function () {
 				oscNode = config.audioContext.createOscillator();
-				gainEnvNode = config.audioContext.createGainNode();
-				gainLevelNode = config.audioContext.createGainNode();
-
-				gainLevelNode.gain.value = m_gainLevel;
-				gainEnvNode.gain.value = 0;
 				oscNode.type = 1;  //square
 
 				// make the graph connections
 				oscNode.connect(gainEnvNode);
 				gainEnvNode.connect(gainLevelNode);
-				gainLevelNode.connect(config.audioContext.destination);
 			};
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			var myInterface.setAboutText("Tone that turns itself off. ")
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
-				//console.log("PLAY! time = " + now);
-				// It seems silly have to CREATE these nodes & connections every time play() is called. Why can't I do it once (outside of "myInterface")??
-				// Don't need to do this if decay on previous decay is still alive...   
 				if (stopTime <= now) { // not playing
 					console.log("rebuild model node architecture!");
-					buildModelArchitecture();
+					buildModelArchitectureAGAIN();
 					oscNode.noteOn(now);
 					gainEnvNode.gain.value = 0;
 				} else {  // no need to recreate architectre - the old one still exists since it is playing
-					//foo = (stopTime <= now);
-					//console.log("stopTime <= now)  === " + foo);
 					console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
 				}
 				gainEnvNode.gain.cancelScheduledValues(now);
@@ -111,6 +71,12 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime + m_sustainTime);
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}		
+
 			};
 
 			myInterface.registerParam(

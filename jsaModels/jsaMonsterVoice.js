@@ -13,9 +13,6 @@ define(
 	function (config, baseSM, jungleNodeFactory, micInputNode) {
 		return function () {
 
-			var myInterface = baseSM();
-			myInterface.setAboutText("NOTE: Canary only on a proper web server. Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
-
 
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
@@ -29,7 +26,8 @@ define(
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
 
-			// (Re)create the nodes and thier connections.
+
+			// Create the nodes and thier connections. Runs once on load.
 			var buildModelArchitecture = (function () {
 
 				m_jungleNode = new Jungle( config.audioContext );
@@ -43,16 +41,22 @@ define(
 
 				gainLevelNode.connect(config.audioContext.destination);
 			}());
+			
 
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("NOTE: Canary only on a proper web server. Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
 
 
 			myInterface.play = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
-
+				now = config.audioContext.currentTime
 				stopTime = config.bigNum;
 
-				console.log("play Monster with igain = "+ i_gain + ", and m_gainLevel = " + m_gainLevel);
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
+
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}
 			};
 
 

@@ -1,0 +1,29 @@
+
+
+Scenario - sound model design. 
+
+The "sound designer" is the pro who creates potentially rich and complicated sound generators/behavior using Webauido and other tools for DSP etc. 
+Distinguised from the "sound user" who are game, application, and web developers, (probably scriptors andprogrammers, but not sound specialists).
+
+Sound models described at the high-level have SFX library like names (steam train, footsteps (high heels), footsteps (boots in snow), thunderstorm, hydrolic lift, chain saw, laughing)
+They expose and API that is 
+	a) one aspect and result of the sound model design process and specificiation,
+	b) has a standard format (e.g. snd.setParamter("footsteps-rate", 3.2)) . That is, the paramter can have a sound model-specific affect on the behavior of  the model, but a standardized way of being called.
+	
+	
++++++++++++++++++++++++++++++++++++++++++++++++++
+What is needed in the Usage Scenario?
+	
+Scheduling
+Would like to get callbacks to fill "next audio" buffer" a few ms ahead of when it will play. 
+Would like to set callbacks specified in playtime in a queue that get fired at the exact (computed) play-time specified. 
+
+Ask a node if it is connected to anything or if anything is connected to it.
+
+Have exactly the same functionality for jsavascript nodes as any other node.
+
+
++++++++++++++++++++++++++++++++++++++++
+	
+References:
+   	

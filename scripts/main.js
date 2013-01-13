@@ -31,7 +31,6 @@ require(
 			{name: "Square Wave", model: "jsaOsc"},
 			{name: "Classic FM", model: "jsaFM"},
 			{name: "Noisy FM", model: "jsaNoisyFM"},
-			{name: "UglyMetadrone", model: "jsaMetaDrone1"},
 			{name: "Noise Band", model: "jsaFilteredNoiseBand"},
 			{name: "Metadrone2", model: "jsaMetaDrone2"},
 			{name: "ToneTick", model: "jsaToneTick"},
@@ -40,7 +39,6 @@ require(
 			{name: "Period Trigger 2", model: "jsaPeriodicTrigger2"},
 			{name: "Mp3", model: "jsaMp3"},
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
-			{name: "Mic Input", model: "jsaMicInput"},
 			{name: "Mic Input 2", model: "jsaMicInput2"},
 			{name: "Monster Voice", model: "jsaMonsterVoice"}
 		];

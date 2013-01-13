@@ -22,12 +22,15 @@ define(
 
 			//CUrrently, I've just enabled looping to overcome that problem
 
-			var buffLoaded = false, architectureBuilt = false;
+			var buffLoaded = false;
 
 			var xhr = new XMLHttpRequest();
-			var soundBuff = null;
+			//var foo = new ArrayBuffer(100);
+			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
-			var gainEnvNode, gainLevelNode, sourceNode;
+			var gainLevelNode = config.audioContext.createGainNode();
+			var gainEnvNode = config.audioContext.createGainNode();
+			var sourceNode;
 
 			var m_gainLevel = 1.0;
 			var m_attackTime = 0.05;
@@ -36,27 +39,20 @@ define(
 			var stopTime = 0.0;
 			var now = 0.0;
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Simple mp3 (or wav) player - must load sounds from same domain as server.")
 
-			function buildModelArchitecture() {
+			// Must keep rebuilding on play() this because sourceNode goes away after you call sourceNode.noeOff()
+			buildModelArchitectureAGAIN = function() {
 				sourceNode = config.audioContext.createBufferSource();
-				gainEnvNode = config.audioContext.createGainNode();
-				gainLevelNode = config.audioContext.createGainNode();
-
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = true;
-				gainLevelNode.gain.value = m_gainLevel;
-				gainEnvNode.gain.value = 0;
 
 				sourceNode.connect(gainEnvNode);
 				gainEnvNode.connect(gainLevelNode);
-				gainLevelNode.connect(config.audioContext.destination);
+			};
 
-				architectureBuilt = true;
-			}
-
-			function sendXhr() {
-				
+			function sendXhr() {				
 				//SHOULD XHR BE RE-CONSTRUCTED??
 				xhr.open('GET', m_soundUrl, true);
 				xhr.responseType = 'arraybuffer';
@@ -68,8 +64,6 @@ define(
 					soundBuff = config.audioContext.createBuffer(xhr.response, false);
 					buffLoaded = true;
 					console.log("Buffer Loaded!");
-					//SHOULD THIS FUNCTION BE CALLED BEFORE CHANGING buffLoaded ???
-					buildModelArchitecture();
 				};
 				xhr.send();		
 			}
@@ -79,7 +73,7 @@ define(
 					now = config.audioContext.currentTime;
 					if (stopTime <= now) {
 						console.log("rebuilding");
-						buildModelArchitecture();
+						buildModelArchitectureAGAIN();
 						sourceNode.noteOn(now);
 						gainEnvNode.gain.value = 0;
 					} else {
@@ -94,7 +88,14 @@ define(
 					console.log("Gain set at " + gainLevelNode.gain.value);
 
 					gainEnvNode.gain.setValueAtTime(0, now);
-					gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime);
+					gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime);
+
+					if (myInterface.getNumOutConnections() === 0){
+						console.log("connecting MyInterface to audio context desination");
+						myInterface.connect(config.audioContext.destination);
+				}		
+
+
 				} else {
 					console.log("Buffer NOT loaded yet!");
 					//CREATE EXTERNAL CALLBACK HERE!!!
@@ -111,7 +112,8 @@ define(
 					"val": m_gainLevel
 				},
 				function (i_val) {
-					gainLevelNode.gain.value = m_gainLevel = i_val;
+					m_gainLevel = i_val;
+					gainLevelNode.gain.value =  i_val;
 				}
 			);
 
@@ -145,7 +147,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": "http://animatedsoundworks.com/soundServer/audio/BeingRural22k.mp3"
+					"val": "jsaResources/Sounds/BeingRural22k.mp3"
 				},
 				function (i_val) {
 					m_soundUrl = i_val;
@@ -159,10 +161,9 @@ define(
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainEnvNode.gain.value, now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				sourceNode.noteOff(stopTime);
-				architectureBuilt = false; //probably
+				sourceNode && sourceNode.noteOff(stopTime);
 			};
 
 			return myInterface;

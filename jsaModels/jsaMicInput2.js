@@ -76,7 +76,7 @@ define(
 				gainLevelNode.connect(config.audioContext.destination);
 			}());
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
 
 
@@ -96,6 +96,10 @@ define(
 				//console.log( " ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}		
 			};
 
 			myInterface.registerParam(
@@ -177,7 +181,7 @@ define(
 				// set new stoptime
 				stopTime = now + m_releaseTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainEnvNode.gain.value, now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 			};
 			//--------------------------------------------------------------------------------

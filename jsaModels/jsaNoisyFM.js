@@ -65,10 +65,12 @@ define(
 				m_CarrierNode.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
-				gainLevelNode.connect(config.audioContext.destination);
+				
 			}());
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Frequency modulate a tone with noise. Index of modulation is noise amplitude.")
+
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
@@ -86,6 +88,10 @@ define(
 				//console.log( "   ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}		
 			};
 
 			myInterface.registerParam(
@@ -161,7 +167,7 @@ define(
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainEnvNode.gain.value, now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 			};
 

@@ -64,6 +64,7 @@ define(
 				m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
 			};
 
+			//var myInterface = baseSM({},[],[gainLevelNode]);
 			var myInterface = baseSM();
 			myInterface.setAboutText("This is a timing experiment ... in fact, it breaks after a while.")
 

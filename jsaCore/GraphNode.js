@@ -7,6 +7,10 @@ define(
 
             node.numberOfInputs     = node.inputs.length;
             node.numberOfOutputs    = node.outputs.length;
+
+            if (node.numberOfOutputs > 0) {  // leave it undefined if no outputs were provided
+                node.numOutConnections=0; // total number of connections made from node.outputs
+            }
            
             // Get the audio context this graph is a part of.
             node.context = config.audioContext;
@@ -28,6 +32,12 @@ define(
                 inIx = inIx || 0;
                 outPin = node.outputs[outIx];
 
+                if (! outPin) {  // node.outputs === []
+                    alert("The model you are trying to use has not provided any ouptut nodes for connections");
+                    throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
+                    return node;
+                }
+
                 /* The "receiving pin" could be a simple AudioNode
                 * instead of a wrapped one. */
                 inPin = target.inputs ? target.inputs[inIx] : target;
@@ -35,12 +45,15 @@ define(
                 if (inPin.constructor.name === 'AudioParam' || inPin.constructor.name === 'AudioGain') {
                     // a-rate connection.
                     outPin.connect(inPin);
+                    node.numOutConnections+=1;
                 } else if (inPin.numberOfInputs === outPin.numberOfOutputs) {
                     for (i = 0, N = inPin.numberOfInputs; i < N; ++i) {
                         outPin.connect(inPin, i, i);
+                        node.numOutConnections+=1;
                     }
                 } else {
                     outPin.connect(inPin);
+                    node.numOutConnections+=1;
                 }
 
                 return node;
@@ -59,15 +72,36 @@ define(
                     * the arguments list. */
                     Array.prototype.forEach.call(arguments, function (n) {
                         node.outputs[n].disconnect();
+                        node.numOutConnections-=1;
                     });
                 } else {
                     /* Disconnect all output pins. This is also the 
                     * behaviour of AudioNode.disconnect() */
                     node.outputs.forEach(function (n) { n.disconnect(); });
+                    node.numOutConnections=0;
                 }
 
                 return node;
             };
+
+            // Getters
+            node.numOutputs = function (){
+                return node.numberOfOutputs;
+            }
+
+            node.numInputs = function (){
+                return node.numberOfInputs;
+            }
+
+            node.getNumOutConnections = function(){
+
+               if (! (node.numOutConnections >= 0)) {  // node.outputs === []
+                    alert("The model you are trying to use has not provided any ouptut nodes for connections");
+                    throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
+                    return 0;
+                }
+                return node.numOutConnections;
+            }
 
             // ### keep and drop
             //

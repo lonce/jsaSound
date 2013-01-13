@@ -14,13 +14,16 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaCore/utils", "jsaSound/jsaCore/GraphNode"],
 	function (utils, GraphNode) {
-		return function () {
+		return function (i_node, i_inputs, i_outputs) {
 			var that=this;
 			var aboutText = "";
 			var params = {};
 			var paramname = []; // array of parameter names
 
-			var bsmInterface = GraphNode({},[],[]);
+			if (! i_outputs) {
+				console.log("Consider providing an output node so model can be composed with other models");
+			};
+			var bsmInterface = GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 
 			bsmInterface.setAboutText = function (i_text){
 				aboutText=i_text;

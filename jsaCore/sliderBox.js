@@ -34,7 +34,7 @@ define(
 			var playingP = false;
 
 			// This is the interface that will be returned by this factory method
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[]);
 			//console.log("myInterface is of type " + typeof myInterface);
 			// yep, this GUI has the same interface as a base sound model : play, release, and registerParam!
 

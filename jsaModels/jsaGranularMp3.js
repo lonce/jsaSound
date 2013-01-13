@@ -24,14 +24,14 @@ define(
 			var tempNum = 0;
 			var i = 0;
 
-			var buffLoaded = false, architectureBuilt = false;
+			var buffLoaded = false;
 
 			var xhr = new XMLHttpRequest();
 			var soundBuff = null;
 
-			var gainLevelNode;
+			var gainLevelNode = config.audioContext.createGainNode();
 
-			var m_gainLevel = 0.5;
+			var m_gainLevel = 0.75;
 			// var m_attackTime = 0.05;
 			// var m_releaseTime = 1.0;
 			var m_soundUrl = "";//"./sounds/schumannLotusFlower.mp3";
@@ -56,7 +56,8 @@ define(
 
 			var continuePlaying = true;
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Experimental. Exploring granular synthesis based on Google example.")
 
 			function sendXhr() {
 				//SHOULD XHR BE RE-CONSTRUCTED??
@@ -72,23 +73,12 @@ define(
 					bufferDuration = soundBuff.duration;
 					console.log("Buffer loaded with duration " + bufferDuration);
 
-					//SHOULD THIS FUNCTION BE CALLED BEFORE CHANGING buffLoaded ???
-					//buildModelArchitecture();
 				};
 				xhr.send();
 			}
 
 			function buildModelArchitecture() {
-				gainLevelNode = config.audioContext.createGainNode();
-
-				// Looping is to be thought of quite differently in Granular synthesis
-				gainLevelNode.gain.value = m_gainLevel;
-
-				gainLevelNode.connect(config.audioContext.destination);
-
-				architectureBuilt = true;
-
-				//console.log("architecture built");
+				
 			}
 
 			function scheduleGrain() {
@@ -99,24 +89,21 @@ define(
 				source.playbackRate.value = pitchRate;
 				//console.log("soundBuff created");
 
-				//TODO: See if the problem is being caused by the fact that we aren't creating NEW "gainLevelNode"s
-				buildModelArchitecture();
+
 
 				var grainWindowNode = config.audioContext.createGainNode();
 				source.connect(grainWindowNode);
 				grainWindowNode.connect(gainLevelNode);
 
-				//console.log("before noteGrainOn");
-				//console.log("scheduling noteGrainOn with " + realTime + " " + grainTime + " " + grainDuration);
 				source.noteGrainOn(realTime, grainTime, grainDuration);
-				//console.log("noteGrainOn triggered");
+
 				grainWindowNode.gain.value = 0.0;
 				grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, grainDuration / pitchRate);
 
 				realTime += grainSpacing;
-				//console.log(realTime);
+
 				grainTime += grainSpacing * speed;
-				//console.log("updated stuff");
+
 				if (grainTime > bufferDuration) {
 					grainTime = 0.0;
 				}
@@ -138,16 +125,11 @@ define(
 
 				var currentTime = config.audioContext.currentTime;
 
-				//console.log("here");
 
-				//console.log("grainTime: " + grainTime);
-				//console.log("grainSpacing: " + grainSpacing);
-				//console.log("realTime: " + realTime);
 				while (realTime < currentTime + 0.100) {
 					scheduleGrain();
-					//realTime += 0.01;
 				}
-				//console.log(tempNum++);
+
 
 				setTimeout(schedule, 20);
 			}
@@ -162,6 +144,14 @@ define(
 
 					gainLevelNode.gain.value = i_gain || m_gainLevel;
 					console.log("Gain set at " + gainLevelNode.gain.value);
+
+
+					if (myInterface.getNumOutConnections() === 0){
+						console.log("connecting MyInterface to audio context desination");
+						myInterface.connect(config.audioContext.destination);
+					}		
+
+
 				} else {
 					console.log("Buffer NOT loaded yet!");
 					//CREATE EXTERNAL CALLBACK HERE!!!
@@ -224,37 +214,11 @@ define(
 				}
 			);
 
-		//  myInterface.registerParam(
-		//      "Attack Time",
-		//      "range",
-		//      {
-		//          "min": 0,
-		//          "max": 1,
-		//          "val": m_attackTime
-		//      },
-		//      function(i_val) {
-		//          m_attackTime = parseFloat(i_val);
-		//      }
-		//  );
-
-		//  myInterface.registerParam(
-		//      "Release Time",
-		//      "range",
-		//      {
-		//          "min": 0,
-		//          "max": 3,
-		//          "val": m_releaseTime
-		//      },
-		//      function(i_val) {
-		//          m_releaseTime = parseFloat(i_val);
-		//      }
-		//  );
-
 			myInterface.registerParam(
 				"Sound URL",
 				"url",
 				{
-					"val": "http://animatedsoundworks.com/soundServer/audio/BeingRural22k.mp3"
+					"val": "jsaResources/Sounds/BeingRural22k.mp3"
 				},
 				function (i_val) {
 					m_soundUrl = i_val;
@@ -268,7 +232,6 @@ define(
 
 				//TODO: Remove this timeOut thing if possible
 				setTimeout(stopScheduler, 0);
-				architectureBuilt = false; //probably
 			};
 
 			return myInterface;

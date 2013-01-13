@@ -7,17 +7,9 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
-    for baseSM and fmodOscFactory
-	
-jsaUtils/utils.js
-	for Array.prototype.prettyString 
-		*/
 
 /* --------------------------------------------------------------
 	Just a short blast of noise
-******************************************************************************************************
 */
 
 define(
@@ -38,17 +30,22 @@ define(
 
 			noiseNode.connect(gainEnvNode);
 			gainEnvNode.gain.setValueAtTime(0, 0);
-			gainEnvNode.connect(config.audioContext.destination);
+			
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainEnvNode]);
+			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
 
 			myInterface.play = function (i_gain) {
 				myInterface.qplay(0, i_gain);
 			};
 
 			myInterface.qplay = function (i_ptime, i_gain) {
+				if (myInterface.getNumOutConnections() === 0){
+					myInterface.connect(config.audioContext.destination);
+				}
 				now = config.audioContext.currentTime;
 				var ptime = Math.max(now, i_ptime || now);
+
 
 				gainEnvNode.gain.cancelScheduledValues(ptime);
 				// The model turns itself off after a fixed amount of time	

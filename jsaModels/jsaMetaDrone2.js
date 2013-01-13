@@ -11,9 +11,10 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 /* --------------------------------------------------------------
 	This drone model was inspired by a Matt Diamond post to the public-audio@w3.org list.
 	
-	The idea here is to have one sound model control a bunch of others.
+	The idea here is to have one sound model control a bunch of others (Thus the "meta" in the name).
 	Architecture:
-		MetaDrone1 has an array of other soundmodles that it starts, stops, and controls through paramters. 
+		MetaDrone2 has an array of other soundmodles that it starts, stops, and controls through paramters.
+		It grabs output from the "children" models and routs it through its own gainLevel node before passing it on. 
 ******************************************************************************************************
 */
 
@@ -22,17 +23,20 @@ define(
 	function (config, baseSM, utils, jsaFilteredNoiseBandFactory) {
 		return function () {
 			var	childModel = [];
-			var k_maxNumChildren = 12;
+			var k_maxNumChildren = 6;
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
-			var m_metagain = 1.8;
+			var m_childGain = 1.8;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
 
 			// These numbers are semitones to be used relative to a "base note" 
 			var scale = [0.0, 2.0, 4.0, 6.0, 7.0, 9.0, 11.0, 12.0, 14.0];
+
+			var m_gainLevel = 1.5;
+			var gainLevelNode = config.audioContext.createGainNode();  // will collect output the children
 
 			// get a frequency as a random function of the base_note
 			var note2Freq = function (i_baseNote) {
@@ -46,23 +50,30 @@ define(
 			var init = (function () {
 				var i;
 				for (i = 0; i < k_maxNumChildren; i += 1) {
-					childModel[i] = jsaFilteredNoiseBandFactory();
+					childModel[i] = jsaFilteredNoiseBandFactory();  
+
 					childModel[i].setParam("Filter Q", 150);
-					childModel[i].setParam("Gain", m_metagain);
+					childModel[i].setParam("Gain", m_childGain);
 					foo = note2Freq(m_baseNote);
 					childModel[i].setParam("Center Frequency", foo);
+
+					childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 				}
+				gainLevelNode.connect(config.audioContext.destination);
 			}());
 
 			// define the PUBLIC INTERFACE for the model	
-			var myInterface = baseSM();
-			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
+			var myInterface = baseSM({},[],[gainLevelNode]); // make gainLevelNode available for connections
+			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models to deonstrate the composability of sound models using GraphNode. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
+
 			// ----------------------------------------
-			myInterface.play = function (i_bn) {
+			myInterface.play = function (i_bn, i_gain) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
 				//console.log("Drone: PLAY! time = " + now);
+
+				gainLevelNode.gain.value = i_gain || m_gainLevel;  // collector turn back up
 
 				m_baseNote = i_bn || m_baseNote;
 				//console.log("will send play to " + m_currentNumChildrenActive + " currently active children");
@@ -112,6 +123,8 @@ define(
 				}
 			);
 
+
+			// add or remove children from actively playing
 			myInterface.registerParam(
 				"Number of Generators",
 				"range",
@@ -131,7 +144,7 @@ define(
 						for (i = m_currentNumChildrenActive; i < in_gens; i += 1) {
 							//console.log("setNumGenerators: will add child to playing list # " + i);
 							var f = note2Freq(m_baseNote);
-							childModel[i].setParam("Gain", m_metagain);
+							childModel[i].setParam("Gain", m_childGain);
 							if (stopTime > config.audioContext.currentTime){ // if playingP
 								childModel[i].play(f);
 							}
@@ -148,23 +161,27 @@ define(
 			);
 
 			// ----------------------------------------		
-			// This just goes and set the gains of all the child sound models
-			// It would be more efficient if child model audio was routed though a single metamodel gain node...
 			myInterface.registerParam(
 				"Gain",
 				"range",
 				{
 					"min": 0,
 					"max": 2,
-					"val": m_metagain
+					"val": m_gainLevel
 				},
+				/*  //The "old way" 
 				function (i_val) {
 					var i;
-					m_metagain = i_val;
+					m_childGain = i_val;
 					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
-						childModel[i].setParam("Gain", m_metagain);
+						childModel[i].setParam("Gain", m_childGain);
 					}
 				}
+				*/
+				function (i_val) {
+					gainLevelNode.gain.value = m_gainLevel = i_val;
+				}
+
 			);
 
 			//console.log("paramlist = " + myInterface.getParamList().prettyString());			

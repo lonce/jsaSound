@@ -68,7 +68,8 @@ define(
 				gainLevelNode.connect(config.audioContext.destination);
 			}());
 
-			var myInterface = baseSM();
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("A noise tick that turns itself off.")
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
@@ -85,9 +86,17 @@ define(
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime + m_sustainTime);
+				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs			
+				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime + m_sustainTime-.0001); // if releaseTime===0, need this little backtup so scheduled time isn't overwritten by releasetime
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}		
+
+
 			};
 
 			myInterface.registerParam(

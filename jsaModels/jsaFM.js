@@ -13,10 +13,10 @@ define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaFModOsc"],
 	function (config, baseSM, fmodOscFactory) {
 		return function () {
-			var	oscModulatorNode = config.audioContext.createOscillator();
-			var m_CarrierNode = fmodOscFactory();
-			var	gainEnvNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	oscModulatorNode;
+			var m_CarrierNode;
+			var	gainEnvNode;
+			var	gainLevelNode;
 
 			// these are defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
@@ -28,15 +28,16 @@ define(
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
 
-			// (Re)create the nodes and thier connections.
-			// Must be called everytime we want to start playing since nodes are *deleted* following the occilator noteoff()!!!.
-			var buildModelArchitecture = function () {
+			// Create the nodes and thier connections. Runs once on load [Don't know why for jsaOc we have to call this on every play(), but not for this model!]
+			var buildModelArchitecture = (function () {
 				// These must be called on every play because of the tragically short lifetime ... however, after the 
 				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
 				oscModulatorNode = config.audioContext.createOscillator();
 				m_CarrierNode = fmodOscFactory();
 				gainEnvNode = config.audioContext.createGainNode();
 				gainLevelNode = config.audioContext.createGainNode();
+
+				console.log("in BUILD, gain level node is " + gainLevelNode );
 
 				// Also have to set all of their state values since they all get forgotten, too!!
 				gainLevelNode.gain.value = m_gainLevel;
@@ -50,27 +51,20 @@ define(
 				oscModulatorNode.connect(m_CarrierNode);
 				m_CarrierNode.connect(gainEnvNode);
 
-
 				gainEnvNode.connect(gainLevelNode);
-				gainLevelNode.connect(config.audioContext.destination);
-			};
 
-			var myInterface = baseSM();
+			}());
+
+			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 
-				// It seems silly have to CREATE these nodes & connections every time play() is called. Why can't I do it once (outside of "myInterface")??
-				// Don't need to do this if decay on previous decay is still alive...   
 				if (stopTime <= now) { // not playing
-					console.log("rebuild model node architecture!");
-					buildModelArchitecture();
 					oscModulatorNode.noteOn(now);
 					gainEnvNode.gain.value = 0;
-				} else {  // no need to recreate architectre - the old one still exists since it is playing
-
-					//NOT building architecure because stopTime (" + stopTime + " ) is greater than now ("+now+")";
+				} else {  
 					gainEnvNode.gain.cancelScheduledValues(now);
 				}
 				// The rest of the code is for new starts or restarts	
@@ -82,7 +76,13 @@ define(
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
+				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
+
+
+				if (myInterface.getNumOutConnections() === 0){
+					console.log("connecting MyInterface to audio context desination");
+					myInterface.connect(config.audioContext.destination);
+				}		
 			};
 
 			myInterface.registerParam(
@@ -170,7 +170,7 @@ define(
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainEnvNode.gain.value, now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 				oscModulatorNode.noteOff(stopTime);
 			};
