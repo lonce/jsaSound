@@ -45,7 +45,6 @@ define(
 			};
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			var myInterface.setAboutText("Tone that turns itself off. ")
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
