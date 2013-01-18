@@ -69,7 +69,7 @@ define(
 			}());
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("A noise tick that turns itself off.")
+			myInterface.setAboutText("A noise tick that turns itself off.");
 
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
