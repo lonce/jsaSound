@@ -1,7 +1,8 @@
 define(
     ["jsaSound/jsaCore/config"],
-    function GraphNode(config){
-        return  function GraphNode(node, inputs, outputs) {
+    function GraphNodeAPI(config){
+
+        function GraphNode(node, inputs, outputs) {
             node.inputs             = inputs || [];
             node.outputs            = outputs || [];
 
@@ -112,20 +113,69 @@ define(
             // Javascript audio nodes need to be kept around in order to prevent them
             // from being garbage collected. This is a bug in the current system and
             // `keep` and `drop` are a temporary solution to this problem. However,
-            // you can also use them to keep around other nodes.
+            // you can also use them to keep around other nodes. 
+            //
+            // CAUTION: keep/drop requires explicit management of node references.
+            // So if you (GraphNode user) want some nodes to be given up on disconnect,
+            // you have to arrange for that yourself.
 
-            var preservedNodes = [];
 
-            node.keep = function (node) {
-                preservedNodes.push(node);
-                return node;
+            var preservedNodes = {};
+            var thisNodeID = getOrAssignNodeID(node);
+
+            // Preserves the given child node by keeping a reference
+            // to it that is reachable from the global namespace.
+            node.keep = function (childNode) {
+                var theNode = childNode || node;
+                var id = getOrAssignNodeID(theNode);
+                preservedNodes[id] = theNode;
+                return theNode;
             };
 
-            node.drop = function (node) {
-                preservedNodes = preservedNodes.filter(function (n) { return n !== node; });
+            // If drop() is called without a node argument,
+            // then all nodes preserved through this graph node
+            // will be dropped.
+            node.drop = function (childNode) {
+                if (childNode) {
+                    var id = getOrAssignNodeID(childNode);
+                    delete preservedNodes[id];
+                } else {
+                    preservedNodes = {};
+                    delete GraphNodeAPI._preservedNodes[thisNodeID];
+                }
             };
+
+            GraphNodeAPI._preservedNodes[thisNodeID] = preservedNodes;
 
             return node;
         }
+
+
+        // A simple scheme for assigning unique node IDs to nodes.
+        // Node ids are generated in sequence and stored in the
+        // key given by nodeIDKey.
+        GraphNodeAPI.nextNodeID = GraphNodeAPI.nextNodeID || 1;
+        var nodeIDKey = '#jsaSound.GraphNode.globalid';
+
+        function getOrAssignNodeID(node) {
+            var id = node[nodeIDKey];
+            if (!id) {
+                id = GraphNodeAPI.nextNodeID;
+                GraphNodeAPI.nextNodeID += 1;
+                Object.defineProperty(node, nodeIDKey, {
+                    value: id,
+                    writable: false,
+                    enumerable: false,
+                    configurable: false
+                });
+            }
+            return id;
+        }
+
+        // A globally reachable hash to reference the nodes
+        // preserved using keep().
+        GraphNodeAPI._preservedNodes = {};
+
+        return GraphNode;
     }
 );
