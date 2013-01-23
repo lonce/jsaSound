@@ -2,6 +2,24 @@ define(
     ["jsaSound/jsaCore/config"],
     function GraphNodeAPI(config){
 
+        // A globally referenced hash storing references to preserved nodes.
+        var allPreservedNodes = (function () {
+            var globalNamespace = this; // Quirk: "this" here refers to the global namespace.
+            var hashKey = '#jsaSound.jsaCore.GraphNode.allPreservedNodes';
+            var hash = globalNamespace[hashKey];
+            if (!hash) {
+                hash = {};
+                Object.defineProperty(globalNamespace, hashKey, {
+                    value: hash,
+                    writable: false,
+                    configurable: false,
+                    enumerable: false
+                });
+            }
+            return hash;
+        }());
+
+
         function GraphNode(node, inputs, outputs) {
             node.inputs             = inputs || [];
             node.outputs            = outputs || [];
@@ -141,11 +159,11 @@ define(
                     delete preservedNodes[id];
                 } else {
                     preservedNodes = {};
-                    delete GraphNodeAPI._preservedNodes[thisNodeID];
+                    delete allPreservedNodes[thisNodeID];
                 }
             };
 
-            GraphNodeAPI._preservedNodes[thisNodeID] = preservedNodes;
+            allPreservedNodes[thisNodeID] = preservedNodes;
 
             return node;
         }
@@ -155,7 +173,7 @@ define(
         // Node ids are generated in sequence and stored in the
         // key given by nodeIDKey.
         GraphNodeAPI.nextNodeID = GraphNodeAPI.nextNodeID || 1;
-        var nodeIDKey = '#jsaSound.GraphNode.globalid';
+        var nodeIDKey = '#jsaSound.jsaCore.GraphNode.globalid';
 
         function getOrAssignNodeID(node) {
             var id = node[nodeIDKey];
@@ -171,10 +189,6 @@ define(
             }
             return id;
         }
-
-        // A globally reachable hash to reference the nodes
-        // preserved using keep().
-        GraphNodeAPI._preservedNodes = {};
 
         return GraphNode;
     }
