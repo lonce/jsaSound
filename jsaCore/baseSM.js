@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The sound model base class that all models use as a prototype
 //==============================================================================
 define(
-	["jsaSound/jsaCore/utils", "jsaSound/jsaCore/GraphNode"],
-	function (utils, GraphNode) {
+	["jsaSound/jsaCore/utils", "jsaSound/jsaCore/jsasteller"],
+	function (utils) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 		return function (i_node, i_inputs, i_outputs) {
 			var that=this;
 			var aboutText = "";
@@ -23,7 +23,10 @@ define(
 			if (! i_outputs) {
 				console.log("Consider providing an output node so model can be composed with other models");
 			};
-			var bsmInterface = GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+
+			//console.log("org.anclab.steller is "  + org.anclab.steller);
+
+			var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 
 			bsmInterface.setAboutText = function (i_text){
 				aboutText=i_text;

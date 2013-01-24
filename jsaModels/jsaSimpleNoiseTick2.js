@@ -44,6 +44,7 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 				now = config.audioContext.currentTime;
+				console.log("Noise tick play call at time = " + now);
 				var ptime = Math.max(now, i_ptime || now);
 
 
