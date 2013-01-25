@@ -29,19 +29,20 @@ require(
 		var soundList = [
 			{},
 			{name: "Square Wave", model: "jsaOsc"},
-			{name: "Classic FM", model: "jsaFM"},
+			{name: "Classic FM 2", model: "jsaFM2"},
 			{name: "Noisy FM", model: "jsaNoisyFM"},
 			{name: "Noise Band", model: "jsaFilteredNoiseBand"},
 			{name: "Metadrone2", model: "jsaMetaDrone2"},
 			{name: "ToneTick", model: "jsaToneTick"},
-			{name: "NoiseTick", model: "jsaNoiseTick"},
-			{name: "Simple Noise Tick 2", model: "jsaSimpleNoiseTick2"},
-			{name: "Period Trigger 2", model: "jsaPeriodicTrigger2"},
+			{name: "Buffer Noise Tick", model: "BufferNodeNoiseTick2"},
+			{name: "Buffer Noise Trigger", model: "BufferNodeTrigger2"},
+			{name: "JS Noise Tick", model: "JSNodeNoiseTick2"},
+			{name: "JS Noise Trigger", model: "JSNodeTrigger2"},
+			{name: "Period Trigger experiment", model: "jsaPeriodicTrigger2"},
 			{name: "Mp3", model: "jsaMp3"},
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
 			{name: "Mic Input 2", model: "jsaMicInput2"},
-			{name: "Monster Voice", model: "jsaMonsterVoice"},
-			{name: "Steller Trigger 2", model: "jsaStellerTrigger2"}
+			{name: "Monster Voice", model: "jsaMonsterVoice"}
 		];
 
 		// Create the html select box using the hard-coded soundList above

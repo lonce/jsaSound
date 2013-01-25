@@ -16,7 +16,7 @@ Date: July 2012
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaSimpleNoiseTick2"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2"],
 	function (config, baseSM, jsaSimpleNoiseTick2Factory) {
 		return function () {
 
@@ -34,7 +34,7 @@ define(
 
 			function st_play() {
          		return sh.fire(function (clock) {
-             	child.play();
+             	child.qplay(clock.t1);
          		});
 	     	}
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -24,7 +24,6 @@ define(
 				console.log("Consider providing an output node so model can be composed with other models");
 			};
 
-			//console.log("org.anclab.steller is "  + org.anclab.steller);
 
 			var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 

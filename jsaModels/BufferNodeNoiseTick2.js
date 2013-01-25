@@ -13,13 +13,14 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode"],
+	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode"],
 	function (config, baseSM, noiseNodeFactory) {
 		return function () {
 			var m_attack = 0.002;
 			var m_sustain = 0.01;
 			var m_release = 0.002;
-			var m_gain = 0.40;
+			var m_gain = 0.80;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now;
@@ -35,17 +36,20 @@ define(
 			var myInterface = baseSM({},[],[gainEnvNode]);
 			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
 
-			myInterface.play = function (i_gain) {
-				myInterface.qplay(0, i_gain);
+			myInterface.play = function () {
+				myInterface.qplay(config.audioContext.currentTime);
 			};
 
-			myInterface.qplay = function (i_ptime, i_gain) {
+			myInterface.qplay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
+				/*
 				now = config.audioContext.currentTime;
 				console.log("Noise tick play call at time = " + now);
 				var ptime = Math.max(now, i_ptime || now);
+				*/
+				var ptime = i_ptime;
 
 
 				gainEnvNode.gain.cancelScheduledValues(ptime);
