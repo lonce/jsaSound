@@ -42,7 +42,10 @@ require(
 			{name: "Mp3", model: "jsaMp3"},
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
 			{name: "Mic Input 2", model: "jsaMicInput2"},
-			{name: "Monster Voice", model: "jsaMonsterVoice"}
+			{name: "Monster Voice", model: "jsaMonsterVoice"},
+			{name: "Drum Hit", model: "jsaDrumSample"},
+			{name: "Drum Pattern", model: "jsaBeatPattern"},
+			{name: "Drum Set", model: "jsaBeatSet"}
 		];
 
 		// Create the html select box using the hard-coded soundList above

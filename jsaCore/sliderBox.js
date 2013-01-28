@@ -104,16 +104,19 @@ define(
 			function setupUrlParameter(paramObject, paramName) {
 				myWindow.document.write("<input id = \"" + controllerID + "\" type = \"url\" value = \"" + paramObject.value.val + "\" style = \"width: 300px; height: 20px;\" />");
 				myWindow.document.write("<input id = \"" + controllerID + "_button\" type = \"button\" value = \"Load\" style = \"width: 50px; height: 20px;\" />");
+
 				controllerElement = myWindow.document.getElementById(controllerID);
 				controllerButton = myWindow.document.getElementById(controllerID + "_button");
 
 				//TODO: Check if it might be better to separate this as a factory function
-				controllerElement.change = (function (paramfunc) {
+				controllerElement.change = (function (ctlelmt, paramfunc) {
 					var cb = function () {
-						paramfunc(controllerElement.value);
+						var sval = ctlelmt.value;
+						paramfunc(sval);
+						//paramfunc(controllerElement.value);
 					};
 					return cb;
-				}(paramObject.f));
+				}(controllerElement, paramObject.f)); // control element is the url text box, not the button. 
 
 				controllerButton.addEventListener('click', controllerElement.change);
 				//NOT IMPLEMENTING THAT registerParam thing... yet
