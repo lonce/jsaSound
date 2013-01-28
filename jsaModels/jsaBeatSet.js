@@ -28,16 +28,12 @@ define(
 			var	gainLevelNode = config.audioContext.createGainNode();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
-			var sh = new org.anclab.steller.Scheduler(config.audioContext);
-			sh.running = true;
+
 			var ticks; // a track
 			var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
 			var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
 
 			var m_beatPattern = [];
-
-
-
 
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,12 +56,12 @@ define(
 				for(var i=0;i<numChildren;i++){
 
 					childModel[i].setBeatPattern(m_beatPattern[i]);
-/*
+
 					if (childModel[i].hasOutputs()){
 						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 					}
 					childModel[i].setParam("Gain", m_gainLevel);
-					*/
+					
 				}
 			}());
 
