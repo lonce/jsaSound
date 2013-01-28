@@ -39,11 +39,12 @@ define(
 
             var m_beatIndex=0;        		
             var temp_gain;
+			var myInterface = baseSM({},[],[gainLevelNode]);
 
 
             (function () {
 
-				sched = myInterface.getShed();
+				sched = myInterface.getSched();
 
 				if (child.hasOutputs()){
 					child.connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
@@ -63,7 +64,6 @@ define(
 	     	}
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
-			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Schedules a series of drum hits using the DrumSample model.")
 
 
