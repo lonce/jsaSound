@@ -24,15 +24,11 @@ define(
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainLevelNode = config.audioContext.createGainNode();
-			var gainEnvNode = config.audioContext.createGainNode();
 			var sourceNode;
 
 			var m_gainLevel = 1.0;
-			var m_attackTime = 0.02;
-			var m_releaseTime = 1.0;
 			var m_soundUrl = "";
 			var stopTime = 0.0;
-			var now = 0.0;
 
        		
 
@@ -47,13 +43,12 @@ define(
 
 
 			// Must keep rebuilding on play() this because sourceNode goes away after you call sourceNode.noeOff()
-			buildModelArchitectureAGAIN = function() {
+			var buildModelArchitectureAGAIN = function() {
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = false;
 
-				sourceNode.connect(gainEnvNode);
-				gainEnvNode.connect(gainLevelNode);
+				sourceNode.connect(gainLevelNode);
 			};
 
 			function sendXhr(i_url) {			
@@ -88,27 +83,23 @@ define(
 				}
 
 				if (buffLoaded) {
-					if (stopTime > i_ptime) {
-						gainEnvNode.gain.cancelScheduledValues(i_ptime);
-					}
+
+					sourceNode && sourceNode.noteOff(0);
+
+
 					buildModelArchitectureAGAIN();
 
 					stopTime = config.bigNum;
-					sourceNode.noteOff(stopTime);
-
-					sourceNode.noteOn(i_ptime);
 
 					if (arguments.length > 1) {
 						myInterface.setParam("Gain", i_gain);
 					}
 
-					console.log("Gain set at " + gainLevelNode.gain.value);
+					sourceNode.noteOn(i_ptime);
 
-					gainEnvNode.gain.setValueAtTime(0, i_ptime);
-					gainEnvNode.gain.linearRampToValueAtTime(1, i_ptime + m_attackTime);
 
 					if (myInterface.getNumOutConnections() === 0){
-						console.log("connecting MyInterface to audio context desination");
+						//console.log("connecting MyInterface to audio context desination");
 						myInterface.connect(config.audioContext.destination);
 				}		
 
@@ -134,31 +125,6 @@ define(
 				}
 			);
 
-			myInterface.registerParam(
-				"Attack Time",
-				"range",
-				{
-					"min": 0,
-					"max": 1,
-					"val": m_attackTime
-				},
-				function (i_val) {
-					m_attackTime = parseFloat(i_val);
-				}
-			);
-
-			myInterface.registerParam(
-				"Release Time",
-				"range",
-				{
-					"min": 0,
-					"max": 3,
-					"val": m_releaseTime
-				},
-				function (i_val) {
-					m_releaseTime = parseFloat(i_val);
-				}
-			);
 
 			myInterface.registerParam(
 				"Sound URL",
@@ -172,13 +138,8 @@ define(
 			);
 
 			myInterface.release = function () {
-				now = config.audioContext.currentTime;
-				stopTime = now + m_releaseTime;
 
-				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				sourceNode && sourceNode.noteOff(stopTime);
+				sourceNode && sourceNode.noteOff(0);
 			};
 
 

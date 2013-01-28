@@ -20,6 +20,7 @@ define(
 	function (config, baseSM, jsaDrumFactory) {
 		return function (i_fname) {
 
+			var fooURL = i_fname;
 			var m_rate = 5.0;
 			var m_gainLevel = 0.9;
 			var child = jsaDrumFactory(i_fname);
@@ -71,6 +72,7 @@ define(
 
 
 			myInterface.play = function (i_freq, i_gain) {
+				m_beatIndex=0;
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=1;
 				ticks = sched.track([
@@ -105,7 +107,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 100,
+					"max": 12,
 					"val": m_rate
 				},
 				function (i_val) {					

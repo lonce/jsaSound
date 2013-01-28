@@ -45,7 +45,8 @@ require(
 			{name: "Monster Voice", model: "jsaMonsterVoice"},
 			{name: "Drum Hit", model: "jsaDrumSample"},
 			{name: "Drum Pattern", model: "jsaBeatPattern"},
-			{name: "Drum Set", model: "jsaBeatSet"}
+			{name: "Drum Set", model: "jsaBeatSet"},
+			{name: "RS Drum Set", model: "jsaRSBeatSet"}
 		];
 
 		// Create the html select box using the hard-coded soundList above

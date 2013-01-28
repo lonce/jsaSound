@@ -20,10 +20,10 @@ define(
 	function (config, baseSM, jsaPatternFactory) {
 		return function () {
 
-			var m_rate = 5.0;
+			var m_rate = 4.0;
 			var m_gainLevel = 0.9;
 
-			var	childModel = new Array();
+			var	childModel = [];
 			var numChildren=0;
 			var	gainLevelNode = config.audioContext.createGainNode();
 
@@ -33,7 +33,10 @@ define(
 			var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
 			var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
 
-			var m_beatPattern = new Array();
+			var m_beatPattern = [];
+
+			var convolver = config.audioContext.createConvolver();
+			var convolverbuffer=0;
 
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -41,17 +44,17 @@ define(
 			(function () {
 
 				childModel[0] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/kick.wav");
-				m_beatPattern[0] =  [1.0, .2, .7, 0.4,
-									0, .5, .0, 0.3,
-                          			1.0, 0, .4, 0,
-                          			0, 0, 0, 0.];
+				m_beatPattern[0] =  [1.0, .5, .3, 1,
+									0, 0, .0, 0.3,
+                          			1.0, .5, .3, 1,
+                          			0, 0, 0, 0.1];
 
   				childModel[1] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/snare.wav");
   				
 				m_beatPattern[1] =  [0,0,0,0,
-									1, 0, 0, 0,
+									0, 1, 0, 1,
                           			0,0,0,0,
-                          			1, 0, .6, 0];
+                          			0, 1, 0, 0];
 
   				childModel[2] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/hihat.wav");
   				
@@ -68,11 +71,26 @@ define(
 					childModel[i].setBeatPattern(m_beatPattern[i]);
 
 					if (childModel[i].hasOutputs()){
-						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
+						childModel[i].connect(convolver); // collect audio from children output nodes into gainLevelNode 
+						//childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 					}
+					convolver.connect(gainLevelNode);
 					childModel[i].setParam("Gain", m_gainLevel);
 					
 				}
+
+				// load impulse response
+				var request = new XMLHttpRequest();
+  				request.open("GET", "jsaResources/impulse-response/diffusor1.wav", true);
+  				request.responseType = "arraybuffer";
+  				request.onload = function () {
+   					 convolver.buffer = config.audioContext.createBuffer(request.response, false);
+   					 console.log("impulse response loaded");
+  				}
+  				request.send();
+
+
+
 			}());
 
 
@@ -128,7 +146,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 1,
+					"max": 2,
 					"val": m_gainLevel
 				},
 				function (i_val) {
