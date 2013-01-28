@@ -26,8 +26,8 @@ define(
 			var	gainLevelNode = config.audioContext.createGainNode();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
-			var sh = new org.anclab.steller.Scheduler(config.audioContext);
-			sh.running = true;
+			var sched; // = new org.anclab.steller.Scheduler(config.audioContext);
+			//sh.running = true;
 			var ticks; // a track
 			var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
 			var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
@@ -38,19 +38,13 @@ define(
                           		.75, 0, .5, 0];
 
             var m_beatIndex=0;        		
-            var temp_g;
+            var temp_gain;
 
-			function st_play() {
-         		return sh.fire(function (clock) {
-         			temp_g=m_beatPattern[(m_beatIndex++) % m_beatPattern.length];
-         			if (temp_g > 0){
-             			child.qplay(clock.t1, temp_g );
-             		}
-         		});
-	     	}
-			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			
-			var init = (function () {
+
+            (function () {
+
+				sched = myInterface.getShed();
+
 				if (child.hasOutputs()){
 					child.connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 				}
@@ -59,19 +53,31 @@ define(
 
 
 
+			function st_play() {
+         		return sched.fire(function (clock) {
+         			temp_gain=m_beatPattern[(m_beatIndex++) % m_beatPattern.length];
+         			if (temp_gain > 0){
+             			child.qplay(clock.t1, temp_gain );
+             		}
+         		});
+	     	}
+			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
+			
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Schedules a series of drum hits using the DrumSample model.")
+
+
 
 
 
 			myInterface.play = function (i_freq, i_gain) {
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=1;
-				ticks = sh.track([
-		            st_play(), sh.delay(stp_delay)
+				ticks = sched.track([
+		            st_play(), sched.delay(stp_delay)
 		            ]);
-				pattern = sh.loop_while(stp_playingP, ticks);
-				sh.play(pattern);
+				pattern = sched.loop_while(stp_playingP, ticks);
+				sched.play(pattern);
 				//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 				if (myInterface.getNumOutConnections() === 0){
@@ -83,7 +89,7 @@ define(
 				child.release();
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=0;
-				sh.stop();
+				sched.stop();
 				//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			};
 

@@ -12,20 +12,39 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The sound model base class that all models use as a prototype
 //==============================================================================
 define(
-	["jsaSound/jsaCore/utils", "jsaSound/jsaCore/jsasteller"],
-	function (utils) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
+	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/jsaCore/jsasteller"],
+	function (config, utils) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 		return function (i_node, i_inputs, i_outputs) {
 			var that=this;
 			var aboutText = "";
 			var params = {};
 			var paramname = []; // array of parameter names
 
-			if (! i_outputs) {
-				console.log("Consider providing an output node so model can be composed with other models");
-			};
+			var sched;
+
+
+			(function () {
+				if (! i_outputs) {
+					console.log("Consider providing an output node so model can be composed with other models");
+				};
+
+				if (org.anclab.steller.hasOwnProperty("sched")){
+					sched = org.anclab.steller.sched;
+				}
+				else {
+					sched = org.anclab.steller.sched = new org.anclab.steller.Scheduler(config.audioContext);
+					sched.running=true;
+				}
+			}());
+
 
 
 			var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+
+			bsmInterface.getShed = function(){
+				return sched;
+			}
+
 
 			bsmInterface.setAboutText = function (i_text){
 				aboutText=i_text;
