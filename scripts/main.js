@@ -43,6 +43,7 @@ require(
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
 			{name: "Mic Input 2", model: "jsaMicInput2"},
 			{name: "Monster Voice", model: "jsaMonsterVoice"},
+			{name: "Telephone Speech", model: "jsaTelephoneSpeech"},
 			{name: "Drum Hit", model: "jsaDrumSample"},
 			{name: "Drum Pattern", model: "jsaBeatPattern"},
 			{name: "Drum Set", model: "jsaBeatSet"},
