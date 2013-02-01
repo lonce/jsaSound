@@ -83,7 +83,7 @@ define(
 				var request = new XMLHttpRequest();
   				//request.open("GET", "jsaResources/impulse-response/diffusor1.wav", true);
   				//request.open("GET", "jsaResources/impulse-response/JMP_Rekorder/marshall_cust_m930.wav", true);
-  				request.open("GET", "jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav", true);
+  				request.open("GET", jsaSoundRelHTML + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav", true);
   				request.responseType = "arraybuffer";
   				request.onload = function () {
    					 convolver.buffer = config.audioContext.createBuffer(request.response, false);
