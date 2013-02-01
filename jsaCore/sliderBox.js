@@ -187,17 +187,22 @@ define(
 			};
 
 			// override the baseSM interface method to set params by moving sliders on the slider box 
-			myInterface.setParamNorm = function (i_pID, i_val) {
-				var plist = myInterface.getParams();
+			myInterface.setParamNorm = function (i_name, i_val) {
+				var paramName, paramList, paramObject;
+				if (utils.isInteger(i_name)) {
+					paramName = myInterface.getParamName(i_name);
+				} else {
+					paramName = i_name.replace(/\s+/g, '') + "_controllerID";
+				}
+				paramList = myInterface.getParams();
 
-				if (i_pID >= utils.objLength(plist)) {
+				if (!paramList[paramName]) {
 					return;
 				}
 
-				var pname = myInterface.getParamName(i_pID);
-				var param = plist[pname];
-				var controllerElement = myWindow.document.getElementById(pname);
-				controllerElement.value = (param.value.min + i_val * (param.value.max - param.value.min));   // pfunc(pmin + i_Val * (pmax - pmin))
+				paramObject = paramList[paramName];
+				var controllerElement = myWindow.document.getElementById(paramName);
+				controllerElement.value = (paramObject.value.min + i_val * (paramObject.value.max - paramObject.value.min));   // pfunc(pmin + i_Val * (pmax - pmin))
 				controllerElement.change();
 			};
 
