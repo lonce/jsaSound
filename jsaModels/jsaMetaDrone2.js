@@ -61,7 +61,7 @@ define(
 						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 					}
 				}
-				gainLevelNode.connect(config.audioContext.destination);
+				//gainLevelNode.connect(config.audioContext.destination);
 			}());
 
 			// define the PUBLIC INTERFACE for the model	
@@ -75,6 +75,10 @@ define(
 				stopTime = config.bigNum;
 				//console.log("Drone: PLAY! time = " + now);
 
+				if (myInterface.getNumOutConnections() === 0){
+					myInterface.connect(config.audioContext.destination);
+				}
+
 				gainLevelNode.gain.value = i_gain || m_gainLevel;  // collector turn back up
 
 				m_baseNote = i_bn || m_baseNote;
@@ -83,9 +87,6 @@ define(
 					childModel[i].play(note2Freq(m_baseNote));
 				}
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
-				}
 
 			};
 
