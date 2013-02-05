@@ -29,6 +29,7 @@ require(
 		var soundList = [
 			{},
 			{name: "Square Wave", model: "jsaOsc"},
+			{name: "Classic FM 1", model: "jsaFM"},
 			{name: "Classic FM 2", model: "jsaFM2"},
 			{name: "Noisy FM", model: "jsaNoisyFM"},
 			{name: "Noise Band", model: "jsaFilteredNoiseBand"},

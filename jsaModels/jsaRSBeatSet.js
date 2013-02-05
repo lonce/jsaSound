@@ -131,8 +131,8 @@ define(
 				"Rate",
 				"range",
 				{
-					"min": 0,
-					"max": 12,
+					"min": 3,
+					"max": 5,
 					"val": m_rate
 				},
 				function (i_val) {					
