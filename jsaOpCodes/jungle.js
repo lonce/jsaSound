@@ -88,10 +88,6 @@ function createDelayTimeBuffer(context, activeTime, fadeTime) {
     return buffer;
 }
 
-//var delayTime = .25;
-//var fadeTime = .25;
-//var bufferTime = .5;
-
 var delayTime = 0.100;
 var fadeTime = 0.050;
 var bufferTime = 0.100;

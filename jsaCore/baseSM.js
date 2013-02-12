@@ -22,6 +22,11 @@ define(
 
 			var sched;
 
+			var pSets=[];
+			var pSet={};
+
+			var fs; // file system for saving and loading psets
+
 
 			(function () {
 				if (! i_outputs) {
@@ -153,6 +158,21 @@ define(
 				}
 				return i_ind;  // it has passed the existence test and been converted to the proper string name.
 			}
+
+
+			bsmInterface.storeCurrentPSet = function(){
+				var pSet={};
+				for(var i=0;i<bsmInterface.getNumParams();i++){
+					pSet[bsmInterface.getParam(i,"name")] = bsmInterface.getParam(i,"val");
+				}
+				pSets.push(pSet);
+			}
+
+
+
+			bsmInterface.savePSets = function(){utils.saveToFile(pSets)};
+
+
 
 
 			return bsmInterface;

@@ -86,7 +86,22 @@ define(
 				console.log("releasing Monster setting gain to = "+ gainLevelNode.gain.value);
 
 			};
-				
+
+			myInterface.registerParam(
+				"Delay Time",
+				"range",
+				{
+					"min": 0.05,
+					"max": 0.2,
+					"val": .1
+				},
+				function (i_val) {
+					m_jungleNode.setDelay(i_val);
+				}
+			);
+
+
+
 			return myInterface;
 		};
 	}

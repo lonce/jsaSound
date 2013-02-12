@@ -9,6 +9,17 @@ define(
 				console.log("in gotAudio, audioContext is " + config.audioContext);
 				microphone = config.audioContext.createMediaStreamSource(stream);
 				console.log("in gotAudio,  microphone is "  + microphone + ", and we are connecting to " + connect_to);
+
+				/* no need for this, and it doesn't solve am-noise problem
+    			var splitter = config.audioContext.createChannelSplitter(2);
+    			var merger = config.audioContext.createChannelMerger(2);
+
+    			microphone.connect( splitter );
+    			splitter.connect( merger, 0, 0 );
+    			splitter.connect( merger, 0, 1 );
+    			merger.connect(connect_to);
+				*/
+
 				microphone.connect(connect_to);
 			}
 

@@ -218,6 +218,14 @@ define(
                     oscModulatorNode = null;
                 }
             };
+            
+
+            myInterface.storeCurrentPSet();
+            myInterface.setParamNorm("Gain", 0.1);
+            myInterface.storeCurrentPSet();
+            myInterface.savePSets();
+
+
 
             return myInterface;
         };

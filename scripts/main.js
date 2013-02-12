@@ -42,13 +42,16 @@ require(
 			{name: "Period Trigger experiment", model: "jsaPeriodicTrigger2"},
 			{name: "Mp3", model: "jsaMp3"},
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
+			{name: "Mic Through", model: "jsaMicThru"},
 			{name: "Mic Input 2", model: "jsaMicInput2"},
 			{name: "Monster Voice", model: "jsaMonsterVoice"},
 			{name: "Telephone Speech", model: "jsaTelephoneSpeech"},
+			{name: "Wilson Telephone Speech", model: "wilsonTelephoneSpeech"},
 			{name: "Drum Hit", model: "jsaDrumSample"},
 			{name: "Drum Pattern", model: "jsaBeatPattern"},
 			{name: "Drum Set", model: "jsaBeatSet"},
-			{name: "RS Drum Set", model: "jsaRSBeatSet"}
+			{name: "RS Drum Set", model: "jsaRSBeatSet"},
+			{name: "RS MetaMic", model: "jsaMetaMic"}
 		];
 
 		// Create the html select box using the hard-coded soundList above
