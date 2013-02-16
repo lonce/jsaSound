@@ -1,6 +1,0 @@
-{
-	"name": "jsaPeriodicTrigger2",
-	"version": 0.1,
-	"requiredModels": ["jsaSimpleNoiseTick2"],
-	"requiredOpcodes": ["jsaEventPhasor"]
-}

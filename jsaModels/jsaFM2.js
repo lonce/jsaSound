@@ -220,10 +220,12 @@ define(
             };
             
 
+            /* just experimenting ....
             myInterface.storeCurrentPSet();
             myInterface.setParamNorm("Gain", 0.1);
             myInterface.storeCurrentPSet();
             myInterface.savePSets();
+            */
 
 
 
