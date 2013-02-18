@@ -35,6 +35,7 @@ require(
 			{name: "Noise Band", model: "jsaFilteredNoiseBand"},
 			{name: "Metadrone2", model: "jsaMetaDrone2"},
 			{name: "ToneTick", model: "jsaToneTick"},
+			{name: "Pluck", model: "jsaPluck"},
 			{name: "Buffer Noise Tick", model: "BufferNodeNoiseTick2"},
 			{name: "Buffer Noise Trigger", model: "BufferNodeTrigger2"},
 			{name: "JS Noise Tick", model: "JSNodeNoiseTick2"},

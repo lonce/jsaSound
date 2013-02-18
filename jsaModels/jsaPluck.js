@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The attack and decaya
 // ******************************************************************************************************
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM"],
-	function (config, baseSM) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaKarplusNode"],
+	function (config, baseSM, karplusNodeFactory) {
 		return function () {
 			// defined outside "oscInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
@@ -25,12 +25,11 @@ define(
 			var	gainEnvNode = config.audioContext.createGainNode();
 			var	gainLevelNode = config.audioContext.createGainNode();
 
-			var m_oscType=3;
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
 			var m_frequency = 440;
-			var m_attackTime = 0.02;  //
+			var m_attackTime = 0.005;  //
 			var m_sustainTime = 0.1;
 			var m_releaseTime = 0.2;
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
@@ -38,8 +37,8 @@ define(
 
 			// (Re)create the nodes and thier connections. Because oscNode.notOff invalidates the node
 			var buildModelArchitectureAGAIN = function () {
-				oscNode = config.audioContext.createOscillator();
-				oscNode.type = m_oscType;  //square
+				oscNode = karplusNodeFactory();
+				oscNode.setFrequency(m_frequency);  //square
 
 				// make the graph connections
 				oscNode.connect(gainEnvNode);
@@ -51,20 +50,24 @@ define(
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				if (stopTime <= now) { // not playing
-					console.log("rebuild model node architecture!");
+					console.log("rebuild PLUCK model node architecture!");
 					buildModelArchitectureAGAIN();
-					oscNode.noteOn(now);
-					gainEnvNode.gain.value = 0;
+					//oscNode.noteOn(now);
+					//gainEnvNode.gain.value = 0;
 				} else {  // no need to recreate architectre - the old one still exists since it is playing
 					console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
 				}
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The model turns itself off after a fixed amount of time	
 				stopTime = now + m_attackTime + m_sustainTime + m_releaseTime;
-				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
 
 				// if no input, remember from last time set
-				oscNode.frequency.value = i_freq || m_frequency;
+				if (i_freq){
+					oscNode.setFrequency(i_freq);
+				} else {
+					oscNode.setFrequency(m_frequency);
+				}
+
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
@@ -78,35 +81,24 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}		
 
+				oscNode.noteOn(now);
 			};
 
 			myInterface.registerParam(
 				"Frequency",
 				"range",
 				{
-					"min": 200,
+					"min": 50,
 					"max": 1000,
 					"val": m_frequency
 				},
 				function (i_freq) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					oscNode.frequency.value = m_frequency = i_freq;
+					m_frequency = i_freq;
+					oscNode.setFrequency(i_freq);
 				}
 			);
 
-			myInterface.registerParam(
-				"Type",
-				"range",
-				{
-					"min": 0,
-					"max": 3.999999,
-					"val": m_oscType
-				},
-				function (i_type) {
-					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					oscNode.type = m_oscType = i_type;
-				}
-			);
 
 
 			myInterface.registerParam(
@@ -161,6 +153,16 @@ define(
 					m_releaseTime = parseFloat(i_val); // javascript makes me cry ....
 				}
 			);
+
+			myInterface.release = function () {
+				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+			};
+			myInterface.stop = function () {
+				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+			};
+
+
+
 
 			//console.log("paramlist = " + myInterface.getParamList().prettyString());			
 			return myInterface;
