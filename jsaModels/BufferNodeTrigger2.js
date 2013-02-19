@@ -17,12 +17,12 @@ Date: July 2012
 
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2"],
-	function (config, baseSM, jsaSimpleNoiseTick2Factory) {
+	function (config, baseSM, noiseTickFactory) {
 		return function () {
 
 			var m_rate = 5.0;
 			var m_gainLevel = 0.9;
-			var child = jsaSimpleNoiseTick2Factory();
+			var child = noiseTickFactory();
 			var	gainLevelNode = config.audioContext.createGainNode();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV

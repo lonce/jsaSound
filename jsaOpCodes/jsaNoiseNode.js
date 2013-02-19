@@ -17,11 +17,13 @@ define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils"],
 	function (config, utils) {
 		return function () {
+			var count = 0;
 			var noiseSource = config.audioContext.createJavaScriptNode(config.k_bufferLength, 1, 1);
 			var w = 1; // for gaussian noise, this is the standard deviation, for white, this is the max absolute value
 			var noisetype = "gaussian";
 			noiseSource.onaudioprocess = function (e) {
 				var outBuffer = e.outputBuffer.getChannelData(0);
+				console.log("NoiseNode on audio processes count = " + count++);
 				var i;
 				if (noisetype === "gaussian") {
 					for (i = 0; i < config.k_bufferLength; i += 1) {

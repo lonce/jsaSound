@@ -28,6 +28,7 @@ require(
 		//TODO: Then pull names from "<model>Data.json"
 		var soundList = [
 			{},
+			{name: "JS Node Test", model: "JSNodeTest"},
 			{name: "Square Wave", model: "jsaOsc"},
 			{name: "Classic FM 1", model: "jsaFM"},
 			{name: "Classic FM 2", model: "jsaFM2"},
@@ -40,6 +41,7 @@ require(
 			{name: "Buffer Noise Trigger", model: "BufferNodeTrigger2"},
 			{name: "JS Noise Tick", model: "JSNodeNoiseTick2"},
 			{name: "JS Noise Trigger", model: "JSNodeTrigger2"},
+			{name: "JSA Phase Trigger",  model: "jsaPhaseTrigger"},
 			{name: "Mp3", model: "jsaMp3"},
 			{name: "Granular Mp3", model: "jsaGranularMp3"},
 			{name: "Mic Through", model: "jsaMicThru"},
