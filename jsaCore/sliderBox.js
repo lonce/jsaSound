@@ -55,7 +55,7 @@ define(
 				myWindow.document.getElementById("aboutTextID").innerHTML =i_sm.getAboutText();
 			}
 
-			function close(){
+			myInterface.close = function(){
 				confirmExit();
 				myWindow.close();
 			}
