@@ -25,24 +25,21 @@ jsaModels/jsaSimpleNoiseTick2.js
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/JSNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaFM"],
 	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, JSNodeNoiseTick2Factory, jsaEventPhasor) {
+	function (config, baseSM, FMFactory, jsaEventPhasor) {
 		return function () {
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 
-			var m_rate = 1;  // in events per second
+			var m_rate = 3;  // in events per second
 			var m_gainLevel = 0.40;
 
 			var playingP=false;
 
-			var child = JSNodeNoiseTick2Factory();
+			var child = FMFactory();
 
 			var	gainLevelNode = config.audioContext.createGainNode();
 
-
-			var m_ephasor = jsaEventPhasor();
-			m_ephasor.setFreq(m_rate);
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;
 
@@ -50,23 +47,17 @@ define(
 			var animate = function (e) {
 				if (! (playingP=== true)) return;
 
+				var ptime;
 				var now = config.audioContext.currentTime;	// this is the time this callback comes in - there could be jitter, etc.	
 				var next_uptotime = now + m_futureinterval;
-				var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around		
 
-				//console.log("cb now = " + now + ", next TickTime is " + nextTickTime + ", uptoTime is " + next_uptotime);
-
-				var ptime;  // the event play time
-
-				while (next_uptotime > nextTickTime) {
-					ptime = nextTickTime;
-
-					child.qplay(ptime);
-
-					m_ephasor.advanceToTick();
-					nextTickTime = m_ephasor.nextTickTime();		// so when is the next tick?
+				var probThisInterval= m_rate*m_futureinterval/1000.;
+				var r = Math.random();
+				if (r <= probThisInterval){
+					ptime = now + Math.random() * m_futureinterval;
 				}
-				m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
+
+				child.qplay(ptime);
 				requestAnimationFrame(animate);
 			};
 
@@ -84,8 +75,6 @@ define(
 
 			myInterface.play = function (i_freq, i_gain) {
 				var now = config.audioContext.currentTime;
-				m_ephasor.setPhase(0.999999999);	// so that the phaser wraps to generate an event immediately after starting
-				m_ephasor.setCurrentTime(now);
 
 				playingP=true;
 				requestAnimationFrame(animate);

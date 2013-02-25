@@ -20,21 +20,23 @@ define(
 			var m_attack = 0.002;
 			var m_sustain = 0.01;
 			var m_release = 0.002;
+			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
+			var now;
+
+
+			var noiseNode = noiseNodeFactory();
+				noiseNode.setType("white");
+				noiseNode.keep();
 
 			var m_gainLevel = 0.40;
 			var	gainLevelNode = config.audioContext.createGainNode();
+			
+			// permanent part of graph
+			var	gainEnvNode = config.audioContext.createGainNode();	
+				gainEnvNode.gain.setValueAtTime(0, 0);		
+				noiseNode.connect(gainEnvNode);		
+				gainEnvNode.connect(gainLevelNode);
 
-			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
-			var now;
-			//var val;
-
-			var noiseNode = noiseNodeFactory();
-			noiseNode.setType("white");
-			var	gainEnvNode = config.audioContext.createGainNode();
-
-			noiseNode.connect(gainEnvNode);
-			gainEnvNode.connect(gainLevelNode);
-			//gainEnvNode.gain.setValueAtTime(0, 0);
 			
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
@@ -51,11 +53,11 @@ define(
 
 				now = config.audioContext.currentTime;
 				//console.log("NodeNoiseTick: now is " + now + ", and ptime is " + i_ptime);
-				/*
+				
 				console.log("Noise tick play call at time = " + now);
 				var ptime = Math.max(now, i_ptime || now);
-				*/
-				var ptime = i_ptime;
+				
+				//var ptime = i_ptime;
 
 
 				gainEnvNode.gain.cancelScheduledValues(ptime);

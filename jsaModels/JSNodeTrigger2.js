@@ -20,7 +20,7 @@ define(
 	function (config, baseSM, JSNodeNoiseTick2Factory) {
 		return function () {
 
-			var m_rate = 5.0;
+			var m_rate = 1.0;
 			var m_gainLevel = 0.9;
 			var child = JSNodeNoiseTick2Factory();
 			var	gainLevelNode = config.audioContext.createGainNode();

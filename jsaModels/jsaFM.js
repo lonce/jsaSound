@@ -65,32 +65,39 @@ define(
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
-			myInterface.play = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
 
-				if (stopTime <= now) { // not playing
+
+			myInterface.play = function () {
+				myInterface.qplay(config.audioContext.currentTime);
+			};
+
+
+			myInterface.qplay = function (i_ptime) {
+				if (myInterface.getNumOutConnections() === 0){
+					myInterface.connect(config.audioContext.destination);
+				}				
+
+				//now = config.audioContext.currentTime;
+
+				if (stopTime <= i_ptime) { // not playing
 					buildModelArchitectureAGAIN();
-					oscModulatorNode.noteOn(now);
+					oscModulatorNode.noteOn(i_ptime);
 					gainEnvNode.gain.value = 0;
 				} else {  
-					gainEnvNode.gain.cancelScheduledValues(now);
+					gainEnvNode.gain.cancelScheduledValues(i_ptime);
 				}
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 				oscModulatorNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
 
-				// if no input, remember from last time set
-				m_CarrierNode.setFreq(i_freq || m_car_freq);
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
-				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
+				m_CarrierNode.setFreq(m_car_freq);
+				gainLevelNode.gain.value = m_gainLevel;
 
+				gainEnvNode.gain.setValueAtTime(0, i_ptime);
+				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, i_ptime + m_attackTime); // go to gain level over .1 secs	
 
-				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
-					myInterface.connect(config.audioContext.destination);
-				}		
+	
 			};
 
 			myInterface.registerParam(

@@ -55,6 +55,11 @@ define(
 				myWindow.document.getElementById("aboutTextID").innerHTML =i_sm.getAboutText();
 			}
 
+			function close(){
+				confirmExit();
+				myWindow.close();
+			}
+
 
 			function setupRangeParameter(paramObject, paramName) {
 				// Fit value into the min-max range

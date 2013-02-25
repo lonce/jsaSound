@@ -14,16 +14,23 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 //		-audioContext
 //		-k_bufferLength
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils", "jsaSound/jsaCore/jsasteller"],
 	function (config, utils) {
 		return function () {
 			var count = 0;
+
+
 			var noiseSource = config.audioContext.createJavaScriptNode(config.k_bufferLength, 1, 1);
+			// This is so that this node can be "kept()"
+			var noiseWrapper = org.anclab.steller.GraphNode({}, [], [noiseSource]);
+			//noiseWrapper.keep(noiseSource);
+
+
 			var w = 1; // for gaussian noise, this is the standard deviation, for white, this is the max absolute value
 			var noisetype = "gaussian";
 			noiseSource.onaudioprocess = function (e) {
 				var outBuffer = e.outputBuffer.getChannelData(0);
-				console.log("NoiseNode on audio processes count = " + count++);
+				//console.log("NoiseNode on audio processes count = " + count++);
 				var i;
 				if (noisetype === "gaussian") {
 					for (i = 0; i < config.k_bufferLength; i += 1) {
@@ -36,18 +43,18 @@ define(
 				}
 			};
 
-			noiseSource.setWidth = function (i_index) {
+			noiseWrapper.setWidth = function (i_index) {
 				w = i_index;
 			};
 
-			noiseSource.setType = function (i_type) {
+			noiseWrapper.setType = function (i_type) {
 				if ((i_type !== "gaussian") && (i_type !== "white")) {
 					console.log("invalid noise type");
 				}
 				noisetype = i_type;
 			};
 
-			return noiseSource;
+			return noiseWrapper;
 		};
 	}
 );
