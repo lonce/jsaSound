@@ -51,7 +51,8 @@ require(
 			{name: "Drum Pattern", model: "jsaBeatPattern"},
 			{name: "Drum Set", model: "jsaBeatSet"},
 			{name: "RS Drum Set", model: "jsaRSBeatSet"},
-			{name: "RS MetaMic", model: "jsaMetaMic"}
+			{name: "RS MetaMic", model: "jsaMetaMic"},
+			{name: "RS MetaMic2", model: "jsaMetaMic2"}
 		];
 
 		// Create the html select box using the hard-coded soundList above
