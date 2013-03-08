@@ -51,7 +51,7 @@ define(
                           			1.0, .5, .3, 1,
                           			0, 0, 0, 0.1];
 
-  				childModel[1] = jsaPatternFactory( "/jsaResources/drum-samples/4OP-FM/snare.wav");
+  				childModel[1] = jsaPatternFactory( jsaSoundRelHTML +"/jsaResources/drum-samples/4OP-FM/snare.wav");
   				
 				m_beatPattern[1] =  [0,0,0,0,
 									0, 1, 0, 1,
