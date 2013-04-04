@@ -1,5 +1,5 @@
 {
 	"name": "jsaOsc",
 	"version": 0.1,
-	"requiredModels": []
+	"requiredModels": ["jsaOsc"]
 }

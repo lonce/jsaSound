@@ -88,10 +88,11 @@ define(
 			};
 
 
+			/*
 			bsmInterface.getParams = function () {
 				return params;
 			};
-					
+			*/		
 
 			bsmInterface.getParam = function(i_name, i_prop){
 				i_name=testPName(i_name);

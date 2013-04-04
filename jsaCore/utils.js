@@ -162,6 +162,24 @@ define(
 			console.log('Error: ' + msg);
 		}
 
+			           // Print out the array with brackets - for 2D arrarys, print each "sub" array on a separate line
+            Array.prototype.prettyString = function () {
+                var s="[";
+                var i;
+                for(i=0;i<this.length;i++){
+                    if (Array.isArray(this[i])){
+                        s+=this[i].prettyString();
+                        if (i<(this.length-1)) s+=",\n";
+                    } else{
+                        s+= this[i].toString();
+                        if (i<(this.length-1)) s+=", ";
+                    }
+                }
+                s += "]";
+                return s;   
+            }
+
+
 
 
 		return utils;
