@@ -19,7 +19,7 @@ require.config({
 	}
 });
 require(
-	["require", "jsaSound/jsaCore/sliderBoxPlus2"],
+	["require", "jsaSound/jsaCore/sliderBox"],
 	function (require, makeSliderBox) {
 		var currentSndModel;
 		var soundSelectorElem = document.getElementById("soundSelector");
