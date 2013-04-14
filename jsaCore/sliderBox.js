@@ -50,7 +50,8 @@ define(
 			myWindow = window.open('', '', "width = 400,height = " + h);
 			myWindow.document.write("<link href=\"css/sliderBox.css\" rel=\"stylesheet\" type=\"text/css\">");
 			myWindow.document.title = "jsaSound Parameter Slider Box";
-			if (i_sm.getAboutText() != ""){
+
+			if (i_sm.getAboutText()) {
 				myWindow.document.write("<div id=\"aboutTextID\"></div>");  //so it can be styled
 				myWindow.document.getElementById("aboutTextID").innerHTML =i_sm.getAboutText();
 			}
@@ -58,7 +59,7 @@ define(
 			myInterface.close = function(){
 				confirmExit();
 				myWindow.close();
-			}
+			};
 
 
 			function setupRangeParameter(paramName) {
@@ -174,7 +175,7 @@ define(
 
 			// Now set up the parameters
 			//----------------utils.objForEach(params, setupParameter);
-			for(var i=0;i<i_sm.getNumParams();i++){
+			for (i = 0; i < i_sm.getNumParams(); i++) {
 				setupParameter(i_sm.getParam(i,"name"));
 			}
 			// end for each parameter loop
@@ -197,7 +198,6 @@ define(
 
 			myInterface.play = function () {
 				myWindow.document.getElementById("playbutton_ID").mousedown();
-				
 			};
 
 			myInterface.release = function () {
@@ -225,39 +225,55 @@ define(
 				controllerElement.change();
 			};
 
+			function isParamChecked(paramName) {
+				var id = paramName.replace(/\s+/g, '') + "_checkID";  // this is how we constructed checkbox IDs from paramnames
+				if (myWindow.document.getElementById(id).checked)
+					return true;
+				return false;
+			}
+
+			function getParamState(paramName) {
+				return {
+					name: paramName,
+					type: i_sm.getParam(paramName, "type"),
+					value: i_sm.getParam(paramName, "val")
+				};
+			}
+
 			//------------------------------------------------------------------------------------------------------
-			// This function returns an array of array of triplets, one for each "selected" parameter, consisting of: 
+			// This function returns an array of triplets, one for each "selected" parameter, consisting of: 
 			// [paramName, type, value]
 			// The play/stop button is special since it has no type. If it is checked, the triplet returned isL
 			// [play/stop, nState, play] or [play/stop, nState, release]  (depending on whether the sound is currently playing). 
-			myInterface.getSelected = function(){
+			myInterface.getSelected = function () {
 				var retval=[];
 				var id;
-				var pname;
+				var paramNames;
+				var currParamName;
+				var i;
 
 				console.log("----------");
 
 				id="play_checkID";
 				if (myWindow.document.getElementById(id).checked){
-					retval.push(["play/stop", "nState", playingP ? "play" : "release"]);
+					retval.push({
+						name: "play_stop",
+						type: "play_stop",
+						value: playingP ? "play" : "release"
+					});
 				}
 
 
-				for(var i=0;i<i_sm.getNumParams();i++){
-					pname = i_sm.getParam(i,"name");
+				for (i = 0; i < paramNames.length; i++) {
+					currParamName = paramNames[i];
 
-					var foo = i_sm.getParam(pname, "val");
-
-					id = pname.replace(/\s+/g, '') + "_checkID";  // this is how we constructed checkbox IDs from paramnames
-
-					if (myWindow.document.getElementById(id).checked){
-						retval.push(  [pname, i_sm.getParam(i,"type"),  i_sm.getParam(pname, "val")  ] );
-					}
+					if (isParamChecked(currParamName))
+						retval.push(getParamState(currParamName));
 				}
 
 				console.log("getSelected returning " + retval.prettyString());
 				return retval;
-			}
+			};
 
 			return myInterface;
 		};
