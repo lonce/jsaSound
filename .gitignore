@@ -2,8 +2,11 @@
 *.swp
 *.lnk
 *.link
-Demo/jsaCore
-Demo/jsaOpCodes
-Demo/jsaModels
-deprecatedModels
+www/Demo/jsaCore
+www/Demo/jsaOpCodes
+www/Demo/jsaModels
+www/Demo/DELETEME
+www/deprecatedModels
 *.sfk
+www/scripts/main_noserver.js
+
