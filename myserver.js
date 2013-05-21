@@ -20,6 +20,7 @@ k_portnum=process.argv[2];
 
 //****************************************************************************
 var m_useRoot="/www";
+//app.use(m_useRoot, express.static(__dirname + m_useRoot));
 app.use(express.static(__dirname + m_useRoot));
 
 

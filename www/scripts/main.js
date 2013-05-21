@@ -50,12 +50,13 @@ require(
 		// When a sound is selected
 		function soundChoice() {
 			var sb;
+			if (soundSelectorElem.selectedIndex <1) return;  // we added a "blank" to the selector list.
 			require(
 				// Get the model
-				["jsaSound/jsaModels/" + soundList[soundSelectorElem.selectedIndex].fileName],
+				["jsaSound/jsaModels/" + soundList[soundSelectorElem.selectedIndex-1].fileName], // -1 since we added a blank first element to the selection options
 				// And open the sliderBox
 				function (currentSM) {
-					sb = makeSliderBox(currentSM());
+					sb = makeSliderBox(currentSM(),soundList[soundSelectorElem.selectedIndex-1].fileName );
 				}
 			);
 		}

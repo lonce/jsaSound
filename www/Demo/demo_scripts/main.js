@@ -15,12 +15,13 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 require.config({
 	paths: {
 		"jsaSound": ".."
+		//"jsaSound": "http://animatedsoundworks.com/jsaSound/"
 	}
 });
 require(
-	["require", "http://animatedsoundworks.com/jsaSound/jsaModels/jsaFM"], 
+	//["require", "http://animatedsoundworks.com:8001/jsaModels/jsaFM"], 
 	//["require", "localhost:8080/jsaModels/jsaFM"], // WHY CANT I LOAD SOUNDs FROM LOCALHOST WHEN I RUN A SERVER THERE??
-	//["require", "jsaSound/jsaModels/jsaFM"], // This loads a model from a local directory
+	["require", "jsaSound/jsaModels/jsaFM"], // This loads a model from a local directory
 	function (require, sndFactory) {
 
 		// First create the sound model from the factory.
