@@ -25,7 +25,7 @@ define(
 	["jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils"],
 	function (baseSM, utils) {
 		//console.log("returning sliderBox constructor");
-		return function (i_sm) {  // argument is a sound model
+		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
 			var val;
 			var controllerID, textID;
@@ -49,7 +49,7 @@ define(
 			var myWindow = {};
 			myWindow = window.open('', '', "width = 400,height = " + h);
 			myWindow.document.write("<link href=\"css/sliderBox.css\" rel=\"stylesheet\" type=\"text/css\">");
-			myWindow.document.title = "jsaSound Parameter Slider Box";
+			myWindow.document.title = sm_string_name || "jsaSound Parameter Slider Box";
 
 			if (i_sm.getAboutText()) {
 				myWindow.document.write("<div id=\"aboutTextID\"></div>");  //so it can be styled
