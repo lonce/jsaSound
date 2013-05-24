@@ -248,7 +248,7 @@ define(
 			myInterface.getSelected = function () {
 				var retval=[];
 				var id;
-				var paramNames;
+				var paramNames = i_sm.getParamNames();
 				var currParamName;
 				var i;
 
@@ -262,7 +262,6 @@ define(
 						value: playingP ? "play" : "release"
 					});
 				}
-
 
 				for (i = 0; i < paramNames.length; i++) {
 					currParamName = paramNames[i];
