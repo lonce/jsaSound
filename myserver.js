@@ -44,14 +44,20 @@ wss.on('connection', function (ws) {
 
 // Match a request for data from the client and return requested json data
 app.get("/soundList",function(req, res){
+  var jsonObj;
+  var jsonList=[];
     // get list of file names
-    getFileList("./www/jsaModels", function (z, flist){ // TODO: The 1st arg should obviously be passed in as data from the client!
+    getFileList("./www/ModelDescriptors", function (z, flist){ // TODO: The 1st arg should obviously be passed in as data from the client!
         for(i=0;i<flist.length;i++){
           // clean list so paths are relative to client directory
           flist[i]=flist[i].replace(m_useRoot, "");
-          console.log("results are" + flist);
+          //console.log("results are" + flist);
+
+          jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
+          console.log("jsonObj.file name is " + jsonObj.fileName);
+          jsonList.push(jsonObj);
         }
-        res.send({"surfaces": flist});
+        res.send({"jsonItems": jsonList});
     });
 })
 

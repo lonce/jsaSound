@@ -34,12 +34,13 @@ require(
 
 
 			$.getJSON("soundList", function(data){
-			soundList =  utils.filesToObjectList(data.surfaces);
+			//soundList =  utils.filesToObjectList(data.surfaces);
+			soundList =  data.jsonItems;
 			//console.log("Yip! sound list is " + soundList);
 			soundSelectorElem.options.length=0;
 			soundSelectorElem.add(new Option(''));
 			for (i = 0; i < soundList.length; i += 1) {
-				currOptionName = soundList[i].fileName || "";
+				currOptionName = soundList[i].displayName || "";
 					//Add option to end of list
 					soundSelectorElem.add(new Option(currOptionName));
 				}
@@ -53,7 +54,7 @@ require(
 			if (soundSelectorElem.selectedIndex <1) return;  // we added a "blank" to the selector list.
 			require(
 				// Get the model
-				["jsaSound/jsaModels/" + soundList[soundSelectorElem.selectedIndex-1].fileName], // -1 since we added a blank first element to the selection options
+				["jsaSound/" + soundList[soundSelectorElem.selectedIndex-1].fileName], // -1 since we added a blank first element to the selection options
 				// And open the sliderBox
 				function (currentSM) {
 					sb = makeSliderBox(currentSM(),soundList[soundSelectorElem.selectedIndex-1].fileName );

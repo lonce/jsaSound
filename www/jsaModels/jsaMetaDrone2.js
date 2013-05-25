@@ -27,7 +27,7 @@ define(
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
-			var m_childGain = 1.8;
+			var m_childGain = 1.0;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
@@ -35,7 +35,7 @@ define(
 			// These numbers are semitones to be used relative to a "base note" 
 			var scale = [0.0, 2.0, 4.0, 6.0, 7.0, 9.0, 11.0, 12.0, 14.0];
 
-			var m_gainLevel = 1.5;
+			var m_gainLevel = .5;
 			var gainLevelNode = config.audioContext.createGainNode();  // will collect output the children
 
 			// get a frequency as a random function of the base_note
