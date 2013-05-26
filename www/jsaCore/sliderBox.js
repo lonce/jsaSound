@@ -274,6 +274,53 @@ define(
 				return retval;
 			};
 
+			function uncheckParam(paramName) {
+				var id = paramName.replace(/\s+/g, '') + "_checkID";
+				var elem = myWindow.document.getElementById(id);
+				if (elem.checked)
+					elem.click();
+			}
+
+			function checkParam(paramName) {
+				var id = paramName.replace(/\s+/g, '') + "_checkID";
+				var elem = myWindow.document.getElementById(id);
+				if (!elem.checked)
+					elem.click();
+			}
+
+			function uncheckAll() {
+				var paramNames = i_sm.getParamNames();
+				var i;
+				for (i = 0; i < paramNames.length; i++) {
+					uncheckParam(paramNames[i]);
+				}
+			}
+
+			function checkAllFromList(paramList) {
+				var i;
+				for (i = 0; i < paramList.length; i++)
+					checkParam(paramList[i]);
+			}
+
+			function setParamValues(state) {
+				var i;
+				for (i = 0; i < state.length; i++)
+					i_sm.setParam(state[i].name, state[i].value);
+			}
+
+			myInterface.setState = function (state) {
+				console.log("setState called with state: " + JSON.stringify(state));
+				uncheckAll();
+
+				var stateElems = state.map(function (param) {
+					return param.name;
+				});
+
+				checkAllFromList(stateElems);
+
+				setParamValues(state);
+			};
+
 			return myInterface;
 		};
 	}
