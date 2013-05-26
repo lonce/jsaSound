@@ -6,7 +6,7 @@ www/Demo/jsaCore
 www/Demo/jsaOpCodes
 www/Demo/jsaModels
 www/Demo/DELETEME
-www/deprecatedModels
+www/deprecated
 *.sfk
 www/scripts/main_noserver.js
 

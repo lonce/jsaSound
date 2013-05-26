@@ -25,26 +25,31 @@ jsaModels/jsaSimpleNoiseTick2.js
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/testModels/JSNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, JSNodeNoiseTick2Factory, jsaEventPhasor) {
+//	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaFileBufferNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
+			var k_gain_factor=5; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
-
-			var m_rate = 1;  // in events per second
-			var m_gainLevel = 0.40;
+			var m_slipRate=1; // for BufferSourceNode
+			var m_doorSwingRate = 0;  // in events per second
+			var m_gainLevel = .9;
 
 			var playingP=false;
-
-			var child = JSNodeNoiseTick2Factory();
-
+			var child = BufferNoiseNodeFactory(.001);
+			var m_conv = jsaConvolverFactory("jsaResources/sounds/OneDoorCreak.wav");
+			var	swingGainNode = config.audioContext.createGainNode();
 			var	gainLevelNode = config.audioContext.createGainNode();
 
-
 			var m_ephasor = jsaEventPhasor();
-			m_ephasor.setFreq(m_rate);
+			m_ephasor.setFreq(m_doorSwingRate);
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+
+			m_conv.connect(swingGainNode);
+			swingGainNode.gain.value=1.0;
+			swingGainNode.connect(gainLevelNode);
+			gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 
 			//  requestAnimationFrame callback function
 			var animate = function (e) {
@@ -61,7 +66,11 @@ define(
 				while (next_uptotime > nextTickTime) {
 					ptime = nextTickTime;
 
-					child.qplay(ptime);
+					//child.qplay(ptime);
+					init();
+					//child.playbackRate.value=m_slipRate;
+					child.start(ptime);
+					child.stop(ptime+.25)
 
 					m_ephasor.advanceToTick();
 					nextTickTime = m_ephasor.nextTickTime();		// so when is the next tick?
@@ -74,12 +83,10 @@ define(
 			myInterface.setAboutText("This is a timing experiment  using requestAnimationFrame")
 
 
-			var init = (function () {
-				if (child.hasOutputs()){
-					child.connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
-				}
-				child.setParamNorm("Gain", m_gainLevel);
-			}());
+			var init = function () {
+					child = BufferNoiseNodeFactory();
+					child.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
+			};
 
 
 			myInterface.play = function (i_freq, i_gain) {
@@ -96,21 +103,34 @@ define(
 			};
 
 			myInterface.release = function () {
-				child.release();
+				//child.stop();
 				playingP=false;
 			};
 
 			myInterface.registerParam(
-				"Rate",
+				"Swing Rate",
 				"range",
 				{
 					"min": 0,
-					"max": 100,
-					"val": m_rate
+					"max": 1,
+					"val": m_doorSwingRate
 				},
 				function (i_val) {
-					m_rate = parseFloat(i_val);
-					m_ephasor.setFreq(m_rate);
+					var s;
+					m_doorSwingRate = parseFloat(i_val);
+					s=m_doorSwingRate*m_doorSwingRate;
+
+					m_slipRate=Math.floor(s*15); // number of modes
+
+					// creaking gets softer for high swing rates
+					if (s<.7){
+						swingGainNode.gain.value=1.0;
+					} else{
+						swingGainNode.gain.value=1.0-(s-.7)*3.3;
+					}
+
+					m_ephasor.setFreq(40*s*m_slipRate); //controls how high the frequency goes
+
 				}
 			);
 
@@ -123,7 +143,8 @@ define(
 					"val": m_gainLevel
 				},
 				function (i_val) {
-					gainLevelNode.gain.value = m_gainLevel = i_val;
+					m_gainLevel = i_val;
+					gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 				}
 			);
 

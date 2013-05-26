@@ -45,9 +45,10 @@ wss.on('connection', function (ws) {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Match a request for data from the client and return requested json data
-app.get("/soundList",function(req, res){
+app.get(["/soundList", "/soundList/ModelDescriptors"],function(req, res){
   var jsonObj;
   var jsonList=[];
+  console.log("fetching from ModelDescriptors");
     // get list of file names
     getFileList("./www/ModelDescriptors", function (z, flist){ // TODO: The 1st arg should obviously be passed in as data from the client!
         for(i=0;i<flist.length;i++){
@@ -57,6 +58,28 @@ app.get("/soundList",function(req, res){
 
           jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
           console.log("jsonObj.file name is " + jsonObj.fileName);
+          // could test for existence here before sending the info back to the client...
+          jsonList.push(jsonObj);
+        }
+        res.send({"jsonItems": jsonList});
+    });
+});
+
+// Match a request for data from the client and return requested json data
+app.get(["/soundList/TestModelDescriptors"],function(req, res){
+  var jsonObj;
+  var jsonList=[];
+  console.log("fetching from TestModelDescriptors");
+    // get list of file names
+    getFileList("./www/TestModelDescriptors", function (z, flist){ // TODO: The 1st arg should obviously be passed in as data from the client!
+        for(i=0;i<flist.length;i++){
+          // clean list so paths are relative to client directory
+          flist[i]=flist[i].replace(m_useRoot, "");
+          //console.log("results are" + flist);
+
+          jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
+          console.log("jsonObj.file name is " + jsonObj.fileName);
+          // could test for existence here before sending the info back to the client...
           jsonList.push(jsonObj);
         }
         res.send({"jsonItems": jsonList});

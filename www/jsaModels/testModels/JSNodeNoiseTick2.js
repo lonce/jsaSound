@@ -54,7 +54,7 @@ define(
 				now = config.audioContext.currentTime;
 				//console.log("NodeNoiseTick: now is " + now + ", and ptime is " + i_ptime);
 				
-				console.log("Noise tick play call at time = " + now);
+				//console.log("Noise tick play call at time = " + now);
 				var ptime = Math.max(now, i_ptime || now);
 				
 				//var ptime = i_ptime;

@@ -33,8 +33,9 @@ require(
 			var currOptionName;
 
 
-			$.getJSON("soundList", function(data){
-			//soundList =  utils.filesToObjectList(data.surfaces);
+			//$.getJSON("soundList/TestModelDescriptors", function(data){
+			$.getJSON("/soundList/ModelDescriptors", function(data){
+
 			soundList =  data.jsonItems;
 			//console.log("Yip! sound list is " + soundList);
 			soundSelectorElem.options.length=0;

@@ -183,25 +183,48 @@ define(
 
 
 
-			           // Print out the array with brackets - for 2D arrarys, print each "sub" array on a separate line
-            Array.prototype.prettyString = function () {
-                var s="[";
-                var i;
-                for(i=0;i<this.length;i++){
-                    if (Array.isArray(this[i])){
-                        s+=this[i].prettyString();
-                        if (i<(this.length-1)) s+=",\n";
-                    } else{
-                        s+= this[i].toString();
-                        if (i<(this.length-1)) s+=", ";
-                    }
+		           // Print out the array with brackets - for 2D arrarys, print each "sub" array on a separate line
+        Array.prototype.prettyString = function () {
+            var s="[";
+            var i;
+            for(i=0;i<this.length;i++){
+                if (Array.isArray(this[i])){
+                    s+=this[i].prettyString();
+                    if (i<(this.length-1)) s+=",\n";
+                } else{
+                    s+= this[i].toString();
+                    if (i<(this.length-1)) s+=", ";
                 }
-                s += "]";
-                return s;   
             }
+            s += "]";
+            return s;   
+        }
 
+		 Float32Array.prototype.sum = function(){
+			var s=0;
+			for(var i=0;i<this.length;i++){
+				s+=this[i];
+			}
+			return s;
+		}
 
+		 Float32Array.prototype.scale = function(sval){
+			for(var i=0;i<this.length;i++){
+				this[i]=this[i]*sval;
+			}				
+		}
 
+		 Float32Array.prototype.rms = function(){
+			var retval=0;
+			for(var i=0;i<this.length;i++){
+				retval=this[i]*this[i]/this.length;
+			}	
+			return Math.sqrt(retval);			
+		}
+
+		 Float32Array.prototype.max = function(){
+			return Math.max.apply(null, this);			
+		}
 
 		return utils;
 	}

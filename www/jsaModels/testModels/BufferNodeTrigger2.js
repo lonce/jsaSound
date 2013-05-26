@@ -16,7 +16,7 @@ Date: July 2012
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/testModels/BufferNodeNoiseTick2"],
 	function (config, baseSM, noiseTickFactory) {
 		return function () {
 
