@@ -225,6 +225,19 @@ define(
 				controllerElement.change();
 			};
 
+			myInterface.setParam = function (i_name, i_val) {
+				var paramName, paramList, paramObject;
+				if (utils.isInteger(i_name)) {
+					paramName = myinterface.getParamName(i_name);
+				} else {
+					paramName = i_name;
+				}
+
+				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
+				controllerElement.value = i_val;
+				controllerElement.change();
+			};
+
 			function isParamChecked(paramName) {
 				var id = paramName.replace(/\s+/g, '') + "_checkID";  // this is how we constructed checkbox IDs from paramnames
 				if (myWindow.document.getElementById(id).checked)
@@ -305,7 +318,7 @@ define(
 			function setParamValues(state) {
 				var i;
 				for (i = 0; i < state.length; i++)
-					i_sm.setParam(state[i].name, state[i].value);
+					myInterface.setParam(state[i].name, state[i].value);
 			}
 
 			myInterface.setState = function (state) {
