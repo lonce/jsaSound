@@ -225,6 +225,19 @@ define(
 				controllerElement.change();
 			};
 
+			myInterface.setParam = function (i_name, i_val) {
+				var paramName, paramList, paramObject;
+				if (utils.isInteger(i_name)) {
+					paramName = myinterface.getParamName(i_name);
+				} else {
+					paramName = i_name;
+				}
+
+				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
+				controllerElement.value = i_val;
+				controllerElement.change();
+			};
+
 			function isParamChecked(paramName) {
 				var id = paramName.replace(/\s+/g, '') + "_checkID";  // this is how we constructed checkbox IDs from paramnames
 				if (myWindow.document.getElementById(id).checked)
@@ -272,6 +285,53 @@ define(
 
 				console.log("getSelected returning " + retval.prettyString());
 				return retval;
+			};
+
+			function uncheckParam(paramName) {
+				var id = paramName.replace(/\s+/g, '') + "_checkID";
+				var elem = myWindow.document.getElementById(id);
+				if (elem.checked)
+					elem.click();
+			}
+
+			function checkParam(paramName) {
+				var id = paramName.replace(/\s+/g, '') + "_checkID";
+				var elem = myWindow.document.getElementById(id);
+				if (!elem.checked)
+					elem.click();
+			}
+
+			function uncheckAll() {
+				var paramNames = i_sm.getParamNames();
+				var i;
+				for (i = 0; i < paramNames.length; i++) {
+					uncheckParam(paramNames[i]);
+				}
+			}
+
+			function checkAllFromList(paramList) {
+				var i;
+				for (i = 0; i < paramList.length; i++)
+					checkParam(paramList[i]);
+			}
+
+			function setParamValues(state) {
+				var i;
+				for (i = 0; i < state.length; i++)
+					myInterface.setParam(state[i].name, state[i].value);
+			}
+
+			myInterface.setState = function (state) {
+				console.log("setState called with state: " + JSON.stringify(state));
+				uncheckAll();
+
+				var stateElems = state.map(function (param) {
+					return param.name;
+				});
+
+				checkAllFromList(stateElems);
+
+				setParamValues(state);
 			};
 
 			return myInterface;
