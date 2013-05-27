@@ -9,43 +9,38 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ------------------------------------------------------------------------------------------*/
 /*
 Author: Lonce Wyse
-Date: July 2012
+Date: May 2013
 */
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
-	for baseSM 
-	
-jsaModels/jsaSimpleNoiseTick2.js
-	 for jsaSimpleNoiseTickFactory2
-	 
-*/
-/* This model explores using JavaScriptAudioNode.onaudioprocess() as a callback for generating events for other Audio Node. 
-	A phasor is used to trigger events for another SoundModel each time it "ticks" (wraps around).
-	
+
+/*  A creaky door made with a repeating noise burst convolved with a single door creak.
+    As the door swings more quickly, the stick-slip pattern rate rises jumping to ever higher
+    integer multiples of the swing rate.
 */
 
 define(
-//	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaFileBufferNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
+			var k_impulseDuration=.001;
 			var k_gain_factor=5; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
-			var m_slipRate=1; // for BufferSourceNode
-			var m_doorSwingRate = 0;  // in events per second
+			var m_slipRate=1; // 
+			var m_doorSwingRate = 0;  // in [0-1]
 			var m_gainLevel = .9;
 
 			var playingP=false;
-			var child = BufferNoiseNodeFactory(.001);
+			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
 			var m_conv = jsaConvolverFactory("jsaResources/sounds/OneDoorCreak.wav");
-			var	swingGainNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	swingGainNode = config.audioContext.createGainNode(); // manipuloated internally
+			var	gainLevelNode = config.audioContext.createGainNode(); // manipulated by sound user
 
+			// for triggering periodic events
 			var m_ephasor = jsaEventPhasor();
 			m_ephasor.setFreq(m_doorSwingRate);
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;
 
+			// paramterize and connect graph nodes
 			m_conv.connect(swingGainNode);
 			swingGainNode.gain.value=1.0;
 			swingGainNode.connect(gainLevelNode);
@@ -56,10 +51,8 @@ define(
 				if (! (playingP=== true)) return;
 
 				var now = config.audioContext.currentTime;	// this is the time this callback comes in - there could be jitter, etc.	
-				var next_uptotime = now + m_futureinterval;
+				var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
 				var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around		
-
-				//console.log("cb now = " + now + ", next TickTime is " + nextTickTime + ", uptoTime is " + next_uptotime);
 
 				var ptime;  // the event play time
 
@@ -68,9 +61,8 @@ define(
 
 					//child.qplay(ptime);
 					init();
-					//child.playbackRate.value=m_slipRate;
 					child.start(ptime);
-					child.stop(ptime+.25)
+					child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 
 					m_ephasor.advanceToTick();
 					nextTickTime = m_ephasor.nextTickTime();		// so when is the next tick?
@@ -80,9 +72,10 @@ define(
 			};
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("This is a timing experiment  using requestAnimationFrame")
+			myInterface.setAboutText("First 'Play', then 'Swing'! (Tech note: uses event phasor for timing events) ")
 
 
+			// get a new SourceBufferNode for every event (oi.)
 			var init = function () {
 					child = BufferNoiseNodeFactory();
 					child.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
@@ -103,12 +96,14 @@ define(
 			};
 
 			myInterface.release = function () {
-				//child.stop();
+				// stops the animation frame callbacks
 				playingP=false;
 			};
 
+			// Exposed soundmodel parameters --------------------
+
 			myInterface.registerParam(
-				"Swing Rate",
+				"Door Swing Speed",
 				"range",
 				{
 					"min": 0,
