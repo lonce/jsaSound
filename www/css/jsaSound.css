@@ -1,6 +1,6 @@
 body
 {
-background: -webkit-linear-gradient( top left, #9090AA, #AAAAE0, #555577 );
+background: -webkit-linear-gradient( top left, #7f1906, #d38d0a, #54040C );
 font-family:Calibri ; font-size:16px; 
 } 
 
@@ -13,7 +13,7 @@ font-family:Calibri ; font-size:16px;
 	border:2px solid;
 	border-radius:5px;
 	border-color:#000000;
-	background-color:#E0E0FF;
+	background-color:#ffffaa; //#cccc66; //#9fa036;
 }
 #APItext {
 		margin-left : 20px;
