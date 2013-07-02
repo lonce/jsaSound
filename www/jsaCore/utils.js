@@ -11,6 +11,12 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	function () {
 		var utils = {};
+
+		// 0 dB yields 1, -6 dB yeileds .5
+		utils.dB2Ratio = function (i_dB ){
+			return Math.pow(10.0, i_dB/20.0);
+		}
+
 		utils.relMouseCoords = function (event) {
 			var totalOffsetX = 0;
 			var totalOffsetY = 0;
@@ -225,6 +231,9 @@ define(
 		 Float32Array.prototype.max = function(){
 			return Math.max.apply(null, this);			
 		}
+
+ 
+
 
 		return utils;
 	}

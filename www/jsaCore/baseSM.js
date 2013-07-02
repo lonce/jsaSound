@@ -60,6 +60,7 @@ define(
 			// Parameters are not over-writable
 			bsmInterface.registerParam = function (i_name, i_type, i_val, i_f) {
 				if (params.hasOwnProperty(i_name)) {
+					console.log("Can not register 2 parameters with the same name");
 					return;
 				}
 				var paramObject = {
@@ -69,6 +70,12 @@ define(
 				};
 				params[i_name] = paramObject;
 				paramname.push(i_name);
+			};
+
+			// So a sound can directly expose a parameter of a child sound
+			bsmInterface.registerChildParam = function (model, pname){
+				params[pname] = model.system.getRawParamObject(pname);
+				paramname.push(pname);
 			};
 
 			bsmInterface.getNumParams = function(){
@@ -174,6 +181,12 @@ define(
 			bsmInterface.savePSets = function(){utils.saveToFile(pSets)};
 
 
+			// vvvvvvvvvvvvvvvvvvvvvvvvvvvv   // intended for use only by jsaSound system
+			bsmInterface.system={};
+			bsmInterface.system.getRawParamObject=function(name){
+				return params[name];
+			}
+			// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 			return bsmInterface;

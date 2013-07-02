@@ -23,7 +23,7 @@ define(
 			var m_phase = 0;
 			var m_freq = 1; // seconds
 			var m_currentPhase = 0; //[0,1]
-			var m_currentTime;
+			var m_currentTime=0;
 
 			var myInterface = {};
 
@@ -35,18 +35,24 @@ define(
 				m_phase = i_p;
 			};
 
+			myInterface.getPhase = function (i_p) {
+				return m_phase;
+			};
+
 			myInterface.setFreq = function (i_f) {
 				m_freq = i_f;
 			};
 
 			myInterface.advance = function (i_t) {
 				m_currentPhase = (m_currentPhase + i_t * m_freq) % 1;
+				return m_currentPhase;
 			};
 
 			myInterface.advanceToTime = function (i_t) {
 				var advance = i_t - m_currentTime;
 				m_currentPhase = (m_currentPhase + advance * m_freq) % 1;
 				m_currentTime = i_t;
+				return m_currentPhase;
 			};
 
 			myInterface.advanceToTick = function () {

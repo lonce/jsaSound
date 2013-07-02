@@ -10,7 +10,7 @@ define(
         var noiseData=0; //= noiseBuffer.getChannelnoiseData(0);
         var i, N;
 
-        // Only the bufferSource node needs to be created for every on stat() stop() pair - not the buffer.
+        // Only the bufferSource node needs to be created for every on start() stop() pair - not the buffer.
         // no args means use the same noiseData buffer as before if it exist
         // More than 0 args means recompute the sample buffer
         // norm factor means sample amplitudes should sum to this number (rms might be better)

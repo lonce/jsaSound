@@ -18,6 +18,14 @@ Modles loading arbitrary wave/mp3 files from the net:
 
 Improve example sound model collection
 
+discrete parameters would be nice.....
+
++++++++++
+vowels:
+Make sure number of formants is settable through the heirarchy
+Make sure formantSynth uses its envelope (or not)
+add vibrato
+discrete parameters would be nice.....
 
 
 
