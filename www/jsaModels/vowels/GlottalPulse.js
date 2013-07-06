@@ -27,8 +27,8 @@ define(
 			m_ephasor.setFreq(m_frequency);
 
 			// Vibrato by modulating the frequency of the glottal pulse triggering phasor
-			var m_modF=3;     // modulation frequency (vibrato)
-			var m_modPercent=.05; // modultation index (range of vibrato)
+			var m_modF=4.5;     // modulation frequency (vibrato)
+			var m_modPercent=.015; // modultation index (range of vibrato)
 			var m_modPhasor=jsaEventPhasor(); 
 			m_modPhasor.setFreq(m_modF);
 
@@ -153,10 +153,9 @@ define(
 				function (i_val) {
 					m_modF=i_val;
 					m_modPhasor.setFreq(m_modF);
-					var foo = Math.min(1, m_modF*10 );
 					// force depth to 0 as mod frequency gets close to 0
 					m_modPercent = (this.getParam("Vibrato Depth", "val")/100.0) * Math.min(1, m_modF*3 );
-					console.log("modPercent is " + m_modePercent);
+					console.log("modPercent is " + m_modPercent);
 				}
 			);
 

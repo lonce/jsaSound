@@ -74,7 +74,8 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				formantSynthNode.play();
+				//formantSynthNode.play();
+				formantSynthNode.setParam("play", 1);
 			};
 
 			// ----------------------------------------
@@ -180,8 +181,8 @@ define(
 				stopTime = now + m_releaseTime;
 
 	
-				formantSynthNode.release(); // twould be nice to be able to provide a time argument here
-
+				//formantSynthNode.release(); // twould be nice to be able to provide a time argument here
+				formantSynthNode.setParam("play", 0);
 			};
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface

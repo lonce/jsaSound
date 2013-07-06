@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 require.config({
 	paths: {
 		"jsaSound": "http://animatedsoundworks.com:8001" // for have sound served from animatedsoundworks
+		//"jsaSound": "http://192.168.231.1:8001" // for have sound served from animatedsoundworks
 		//"jsaSound": ".." // if al jsaSound project directories (jsaOpCodes, jsaCore, jsaModels) are local
 	}
 });
@@ -56,7 +57,7 @@ require(
 			var normX = e.clientX/window.innerWidth;
 			var normY = e.clientY/window.innerHeight;
 			
-			snd.setParamNorm(0, normX );  // setting by parameter index
+			snd.setParamNorm(1, normX );  // setting by parameter index
 			//console.log("param 0 has val=" + snd.getParam(0,"val") + ", and normed val=" + snd.getParam(0,"normval"));
 
 			snd.setParamNorm("Modulation Index", normY); // setting by parameter name
