@@ -29,6 +29,7 @@ define(
                // scale to desired rms
                 if (i_rms != undefined){
                     a_rms=noiseData.rms();
+                    console.log("++ Before  scaling, rms is " + a_rms);
                     noiseData.scale(i_rms/a_rms);
                 }
                 // check math

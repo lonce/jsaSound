@@ -223,7 +223,7 @@ define(
 		 Float32Array.prototype.rms = function(){
 			var retval=0;
 			for(var i=0;i<this.length;i++){
-				retval=this[i]*this[i]/this.length;
+				retval=(this[i]*this[i])/this.length;
 			}	
 			return Math.sqrt(retval);			
 		}

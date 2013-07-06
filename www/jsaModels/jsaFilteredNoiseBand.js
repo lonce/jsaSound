@@ -34,7 +34,7 @@ define(
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	m_noiseNode = noiseNodeFactory(),
+			var	m_noiseNode,
 				m_filterNode = config.audioContext.createBiquadFilter(),
 				gainEnvNode = config.audioContext.createGainNode(),
 				gainLevelNode = config.audioContext.createGainNode();
@@ -75,27 +75,34 @@ define(
 				m_filterNode.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
+
+
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
-				gainEnvNode.gain.cancelScheduledValues(now);
-				// The rest of the code is for new starts or restarts	
-				stopTime = config.bigNum;
-
+			myInterface.play = function (i_gain) {
 				// if no input, remember from last time set
-				m_freq = i_freq || m_freq;
+				now = config.audioContext.currentTime;
+
+				m_freq = m_freq;
 				myInterface.setParam("Center Frequency", m_freq);
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
-				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs
-
+				if (i_gain != undefined)
+					gainLevelNode.gain.value = i_gain;
+				else 
+					gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
+
+				gainEnvNode.gain.cancelScheduledValues(now);
+
+				stopTime = config.bigNum;
+
+				gainEnvNode.gain.setValueAtTime(0, now);
+				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
+
 			};
 
 			// ----------------------------------------
@@ -174,6 +181,7 @@ define(
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
+
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
@@ -186,6 +194,11 @@ define(
 				return m_freq;
 			};
 				
+
+			// Web Audio BUG
+			//This little hack get the ScriptProcessorNode (the noise) generating so that the first time we hit play, we don't get a late start in the middle of the short attach period. 
+			myInterface.play(0, 0);
+
 			return myInterface;
 		};
 	}

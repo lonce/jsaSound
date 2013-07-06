@@ -173,6 +173,32 @@ define(
 				myInterface.getSelected();
 			});
 
+
+			// make a button for capturing code rep of parameter values
+			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Capture\" /> ");
+			// Play button callback
+			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
+				//alert("capture");
+				var captureWindow = {};
+				captureWindow = window.open('', '', "width = 500,height = " + h/2.3);
+				var pstring="";
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+					pstring += "capsnd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>" 
+				}
+				captureWindow.document.write(pstring);
+
+				var pstring="// in array form: <br> [";
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+					if (i!=0) pstring += ", ";
+					pstring +=  i_sm.getParam(i, "val") ;
+				}
+				pstring +=  "] <br>" ;
+				captureWindow.document.write(pstring);
+
+			});
+
+
+
 			// Now set up the parameters
 			//----------------utils.objForEach(params, setupParameter);
 			for (i = 0; i < i_sm.getNumParams(); i++) {

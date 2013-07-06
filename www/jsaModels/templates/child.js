@@ -7,39 +7,47 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
+/* #INCLUDE
+jsaComponents/jsaAudioComponents.js
+ for baseSM and noiseNodeFactory()
+	
+jsaUtils/utils.js
+	for Array.prototype.prettyString
+	
+*/
 
+/* --------------------------------------------------------------
+	Just filtered noise band.
+	The index of modulation allows for "faking" narrow-band noise from pure tone to noise. 
+
+	Architecture:
+		Gaussian noise Node -> bandpass filter -> gainenv -> gain
+******************************************************************************************************
+*/
+
+//PARA: config
+//		-audioContext
+//		-bigNum
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode"],
 	function (config, baseSM, noiseNodeFactory) {
 		return function () {
-
-			k_numFormants=4;
-			var i=0;
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	m_noiseNode = noiseNodeFactory(),
+				m_filterNode = config.audioContext.createBiquadFilter(),
 				gainEnvNode = config.audioContext.createGainNode(),
 				gainLevelNode = config.audioContext.createGainNode();
 
-			var m_filterNode=[];
-			var m_filterGain =[];
-			var m_filterFreq = [];
-			var m_filterQ = [];
-
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 1.5, // the point to (or from) which gainEnvNode ramps glide
+				m_freq = 880,
+				m_Q = 10.0,
 				m_attackTime = 0.05,
 				m_releaseTime = 1.0,
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
 
-
-			for(i=0;i<k_numFormants; i++){
-				m_filterNode[i]=config.audioContext.createBiquadFilter();
-				m_filterQ[i]=10;
-				m_filterGain[i]=.7;
-				m_filterFreq[i]=500;
-			}
 			
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
@@ -51,34 +59,34 @@ define(
 
 				m_noiseNode = noiseNodeFactory();
 
+				m_filterNode = config.audioContext.createBiquadFilter();
+				m_filterNode.type = m_filterNode.BANDPASS;
+				m_filterNode.frequency.value = m_freq;
+				m_filterNode.Q.value = m_Q;
+
 				gainEnvNode = config.audioContext.createGainNode();
 				gainEnvNode.gain.value = 0;
 
 				//gainLevelNode = config.audioContext.createGainNode();
 				gainLevelNode.gain.value = m_gainLevel;
 
-				for(i=0;i<k_numFormants; i++){
-					m_filterNode[i] = config.audioContext.createBiquadFilter();
-					m_filterNode[i].type = m_filterNode[i].BANDPASS;
-					m_filterNode[i].frequency.value = m_filterFreq[i];
-					m_filterNode[i].Q.value = m_filterQ[i];
-					m_filterNode[i].gain.value = m_filterGain[i];
-
-					m_noiseNode.connect(m_filterNode[i]); //  noise to all formants
-					m_filterNode[i].connect(gainEnvNode); //  all formants sum to env
-				}
+				// make the graph connections
+				m_noiseNode.connect(m_filterNode);
+				m_filterNode.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_gain) {
+			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
+				m_freq = i_freq || m_freq;
+				myInterface.setParam("Center Frequency", m_freq);
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
@@ -91,66 +99,33 @@ define(
 			};
 
 			// ----------------------------------------
-			myInterface.setCenterFreq=[];
-			myInterface.setFilterQ=[];
-			myInterface.setGain=[];
-
-			var makeFreqSetter = function(i){
-				return function(i_val){
-						m_filterFreq[i] = i_val;
-						m_filterNode[i].frequency.value = m_filterFreq[i];					
+			myInterface.setCenterFreq = myInterface.registerParam(
+				"Center Frequency",
+				"range",
+				{
+					"min": 100,
+					"max": 2000,
+					"val": m_freq
+				},
+				function (i_val) {
+					m_freq = i_val;
+					m_filterNode.frequency.value = m_freq;
 				}
-			}
-
-			var makeQSetter = function(i){
-				return function(i_val){
-						m_filterQ[i] = i_val;
-						m_filterNode[i].Q.value = m_filterQ[i];					
+			);
+			// ----------------------------------------
+			myInterface.setFilterQ = myInterface.registerParam(
+				"Filter Q",
+				"range",
+				{
+					"min": 0,
+					"max": 150,
+					"val": m_Q
+				},
+				function (i_val) {
+					m_Q = i_val;
+					m_filterNode.Q.value = m_Q;
 				}
-			}
-
-			var makeGainSetter = function(i){
-				return function(i_val){
-						m_filterGain[i] = i_val;
-						m_filterNode[i].gain.value = m_filterGain[i];					
-				}
-			}
-
-			for(i=0;i<k_numFormants; i++){
-				myInterface.setCenterFreq[i] = myInterface.registerParam(
-					"Center Frequency " + i,
-					"range",
-					{
-						"min": 100,
-						"max": 2000,
-						"val": m_filterFreq[i]
-					},
-					makeFreqSetter(i)
-				);
-				// ----------------------------------------
-				myInterface.setFilterQ[i] = myInterface.registerParam(
-					"Filter Q " + i,
-					"range",
-					{
-						"min": 0,
-						"max": 150,
-						"val": m_filterQ[i]
-					},
-					makeQSetter(i)
-				);
-				// ----------------------- -----------------
-				myInterface.setGain[i] = myInterface.registerParam(
-					"Filter Gain " + i,
-					"range",
-					{
-						"min": 0,
-						"max": 1,
-						"val": m_filterGain[i]
-					},
-					makeGainSetter(i)
-				);
-
-			}
+			);
 
 			// ----------------------------------------		
 			myInterface.setGain = myInterface.registerParam(
@@ -207,7 +182,9 @@ define(
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
-
+			myInterface.getFreq = function () {
+				return m_freq;
+			};
 				
 			return myInterface;
 		};
