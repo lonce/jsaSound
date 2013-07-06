@@ -28,7 +28,7 @@ define(
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
 			var val;
-			var controllerID, textID;
+
 			var controllerElement;
 			var controllerButton;
 			var playingP = false;
@@ -63,11 +63,17 @@ define(
 
 
 			function setupRangeParameter(paramName) {
+				var controllerID, textID, checkID;
+				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				textID   = paramName.replace(/\s+/g, '') + "_textID";
+				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
 
 				// Fit value into the min-max range
 				var val = Math.max(Math.min(i_sm.getParam(paramName,"max"), i_sm.getParam(paramName, "val") ), i_sm.getParam(paramName,"min"));
 
 				// Generate slider GUI code:
+				myWindow.document.write(" <div  class = \"paramName\" > " + paramName + "</div> ");
+
 				// Output will look like this: <input id = "foo_controllerID" type = "range" min = "0" max = "1" step = "0.01" value = "0.1" style = "width: 300px; height: 20px;" />
 				myWindow.document.write("<input id = \"" + controllerID + "\" type = \"range\" min = " + parseFloat(i_sm.getParam(paramName,"min")) + " max = " + parseFloat(i_sm.getParam(paramName,"max")) + " step = \"0.01\" value = " + parseFloat(val) + " style = \"width: 300px; height: 20px;\" />");
 
@@ -111,7 +117,13 @@ define(
 			}
 
 			function setupUrlParameter(paramName) {
+				var controllerID, textID;
+				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				textID   = paramName.replace(/\s+/g, '') + "_textID";
+				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
+
 				var val = i_sm.getParam(paramName, "val");
+				myWindow.document.write(" <div  class = \"paramName\" > " + paramName + "</div> ");
 				myWindow.document.write("<input id = \"" + controllerID + "\" type = \"url\" value = \"" + val + "\" style = \"width: 300px; height: 20px;\" />");
 				myWindow.document.write("<input id = \"" + controllerID + "_button\" type = \"button\" value = \"Load\" style = \"width: 50px; height: 20px;\" />");
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
@@ -134,13 +146,50 @@ define(
 				//NOT IMPLEMENTING THAT registerParam thing... yet
 			}
 
+			function setupPlayButtonParameter(paramName) {
+				var controllerID, checkID;
+				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
+
+				// Create the Play button
+				myWindow.document.write(" <input id = \"playbutton_ID\" type = \"button\" value = \"Play\" /> ");
+				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
+
+
+				//------- needed to make the "play" paramter behave like others, but this is all hidden 
+				myWindow.document.write("<input hidden id = \"" + controllerID + "\" type = \"range\" min = " + parseFloat(i_sm.getParam(paramName,"min")) + " max = " + parseFloat(i_sm.getParam(paramName,"max")) + " step = \"0.01\" value = " + parseFloat(val) + " style = \"width: 300px; height: 20px;\" />");
+				controllerElement = myWindow.document.getElementById(controllerID);
+				controllerElement.change = function(){};
+				//-------
+
+				// Play button callback
+				myWindow.document.getElementById("playbutton_ID").addEventListener('mousedown', function () {
+					if (!playingP) {
+						myWindow.document.getElementById("playbutton_ID").value = "Release";
+						// Call soundmodel method
+						//i_sm.play();
+						i_sm.setParam("play", 1);
+						myInterface.setParam("play", 1);
+					} else {
+						myWindow.document.getElementById("playbutton_ID").value = "Play";
+						// Call soundmodel method
+						//i_sm.release();
+						i_sm.setParam("play", 0);
+						myInterface.setParam("play", 0);
+					}
+					playingP = !playingP;
+					// DEBUGGING: myInterface.getSelected();
+
+				});
+
+
+
+
+			}
+
 			function setupParameter(paramName) {
-				myWindow.document.write(" <div  class = \"paramName\" > " + paramName + "</div> ");
 				// create IDs to be used for change listener callbacks removing spaces in multi - word names
 				//TODO LOW: This 'reduction' of the name can create issues:
-				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
-				textID   = paramName.replace(/\s+/g, '') + "_textID";
-				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
 
 				switch (i_sm.getParam(i,"type")) {
 				case "range":
@@ -155,28 +204,14 @@ define(
 			}
 
 
-			// Create the Play button
-			myWindow.document.write(" <input id = \"playbutton_ID\" type = \"button\" value = \"Play\" /> ");
-			myWindow.document.write("<input type=\"checkbox\" id= play_checkID />");
-			// Play button callback
-			myWindow.document.getElementById("playbutton_ID").addEventListener('mousedown', function () {
-				if (!playingP) {
-					myWindow.document.getElementById("playbutton_ID").value = "Release";
-					// Call soundmodel method
-					i_sm.play();
-				} else {
-					myWindow.document.getElementById("playbutton_ID").value = "Play";
-					// Call soundmodel method
-					i_sm.release();
-				}
-				playingP = !playingP;
-				myInterface.getSelected();
-			});
 
 			// Now set up the parameters
-			//----------------utils.objForEach(params, setupParameter);
 			for (i = 0; i < i_sm.getNumParams(); i++) {
-				setupParameter(i_sm.getParam(i,"name"));
+				if ("play" === i_sm.getParam(i,"name")){
+					setupPlayButtonParameter(i_sm.getParam(i,"name"));
+				} else {
+					setupParameter(i_sm.getParam(i,"name"));
+				}
 			}
 			// end for each parameter loop
 
@@ -212,13 +247,6 @@ define(
 				} else {
 					paramName = i_name; //----------------i_name.replace(/\s+/g, '') + "_controllerID";
 				}
-				//--------paramList = myInterface.getParams();
-				//--------
-				//--------if (!paramList[paramName]) {
-				//--------	return;
-				//--------}
-
-				//--------paramObject = paramList[paramName];
 
 				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
 				controllerElement.value = i_sm.getParam(paramName,"min") + i_val * (i_sm.getParam(paramName,"max") - i_sm.getParam(paramName,"min"));   // pfunc(pmin + i_Val * (pmax - pmin))
@@ -240,6 +268,7 @@ define(
 
 			function isParamChecked(paramName) {
 				var id = paramName.replace(/\s+/g, '') + "_checkID";  // this is how we constructed checkbox IDs from paramnames
+				//console.log("isParamChecked " + paramName + " = " + myWindow.document.getElementById(id).checked);
 				if (myWindow.document.getElementById(id).checked)
 					return true;
 				return false;
@@ -265,8 +294,9 @@ define(
 				var currParamName;
 				var i;
 
-				console.log("----------");
+				//console.log("----------");
 
+				/*
 				id="play_checkID";
 				if (myWindow.document.getElementById(id).checked){
 					retval.push({
@@ -275,15 +305,17 @@ define(
 						value: playingP ? "play" : "release"
 					});
 				}
+				*/
 
 				for (i = 0; i < paramNames.length; i++) {
 					currParamName = paramNames[i];
 
-					if (isParamChecked(currParamName))
+					if (isParamChecked(currParamName)){
 						retval.push(getParamState(currParamName));
+					}
 				}
 
-				console.log("getSelected returning " + retval.prettyString());
+				//console.log("getSelected returning " + retval);//retval.prettyString());
 				return retval;
 			};
 
@@ -333,6 +365,8 @@ define(
 
 				setParamValues(state);
 			};
+
+
 
 			return myInterface;
 		};

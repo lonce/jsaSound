@@ -46,6 +46,8 @@ define(
 
 			var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 
+
+
 			bsmInterface.getSched = function(){
 				return sched;
 			}
@@ -127,7 +129,12 @@ define(
 			bsmInterface.setParamNorm = function (i_name, i_val) {
 				i_name=testPName(i_name);
 				var p = params[i_name];
-				p.value.val=p.value.min + i_val * (p.value.max - p.value.min)
+				p.value.val=p.value.min + i_val * (p.value.max - p.value.min);
+				/*
+				if (p.type==="discrete range") {
+					p.value.val=parseInt(p.value.val);
+				}
+				*/
 				p.f(p.value.val);
 			};
 
@@ -139,6 +146,12 @@ define(
 					args.push(arguments[i]);
 				}
 				params[i_name].value.val=arguments[1];
+				/*
+				if (p.type==="discrete range") {
+					p.value.val=arguments[1]=parseInt(p.value.val);
+				}
+				*/
+
 				params[i_name].f.apply(this, args);
 			};
 
@@ -187,6 +200,26 @@ define(
 				return params[name];
 			}
 			// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+			bsmInterface.registerParam(
+				"play",
+				//"discrete range",
+				"range",
+				{
+					"min": 0,
+					"max": 1.9999,
+					"val": 0
+				},
+				function (i_val) {
+					if (i_val>=1){
+						bsmInterface.play();
+					}
+					else{
+						bsmInterface.release();
+					}
+				}
+			);
+
 
 
 			return bsmInterface;
