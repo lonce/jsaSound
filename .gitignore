@@ -2,6 +2,7 @@
 *.swp
 *.lnk
 *.link
+www/jsaCore/sliderBox_old.js
 www/Demo/jsaCore
 www/Demo/jsaOpCodes
 www/Demo/jsaModels

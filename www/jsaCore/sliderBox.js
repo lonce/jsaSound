@@ -38,8 +38,6 @@ define(
 			//console.log("myInterface is of type " + typeof myInterface);
 			// yep, this GUI has the same interface as a base sound model : play, release, and registerParam!
 
-			//var params = i_sm.getParams();
-			//console.log("in sliderbox, sm params has length " + utils.objLength(params) + ", and = " + params);
 			var numParams = i_sm.getNumParams();
 
 			var h = 100 + 70 * numParams; // more sliders, longer window
@@ -149,41 +147,43 @@ define(
 			function setupPlayButtonParameter(paramName) {
 				var controllerID, checkID;
 				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				console.log("play button controller id is " + controllerID)
 				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
 
 				// Create the Play button
-				myWindow.document.write(" <input id = \"playbutton_ID\" type = \"button\" value = \"Play\" /> ");
+				myWindow.document.write(" <input id = \"" + controllerID + "\" type = \"button\" value = \"Play\" /> ");
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
 
-
-				//------- needed to make the "play" paramter behave like others, but this is all hidden 
-				myWindow.document.write("<input hidden id = \"" + controllerID + "\" type = \"range\" min = " + parseFloat(i_sm.getParam(paramName,"min")) + " max = " + parseFloat(i_sm.getParam(paramName,"max")) + " step = \"0.01\" value = " + parseFloat(val) + " style = \"width: 300px; height: 20px;\" />");
 				controllerElement = myWindow.document.getElementById(controllerID);
-				controllerElement.change = function(){};
-				//-------
+				controllerElement.change = (function (ctlelmt, pName) {
+					var cb = function () {
+						if (!playingP) {
+							ctlelmt.value = "Release";
+							// Call soundmodel method
+							//i_sm.play();
+							i_sm.setParam("play", 1);
+						} else {
+							ctlelmt.value = "Play";
+							// Call soundmodel method
+							//i_sm.release();
+							i_sm.setParam("play", 0);
+						}
+						playingP = !playingP;
+					};
+					return cb;
+				}(controllerElement, paramName)); // control element is the url text box, not the button. 
 
-				// Play button callback
-				myWindow.document.getElementById("playbutton_ID").addEventListener('mousedown', function () {
-					if (!playingP) {
-						myWindow.document.getElementById("playbutton_ID").value = "Release";
-						// Call soundmodel method
-						//i_sm.play();
-						i_sm.setParam("play", 1);
-						myInterface.setParam("play", 1);
-					} else {
-						myWindow.document.getElementById("playbutton_ID").value = "Play";
-						// Call soundmodel method
-						//i_sm.release();
-						i_sm.setParam("play", 0);
-						myInterface.setParam("play", 0);
-					}
-					playingP = !playingP;
-					// DEBUGGING: myInterface.getSelected();
+				controllerElement.addEventListener('mousedown', controllerElement.change);	
 
-				});
+				// so play() and setParam("play", 1) have the same effect	
+				myInterface.play = function () {
+					myWindow.document.getElementById(controllerID).change();
+				};
 
-
-
+				// so release() and setParam("play", 0) have the same effect
+				myInterface.release = function () {
+					myWindow.document.getElementById(controllerID).change();
+				};
 
 			}
 
@@ -202,34 +202,6 @@ define(
 					throw "setupParameter: Parameter type " + i_sm.getParam(i,"type") + " does not exist";
 				}
 			}
-
-
-
-
-			// make a button for capturing code rep of parameter values
-			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Capture\" /> ");
-			// Play button callback
-			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
-				//alert("capture");
-				var captureWindow = {};
-				captureWindow = window.open('', '', "width = 500,height = " + h/2.3);
-				var pstring="";
-				for (i = 0; i < i_sm.getNumParams(); i++) {
-					pstring += "capsnd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>" 
-				}
-				captureWindow.document.write(pstring);
-
-				var pstring="// in array form: <br> [";
-				for (i = 0; i < i_sm.getNumParams(); i++) {
-					if (i!=0) pstring += ", ";
-					pstring +=  i_sm.getParam(i, "val") ;
-				}
-				pstring +=  "] <br>" ;
-				captureWindow.document.write(pstring);
-
-			});
-
-
 
 			// Now set up the parameters
 			for (i = 0; i < i_sm.getNumParams(); i++) {
@@ -252,18 +224,9 @@ define(
 			//console.log("moved focus");
 
 			//-------------------------------------------------------------------------------------------------------------- 
-			// Now overide the methods of the sound model interface to push the buttons and move the sliders on this GUI
-			//   (rather than call play and stop and change paramters directly)
+			// Now overide the methods of the sound model interface to move the sliders on this GUI
 			//    We do this so that programatic changes will be reflected in the gui as well as (through the gui) change the sound.
 			//    To the caller, this API looks just like a sound model - except that they have to use setParamNorm rather than sound model specific parameter setting functions.
-
-			myInterface.play = function () {
-				myWindow.document.getElementById("playbutton_ID").mousedown();
-			};
-
-			myInterface.release = function () {
-				myWindow.document.getElementById("playbutton_ID").mousedown();
-			};
 
 			// override the baseSM interface method to set params by moving sliders on the slider box 
 			myInterface.setParamNorm = function (i_name, i_val) {
@@ -392,6 +355,29 @@ define(
 				setParamValues(state);
 			};
 
+
+			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
+			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Capture\" /> ");
+			// Play button callback
+			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
+				//alert("capture");
+				var captureWindow = {};
+				captureWindow = window.open('', '', "width = 500,height = " + h/2.3);
+				var pstring="";
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+					pstring += "capsnd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>" 
+				}
+				captureWindow.document.write(pstring);
+
+				var pstring="// in array form: <br> [";
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+					if (i!=0) pstring += ", ";
+					pstring +=  i_sm.getParam(i, "val") ;
+				}
+				pstring +=  "] <br>" ;
+				captureWindow.document.write(pstring);
+
+			});
 
 
 			return myInterface;
