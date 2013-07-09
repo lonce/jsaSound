@@ -25,6 +25,8 @@ define(
 
 			var bpNoiseNode;
 			var	gainLevelNode = config.audioContext.createGainNode();
+			var lpNode;
+
 
 		
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
@@ -47,10 +49,17 @@ define(
 
 			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
-				bpNoiseNode = bpFactory();
+				bpNoiseNode = bpFactory(); // the "child model"
 				//gainLevelNode = config.audioContext.createGainNode();
+
+				lpNode =config.audioContext.createBiquadFilter();
+				lpNode.type = "lowpass";
+				lpNode.frequency.value = 2000;
+
+				bpNoiseNode.connect(lpNode);
+				
 				gainLevelNode.gain.value = m_gainLevel;
-				bpNoiseNode.connect(gainLevelNode);
+				lpNode.connect(gainLevelNode);
 			}());
 
 
