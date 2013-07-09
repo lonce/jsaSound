@@ -18,9 +18,9 @@ define(
 
 			var m_Position=0;
 			
-			var kNumParams = 15;
-			var beginstate=[300.52, 12.2, 0.89, 326.82, 14.27, 0.87, 339.97, 17.91, 0.87, 313.67, 18.43, 0.87, 1, 0.05, 1] 
-			var endstate = [727.85, 97.32, 0.7, 971.11, 105.1, 0.7, 1234.08, 105.1, 0.7, 1457.61, 106.14, 0.7, 1.5, 0.05, 1] 
+			var kNumParams = 15; 
+			var beginstate=[0, 300.52, 12.2, 0.89, 326.82, 14.27, 0.87, 339.97, 17.91, 0.87, 313.67, 18.43, 0.87, 1, 0.05, 1] 
+			var endstate = [0, 727.85, 97.32, 0.7, 971.11, 105.1, 0.7, 1234.08, 105.1, 0.7, 1457.61, 106.14, 0.7, 1.5, 0.05, 1] 
 
 
 			var bpNoiseNode;
@@ -35,7 +35,7 @@ define(
 
 			// set all formant parameters for voice and vowel type
 			var setChildParams = function(interpval){
-				for(i=0;i<kNumParams; i++){
+				for(i=1;i<kNumParams; i++){ // ignore first ("play") parameter
 					bpNoiseNode.setParam(i, (1-interpval)*beginstate[i]+interpval*endstate[i]);
 				};
 			};

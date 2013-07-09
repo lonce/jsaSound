@@ -191,6 +191,7 @@ define(
 				},
 				function (i_val) {
 					m_releaseTime = parseFloat(i_val); // javascript makes me cry ....
+
 				}
 			);
 
