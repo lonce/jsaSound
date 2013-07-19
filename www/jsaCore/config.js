@@ -21,6 +21,7 @@ define(
 		exports.audioContext = new webkitAudioContext();
 		exports.bigNum = 10000000000.0;// Infinity;  
 		exports.k_bufferLength = 1024;// What is the right way to set the so that all nodes agree?
+		exports.resourcesPath = "http://animatedsoundworks.com:8001/";
 		return exports;
 	}
 );
