@@ -21,6 +21,13 @@ k_portnum=process.argv[2];
 //****************************************************************************
 var m_useRoot="/www";
 //app.use(m_useRoot, express.static(__dirname + m_useRoot));
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+
 app.use(express.static(__dirname + m_useRoot));
 app.use(express.static("/Demo", __dirname ));
 
