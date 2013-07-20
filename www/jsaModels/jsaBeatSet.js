@@ -40,20 +40,20 @@ define(
 			
 			(function () {
 
-				childModel[0] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/kick.wav");
+				childModel[0] = jsaPatternFactory(config.resourcesPath + "jsaResources/drum-samples/4OP-FM/kick.wav");
 				m_beatPattern[0] =  [1.0, .2, .7, 0.4,
 									0, .5, .0, 0.3,
                           			1.0, 0, .4, 0,
                           			0, 0, 0, 0.];
 
-  				childModel[1] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/snare.wav");
+  				childModel[1] = jsaPatternFactory(config.resourcesPath + "jsaResources/drum-samples/4OP-FM/snare.wav");
   				
 				m_beatPattern[1] =  [0,0,0,0,
 									1, 0, 0, 0,
                           			0,0,0,0,
                           			1, 0, .6, 0];
 
-  				childModel[2] = jsaPatternFactory("jsaResources/drum-samples/4OP-FM/hihat.wav");
+  				childModel[2] = jsaPatternFactory(config.resourcesPath + "jsaResources/drum-samples/4OP-FM/hihat.wav");
   				
 				m_beatPattern[2] =  [.1, .2, .1, 0.4,
 									.1, .2, .1, 0.4,

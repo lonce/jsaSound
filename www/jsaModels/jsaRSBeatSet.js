@@ -42,23 +42,23 @@ define(
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
 			(function () {
-				console.log("jsaSoundRelHTML is " + jsaSoundRelHTML);
+				console.log("config.resourcesPath is " + config.resourcesPath );
 
-				childModel[0] = jsaPatternFactory(jsaSoundRelHTML + "/jsaResources/drum-samples/4OP-FM/kick.wav");
+				childModel[0] = jsaPatternFactory(config.resourcesPath + "/jsaResources/drum-samples/4OP-FM/kick.wav");
 
 				m_beatPattern[0] =  [1.0, .5, .3, 1,
 									0, 0, .0, 0.3,
                           			1.0, .5, .3, 1,
                           			0, 0, 0, 0.1];
 
-  				childModel[1] = jsaPatternFactory( jsaSoundRelHTML +"/jsaResources/drum-samples/4OP-FM/snare.wav");
+  				childModel[1] = jsaPatternFactory( config.resourcesPath +"/jsaResources/drum-samples/4OP-FM/snare.wav");
   				
 				m_beatPattern[1] =  [0,0,0,0,
 									0, 1, 0, 1,
                           			0,0,0,0,
                           			0, 1, 0, 0];
 
-  				childModel[2] = jsaPatternFactory(jsaSoundRelHTML + "/jsaResources/drum-samples/4OP-FM/hihat.wav");
+  				childModel[2] = jsaPatternFactory(config.resourcesPath + "/jsaResources/drum-samples/4OP-FM/hihat.wav");
   				
 				m_beatPattern[2] =  [.1, .2, .1, 0.4,
 									.1, .2, .1, 0.4,
@@ -85,7 +85,7 @@ define(
 				var request = new XMLHttpRequest();
   				//request.open("GET", "jsaResources/impulse-response/diffusor1.wav", true);
   				//request.open("GET", "jsaResources/impulse-response/JMP_Rekorder/marshall_cust_m930.wav", true);
-  				request.open("GET", jsaSoundRelHTML + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav", true);
+  				request.open("GET", config.resourcesPath + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav", true);
   				request.responseType = "arraybuffer";
   				request.onload = function () {
    					 convolver.buffer = config.audioContext.createBuffer(request.response, false);

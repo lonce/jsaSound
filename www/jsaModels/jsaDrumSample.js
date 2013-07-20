@@ -130,7 +130,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": i_fname || "jsaResources/drum-samples/LINN/snare.wav"
+					"val": i_fname || config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav"
 				},
 				function (i_val) {
 					sendXhr(i_val);

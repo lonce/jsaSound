@@ -22,6 +22,7 @@ k_portnum=process.argv[2];
 var m_useRoot="/www";
 //app.use(m_useRoot, express.static(__dirname + m_useRoot));
 
+// Way cool: Allow access to sounds that aren't specifically required by require.js in apps on other domains
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

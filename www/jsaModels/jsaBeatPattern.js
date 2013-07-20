@@ -123,7 +123,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": i_fname || "jsaResources/drum-samples/LINN/snare.wav"
+					"val": i_fname || (config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav")
 				},
 				function (i_val) {
 					child.setParam("Sound URL", i_val);

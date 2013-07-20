@@ -218,7 +218,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": "jsaResources/sounds/BeingRural22k.mp3"
+					"val": config.resourcesPath + "jsaResources/sounds/BeingRural22k.mp3"
 				},
 				function (i_val) {
 					m_soundUrl = i_val;

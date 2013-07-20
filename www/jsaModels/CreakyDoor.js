@@ -30,7 +30,7 @@ define(
 
 			var playingP=false;
 			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
-			var m_conv = jsaConvolverFactory("jsaResources/sounds/OneDoorCreak.wav");
+			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/OneDoorCreak.wav");
 			var	swingGainNode = config.audioContext.createGainNode(); // manipuloated internally
 			var	gainLevelNode = config.audioContext.createGainNode(); // manipulated by sound user
 

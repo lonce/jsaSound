@@ -35,6 +35,7 @@ define(
 
 			var playingP=false;
 			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
+			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var	gainLevelNode = config.audioContext.createGainNode(); // manipulated by sound user
 
