@@ -29,9 +29,7 @@ define(
 			var i;
 			var val;
 
-			var controllerElement;
 			var controllerButton;
-			var playingP = false;
 
 			// This is the interface that will be returned by this factory method
 			var myInterface = baseSM({},[],[]);
@@ -81,12 +79,12 @@ define(
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
 				// For each slider/text field pair, set up a callback to change the text field when the slider moves.
 				// WARNING: COOL AND PROPERLY - WRITTEN CLOSURE CODE AHEAD ...
-				controllerElement = myWindow.document.getElementById(controllerID);
+				var controllerElement = myWindow.document.getElementById(controllerID);
 
 				//TODO: Check if it might be better to separate this as a factory function
 				controllerElement.change = (function (i_textID, pName) {
 					var cb = function () {
-						var sval = parseFloat(this.value);
+						var sval = parseFloat(controllerElement.value);
 						//Set the parameter in the SM
 						i_sm.setParam(pName, sval);
 						//-----------------------------paramFunc(sval); // jsbug - w/o parseFloat, when values are whole numbers, they can get passed as strings!!
@@ -126,7 +124,7 @@ define(
 				myWindow.document.write("<input id = \"" + controllerID + "_button\" type = \"button\" value = \"Load\" style = \"width: 50px; height: 20px;\" />");
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
 
-				controllerElement = myWindow.document.getElementById(controllerID);
+				var controllerElement = myWindow.document.getElementById(controllerID);
 				controllerButton = myWindow.document.getElementById(controllerID + "_button");
 
 				//TODO: Check if it might be better to separate this as a factory function
@@ -145,35 +143,41 @@ define(
 			}
 
 			function setupPlayButtonParameter(paramName) {
-				var controllerID, checkID;
-				controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				var controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
+				var buttonID = paramName.replace(/\s+/g, '') + "_buttonID";
 				console.log("play button controller id is " + controllerID)
-				checkID  = paramName.replace(/\s+/g, '') + "_checkID";
+				var checkID  = paramName.replace(/\s+/g, '') + "_checkID";
 
+				// Fit value into the min-max range
+				var val = Math.max(Math.min(i_sm.getParam(paramName,"max"), i_sm.getParam(paramName, "val") ), i_sm.getParam(paramName,"min"));
+				myWindow.document.write("<input hidden id=\"" + controllerID + "\" type=\"range\" min=" + parseFloat(i_sm.getParam(paramName,"min")) + " max=" + parseFloat(i_sm.getParam(paramName,"max")) + " step=0.01 value=" + parseFloat(val) + " />");
 				// Create the Play button
-				myWindow.document.write(" <input id = \"" + controllerID + "\" type = \"button\" value = \"Play\" /> ");
+				myWindow.document.write("<input id = \"" + buttonID + "\" type = \"button\" value = \"Play\" /> ");
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
 
-				controllerElement = myWindow.document.getElementById(controllerID);
-				controllerElement.change = (function (ctlelmt, pName) {
+				var controllerElement = myWindow.document.getElementById(controllerID);
+				var buttonElement = myWindow.document.getElementById(buttonID);
+				controllerElement.change = (function (controllerElement, buttonElement, paramName) {
 					var cb = function () {
-						if (!playingP) {
-							ctlelmt.value = "Release";
-							// Call soundmodel method
-							//i_sm.play();
-							i_sm.setParam("play", 1);
-						} else {
-							ctlelmt.value = "Play";
-							// Call soundmodel method
-							//i_sm.release();
-							i_sm.setParam("play", 0);
-						}
-						playingP = !playingP;
+						var val = parseFloat(controllerElement.value);
+						i_sm.setParam(paramName, val);
+						if (val >= 1)
+							buttonElement.value = "Release";
+						else
+							buttonElement.value = "Play";
 					};
 					return cb;
-				}(controllerElement, paramName)); // control element is the url text box, not the button. 
+				}(controllerElement, buttonElement, paramName)); // control element is the url text box, not the button. 
 
-				controllerElement.addEventListener('mousedown', controllerElement.change);	
+				function togglePlaying() {
+					var val = parseFloat(controllerElement.value);
+					if (val >= 1)
+						myInterface.release();
+					else
+						myInterface.play();
+				}
+
+				buttonElement.addEventListener('click', togglePlaying);
 
 				// so play() and setParam("play", 1) have the same effect	
 				myInterface.play = function () {
@@ -238,7 +242,12 @@ define(
 				}
 
 				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
+				// console.log("!!!!PARAM NORM IS BEING SET!!!");
 				controllerElement.value = i_sm.getParam(paramName,"min") + i_val * (i_sm.getParam(paramName,"max") - i_sm.getParam(paramName,"min"));   // pfunc(pmin + i_Val * (pmax - pmin))
+				// console.log("i_val is " + i_val);
+				// console.log("controllerElement is:");
+				// console.log(controllerElement);
+				// console.log("!!!VALUE IS " + controllerElement.value);
 				controllerElement.change();
 			};
 
@@ -282,19 +291,6 @@ define(
 				var paramNames = i_sm.getParamNames();
 				var currParamName;
 				var i;
-
-				//console.log("----------");
-
-				/*
-				id="play_checkID";
-				if (myWindow.document.getElementById(id).checked){
-					retval.push({
-						name: "play_stop",
-						type: "play_stop",
-						value: playingP ? "play" : "release"
-					});
-				}
-				*/
 
 				for (i = 0; i < paramNames.length; i++) {
 					currParamName = paramNames[i];
