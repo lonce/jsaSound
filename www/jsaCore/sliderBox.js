@@ -177,12 +177,12 @@ define(
 
 				// so play() and setParam("play", 1) have the same effect	
 				myInterface.play = function () {
-					myWindow.document.getElementById(controllerID).change();
+					myInterface.setParam("play", 1);
 				};
 
 				// so release() and setParam("play", 0) have the same effect
 				myInterface.release = function () {
-					myWindow.document.getElementById(controllerID).change();
+					myInterface.setParam("play", 0);
 				};
 
 			}
