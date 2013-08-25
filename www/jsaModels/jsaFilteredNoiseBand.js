@@ -69,6 +69,7 @@ define(
 
 				//gainLevelNode = config.audioContext.createGainNode();
 				gainLevelNode.gain.value = m_gainLevel;
+				console.log("build arch with gain" +  gainLevelNode.gain.value);
 
 				// make the graph connections
 				m_noiseNode.connect(m_filterNode);
@@ -80,21 +81,27 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_gain) {
+			myInterface.play = function (i_f, i_gain) {
 				// if no input, remember from last time set
 				now = config.audioContext.currentTime;
 
-				m_freq = m_freq;
+				m_freq = i_f || m_freq;
 				myInterface.setParam("Center Frequency", m_freq);
 
-				if (i_gain != undefined)
+				if (i_gain != undefined){
 					gainLevelNode.gain.value = i_gain;
-				else 
+					console.log("i_gain != undefined  play with gain " +  gainLevelNode.gain.value);
+				}
+				else {
 					gainLevelNode.gain.value = m_gainLevel;
+					console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
+				}
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
+
+				
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 
@@ -197,7 +204,7 @@ define(
 
 			// Web Audio BUG
 			//This little hack get the ScriptProcessorNode (the noise) generating so that the first time we hit play, we don't get a late start in the middle of the short attach period. 
-			myInterface.play(0, 0);
+			//myInterface.play(0, 0);
 
 			return myInterface;
 		};

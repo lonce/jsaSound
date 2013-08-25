@@ -39,7 +39,7 @@ define(
 				micInputNode(microphone, m_jungleNode.input);
 				m_jungleNode.output.connect(gainLevelNode);
 
-				gainLevelNode.connect(config.audioContext.destination);
+				//gainLevelNode.connect(config.audioContext.destination);
 			}());
 			
 

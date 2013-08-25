@@ -44,12 +44,14 @@ require(
 
 		// play the sound
 		window.onmousedown=function(){
-			snd.play();
+			//snd.play();
+			snd.setParamNorm("play", 1);
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
 		window.onmouseup=function(){
-			snd.release();
+			//snd.release();
+			snd.setParamNorm("play", 0);
 		};
 
 		// Setting sound parameters, in this case using normalized values (in [0,1]).
@@ -58,7 +60,7 @@ require(
 			var normY = e.clientY/window.innerHeight;
 			
 			snd.setParamNorm(1, normX );  // setting by parameter index
-			//console.log("param 0 has val=" + snd.getParam(0,"val") + ", and normed val=" + snd.getParam(0,"normval"));
+			//console.log("param 1 has val=" + snd.getParam(0,"val") + ", and normed val=" + snd.getParam(0,"normval"));
 
 			snd.setParamNorm("Modulation Index", normY); // setting by parameter name
 			//console.log("Modulation Index has val=" + snd.getParam("Modulation Index","val") + ", and normed val=" + snd.getParam("Modulation Index","normval"));

@@ -9,14 +9,9 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 require.config({
 	paths: {
-		// "core": "../jsaCore",
-		// "baseSM": "../jsaCore/baseSM",
-		// "models": "../jsaModels",
-		// "utils": "../jsaCore/utils",
-		// "opCodes": "../jsaOpCodes",
-		// "config": "../jsaCore/config",
 		"jsaSound": "..",
 		"jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min"
+		//LOCAL "jquery": "http://localhost:8001/scripts/jquery.min"
 	}
 });
 require(

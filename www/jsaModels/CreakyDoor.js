@@ -22,11 +22,11 @@ define(
 	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
 			var k_impulseDuration=.001;
-			var k_gain_factor=5; // for sounds that just need a boost
+			var k_gain_factor=1; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 			var m_slipRate=1; // 
 			var m_doorSwingRate = 0;  // in [0-1]
-			var m_gainLevel = .9;
+			var m_gainLevel = .8;
 
 			var playingP=false;
 			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
