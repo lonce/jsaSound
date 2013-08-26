@@ -1,7 +1,7 @@
 jsaSound
 ========
 
-jsaSound is an interactive sound library that uses the [Web Audio API](http://www.w3.org/TR/webaudio/) to provide playable sound models.
+jsaSound is an interactive sound library that uses the [Web Audio API](http://www.w3.org/TR/webaudio/) to provide playable interative sound models.
 The code is entirely modular, and allows asynchronous loading of different modules.
 
 Usage
@@ -24,10 +24,7 @@ The code is distributed under the GNU Lesser General Public License 3.
 
 Notes
 -----------------
-Some of the sound models use microphone input. These models only work when run on a proper web web server (thought
-one on the localhost will work fine). Also, when the user opens one of these models, the ALLOW/DISALLOW buttons
-show up on the main browser window, not the sound model slider box window so it is easy to miss. If the user
-doesn't push the ALLOW button, the model will not work properly. 
+Some of the sound models use microphone input. These models only work when run on a proper web web server (thought one on the localhost will work fine). Also, when the user opens one of these models, the ALLOW/DISALLOW buttons show up on the main browser window, not the sound model slider box window so it is easy to miss. If the user doesn't push the ALLOW button, the model will not work properly. 
 
 API
 --------------
