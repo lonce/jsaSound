@@ -352,6 +352,8 @@ define(
 			};
 
 
+			myWindow.document.write(" <hr style=\"height:.1em;\" />");
+
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Capture\" /> ");
 			// Play button callback
@@ -375,6 +377,24 @@ define(
 
 			});
 
+			//   -------------    RECORDING -------------------------
+			var recState=false;
+			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
+			myWindow.document.write(" <input id = \"recordbutton_ID\" type = \"button\" style=\"float:right;\" value = \"Start Recording\" /> ");
+			// Play button callback
+			myWindow.document.getElementById("recordbutton_ID").addEventListener('mousedown', function () {
+				if (recState===false){
+					this.value="Stop Recording";
+					recState=true;
+					i_sm.startRecording();
+
+				} else{
+					this.value="Start Recording";
+					recState=false;
+					i_sm.stopRecording();
+				}
+			});
+			//   -------------              -------------------------
 
 			return myInterface;
 		};

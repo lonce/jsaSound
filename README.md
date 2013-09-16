@@ -42,3 +42,24 @@ getNumParams()
 getAboutText();
 
 
+ACKNOWLEDGEMENTS
+----------------
+This library is built using other open-source libraries:
+
+From Matt Diamond:
+   https://github.com/mattdiamond/Recorderjs
+
+From Srikumar Subramanian:
+   https://github.com/srikumarks/steller
+    
+Chris Wilson
+	https://github.com/cwilso/Audio-Input-Effects
+
+
+
+RUNNING CODE
+------------
+animatedsoundworks.com:8001 
+
+
+

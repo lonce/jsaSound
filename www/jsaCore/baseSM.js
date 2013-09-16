@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The sound model base class that all models use as a prototype
 //==============================================================================
 define(
-	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/jsaCore/jsasteller"],
+	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/jsasteller"],
 	function (config, utils) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 		return function (i_node, i_inputs, i_outputs) {
 			var that=this;
@@ -220,6 +220,27 @@ define(
 				}
 			);
 
+			//------------------  RECORDING  -------------------
+			var isRecording=false;
+			var audioRecorder=null;
+			var recIndex=00;
+			bsmInterface.startRecording = function (){
+				if (audioRecorder===null){
+					audioRecorder = new Recorder( bsmInterface );
+				}
+				audioRecorder.clear();
+				audioRecorder.record();
+				isRecording=true;
+			}
+			bsmInterface.stopRecording = function(){
+				isRecording=false;
+				audioRecorder.stop();
+				audioRecorder.exportWAV( doneEncoding );
+			}
+			function doneEncoding( blob ) {
+    			Recorder.forceDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    			recIndex++;
+			}
 
 
 			return bsmInterface;
