@@ -27,7 +27,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Template");
+			myInterface.setAboutText("To swish, PLAY then move Position");
 
 
 			// Create the nodes and thier connections. Runs once on load
