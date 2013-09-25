@@ -5,6 +5,11 @@ var express = require("express")
 , wss = new WebSocketServer({server: server})
 , fs = require('fs');
 
+// For serving individual sounds with query strings -----------
+//var routes = require('./routes');
+var model = require('./routes/model');
+//-------------------------------------------------------------
+
 var k_portnum = 8082;
 
 console.log("hey myserver is starting with command line arguments:");
@@ -20,7 +25,12 @@ k_portnum=process.argv[2];
 
 //****************************************************************************
 var m_useRoot="/www";
-//app.use(m_useRoot, express.static(__dirname + m_useRoot));
+
+// For serving individual sounds with query strings -----------
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+//-------------------------------------------------------------
+
 
 // Way cool: Allow access to sounds that aren't specifically required by require.js in apps on other domains
 app.use(function (req, res, next) {
@@ -32,7 +42,10 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + m_useRoot));
 app.use(express.static("/Demo", __dirname ));
 
-
+// For serving individual sounds with query strings -----------
+app.use(app.router);
+app.get('/models', model.foo);
+//-------------------------------------------------------------
 
 server.listen(process.argv[2] || k_portnum);
 console.log("Connected and listening on port " + k_portnum);

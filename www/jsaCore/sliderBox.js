@@ -355,22 +355,38 @@ define(
 			myWindow.document.write(" <hr style=\"height:.1em;\" />");
 
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
-			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Capture\" /> ");
+			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
+			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Code Capture\" /> ");
 			// Play button callback
 			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
 				//alert("capture");
 				var captureWindow = {};
-				captureWindow = window.open('', '', "width = 500,height = " + h/2.3);
+				captureWindow = window.open('', '', "width = 575,height = " + h/1.25);
 				var pstring="";
-				for (i = 0; i < i_sm.getNumParams(); i++) {
-					pstring += "capsnd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>" 
+
+				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):<br>"
+
+				pstring+="require.config({<br>&#160&#160&#160 paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}<br>});<br>";
+				pstring+="require(<br>&#160&#160&#160 [" + modelFileName + "],<br><br>";
+				pstring+="function(sndFactory){<br>";
+				pstring+="&#160&#160&#160 var snd = sndFactory();<br><br>"
+
+
+				for (i = 0; i < snd.getNumParams(); i++) {
+					pstring += "&#160&#160&#160 snd.setParam(\"" + snd.getParam(i, "name") + "\", " + snd.getParam(i, "val") + ");<br>" 
 				}
+
+				pstring+="});<br>"
+				pstring+="//-------------------------//<br>"
+
 				captureWindow.document.write(pstring);
 
-				var pstring="// in array form: <br> [";
-				for (i = 0; i < i_sm.getNumParams(); i++) {
+
+
+				var pstring="// parameters in array form: <br> [";
+				for (i = 0; i < snd.getNumParams(); i++) {
 					if (i!=0) pstring += ", ";
-					pstring +=  i_sm.getParam(i, "val") ;
+					pstring +=  snd.getParam(i, "val") ;
 				}
 				pstring +=  "] <br>" ;
 				captureWindow.document.write(pstring);
@@ -394,6 +410,10 @@ define(
 					i_sm.stopRecording();
 				}
 			});
+
+			myWindow.document.write("<div class=\"aswFooter\" id=\"homeLink\" ></div>");  //so it can be styled
+			myWindow.document.getElementById("homeLink").innerHTML = "<a href=\"http://animatedsoundworks.com:8001\" target=\"_blank\">AnimatedSoundWorks</a>";
+
 			//   -------------              -------------------------
 
 			return myInterface;
