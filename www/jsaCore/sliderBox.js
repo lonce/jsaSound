@@ -48,7 +48,7 @@ define(
 			myWindow.document.title = sm_string_name || "jsaSound Parameter Slider Box";
 
 			if (i_sm.getAboutText()) {
-				myWindow.document.write("<div id=\"aboutTextID\"></div>");  //so it can be styled
+				myWindow.document.write("<div class=\"tb\" id=\"aboutTextID\"></div>");  //so it can be styled
 				myWindow.document.getElementById("aboutTextID").innerHTML =i_sm.getAboutText();
 			}
 
