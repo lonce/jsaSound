@@ -22,7 +22,7 @@ define(
 	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
 			var k_impulseDuration=.001;
-			var k_gain_factor=1; // for sounds that just need a boost
+			var k_gain_factor=20; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 			var m_slipRate=1; // 
 			var m_doorSwingRate = 0;  // in [0-1]

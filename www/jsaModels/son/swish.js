@@ -17,6 +17,7 @@ define(
 
 			var childNode;
 			var	gainLevelNode = config.audioContext.createGainNode();
+			var k_gain_factor=.75; // for sounds that just need a boost
 
 		
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
@@ -33,7 +34,7 @@ define(
 			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
 				childNode = childFactory();
-				gainLevelNode.gain.value = m_gainLevel;
+				gainLevelNode.gain.value = k_gain_factor*m_gainLevel;
 				childNode.connect(gainLevelNode);
 			}());
 
@@ -45,7 +46,7 @@ define(
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = (i_gain || m_gainLevel) * k_gain_factor;
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
@@ -91,7 +92,8 @@ define(
 					"val": m_gainLevel
 				},
 				function (i_val) {
-					gainLevelNode.gain.value = m_gainLevel = i_val;
+					m_gainLevel = i_val;
+					gainLevelNode.gain.value = k_gain_factor*m_gainLevel;
 				}
 			);
 
