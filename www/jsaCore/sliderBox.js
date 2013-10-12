@@ -367,30 +367,28 @@ define(
 				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):<br>"
 
 				pstring+="require.config({<br>&#160&#160&#160 paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}<br>});<br>";
-				pstring+="require(<br>&#160&#160&#160 [" + modelFileName + "],<br><br>";
+				pstring+="require(<br>&#160&#160&#160 [\"jsaSound/" + sm_string_name + "\"],<br><br>";
 				pstring+="function(sndFactory){<br>";
 				pstring+="&#160&#160&#160 var snd = sndFactory();<br><br>"
 
 
-				for (i = 0; i < snd.getNumParams(); i++) {
-					pstring += "&#160&#160&#160 snd.setParam(\"" + snd.getParam(i, "name") + "\", " + snd.getParam(i, "val") + ");<br>" 
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+					pstring += "&#160&#160&#160 snd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>";
 				}
 
-				pstring+="});<br>"
-				pstring+="//-------------------------//<br>"
+				pstring+="});<br>";
+				pstring+="//-------------------------//<br>";
 
 				captureWindow.document.write(pstring);
-
-
 
 				var pstring="// parameters in array form: <br> [";
-				for (i = 0; i < snd.getNumParams(); i++) {
+				for (i = 0; i < i_sm.getNumParams(); i++) {
 					if (i!=0) pstring += ", ";
-					pstring +=  snd.getParam(i, "val") ;
+					pstring +=  i_sm.getParam(i, "val") ;
 				}
-				pstring +=  "] <br>" ;
-				captureWindow.document.write(pstring);
 
+				pstring +=  "] <br>";
+				captureWindow.document.write(pstring);
 			});
 
 			//   -------------    RECORDING -------------------------
