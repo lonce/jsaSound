@@ -123,23 +123,23 @@ define(
 				console.log("saving to file " + fname);
 				fs.root.getFile(fname, {create: true}, function(fileEntry) {
 
-    				// Create a FileWriter object for our FileEntry (log.txt).
-    				fileEntry.createWriter(function(fileWriter) {
+					// Create a FileWriter object for our FileEntry (log.txt).
+					fileEntry.createWriter(function(fileWriter) {
 
-    					fileWriter.onwriteend = function(e) {
-    						console.log('Write completed.');
-    					};
+						fileWriter.onwriteend = function(e) {
+							console.log('Write completed.');
+						};
 
-    					fileWriter.onerror = function(e) {
-    						console.log('Write failed: ' + e.toString());
-    					};
+						fileWriter.onerror = function(e) {
+							console.log('Write failed: ' + e.toString());
+						};
 
-      					// Create a new Blob and write it to log.txt.
-      					var blob = new Blob([JSON.stringify(data)], {type: 'text/plain'});
+						// Create a new Blob and write it to log.txt.
+						var blob = new Blob([JSON.stringify(data)], {type: 'text/plain'});
 
-      					fileWriter.write(blob);
-      				}, errorHandler);
-    			}, errorHandler);
+						fileWriter.write(blob);
+					}, errorHandler);
+				}, errorHandler);
 			}			
 		}
 
@@ -177,7 +177,7 @@ define(
 //------------------------------------------------------------------
 //      This takes a list of full-path filenames and splits them into an object with the name and path
 //      Used for generatingdrop-down selector for loading files
-        utils.filesToObjectList = function(fl){
+		utils.filesToObjectList = function(fl){
 			objArray=[];
 			var tname;
 			for (var i=0;i<fl.length;i++){
@@ -185,26 +185,26 @@ define(
 				objArray.push({"fileName": tname, "fullPath": fl[i]});
 			}	
 			return objArray;		
-        };
+		};
 
 
 
-		           // Print out the array with brackets - for 2D arrarys, print each "sub" array on a separate line
-        Array.prototype.prettyString = function () {
-            var s="[";
-            var i;
-            for(i=0;i<this.length;i++){
-                if (Array.isArray(this[i])){
-                    s+=this[i].prettyString();
-                    if (i<(this.length-1)) s+=",\n";
-                } else{
-                    s+= this[i].toString();
-                    if (i<(this.length-1)) s+=", ";
-                }
-            }
-            s += "]";
-            return s;   
-        }
+				   // Print out the array with brackets - for 2D arrarys, print each "sub" array on a separate line
+		Array.prototype.prettyString = function () {
+			var s="[";
+			var i;
+			for(i=0;i<this.length;i++){
+				if (Array.isArray(this[i])){
+					s+=this[i].prettyString();
+					if (i<(this.length-1)) s+=",\n";
+				} else{
+					s+= this[i].toString();
+					if (i<(this.length-1)) s+=", ";
+				}
+			}
+			s += "]";
+			return s;   
+		}
 
 		 Float32Array.prototype.sum = function(){
 			var s=0;
@@ -232,8 +232,12 @@ define(
 			return Math.max.apply(null, this);			
 		}
 
- 
-
+		utils.getParameterByName = function (name) {
+			name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+				results = regex.exec(location.search);
+			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
 
 		return utils;
 	}

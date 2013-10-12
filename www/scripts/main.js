@@ -48,19 +48,28 @@ require(
 		function soundChoice() {
 			var sb;
 			if (soundSelectorElem.selectedIndex <1) return;  // we added a "blank" to the selector list.
+			var pathToLoad = "jsaSound/" + soundList[soundSelectorElem.selectedIndex-1].fileName;
+			loadSoundFromPath(pathToLoad);
+		}
+
+		function loadSoundFromPath(path) {
 			require(
 				// Get the model
-				["jsaSound/" + soundList[soundSelectorElem.selectedIndex-1].fileName], // -1 since we added a blank first element to the selection options
+				[path], // -1 since we added a blank first element to the selection options
 				// And open the sliderBox
 				function (currentSM) {
-					sb = makeSliderBox(currentSM(),soundList[soundSelectorElem.selectedIndex-1].fileName );
+					if (path.indexOf("jsaSound/") === 0)
+						path = path.substr("jsaSound/".length);
+					sb = makeSliderBox(currentSM(), path);
 				}
 			);
 		}
 
+		if (utils.getParameterByName("modelname")) {
+			loadSoundFromPath(utils.getParameterByName("modelname"));
+		}
 
 		makeSoundListSelector();
 		soundSelectorElem.addEventListener("change", soundChoice);
-
 	}
 );
