@@ -40,6 +40,10 @@ define(
 				oscNode = karplusNodeFactory();
 				oscNode.setFrequency(m_frequency);  //square
 
+				gainEnvNode.disconnect();  // essential, or old nonplaying nodes continue to suck down compute resources!
+				gainEnvNode = config.audioContext.createGainNode();
+
+
 				// make the graph connections
 				oscNode.connect(gainEnvNode);
 				gainEnvNode.connect(gainLevelNode);
@@ -155,10 +159,10 @@ define(
 			);
 
 			myInterface.release = function () {
-				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				if (oscNode) oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
 			};
 			myInterface.stop = function () {
-				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				if (oscNode) oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
 			};
 
 

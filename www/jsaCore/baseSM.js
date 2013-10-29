@@ -75,9 +75,10 @@ define(
 			};
 
 			// So a sound can directly expose a parameter of a child sound
-			bsmInterface.registerChildParam = function (model, pname){
-				params[pname] = model.system.getRawParamObject(pname);
-				paramname.push(pname);
+			bsmInterface.registerChildParam = function (childModel, childPname, parentPname){
+				var parentPname=parentPname || childPname;
+				params[parentPname] = childModel.system.getRawParamObject(childPname);
+				paramname.push(parentPname);
 			};
 
 			bsmInterface.getNumParams = function(){
@@ -164,6 +165,14 @@ define(
 			};
 			bsmInterface.stop = function () {
 				console.log("baseSM.stop() should probably be overridden ");
+			};
+
+			bsmInterface.qrelease = function (ms) {
+				if ((!ms) || ms === 0){
+					bsmInterface.release();
+				} else {
+				setTimeout(bsmInterface.release,ms);
+				}
 			};
 
 
