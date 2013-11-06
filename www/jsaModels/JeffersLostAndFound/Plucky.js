@@ -13,37 +13,44 @@ Date: June 2013
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaPluck", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, childNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaPluck", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaCore/audioUtils"],
+	function (config, baseSM, childNodeFactory, jsaConvolverFactory, jsaEventPhasor, audioUtils) {
 		return function () {
-			var notefreqs = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.26, 783.99, 880.00];
+
+			var notes=[];
+			notes[0] = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"];  // C major pentatonic
+			notes[1] = ["C4", "D4", "F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"];  // F major pentatonic
+			notes[2] = ["C4", "D4", "F4", "G4", "Bb4", "C5", "D5", "F5", "G5", "Bb5"];  // Bb major pentatonic
+			notes[3] = ["C4", "Eb", "F4", "G4", "Bb4", "C5", "Eb5", "F5", "G5", "Bb5"];  // Eb major pentatonic
+			notes[4] = ["C4", "Eb", "F4", "Ab4", "Bb4", "C5", "Eb5", "F5", "Ab5", "Bb5"];  // Ab major pentatonic
+
+			var scaleNum=0;
+			var numScales=5;
+			scaleRoot=["C4", "F4", "Bb4", "Eb4", "Ab4"];
+
 			var k_impulseDuration=.5;
-			var k_gain_factor=50; // for sounds that just need a boost
+			var k_gain_factor=25; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 			var m_gainLevel = .9;
 
-			var m_frequency=4;
+			var m_frequency=5;
 			// for triggering periodic events
 			var m_ephasor = jsaEventPhasor();
 			m_ephasor.setFreq(m_frequency);
 
-			// Vibrato by modulating the frequency of the glottal pulse triggering phasor
-			var m_modF=4.5;     // modulation frequency (vibrato)
-			var m_modPercent=.015; // modultation index (range of vibrato)
-			var m_modPhasor=jsaEventPhasor(); 
-			m_modPhasor.setFreq(m_modF);
 
 
 			var playingP=false;
 			var child = childNodeFactory(k_impulseDuration); // short burst, created only once
 			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
-			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
+			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
 			var	gainLevelNode = config.audioContext.createGainNode(); // manipulated by sound user
 
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;
 
 			// paramterize and connect graph nodes
+			child.connect(m_conv);
 			m_conv.connect(gainLevelNode);
 			gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 
@@ -56,10 +63,6 @@ define(
 				if (! (playingP=== true)) return;
 
 				var now = config.audioContext.currentTime;	// this is the time this callback comes in - there could be jitter, etc.	
-
-				var ph = m_modPhasor.advanceToTime(now);
-				var tempf = m_frequency*(1+m_modPercent*Math.sin(2*Math.PI*ph));
-				m_ephasor.setFreq(tempf);
 
 				var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
 				var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around		
@@ -77,25 +80,27 @@ define(
 					//child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 					//child.stop();
 					
-					if ((tickCount%32)===24){
+					if ((tickCount%32)===24){  // phrase is 32 peats lonk
 						ticksToNote=0;
 					}
-					if ((tickCount%8)===0){
+					if ((tickCount%8)===0){    
 						ticksToNote=0;
 					}
 
 					if (ticksToNote===0){
 						child.play();
 
-						if ((tickCount%32)===24){
-							child.setParam("Frequency", notefreqs[0]);
+						if ((tickCount%64)===24){   // end on "tonic" once every two phrases
+							child.setParam("Frequency", audioUtils.note2Freq(scaleRoot[scaleNum]));
+							// and change key
+							//scaleNum=(scaleNum+1)%numScales;
 						//child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 						} else {
-							child.setParam("Frequency", notefreqs[Math.floor((Math.random()*10))]);
+							child.setParam("Frequency", audioUtils.note2Freq(notes[scaleNum][Math.floor((Math.random()*10))]))
 						}
 
 
-						if ((tickCount%32)===24){
+						if ((tickCount%32)===24){   // take a breather at the end of every phrase
 							ticksToNote=8;
 						} else if ((tickCount%2)===0){ // allow interval picking only on "downbeats" to preserve a rhythmic rather than random feel
 								rtemp=Math.random();
@@ -176,40 +181,23 @@ define(
 				},
 				function (i_val) {
 					m_frequency=i_val;
-					// with vibrato, we set this in animate()
-					//m_ephasor.setFreq(m_frequency); //controls how high the frequency goes
+					m_ephasor.setFreq(m_frequency); //controls how high the frequency goes
 
 				}
 			);
 
-			myInterface.registerParam(
-				"Vibrato Frequency",
-				"range",
-				{
-					"min": 0,
-					"max": 6,
-					"val": m_modF
-				},
-				function (i_val) {
-					m_modF=i_val;
-					m_modPhasor.setFreq(m_modF);
-					// force depth to 0 as mod frequency gets close to 0
-					m_modPercent = (this.getParam("Vibrato Depth", "val")/100.0) * Math.min(1, m_modF*3 );
-					console.log("modPercent is " + m_modPercent);
-				}
-			);
 
 			myInterface.registerParam(
-				"Vibrato Depth",
+				"Key",
 				"range",
 				{
 					"min": 0,
-					"max": 5,
-					"val": m_modPercent*100
+					"max": 4.99,
+					"val": scaleNum
 				},
 				function (i_val) {
-					// force depth to 0 as mod frequency gets close to 
-					m_modPercent = (i_val/100.0) * Math.min(1, m_modF*3 );
+					scaleNum=Math.floor(i_val);
+
 				}
 			);
 

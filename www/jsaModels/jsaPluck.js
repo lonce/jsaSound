@@ -81,7 +81,7 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
 				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
+					console.log("________connecting MyInterface to audio context desination");
 					myInterface.connect(config.audioContext.destination);
 				}		
 
