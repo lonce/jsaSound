@@ -65,6 +65,7 @@ require(
 			);
 		}
 
+		// If model name is assigned in the querystring
 		if (utils.getParameterByName("modelname")) {
 			loadSoundFromPath(utils.getParameterByName("modelname"));
 		}

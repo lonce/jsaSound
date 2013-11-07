@@ -232,6 +232,7 @@ define(
 			return Math.max.apply(null, this);			
 		}
 
+		// used to decode the quesrystring in the URL
 		utils.getParameterByName = function (name) {
 			name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

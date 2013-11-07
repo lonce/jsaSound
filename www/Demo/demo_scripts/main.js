@@ -13,11 +13,18 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 require.config({
-	paths: {
-		"jsaSound": "http://animatedsoundworks.com:8001" // for have sound served from animatedsoundworks
-		//"jsaSound": "http://192.168.231.1:8001" // for have sound served from animatedsoundworks
-		//"jsaSound": ".." // if al jsaSound project directories (jsaOpCodes, jsaCore, jsaModels) are local
-	}
+        paths: {
+                "jsaSound": (function(){
+                	var host = window.document.location.host;
+                	if (! host){
+                		alert("It appears trying to run this page as a file. Will try serving the sounds for the page from animatedsoundworks.com:8001. If that fails, run this demo from the same machine that the sounds are being served from (eg localhost:8001)" );
+                		host = "http://animatedsoundworks.com:8001/"
+                	} else {
+                		host = "http://"+window.document.location.host;
+                	}
+                	return host ;
+            	}())
+        }
 });
 require(
 	["require", "jsaSound/jsaModels/jsaFM"], 

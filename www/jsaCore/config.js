@@ -18,11 +18,15 @@ define(
 		// This file of code needs an instantiated webkitAudioContext in order to load, so we can't wait for the
 		// html window to be loaded before creating audioContext even though it might cause errors if WebAudio isn't supported. 
 		var exports = {};
+		exports.resourcesPath =  (function(){
+			if (! window.document.location.host){
+				alert("This page cannot be run as a file, but must be served from a server (e.g. animatedsoundworks.com:8001, or localhost:8001)." );
+			}
+			return ("http://"+window.document.location.host + "/" );
+			})();
 		exports.audioContext = new webkitAudioContext();
 		exports.bigNum = 10000000000.0;// Infinity;  
 		exports.k_bufferLength = 1024;// What is the right way to set the so that all nodes agree?
-		exports.resourcesPath = "http://animatedsoundworks.com:8001/"; 
-		//exports.resourcesPath = "http://localhost:8001/";
 		return exports;
 	}
 );
