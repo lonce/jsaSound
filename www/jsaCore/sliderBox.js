@@ -361,7 +361,7 @@ define(
 			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
 				//alert("capture");
 				var captureWindow = {};
-				captureWindow = window.open('', '', "width = 575,height = " + h/1.25);
+				captureWindow = window.open('', '', "width = 625,height = " + h/1.25);
 				var pstring="";
 
 				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):<br>"
@@ -373,7 +373,8 @@ define(
 
 
 				for (i = 0; i < i_sm.getNumParams(); i++) {
-					pstring += "&#160&#160&#160 snd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");<br>";
+					pstring += "&#160&#160&#160 snd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
+					pstring += "&#160&#160&#160 //or// snd.setParamNorm(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "normval").toFixed(3) + ");<br>";
 				}
 
 				pstring+="});<br>";
