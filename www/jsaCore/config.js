@@ -12,10 +12,12 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaCore/wheredoilive"],
 	function (wheredoilive) {
+		/*
 		if (!window.webkitAudioContext) {
 			alert("Web Audio API is not supported. Try Chrome!");
 			return;
 		}
+		*/
 		// This file of code needs an instantiated webkitAudioContext in order to load, so we can't wait for the
 		// html window to be loaded before creating audioContext even though it might cause errors if WebAudio isn't supported. 
 		var exports = {};
