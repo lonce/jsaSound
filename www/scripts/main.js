@@ -11,7 +11,6 @@ require.config({
 	paths: {
 		"jsaSound": "..",
 		"jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min"
-		//LOCAL "jquery": "http://localhost:8001/scripts/jquery.min"
 	}
 });
 require(
