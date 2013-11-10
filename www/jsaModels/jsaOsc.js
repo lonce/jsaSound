@@ -18,8 +18,8 @@ define(
 		return function () {
 			
 			var	oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
-			var	gainEnvNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode(); 
+			var	gainEnvNode = config.audioContext.createGain();
+			var	gainLevelNode = config.audioContext.createGain(); 
 
 			// defaults for setting up initial values (and displays) 
 			var m_gainLevel = 0.25;    // the point to (or from) which gainEnvNode ramps glide
@@ -62,7 +62,7 @@ define(
 				}
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
-				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 
 				// if no input, remember from last time set
 				oscNode.frequency.value = i_freq || m_frequency;
@@ -141,7 +141,7 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				oscNode.noteOff(stopTime);
+				oscNode.stop(stopTime);
 			};
 
 			return myInterface;

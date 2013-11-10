@@ -17,7 +17,7 @@ define(
 
 			var numChildren=3;
 			var childNode=[];
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 		
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.

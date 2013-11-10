@@ -20,7 +20,7 @@ define(
 			var count = 0;
 
 
-			var noiseSource = config.audioContext.createJavaScriptNode(config.k_bufferLength, 1, 1);
+			var noiseSource = config.audioContext.createScriptProcessor(config.k_bufferLength, 1, 1);
 			// This is so that this node can be "kept()"
 			var noiseWrapper = org.anclab.steller.GraphNode({}, [], [noiseSource]);
 			//noiseWrapper.keep(noiseSource);

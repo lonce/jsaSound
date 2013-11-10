@@ -31,8 +31,8 @@ define(
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	noiseModulatorNode = noiseNodeFactory();
 			var m_CarrierNode = fmodOscFactory();
-			var	gainEnvNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain();
+			var	gainLevelNode = config.audioContext.createGain();
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
@@ -50,8 +50,8 @@ define(
 				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
 				noiseModulatorNode = noiseNodeFactory();
 				m_CarrierNode = fmodOscFactory();
-				gainEnvNode = config.audioContext.createGainNode();
-				gainLevelNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
+				gainLevelNode = config.audioContext.createGain();
 
 				// Also have to set all of their state values since they all get forgotten, too!!
 				gainLevelNode.gain.value = m_gainLevel;

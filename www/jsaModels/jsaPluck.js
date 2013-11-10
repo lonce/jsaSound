@@ -22,8 +22,8 @@ define(
 			// defined outside "oscInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	oscNode;// = config.audioContext.createOscillator();
-			var	gainEnvNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain();
+			var	gainLevelNode = config.audioContext.createGain();
 
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
@@ -41,7 +41,7 @@ define(
 				oscNode.setFrequency(m_frequency);  
 
 				gainEnvNode.disconnect();  // essential, or old nonplaying nodes continue to suck down compute resources!
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 
 
 				// make the graph connections
@@ -159,10 +159,10 @@ define(
 			);
 
 			myInterface.release = function () {
-				if (oscNode) oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 			myInterface.stop = function () {
-				if (oscNode) oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 
 

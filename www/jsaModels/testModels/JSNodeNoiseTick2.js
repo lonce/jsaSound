@@ -29,10 +29,10 @@ define(
 				noiseNode.keep();
 
 			var m_gainLevel = 0.40;
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 			
 			// permanent part of graph
-			var	gainEnvNode = config.audioContext.createGainNode();	
+			var	gainEnvNode = config.audioContext.createGain();	
 				gainEnvNode.gain.setValueAtTime(0, 0);		
 				noiseNode.connect(gainEnvNode);		
 				gainEnvNode.connect(gainLevelNode);

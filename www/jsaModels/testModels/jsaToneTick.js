@@ -22,8 +22,8 @@ define(
 			// defined outside "oscInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	oscNode;// = config.audioContext.createOscillator();
-			var	gainEnvNode = config.audioContext.createGainNode();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain();
+			var	gainLevelNode = config.audioContext.createGain();
 
 			var m_oscType=3;
 
@@ -61,7 +61,7 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The model turns itself off after a fixed amount of time	
 				stopTime = now + m_attackTime + m_sustainTime + m_releaseTime;
-				oscNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 
 				// if no input, remember from last time set
 				oscNode.frequency.value = i_freq || m_frequency;

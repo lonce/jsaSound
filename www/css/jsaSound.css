@@ -1,8 +1,8 @@
 body
 {
-background: -webkit-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 );
-//background: #8c897a;
-font-family:Calibri ; font-size:16px; 
+	background: -webkit-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 );
+	background: -moz-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 );
+	font-family:Calibri ; font-size:16px; 
 } 
 
 #API

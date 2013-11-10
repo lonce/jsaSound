@@ -28,8 +28,8 @@ define(
 			//var foo = new ArrayBuffer(100);
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
-			var gainLevelNode = config.audioContext.createGainNode();
-			var gainEnvNode = config.audioContext.createGainNode();
+			var gainLevelNode = config.audioContext.createGain();
+			var gainEnvNode = config.audioContext.createGain();
 			var sourceNode;
 
 			var m_gainLevel = 1.0;
@@ -82,7 +82,7 @@ define(
 					}
 
 					stopTime = config.bigNum;
-					sourceNode.noteOff(stopTime);
+					sourceNode.stop(stopTime);
 
 					gainLevelNode.gain.value = i_gain || m_gainLevel;
 					console.log("Gain set at " + gainLevelNode.gain.value);
@@ -163,7 +163,7 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				sourceNode && sourceNode.noteOff(stopTime);
+				sourceNode && sourceNode.stop(stopTime);
 			};
 
 			return myInterface;

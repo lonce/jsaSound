@@ -29,7 +29,7 @@ define(
 			var xhr = new XMLHttpRequest();
 			var soundBuff = null;
 
-			var gainLevelNode = config.audioContext.createGainNode();
+			var gainLevelNode = config.audioContext.createGain();
 
 			var m_gainLevel = 0.75;
 			// var m_attackTime = 0.05;
@@ -91,7 +91,7 @@ define(
 
 
 
-				var grainWindowNode = config.audioContext.createGainNode();
+				var grainWindowNode = config.audioContext.createGain();
 				source.connect(grainWindowNode);
 				grainWindowNode.connect(gainLevelNode);
 

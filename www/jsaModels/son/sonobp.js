@@ -24,7 +24,7 @@ define(
 
 
 			var bpNoiseNode;
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 			var lpNode;
 
 
@@ -50,7 +50,7 @@ define(
 			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
 				bpNoiseNode = bpFactory(); // the "child model"
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 
 				lpNode =config.audioContext.createBiquadFilter();
 				lpNode.type = "lowpass";

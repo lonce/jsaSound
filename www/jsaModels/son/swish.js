@@ -16,7 +16,7 @@ define(
 			m_Position=0;
 
 			var childNode;
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 			var k_gain_factor=.75; // for sounds that just need a boost
 
 		

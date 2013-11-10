@@ -18,8 +18,8 @@ define(
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	m_noiseNode = noiseNodeFactory(),
-				gainEnvNode = config.audioContext.createGainNode(),
-				gainLevelNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain(),
+				gainLevelNode = config.audioContext.createGain();
 
 			var m_filterNode=[];
 			var m_filterGain =[];
@@ -51,10 +51,10 @@ define(
 
 				m_noiseNode = noiseNodeFactory();
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
 				for(i=0;i<k_numFormants; i++){

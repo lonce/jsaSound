@@ -36,7 +36,7 @@ define(
 			var scale = [0.0, 2.0, 4.0, 6.0, 7.0, 9.0, 11.0, 12.0, 14.0];
 
 			var m_gainLevel = .5;
-			var gainLevelNode = config.audioContext.createGainNode();  // will collect output the children
+			var gainLevelNode = config.audioContext.createGain();  // will collect output the children
 
 			// get a frequency as a random function of the base_note
 			var note2Freq = function (i_baseNote) {

@@ -36,8 +36,8 @@ define(
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	m_noiseNode,
 				m_filterNode = config.audioContext.createBiquadFilter(),
-				gainEnvNode = config.audioContext.createGainNode(),
-				gainLevelNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain(),
+				gainLevelNode = config.audioContext.createGain();
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
 			var m_gainLevel = 1.5, // the point to (or from) which gainEnvNode ramps glide
@@ -64,10 +64,10 @@ define(
 				m_filterNode.frequency.value = m_freq;
 				m_filterNode.Q.value = m_Q;
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 				console.log("build arch with gain" +  gainLevelNode.gain.value);
 

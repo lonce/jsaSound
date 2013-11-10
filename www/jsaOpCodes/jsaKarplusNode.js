@@ -17,7 +17,7 @@ define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils"],
 	function (config, utils) {
 		return function () {
-			var karplusNode = config.audioContext.createJavaScriptNode(config.k_bufferLength, 1, 1);
+			var karplusNode = config.audioContext.createScriptProcessor(config.k_bufferLength, 1, 1);
 			var m_frequency = 440; // for gaussian noise, this is the standard deviation, for white, this is the max absolute value
 			var m_impulse = 0.001 * config.audioContext.sampleRate;
 
@@ -47,7 +47,7 @@ define(
 				playingP=true;
 			}
 
-			karplusNode.noteOff = function(i_time){
+			karplusNode.stop = function(i_time){
 				playingP=false;
 			}
 

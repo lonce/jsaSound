@@ -31,8 +31,8 @@ define(
             // -Kumar
             // -- BEGIN FIXED SETUP --
             m_CarrierNode = fmodOscFactory();
-            gainEnvNode = config.audioContext.createGainNode();
-            gainLevelNode = config.audioContext.createGainNode();
+            gainEnvNode = config.audioContext.createGain();
+            gainLevelNode = config.audioContext.createGain();
 
             console.log("in BUILD, gain level node is " + gainLevelNode );
 
@@ -208,13 +208,13 @@ define(
                     gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
                     // Schedule the osc node to turn off at the stop
-                    // time and forget about the node. I think noteOff()
+                    // time and forget about the node. I think stop()
                     // can only be called once, based on an earlier discussion
                     // with Chris Rogers. So it is much simpler to just
                     // giveup the reference to the "voice" once you
-                    // schedule a noteOff for it.
+                    // schedule a stop for it.
                     // -Kumar
-                    oscModulatorNode.noteOff(stopTime);
+                    oscModulatorNode.stop(stopTime);
                     oscModulatorNode = null;
                 }
             };

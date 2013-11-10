@@ -23,7 +23,7 @@ define(
 			var m_rate = 1.0;
 			var m_gainLevel = 0.9;
 			var child = JSNodeNoiseTick2Factory();
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 			var sh = new org.anclab.steller.Scheduler(config.audioContext);

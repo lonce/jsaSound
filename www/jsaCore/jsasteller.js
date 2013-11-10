@@ -899,9 +899,10 @@ define(
                 var time_secs = (function () {
                     if (!audioContext) {
                         return getHighResPerfTimeFunc() || (function () { return Date.now() * 0.001; });
-                    } else if (audioContext instanceof AudioContext) {
+                    //} else if (audioContext instanceof AudioContext) {
+                    } else {
                         instant_secs = 1 / audioContext.sampleRate;
-                        audioContext.createGainNode();  // Looks useless, but it gets the
+                        audioContext.createGain();  // Looks useless, but it gets the
                                                         // audioContext.currentTime running.
                                                         // Otherwise currentTime continues to
                                                         // be at 0 till some API call gets made,
@@ -910,9 +911,7 @@ define(
                         return function () {
                             return audioContext.currentTime;
                         };
-                    } else {
-                        throw new Error("Scheduler: Argument is not an audio context");
-                    }
+                    } 
                 }());
 
 
@@ -2133,7 +2132,7 @@ define(
             function JSNodeTimer(callback, precision_ms, audioContext) {
                 if (audioContext) {
                     var kBufferSize = 1024;
-                    var jsnode = audioContext.createJavaScriptNode(kBufferSize);
+                    var jsnode = audioContext.createScriptProcessor(kBufferSize);
                     jsnode.onaudioprocess = function (event) {
                         callback(); // For the moment, no timing information within these.
                     };

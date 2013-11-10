@@ -32,7 +32,7 @@ define(
 			var now = 0.0;
 
 			var m_gainLevel = 3;
-			var gainLevelNode = config.audioContext.createGainNode();  // will collect output the children
+			var gainLevelNode = config.audioContext.createGain();  // will collect output the children
 
 			var m_drywet=0; //dry;
 

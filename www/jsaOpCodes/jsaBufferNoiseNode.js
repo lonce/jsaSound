@@ -39,7 +39,7 @@ define(
 
             source.buffer = noiseBuffer;
             source.loop = false;
-            source.gain.value = 1.0;
+            //source.gain.value = 1.0;
 
             return source;
         };

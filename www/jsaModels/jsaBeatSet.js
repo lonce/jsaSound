@@ -25,7 +25,7 @@ define(
 
 			var	childModel = new Array();
 			var numChildren=0;
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 

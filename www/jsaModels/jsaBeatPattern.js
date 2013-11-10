@@ -24,7 +24,7 @@ define(
 			var m_rate = 5.0;
 			var m_gainLevel = 0.9;
 			var child = jsaDrumFactory(i_fname);
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 			var sched; // = new org.anclab.steller.Scheduler(config.audioContext);

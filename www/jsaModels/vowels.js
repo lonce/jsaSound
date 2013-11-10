@@ -26,7 +26,7 @@ define(
 			var m_freq=280;
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 		
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
@@ -55,7 +55,7 @@ define(
 			var buildModelArchitecture = (function () {
 				formantSynthNode = formantSynthFactory();
 				setVoiceData(m_voices[m_voiceIdx], m_vowels[m_vowelIdx]);
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 				formantSynthNode.connect(gainLevelNode);
 			}());

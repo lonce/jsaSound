@@ -34,8 +34,8 @@ define(
 				lpf2 = config.audioContext.createBiquadFilter(),
 				hpf1 = config.audioContext.createBiquadFilter(),
 				hpf2 = config.audioContext.createBiquadFilter(),
-				gainEnvNode = config.audioContext.createGainNode(),
-				gainLevelNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain(),
+				gainLevelNode = config.audioContext.createGain();
 
 
 			var microphone;
@@ -76,10 +76,10 @@ define(
 
 
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				gainLevelNode = config.audioContext.createGainNode();
+				gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
 				hpf2.connect(gainEnvNode);

@@ -31,14 +31,14 @@ define(
 			var playingP=false;
 			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/OneDoorCreak.wav");
-			var	swingGainNode = config.audioContext.createGainNode(); // manipuloated internally
-			var	gainLevelNode = config.audioContext.createGainNode(); // manipulated by sound user
+			var	swingGainNode = config.audioContext.createGain(); // manipuloated internally
+			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
 			// for triggering periodic events
 			var m_ephasor = jsaEventPhasor();
 			m_ephasor.setFreq(m_doorSwingRate);
 
-			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+			var requestAnimationFrame = window.requestAnimationFrame;
 
 			// paramterize and connect graph nodes
 			m_conv.connect(swingGainNode);

@@ -24,7 +24,7 @@ define(
 			var m_modIndex = 1.0;
 			var m_phaseIncrement = 0.0;
 
-			var fmodOsc = config.audioContext.createJavaScriptNode(config.k_bufferLength, 1, 1);
+			var fmodOsc = config.audioContext.createScriptProcessor(config.k_bufferLength, 1, 1);
 			// Provide a couple of interface methods to the Node
 			fmodOsc.setFreq = function (i_f) {
 				//console.log("setFreq = " + i_f);

@@ -23,7 +23,7 @@ define(
 			//var foo = new ArrayBuffer(100);
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
-			var gainLevelNode = config.audioContext.createGainNode();
+			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
 
 			var m_gainLevel = .5;
@@ -85,7 +85,7 @@ define(
 
 				if (buffLoaded) {
 
-					sourceNode && sourceNode.noteOff(0);
+					sourceNode && sourceNode.stop(0);
 
 
 					buildModelArchitectureAGAIN();
@@ -140,7 +140,7 @@ define(
 */
 			myInterface.release = function () {
 
-				sourceNode && sourceNode.noteOff(0);
+				sourceNode && sourceNode.stop(0);
 			};
 
 

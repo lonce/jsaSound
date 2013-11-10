@@ -18,8 +18,8 @@ define(
 			var m_freq=240;
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	gainEnvNode = config.audioContext.createGainNode(),
-				gainLevelNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain(),
+				gainLevelNode = config.audioContext.createGain();
 
 			var m_glottalPulseNode;
 
@@ -40,7 +40,7 @@ define(
 
 			for(i=0;i<k_numFormants; i++){
 				m_filterNode[i]=config.audioContext.createBiquadFilter();
-				m_filterGainNode[i] = config.audioContext.createGainNode();
+				m_filterGainNode[i] = config.audioContext.createGain();
 
 				m_filterQ[i]=10;
 				m_filterGain[i]=.85;
@@ -58,10 +58,10 @@ define(
 				m_glottalPulseNode = glottalPulseFactory();
 				m_glottalPulseNode.setParam("Frequency", m_freq);
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
 				for(i=0;i<k_numFormants; i++){

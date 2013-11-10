@@ -23,8 +23,8 @@ define(
 			//var foo = new ArrayBuffer(100);
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
-			var gainEnvNode = config.audioContext.createGainNode();
-			var gainLevelNode = config.audioContext.createGainNode();
+			var gainEnvNode = config.audioContext.createGain();
+			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
 
 			var m_gainLevel = .1;
@@ -60,7 +60,7 @@ define(
 				sourceNode.loop = true;
 
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
 				sourceNode.connect(gainEnvNode);
@@ -100,7 +100,7 @@ define(
 
 				if (buffLoaded) {
 
-					sourceNode && sourceNode.noteOff(0);
+					sourceNode && sourceNode.stop(0);
 
 
 					buildModelArchitectureAGAIN();
@@ -133,7 +133,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
 
-				//gainLevelNode = config.audioContext.createGainNode();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
 
@@ -203,7 +203,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				sourceNode && sourceNode.noteOff(stopTime);
+				sourceNode && sourceNode.stop(stopTime);
 			};
 
 

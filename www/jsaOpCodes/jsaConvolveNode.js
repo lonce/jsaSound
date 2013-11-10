@@ -20,11 +20,22 @@ define(
                 console.error(e);
             };
             
+             /*
             xhr.onload = function () {
                 sBuffer = config.audioContext.createBuffer(xhr.response, false);
                 loadedfile=soundUrl;
                 convolver.buffer = sBuffer;
             };
+            */
+
+
+                        xhr.onload = function() {
+                config.audioContext.decodeAudioData( xhr.response, 
+                    function(buffer) { convolver.buffer = buffer; } );
+                loadedfile=soundUrl;
+            };
+
+
             xhr.send();     
         }
 

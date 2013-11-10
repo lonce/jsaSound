@@ -34,8 +34,8 @@ define(
 				// they have actally been completely deleted - a reference to gainLevelNode, for example, still returns [object AudioGainNode] 
 				oscModulatorNode = config.audioContext.createOscillator();
 				m_CarrierNode = fmodOscFactory();
-				gainEnvNode = config.audioContext.createGainNode();
-				gainLevelNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
+				gainLevelNode = config.audioContext.createGain();
 
 				console.log("in BUILD, gain level node is " + gainLevelNode );
 
@@ -55,7 +55,7 @@ define(
 
 			}());
 
-			// only the misbehaving oscModulatorNode needs to be rebuilt since it is invalidated by noteOff().
+			// only the misbehaving oscModulatorNode needs to be rebuilt since it is invalidated by stop().
 			var buildModelArchitectureAGAIN = function () {
 				oscModulatorNode = config.audioContext.createOscillator();
 				oscModulatorNode.frequency.value = m_mod_freq;
@@ -88,7 +88,7 @@ define(
 				}
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
-				oscModulatorNode.noteOff(stopTime);  // "cancels" any previously set future stops, I think
+				oscModulatorNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 
 
 				m_CarrierNode.setFreq(m_car_freq);
@@ -187,7 +187,7 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				oscModulatorNode.noteOff(stopTime);
+				oscModulatorNode.stop(stopTime);
 			};
 				
 			return myInterface;

@@ -29,8 +29,8 @@ define(
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	gainEnvNode = config.audioContext.createGainNode(),
-				gainLevelNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain(),
+				gainLevelNode = config.audioContext.createGain();
 
 			var microphone;
 
@@ -45,10 +45,10 @@ define(
 			var buildModelArchitecture = (function () {
 
 
-				gainEnvNode = config.audioContext.createGainNode();
+				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				gainLevelNode = config.audioContext.createGainNode();
+				gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
 

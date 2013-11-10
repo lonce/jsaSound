@@ -27,7 +27,7 @@ define(
 			//var val;
 
 			var noiseNode = noiseNodeFactory();
-			var	gainEnvNode = config.audioContext.createGainNode();
+			var	gainEnvNode = config.audioContext.createGain();
 
 			noiseNode.connect(gainEnvNode);
 			gainEnvNode.gain.setValueAtTime(0, 0);

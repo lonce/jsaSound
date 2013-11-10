@@ -38,7 +38,7 @@ define(
 
 			var child = FMFactory();
 
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;

@@ -38,7 +38,7 @@ define(
 
 			var child = JSNodeNoiseTick2Factory();
 
-			var	gainLevelNode = config.audioContext.createGainNode();
+			var	gainLevelNode = config.audioContext.createGain();
 
 
 			var m_ephasor = jsaEventPhasor();

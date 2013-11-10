@@ -29,7 +29,7 @@ define(
             dc.loop = true;
             dc.noteOn(0);
 
-            var gain = AC.createGainNode();
+            var gain = AC.createGain();
             gain.gain.value = value;
             dc.connect(gain);
 
@@ -46,7 +46,7 @@ define(
             source.loop = true;
             source.gain.value = 1.0;
 
-            var gain = AC.createGainNode();
+            var gain = AC.createGain();
             gain.gain.value = 1.0;
 
             source.connect(gain);
