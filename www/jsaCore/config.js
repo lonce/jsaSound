@@ -23,9 +23,19 @@ define(
 		var exports = {};
 		//exports.resourcesPath = "http://localhost:8001";
 		exports.resourcesPath = wheredoilive;
-		exports.audioContext = new webkitAudioContext();
+		exports.audioContext=null;
+		if (typeof AudioContext !== "undefined") {
+		    exports.audioContext = new AudioContext();
+		} else if (typeof webkitAudioContext !== "undefined") {
+		    exports.audioContext = new webkitAudioContext();
+		} else {
+		    throw new Error('AudioContext not supported. :(');
+		}
+
 		exports.bigNum = 10000000000.0;// Infinity;  
 		exports.k_bufferLength = 1024;// What is the right way to set the so that all nodes agree?
+
+		exports.microphone=undefined;
 
 		return exports;
 	}

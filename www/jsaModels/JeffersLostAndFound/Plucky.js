@@ -26,7 +26,9 @@ define(
 
 			var scaleNum=0;
 			var numScales=5;
+			var numNotes = notes[0].length;
 			scaleRoot=["C4", "F4", "Bb4", "Eb4", "Ab4"];
+
 
 			var k_impulseDuration=.5;
 			var k_gain_factor=25; // for sounds that just need a boost
@@ -48,6 +50,23 @@ define(
 
 
 			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+
+			//var m_lastInterval=0;
+			var m_lastNoteNum=5;
+			var k_maxInterval=3;
+			var getNextNoteNum=function(){
+
+				var interval, notenum;
+				do {
+					interval = (-1+2*Math.random())*k_maxInterval;	
+					notenum = Math.round(m_lastNoteNum+interval);
+					console.log("notenum wants to be " + notenum);
+				} while((notenum < 0) || (notenum >= numNotes));
+				m_lastNoteNum=notenum;
+				console.log("notenum IS  " + notenum);
+				return notenum;
+			}
+
 
 			// paramterize and connect graph nodes
 			child.connect(m_conv);
@@ -96,7 +115,7 @@ define(
 							//scaleNum=(scaleNum+1)%numScales;
 						//child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 						} else {
-							child.setParam("Frequency", audioUtils.note2Freq(notes[scaleNum][Math.floor((Math.random()*10))]))
+							child.setParam("Frequency", audioUtils.note2Freq(notes[scaleNum][getNextNoteNum()]))
 						}
 
 
@@ -186,6 +205,7 @@ define(
 				}
 			);
 
+			myInterface.registerChildParam(child, "Release Time");
 
 			myInterface.registerParam(
 				"Key",

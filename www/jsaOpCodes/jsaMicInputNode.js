@@ -6,9 +6,15 @@ define(
 			//var connect_to = i_connect_to;
 
 			function gotAudio(stream) {
+				console.log("in gotAudio, stream is " + stream);
 				console.log("in gotAudio, audioContext is " + config.audioContext);
-				microphone = config.audioContext.createMediaStreamSource(stream);
-				console.log("in gotAudio,  microphone is "  + microphone + ", and we are connecting to " + connect_to);
+				if (! config.microphone) {
+					config.microphone = config.audioContext.createMediaStreamSource(stream);
+					console.log("in gotAudio,  microphone is "  + microphone + ", and we are connecting to " + connect_to);
+				} else {
+					console.log("already have mic, use the same one.");
+				}
+				microphone=config.microphone;
 
 				/* no need for this, and it doesn't solve am-noise problem
     			var splitter = config.audioContext.createChannelSplitter(2);
@@ -28,12 +34,26 @@ define(
 			}
 
 
+			/*
 			try{
 					//mediaGetter({audio:true}, gotAudio, error);
 				navigator.webkitGetUserMedia({audio:true}, gotAudio, error);
 			} catch(e){
 				alert('webkitGetUserMedia threw exception :' + e);
 			}
+			*/
+
+			if (!navigator.getUserMedia)
+				navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+			if (!navigator.getUserMedia)
+				return(alert("Error: getUserMedia not supported!"));
+
+		    navigator.getUserMedia({audio:true}, gotAudio, function(e) {
+		            alert('Error in getUserMedia');
+		            console.log(e);
+		        });
+
 
 		};
 	}

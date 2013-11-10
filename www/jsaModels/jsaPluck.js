@@ -38,7 +38,7 @@ define(
 			// (Re)create the nodes and thier connections. Because oscNode.notOff invalidates the node
 			var buildModelArchitectureAGAIN = function () {
 				oscNode = karplusNodeFactory();
-				oscNode.setFrequency(m_frequency);  //square
+				oscNode.setFrequency(m_frequency);  
 
 				gainEnvNode.disconnect();  // essential, or old nonplaying nodes continue to suck down compute resources!
 				gainEnvNode = config.audioContext.createGainNode();
