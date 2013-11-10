@@ -60,10 +60,8 @@ define(
 				do {
 					interval = (-1+2*Math.random())*k_maxInterval;	
 					notenum = Math.round(m_lastNoteNum+interval);
-					console.log("notenum wants to be " + notenum);
 				} while((notenum < 0) || (notenum >= numNotes));
 				m_lastNoteNum=notenum;
-				console.log("notenum IS  " + notenum);
 				return notenum;
 			}
 
@@ -184,7 +182,6 @@ define(
 
 			myInterface.stop = function () {
 				// stops the animation frame callbacks
-				console.log("golttal stop!");
 				playingP=false;
 			};
 

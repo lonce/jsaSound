@@ -54,12 +54,12 @@ define(
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				if (stopTime <= now) { // not playing
-					console.log("rebuild PLUCK model node architecture!");
+					//console.log("rebuild PLUCK model node architecture!");
 					buildModelArchitectureAGAIN();
 					//oscNode.noteOn(now);
 					//gainEnvNode.gain.value = 0;
 				} else {  // no need to recreate architectre - the old one still exists since it is playing
-					console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
+					//console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
 				}
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The model turns itself off after a fixed amount of time	
@@ -81,7 +81,7 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
 				if (myInterface.getNumOutConnections() === 0){
-					console.log("________connecting MyInterface to audio context desination");
+					//console.log("________connecting MyInterface to audio context desination");
 					myInterface.connect(config.audioContext.destination);
 				}		
 

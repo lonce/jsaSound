@@ -885,7 +885,7 @@ define(
                 var requestAnimationFrame = getRequestAnimationFrameFunc();
 
                 var AudioContext = getAudioContext();
-                console.log("in jsaSteller (a), getAudioContext returned " + AudioContext)
+                //console.log("in jsaSteller (a), getAudioContext returned " + AudioContext)
 
                 if (detectBrowserEnv() && !requestAnimationFrame) {
                     throw new Error('Scheduler needs requestAnimationFrame support. Use a sufficiently modern browser version.');
@@ -2455,7 +2455,7 @@ define(
                 };
             }(getRequestAnimationFrameFunc()));
             steller.AudioContext = getAudioContext();
-            console.log("in jsaSteller (b), getAudioContext returned " + steller.AudioContext)
+            //console.log("in jsaSteller (b), getAudioContext returned " + steller.AudioContext)
 
 
             // A function to find out if we're running in a browser environment.

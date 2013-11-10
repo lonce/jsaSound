@@ -26,7 +26,7 @@ define(
 				for(var noteNum=0;noteNum<=6;noteNum++){
 					for (var accNum=0;accNum<=2;accNum++){
 						semitonesFromA4 = 12*(octNum-4) + baseClassInterval[noteNum]+accidentalInterval[accNum];
-						console.log("semitones from a4 is " + semitonesFromA4);
+						//console.log("semitones from a4 is " + semitonesFromA4);
 						noteFreqs[baseClassNames[noteNum]+accidentalNames[accNum]+octNum]=440*Math.pow(2,semitonesFromA4/12);
 					}
 				}
