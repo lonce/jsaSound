@@ -32,8 +32,7 @@ define(
                     console.log("++ Before  scaling, rms is " + a_rms);
                     noiseData.scale(i_rms/a_rms);
                 }
-                // check math
-                console.log("Length of noiseData is " + noiseData.length + ", rms is " + noiseData.rms() + ", and max is " + noiseData.max());
+                //console.log("Length of noiseData is " + noiseData.length + ", rms is " + noiseData.rms() + ", and max is " + noiseData.max());
             }
 
 

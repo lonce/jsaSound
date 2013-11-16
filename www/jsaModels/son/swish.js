@@ -36,7 +36,17 @@ define(
 				childNode = childFactory();
 				gainLevelNode.gain.value = k_gain_factor*m_gainLevel;
 				childNode.connect(gainLevelNode);
+
+				childNode.setParam("Attack Time", .5);
+				childNode.setParam("Release Time", 1);
+
 			}());
+
+			var setChildParams = function(interpval){
+					childNode.setParam("Center Frequency", 2000*(1-interpval));
+					childNode.setParam("Filter Q", 2*Math.abs(.5-interpval)*30);
+					childNode.setParamNorm("Gain", 1-2*Math.abs(.5-interpval));
+			};
 
 
 			// ----------------------------------------
@@ -53,11 +63,8 @@ define(
 				}
 
 				// Initial Values
-				childNode.setParam("Filter Q", 30);
-				childNode.setParam("Center Frequency", 2000);
-				childNode.setParam("Attack Time", .5);
-				childNode.setParam("Release Time", 1);
-				childNode.setParamNorm("Gain", .0);
+				setChildParams(m_Position);
+
 
 				childNode.play();
 			};
@@ -73,9 +80,7 @@ define(
 				},
 				function (i_val) {
 					m_Position=i_val;
-					childNode.setParam("Center Frequency", 2000*(1-m_Position));
-					childNode.setParam("Filter Q", 2*Math.abs(.5-m_Position)*30);
-					childNode.setParamNorm("Gain", 1-2*Math.abs(.5-m_Position));
+					setChildParams(m_Position);
 				}
 			);
 

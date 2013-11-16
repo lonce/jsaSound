@@ -24,7 +24,7 @@ It creates a new window for a "player" GUI with sliders and text boxes to show v
 define(
 	["jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils"],
 	function (baseSM, utils) {
-		//console.log("returning sliderBox constructor");
+
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
 			var val;
@@ -145,7 +145,7 @@ define(
 			function setupPlayButtonParameter(paramName) {
 				var controllerID = paramName.replace(/\s+/g, '') + "_controllerID";
 				var buttonID = paramName.replace(/\s+/g, '') + "_buttonID";
-				console.log("play button controller id is " + controllerID)
+				//console.log("play button controller id is " + controllerID)
 				var checkID  = paramName.replace(/\s+/g, '') + "_checkID";
 
 				// Fit value into the min-max range
@@ -339,7 +339,7 @@ define(
 			}
 
 			myInterface.setState = function (state) {
-				console.log("setState called with state: " + JSON.stringify(state));
+				//console.log("setState called with state: " + JSON.stringify(state));
 				uncheckAll();
 
 				var stateElems = state.map(function (param) {

@@ -27,7 +27,7 @@ define(
             var dc = AC.createBufferSource();
             dc.buffer = dcBuffer;
             dc.loop = true;
-            dc.noteOn(0);
+            dc.start(0);
 
             var gain = AC.createGain();
             gain.gain.value = value;
@@ -50,7 +50,7 @@ define(
             gain.gain.value = 1.0;
 
             source.connect(gain);
-            source.noteOn(0);
+            source.start(0);
 
             var dc = dc_node(0);
             dc.connect(gain);

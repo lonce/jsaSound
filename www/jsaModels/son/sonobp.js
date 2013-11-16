@@ -75,7 +75,7 @@ define(
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
-				setChildParams(0);
+				setChildParams(m_Position);
 				bpNoiseNode.setParam("Release Time", m_releasetime);
 				bpNoiseNode.play();
 			};

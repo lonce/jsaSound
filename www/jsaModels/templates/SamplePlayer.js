@@ -96,7 +96,7 @@ define(
 						myInterface.setParam("Gain", i_gain);
 					}
 
-					sourceNode.noteOn(i_ptime);
+					sourceNode.start(i_ptime);
 
 
 					if (myInterface.getNumOutConnections() === 0){

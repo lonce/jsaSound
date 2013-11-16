@@ -32,9 +32,7 @@ define(
 			var gainLevelNode = config.audioContext.createGain();
 
 			var m_gainLevel = 0.75;
-			// var m_attackTime = 0.05;
-			// var m_releaseTime = 1.0;
-			var m_soundUrl = "";//"./sounds/schumannLotusFlower.mp3";
+
 			var m_grainSize = 0.9;
 			var m_speed = 1.0;
 			var m_pitch = 0.0;
@@ -59,9 +57,10 @@ define(
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Experimental. Exploring granular synthesis based on Google example.")
 
-			function sendXhr() {
+			function sendXhr(i_url) {			
+				buffLoaded = false;
 				//SHOULD XHR BE RE-CONSTRUCTED??
-				xhr.open('GET', m_soundUrl, true);
+				xhr.open('GET', i_url, true);
 				xhr.responseType = 'arraybuffer';
 				xhr.onerror = function (e) {
 					console.error(e);
@@ -70,11 +69,9 @@ define(
 					console.log("Sound(s) loaded");
 					soundBuff = config.audioContext.createBuffer(xhr.response, false);
 					buffLoaded = true;
-					bufferDuration = soundBuff.duration;
-					console.log("Buffer loaded with duration " + bufferDuration);
-
+					console.log("Buffer Loaded!");
 				};
-				xhr.send();
+				xhr.send();		
 			}
 
 			function buildModelArchitecture() {
@@ -154,7 +151,6 @@ define(
 
 				} else {
 					console.log("Buffer NOT loaded yet!");
-					//CREATE EXTERNAL CALLBACK HERE!!!
 					alert("Press load and wait!");
 				}
 			};
@@ -221,7 +217,7 @@ define(
 					"val": config.resourcesPath + "jsaResources/sounds/BeingRural22k.mp3"
 				},
 				function (i_val) {
-					m_soundUrl = i_val;
+					val = i_val;
 					buffLoaded = false;
 					sendXhr();
 				}
@@ -234,6 +230,8 @@ define(
 				setTimeout(stopScheduler, 0);
 			};
 
+			buffLoaded = false;
+			sendXhr(myInterface.getParam("Sound URL", "val"));
 			return myInterface;
 		};
 	}

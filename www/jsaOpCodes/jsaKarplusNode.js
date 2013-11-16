@@ -41,7 +41,7 @@ define(
 				}
 			};
 
-			karplusNode.noteOn = function(i_time){
+			karplusNode.start = function(i_time){
 				m_impulse = 0.001 * config.audioContext.sampleRate;
 				n = 0;
 				playingP=true;

@@ -34,7 +34,7 @@ define(
             gainEnvNode = config.audioContext.createGain();
             gainLevelNode = config.audioContext.createGain();
 
-            console.log("in BUILD, gain level node is " + gainLevelNode );
+            //console.log("in BUILD, gain level node is " + gainLevelNode );
 
             // Also have to set all of their state values since they all get forgotten, too!!
             gainLevelNode.gain.value = m_gainLevel;
@@ -73,7 +73,7 @@ define(
                     oscModulatorNode.type = 0;  //sin
                     oscModulatorNode.frequency.value = m_mod_freq;
                     oscModulatorNode.connect(m_CarrierNode);
-                    oscModulatorNode.noteOn(now);
+                    oscModulatorNode.start(now);
                     gainLevelNode.gain.value = m_gainLevel;
 
                     gainEnvNode.gain.cancelScheduledValues(now);
@@ -106,7 +106,7 @@ define(
                 }
 
                 if (myInterface.getNumOutConnections() === 0){
-                    console.log("connecting MyInterface to audio context desination");
+                    //console.log("connecting MyInterface to audio context desination");
                     myInterface.connect(config.audioContext.destination);
                 }		
             };

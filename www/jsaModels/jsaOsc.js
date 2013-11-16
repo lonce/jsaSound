@@ -33,6 +33,7 @@ define(
 			// Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
 			var buildModelArchitectureAGAIN = function () {
 				// if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
+				oscNode && oscNode.disconnect();
 				oscNode = config.audioContext.createOscillator();
 				oscNode.type = 1;  //square
 
@@ -49,18 +50,13 @@ define(
 			myInterface.play = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 
-				if (stopTime <= now) { // not playing
-					console.log("rebuild model node architecture!");
-					buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
-					oscNode.noteOn(now);
-					gainEnvNode.gain.value = 0;
-				} else {  	// Already playing
-							// no need to recreate architectre - the old one still exists since it is playing
-					console.log(" ... NOT building architecure because stopTime (" + stopTime + " ) is greater than now (" + now + ")");
-					// Cancel any envelope events to start fresh
-					gainEnvNode.gain.cancelScheduledValues(now);
-				}
-				// The rest of the code is for new starts or restarts	
+				console.log("rebuild model node architecture!");
+				buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
+				oscNode.start(now);
+				gainEnvNode.gain.value = 0;
+
+				gainEnvNode.gain.cancelScheduledValues(now);
+
 				stopTime = config.bigNum;
 				oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 

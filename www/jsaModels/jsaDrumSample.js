@@ -27,7 +27,7 @@ define(
 			var sourceNode;
 
 			var m_gainLevel = 1.0;
-			var m_soundUrl = "";
+			var m_defaultsoundURL = config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav";
 			var stopTime = 0.0;
 
        		
@@ -52,8 +52,9 @@ define(
 			};
 
 			function sendXhr(i_url) {			
-				m_soundUrl 	= i_url;
+
 				buffLoaded = false;
+				console.log("loading " + i_url)
 				//SHOULD XHR BE RE-CONSTRUCTED??
 				xhr.open('GET', i_url, true);
 				xhr.responseType = 'arraybuffer';
@@ -84,7 +85,7 @@ define(
 
 				if (buffLoaded) {
 
-					sourceNode && sourceNode.stop(0);
+					sourceNode && sourceNode.disconnect();
 
 
 					buildModelArchitectureAGAIN();
@@ -95,7 +96,7 @@ define(
 						myInterface.setParam("Gain", i_gain);
 					}
 
-					sourceNode.noteOn(i_ptime);
+					sourceNode.start(i_ptime);
 
 
 					if (myInterface.getNumOutConnections() === 0){
@@ -130,10 +131,11 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": i_fname || config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav"
+					"val": i_fname || m_defaultsoundURL
 				},
 				function (i_val) {
-					sendXhr(i_val);
+					val=i_val;
+					sendXhr(val);
 				}
 			);
 
@@ -142,7 +144,8 @@ define(
 				sourceNode && sourceNode.stop(0);
 			};
 
-
+			buffLoaded = false;
+			sendXhr(myInterface.getParam("Sound URL", "val"));
 			return myInterface;
 		};
 	}

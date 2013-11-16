@@ -25,7 +25,7 @@ define(
 			var buffLoaded = false;
 
 			var xhr = new XMLHttpRequest();
-			//var foo = new ArrayBuffer(100);
+
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainLevelNode = config.audioContext.createGain();
@@ -71,18 +71,16 @@ define(
 			myInterface.play = function (i_gain) {
 				if (buffLoaded) {
 					now = config.audioContext.currentTime;
-					if (stopTime <= now) {
-						console.log("rebuilding");
-						buildModelArchitectureAGAIN();
-						sourceNode.noteOn(now);
-						gainEnvNode.gain.value = 0;
-					} else {
-						console.log("NOT re-building");
-						gainEnvNode.gain.cancelScheduledValues(now);
-					}
+
+					console.log("rebuilding");
+					sourceNode && sourceNode.disconnect(0); // in case it wasn't stop()ed, we still want to get rid of it before rebuilding.
+					buildModelArchitectureAGAIN();
+					sourceNode.start(now);
+					gainEnvNode.gain.value = 0;
+
+					gainEnvNode.gain.cancelScheduledValues(now);
 
 					stopTime = config.bigNum;
-					sourceNode.stop(stopTime);
 
 					gainLevelNode.gain.value = i_gain || m_gainLevel;
 					console.log("Gain set at " + gainLevelNode.gain.value);
@@ -93,7 +91,7 @@ define(
 					if (myInterface.getNumOutConnections() === 0){
 						console.log("connecting MyInterface to audio context desination");
 						myInterface.connect(config.audioContext.destination);
-				}		
+					}		
 
 
 				} else {
@@ -164,6 +162,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 				sourceNode && sourceNode.stop(stopTime);
+				console.log("ok, releasing");
 			};
 
 			return myInterface;

@@ -73,6 +73,7 @@ define(
 
 			myInterface.play = function (i_freq, i_gain) {
 				m_beatIndex=0;
+				child.stop(0); // in case it is still releasing...
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=1;
 				ticks = sched.track([
@@ -126,7 +127,8 @@ define(
 					"val": i_fname || (config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav")
 				},
 				function (i_val) {
-					child.setParam("Sound URL", i_val);
+					val = i_val;
+					child.setParam("Sound URL", val);
 				}
 			);
 
@@ -144,7 +146,8 @@ define(
 
 			);
 
-
+			// load the default sound
+			child.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
 			return myInterface;
 		};
 	}

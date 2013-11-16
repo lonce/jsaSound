@@ -85,8 +85,7 @@ define(
 
 				if (buffLoaded) {
 
-					sourceNode && sourceNode.stop(0);
-
+					sourceNode && sourceNode.disconnect(0);
 
 					buildModelArchitectureAGAIN();
 
@@ -96,13 +95,7 @@ define(
 						myInterface.setParam("Gain", i_gain);
 					}
 
-					sourceNode.noteOn(i_ptime);
-
-
-					if (myInterface.getNumOutConnections() === 0){
-						//console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.audioContext.destination);
-				}		
+					sourceNode.start(i_ptime);
 
 
 				} else {

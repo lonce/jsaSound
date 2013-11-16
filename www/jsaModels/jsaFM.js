@@ -28,6 +28,8 @@ define(
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
 
+			var isPlaying=false; // this is to heop deal with the error that gets thrown if you stop an oscilator that is not playing. 
+
 			// Create the nodes and thier connections. Runs once on load [Don't know why for jsaOc we have to call this on every play(), but not for this model!]
 			var buildModelArchitecture = (function () {
 				// These must be called on every play because of the tragically short lifetime ... however, after the 
@@ -60,36 +62,33 @@ define(
 				oscModulatorNode = config.audioContext.createOscillator();
 				oscModulatorNode.frequency.value = m_mod_freq;
 				oscModulatorNode.connect(m_CarrierNode);
+
 			};
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
 
-
 			myInterface.play = function () {
-				myInterface.qplay(config.audioContext.currentTime);
-			};
-
-
-			myInterface.qplay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}				
 
-				//now = config.audioContext.currentTime;
+				var i_ptime = config.audioContext.currentTime;
 
-				if (stopTime <= i_ptime) { // not playing
-					buildModelArchitectureAGAIN();
-					oscModulatorNode.noteOn(i_ptime);
-					gainEnvNode.gain.value = 0;
-				} else {  
-					gainEnvNode.gain.cancelScheduledValues(i_ptime);
-				}
-				// The rest of the code is for new starts or restarts	
+				oscModulatorNode && oscModulatorNode.disconnect(0);
+
+
+
+				oscModulatorNode && oscModulatorNode.disconnect(0);
+				buildModelArchitectureAGAIN();
+				oscModulatorNode.start(i_ptime);
+				gainEnvNode.gain.value = 0;
+
+				gainEnvNode.gain.cancelScheduledValues(i_ptime);
+
+
 				stopTime = config.bigNum;
-				oscModulatorNode.stop(stopTime);  // "cancels" any previously set future stops, I think
-
 
 				m_CarrierNode.setFreq(m_car_freq);
 				gainLevelNode.gain.value = m_gainLevel;
@@ -97,7 +96,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(0, i_ptime);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, i_ptime + m_attackTime); // go to gain level over .1 secs	
 
-	
+				isPlaying=true;	
 			};
 
 			myInterface.registerParam(
@@ -181,6 +180,8 @@ define(
 			);
 
 			myInterface.release = function () {
+				if (! isPlaying) return;
+
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
@@ -188,6 +189,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 				oscModulatorNode.stop(stopTime);
+				console.log("OK, we released ...")
 			};
 				
 			return myInterface;

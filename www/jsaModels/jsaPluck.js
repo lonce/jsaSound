@@ -56,7 +56,7 @@ define(
 				if (stopTime <= now) { // not playing
 					//console.log("rebuild PLUCK model node architecture!");
 					buildModelArchitectureAGAIN();
-					//oscNode.noteOn(now);
+					//oscNode.start(now);
 					//gainEnvNode.gain.value = 0;
 				} else {  // no need to recreate architectre - the old one still exists since it is playing
 					//console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
@@ -85,7 +85,7 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}		
 
-				oscNode.noteOn(now);
+				oscNode.start(now);
 			};
 
 			myInterface.registerParam(
