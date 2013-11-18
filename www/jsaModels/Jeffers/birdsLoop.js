@@ -23,12 +23,21 @@ define(
 			//var foo = new ArrayBuffer(100);
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
+			var gainEnvNode = config.audioContext.createGain();
 			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
 
 			var m_gainLevel = .5;
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/ThunderSample2.wav";
-			var stopTime = 0.0;
+
+			//hard-coded file name
+			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/141252__oroborosnz__parrots-in-tree.mp3";
+
+
+			var m_attackTime = 1,
+			m_releaseTime = 3.0,
+			stopTime = 0.0,	// will be > audioContext.currentTime if playing
+			now = 0.0;
+
 
        		
 
@@ -39,6 +48,7 @@ define(
 
 			var init = (function (){
 				sendXhr(m_soundUrl);
+
 				//i_fname && sendXhr(i_fname);
 			}());
 
@@ -47,10 +57,15 @@ define(
 			var buildModelArchitectureAGAIN = function() {
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
-				sourceNode.loop = false;
+				sourceNode.loop = true;
 				sourceNode.isPlaying=false;
 
-				sourceNode.connect(gainLevelNode);
+
+				gainEnvNode = config.audioContext.createGain();
+				gainEnvNode.gain.value = 0;
+
+				sourceNode.connect(gainEnvNode);
+				gainEnvNode.connect(gainLevelNode);
 			};
 
 			function sendXhr(i_url) {			
@@ -88,6 +103,7 @@ define(
 
 					sourceNode && sourceNode.disconnect(0);
 
+
 					buildModelArchitectureAGAIN();
 
 					stopTime = config.bigNum;
@@ -100,12 +116,59 @@ define(
 					sourceNode.isPlaying=true;
 
 
+					if (myInterface.getNumOutConnections() === 0){
+						//console.log("connecting MyInterface to audio context desination");
+						myInterface.connect(config.audioContext.destination);
+				}		
+
+
 				} else {
 					console.log("Buffer NOT loaded yet!");
 					//CREATE EXTERNAL CALLBACK HERE!!!
 					//alert("Press load and wait!");
 				}
+
+				now = config.audioContext.currentTime;
+
+				gainEnvNode.gain.cancelScheduledValues(now);
+				stopTime = config.bigNum;
+				gainEnvNode.gain.setValueAtTime(0, now);
+				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
+
+				//gainLevelNode = config.audioContext.createGain();
+				gainLevelNode.gain.value = m_gainLevel;
+
+
 			};
+
+						// ----------------------------------------		
+			myInterface.setAttackTime = myInterface.registerParam(
+				"Attack Time",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": m_attackTime
+				},
+				function (i_val) {
+					m_attackTime = parseFloat(i_val); // javascript makes me cry ....
+				}
+			);
+
+			// ----------------------------------------		
+			myInterface.setReleaseTime = myInterface.registerParam(
+				"Release Time",
+				"range",
+				{
+					"min": 0,
+					"max": 3,
+					"val": m_releaseTime
+				},
+				function (i_val) {
+					m_releaseTime = parseFloat(i_val); // javascript makes me cry ....
+				}
+			);
+
 
 			myInterface.registerParam(
 				"Gain",
@@ -126,7 +189,7 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": i_fname || config.resourcesPath + "jsaResources/sounds/Thunder0.wav"
+					"val": i_fname || config.resourcesPath + "jsaResources/sounds/Rain.wav"
 				},
 				function (i_val) {
 					sendXhr(i_val);
@@ -134,8 +197,15 @@ define(
 			);
 */
 			myInterface.release = function () {
+				now = config.audioContext.currentTime;
+				stopTime = now + m_releaseTime;
 
-				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+
+				gainEnvNode.gain.cancelScheduledValues(now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(stopTime);
 				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 			};
 

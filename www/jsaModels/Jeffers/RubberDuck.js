@@ -27,7 +27,7 @@ define(
 			var sourceNode;
 
 			var m_gainLevel = .5;
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/ThunderSample2.wav";
+			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/130014__ermfilm__ruber-duck-big-1(lw.excerpt).mp3";
 			var stopTime = 0.0;
 
        		
@@ -135,8 +135,10 @@ define(
 */
 			myInterface.release = function () {
 
+
 				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
 				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
 			};
 
 

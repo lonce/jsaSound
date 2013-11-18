@@ -55,6 +55,7 @@ define(
 				now = config.audioContext.currentTime;
 				if (stopTime <= now) { // not playing
 					//console.log("rebuild PLUCK model node architecture!");
+					oscNode && oscNode.disconnect();
 					buildModelArchitectureAGAIN();
 					//oscNode.start(now);
 					//gainEnvNode.gain.value = 0;

@@ -48,6 +48,7 @@ define(
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = false;
+				sourceNode.isPlaying=false;
 
 				sourceNode.connect(gainLevelNode);
 			};
@@ -87,7 +88,6 @@ define(
 
 					sourceNode && sourceNode.disconnect(0);
 
-
 					buildModelArchitectureAGAIN();
 
 					stopTime = config.bigNum;
@@ -97,12 +97,7 @@ define(
 					}
 
 					sourceNode.start(i_ptime);
-
-
-					if (myInterface.getNumOutConnections() === 0){
-						//console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.audioContext.destination);
-				}		
+					sourceNode.isPlaying=true;
 
 
 				} else {
@@ -140,7 +135,8 @@ define(
 */
 			myInterface.release = function () {
 
-				sourceNode && sourceNode.stop(0);
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 			};
 
 

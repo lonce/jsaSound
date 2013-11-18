@@ -63,6 +63,8 @@ define(
 				oscModulatorNode.frequency.value = m_mod_freq;
 				oscModulatorNode.connect(m_CarrierNode);
 
+				oscModulatorNode.isPlaying=false;
+
 			};
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
@@ -83,6 +85,7 @@ define(
 				oscModulatorNode && oscModulatorNode.disconnect(0);
 				buildModelArchitectureAGAIN();
 				oscModulatorNode.start(i_ptime);
+				oscModulatorNode.isPlaying=true;
 				gainEnvNode.gain.value = 0;
 
 				gainEnvNode.gain.cancelScheduledValues(i_ptime);
@@ -188,7 +191,12 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				oscModulatorNode.stop(stopTime);
+
+
+				oscModulatorNode && oscModulatorNode.isPlaying && oscModulatorNode.stop(stopTime);
+				if (oscModulatorNode) oscModulatorNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
+
 				console.log("OK, we released ...")
 			};
 				

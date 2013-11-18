@@ -178,11 +178,14 @@ define(
 					releaseTimeOut=setTimeout(function(){myInterface.stop();},dur);
 				}
 
+
 			};
 
 			myInterface.stop = function () {
 				// stops the animation frame callbacks
 				playingP=false;
+				child.release();
+				console.log("plucky stopping children");
 			};
 
 			// Exposed soundmodel parameters --------------------

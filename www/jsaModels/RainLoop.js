@@ -58,6 +58,7 @@ define(
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = true;
+				sourceNode.isPlaying=false;
 
 
 				gainEnvNode = config.audioContext.createGain();
@@ -112,6 +113,7 @@ define(
 					}
 
 					sourceNode.start(i_ptime);
+					sourceNode.isPlaying=true;
 
 
 					if (myInterface.getNumOutConnections() === 0){
@@ -203,8 +205,11 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				sourceNode && sourceNode.stop(stopTime);
+
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(stopTime);
+				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 			};
+
 
 
 			return myInterface;
