@@ -220,6 +220,7 @@ define(
 			// Turn off sounds if window is closed
 			function confirmExit() {
 				i_sm.release();
+				i_sm.destroy();
 			}
 
 			myWindow.onbeforeunload = confirmExit;

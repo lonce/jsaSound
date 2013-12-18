@@ -18,132 +18,135 @@ Date: May 2013
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
-		return function () {
-			var k_impulseDuration=.001;
-			var k_gain_factor=20; // for sounds that just need a boost
-			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
-			var m_slipRate=1; // 
-			var m_doorSwingRate = 0;  // in [0-1]
-			var m_gainLevel = .8;
+        ["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+        function (config, baseSM, BufferNoiseNodeFactoryMaker, jsaConvolverFactory, jsaEventPhasor) {
+                return function () {
 
-			var playingP=false;
-			var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
-			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/OneDoorCreak.wav");
-			var	swingGainNode = config.audioContext.createGain(); // manipuloated internally
-			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
+                        var BufferNoiseNodeFactory = BufferNoiseNodeFactoryMaker();
 
-			// for triggering periodic events
-			var m_ephasor = jsaEventPhasor();
-			m_ephasor.setFreq(m_doorSwingRate);
+                        var k_impulseDuration=.001;
+                        var k_gain_factor=20; // for sounds that just need a boost
+                        var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
+                        var m_slipRate=1; // 
+                        var m_doorSwingRate = 0;  // in [0-1]
+                        var m_gainLevel = .8;
 
-			var requestAnimationFrame = window.requestAnimationFrame;
+                        var playingP=false;
+                        var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
+                        var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/OneDoorCreak.wav");
+                        var        swingGainNode = config.audioContext.createGain(); // manipuloated internally
+                        var        gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
-			// paramterize and connect graph nodes
-			m_conv.connect(swingGainNode);
-			swingGainNode.gain.value=1.0;
-			swingGainNode.connect(gainLevelNode);
-			gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
+                        // for triggering periodic events
+                        var m_ephasor = jsaEventPhasor();
+                        m_ephasor.setFreq(m_doorSwingRate);
 
-			//  requestAnimationFrame callback function
-			var animate = function (e) {
-				if (! (playingP=== true)) return;
+                        var requestAnimationFrame = window.requestAnimationFrame;
 
-				var now = config.audioContext.currentTime;	// this is the time this callback comes in - there could be jitter, etc.	
-				var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
-				var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around		
+                        // paramterize and connect graph nodes
+                        m_conv.connect(swingGainNode);
+                        swingGainNode.gain.value=1.0;
+                        swingGainNode.connect(gainLevelNode);
+                        gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 
-				var ptime;  // the event play time
+                        //  requestAnimationFrame callback function
+                        var animate = function (e) {
+                                if (! (playingP=== true)) return;
 
-				while (next_uptotime > nextTickTime) {
-					ptime = nextTickTime;
+                                var now = config.audioContext.currentTime;        // this is the time this callback comes in - there could be jitter, etc.        
+                                var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
+                                var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around                
 
-					//child.qplay(ptime);
-					init();
-					child.start(ptime);
-					child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
+                                var ptime;  // the event play time
 
-					m_ephasor.advanceToTick();
-					nextTickTime = m_ephasor.nextTickTime();		// so when is the next tick?
-				}
-				m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
-				requestAnimationFrame(animate);
-			};
+                                while (next_uptotime > nextTickTime) {
+                                        ptime = nextTickTime;
 
-			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("First 'Play', then 'Swing'! (Tech note: uses event phasor for timing events) ")
+                                        //child.qplay(ptime);
+                                        init();
+                                        child.start(ptime);
+                                        child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 
+                                        m_ephasor.advanceToTick();
+                                        nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
+                                }
+                                m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
+                                requestAnimationFrame(animate);
+                        };
 
-			// get a new SourceBufferNode for every event (oi.)
-			var init = function () {
-					child = BufferNoiseNodeFactory();
-					child.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
-			};
+                        var myInterface = baseSM({},[],[gainLevelNode]);
+                        myInterface.setAboutText("First 'Play', then 'Swing'! (Tech note: uses event phasor for timing events) ")
 
 
-			myInterface.play = function (i_freq, i_gain) {
-				var now = config.audioContext.currentTime;
-				m_ephasor.setPhase(0.999999999);	// so that the phaser wraps to generate an event immediately after starting
-				m_ephasor.setCurrentTime(now);
+                        // get a new SourceBufferNode for every event (oi.)
+                        var init = function () {
+                                        child = BufferNoiseNodeFactory();
+                                        child.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
+                        };
 
-				playingP=true;
-				requestAnimationFrame(animate);
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
-				}
-			};
+                        myInterface.play = function (i_freq, i_gain) {
+                                var now = config.audioContext.currentTime;
+                                m_ephasor.setPhase(0.999999999);        // so that the phaser wraps to generate an event immediately after starting
+                                m_ephasor.setCurrentTime(now);
 
-			myInterface.release = function () {
-				// stops the animation frame callbacks
-				playingP=false;
-			};
+                                playingP=true;
+                                requestAnimationFrame(animate);
 
-			// Exposed soundmodel parameters --------------------
+                                if (myInterface.getNumOutConnections() === 0){
+                                        myInterface.connect(config.audioContext.destination);
+                                }
+                        };
 
-			myInterface.registerParam(
-				"Door Swing Speed",
-				"range",
-				{
-					"min": 0,
-					"max": 1,
-					"val": m_doorSwingRate
-				},
-				function (i_val) {
-					var s;
-					m_doorSwingRate = parseFloat(i_val);
-					s=m_doorSwingRate*m_doorSwingRate;
+                        myInterface.release = function () {
+                                // stops the animation frame callbacks
+                                playingP=false;
+                        };
 
-					m_slipRate=Math.floor(s*15); // number of modes
+                        // Exposed soundmodel parameters --------------------
 
-					// creaking gets softer for high swing rates
-					if (s<.7){
-						swingGainNode.gain.value=1.0;
-					} else{
-						swingGainNode.gain.value=1.0-(s-.7)*3.3;
-					}
+                        myInterface.registerParam(
+                                "Door Swing Speed",
+                                "range",
+                                {
+                                        "min": 0,
+                                        "max": 1,
+                                        "val": m_doorSwingRate
+                                },
+                                function (i_val) {
+                                        var s;
+                                        m_doorSwingRate = parseFloat(i_val);
+                                        s=m_doorSwingRate*m_doorSwingRate;
 
-					m_ephasor.setFreq(40*s*m_slipRate); //controls how high the frequency goes
+                                        m_slipRate=Math.floor(s*15); // number of modes
 
-				}
-			);
+                                        // creaking gets softer for high swing rates
+                                        if (s<.7){
+                                                swingGainNode.gain.value=1.0;
+                                        } else{
+                                                swingGainNode.gain.value=1.0-(s-.7)*3.3;
+                                        }
 
-			myInterface.registerParam(
-				"Gain",
-				"range",
-				{
-					"min": 0,
-					"max": 1,
-					"val": m_gainLevel
-				},
-				function (i_val) {
-					m_gainLevel = i_val;
-					gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
-				}
-			);
+                                        m_ephasor.setFreq(40*s*m_slipRate); //controls how high the frequency goes
 
-			return myInterface;
-		};
-	}
+                                }
+                        );
+
+                        myInterface.registerParam(
+                                "Gain",
+                                "range",
+                                {
+                                        "min": 0,
+                                        "max": 1,
+                                        "val": m_gainLevel
+                                },
+                                function (i_val) {
+                                        m_gainLevel = i_val;
+                                        gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
+                                }
+                        );
+
+                        return myInterface;
+                };
+        }
 );

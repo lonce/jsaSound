@@ -47,6 +47,7 @@ define(
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = false;
+				sourceNode.isPlaying=false;
 
 				sourceNode.connect(gainLevelNode);
 			};
@@ -85,7 +86,9 @@ define(
 
 				if (buffLoaded) {
 
-					sourceNode && sourceNode.disconnect();
+					//sourceNode && sourceNode.disconnect();
+					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
 
 					buildModelArchitectureAGAIN();
@@ -97,6 +100,7 @@ define(
 					}
 
 					sourceNode.start(i_ptime);
+					sourceNode.isPlaying=true;
 
 
 					if (myInterface.getNumOutConnections() === 0){
@@ -141,7 +145,10 @@ define(
 
 			myInterface.release = function () {
 
-				sourceNode && sourceNode.stop(0);
+				//sourceNode && sourceNode.stop(0);
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
 			};
 
 			buffLoaded = false;

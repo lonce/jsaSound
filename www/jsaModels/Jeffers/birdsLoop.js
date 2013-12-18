@@ -18,6 +18,7 @@ define(
 
 
 			var buffLoaded = false;
+			var playWhenBufferLoadsP =false;
 
 			var xhr = new XMLHttpRequest();
 			//var foo = new ArrayBuffer(100);
@@ -82,6 +83,10 @@ define(
 					soundBuff = config.audioContext.createBuffer(xhr.response, false);
 					buffLoaded = true;
 					console.log("Buffer Loaded!");
+					if (playWhenBufferLoadsP===true) {
+						myInterface.play();
+					}
+
 				};
 				xhr.send();		
 			}
@@ -123,9 +128,9 @@ define(
 
 
 				} else {
-					console.log("Buffer NOT loaded yet!");
-					//CREATE EXTERNAL CALLBACK HERE!!!
-					//alert("Press load and wait!");
+					console.log("Buffer NOT loaded yet! - Will load and play");
+					playWhenBufferLoadsP=true;
+
 				}
 
 				now = config.audioContext.currentTime;

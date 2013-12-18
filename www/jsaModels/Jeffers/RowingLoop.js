@@ -18,6 +18,7 @@ define(
 
 
 			var buffLoaded = false;
+			var playWhenBufferLoadsP =false;
 
 			var xhr = new XMLHttpRequest();
 			//var foo = new ArrayBuffer(100);
@@ -58,7 +59,7 @@ define(
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = true;
-
+				sourceNode.isPlaying=false;
 
 				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
@@ -81,6 +82,9 @@ define(
 					soundBuff = config.audioContext.createBuffer(xhr.response, false);
 					buffLoaded = true;
 					console.log("Buffer Loaded!");
+					if (playWhenBufferLoadsP===true) {
+						myInterface.play();
+					}
 				};
 				xhr.send();		
 			}
@@ -112,6 +116,7 @@ define(
 					}
 
 					sourceNode.start(i_ptime);
+					sourceNode.isPlaying=true;
 
 
 					if (myInterface.getNumOutConnections() === 0){
@@ -121,9 +126,8 @@ define(
 
 
 				} else {
-					console.log("Buffer NOT loaded yet!");
-					//CREATE EXTERNAL CALLBACK HERE!!!
-					//alert("Press load and wait!");
+					console.log("Buffer NOT loaded yet! - Will load and play");
+					playWhenBufferLoadsP=true;
 				}
 
 				now = config.audioContext.currentTime;
@@ -203,7 +207,11 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				sourceNode && sourceNode.stop(stopTime);
+				//sourceNode && sourceNode.stop(stopTime);
+
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(stopTime);
+				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
 			};
 
 

@@ -13,9 +13,13 @@ Date: June 2013
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, BufferNoiseNodeFactory, jsaConvolverFactory, jsaEventPhasor) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	function (config, baseSM, BufferNoiseNodeFactoryMaker, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
+			                        
+			var BufferNoiseNodeFactory = BufferNoiseNodeFactoryMaker();
+
+
 			var k_impulseDuration=.003;
 			var k_gain_factor=5; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now

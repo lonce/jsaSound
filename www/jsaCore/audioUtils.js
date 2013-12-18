@@ -39,6 +39,10 @@ define(
 		var noteFreqs=calculateNoteFreqs();
 
 		audioUtils.note2Freq = function(noteName){
+			if (noteFreqs[noteName]===undefined){
+				console.log("error in audioUtils.note2Freq: note " + noteName + " is not defined");
+				return 0;
+			}
 			return noteFreqs[noteName];
 		}
 		//--------------------------------------------------------------------------------

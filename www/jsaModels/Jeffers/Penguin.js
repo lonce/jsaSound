@@ -47,6 +47,7 @@ define(
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = false;
+				sourceNode.isPlaying=false;
 
 				sourceNode.connect(gainLevelNode);
 			};
@@ -95,6 +96,7 @@ define(
 					}
 
 					sourceNode.start(i_ptime);
+					sourceNode.isPlaying=true;
 
 
 				} else {
@@ -133,7 +135,11 @@ define(
 */
 			myInterface.release = function () {
 
-				sourceNode && sourceNode.stop(0);
+				//sourceNode && sourceNode.stop(0);
+				sourceNode && sourceNode.isPlaying && sourceNode.stop(stopTime);
+				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
+
 			};
 
 

@@ -166,6 +166,9 @@ define(
 			bsmInterface.stop = function () {
 				console.log("baseSM.stop() should probably be overridden ");
 			};
+			bsmInterface.destroy = function () {
+				console.log("baseSM.destroy() should probably be overridden ");
+			};
 
 			bsmInterface.qrelease = function (ms) {
 				if ((!ms) || ms === 0){

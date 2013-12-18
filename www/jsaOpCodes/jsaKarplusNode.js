@@ -25,9 +25,17 @@ define(
 			var m_y = new Float32Array(N);
 			var n = 0;
 
+			m_sampleDuration=44100; // default
+			m_sampleCount=0;
+
 			var playingP=false;
 
+			karplusanimationcount=0;
+
 			karplusNode.onaudioprocess = function (e) {
+				karplusanimationcount++;
+				if ((karplusanimationcount%10)===0) console.log("KARPLUS animation count  = " + karplusanimationcount);
+
 				var xn;
 				var outBuffer = e.outputBuffer.getChannelData(0);
 				for (var i = 0; i < e.outputBuffer.length; ++i) {
@@ -37,14 +45,27 @@ define(
 						if (++n >= N) n = 0;
 					} else {
 						outBuffer[i]=0;
-					}
+					};
+					m_sampleCount++;
+				}
+				if (m_sampleCount > m_sampleDuration) {
+					playingP=false;
+					//console.log("stopping pluck  processing");
 				}
 			};
 
-			karplusNode.start = function(i_time){
+			karplusNode.start = function(i_time, i_timeDuration){
 				m_impulse = 0.001 * config.audioContext.sampleRate;
 				n = 0;
+
+				m_sampleCount=0;
 				playingP=true;
+
+				if (i_timeDuration  !=undefined){
+					m_sampleDuration=config.audioContext.sampleRate*i_timeDuration;
+				}
+
+
 			}
 
 			karplusNode.stop = function(i_time){
@@ -52,7 +73,13 @@ define(
 			}
 
 			karplusNode.setFrequency = function (i_frequency) {
-				m_frequency = i_frequency;
+				if (i_frequency < 20){
+					m_frequency=config.audioContext.sampleRate/2;
+					console.log("In karplusNode.setFrequency, input frequency too low (<20Hz). Resetting freq samplerate to minimize computational damage.");
+					//console.log("typed array length will be " + Math.round(config.audioContext.sampleRate / m_frequency));
+				} else{
+					m_frequency = i_frequency;
+				}
 				N=Math.round(config.audioContext.sampleRate / m_frequency);
 				m_y = new Float32Array(N);
 			};

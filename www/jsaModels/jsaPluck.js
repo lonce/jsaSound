@@ -37,6 +37,8 @@ define(
 
 			// (Re)create the nodes and thier connections. Because oscNode.notOff invalidates the node
 			var buildModelArchitectureAGAIN = function () {
+				oscNode && oscNode.disconnect();
+
 				oscNode = karplusNodeFactory();
 				oscNode.setFrequency(m_frequency);  
 
@@ -86,7 +88,10 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}		
 
-				oscNode.start(now);
+				oscNode.start(now, stopTime-now);
+				//console.log("starting at " + now +", and will stop at " + stopTime + ", for a duration of " + stopTime-now);
+				console.log("starting at " + now +", and will stop at " + stopTime );
+				//oscNode.stop(10000000000+stopTime);
 			};
 
 			myInterface.registerParam(
@@ -160,10 +165,10 @@ define(
 			);
 
 			myInterface.release = function () {
-				if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
+				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 			myInterface.stop = function () {
-				if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
+				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 
 

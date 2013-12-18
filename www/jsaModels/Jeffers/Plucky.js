@@ -21,8 +21,8 @@ define(
 			notes[0] = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"];  // C major pentatonic
 			notes[1] = ["C4", "D4", "F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"];  // F major pentatonic
 			notes[2] = ["C4", "D4", "F4", "G4", "Bb4", "C5", "D5", "F5", "G5", "Bb5"];  // Bb major pentatonic
-			notes[3] = ["C4", "Eb", "F4", "G4", "Bb4", "C5", "Eb5", "F5", "G5", "Bb5"];  // Eb major pentatonic
-			notes[4] = ["C4", "Eb", "F4", "Ab4", "Bb4", "C5", "Eb5", "F5", "Ab5", "Bb5"];  // Ab major pentatonic
+			notes[3] = ["C4", "Eb5", "F4", "G4", "Bb4", "C5", "Eb5", "F5", "G5", "Bb5"];  // Eb major pentatonic
+			notes[4] = ["C4", "Eb4", "F4", "Ab4", "Bb4", "C5", "Eb5", "F5", "Ab5", "Bb5"];  // Ab major pentatonic
 
 			var scaleNum=0;
 			var numScales=5;
@@ -40,12 +40,16 @@ define(
 			var m_ephasor = jsaEventPhasor();
 			m_ephasor.setFreq(m_frequency);
 
+			animationcount=0;
+
 
 
 			var playingP=false;
 			var child = childNodeFactory(k_impulseDuration); // short burst, created only once
 			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
+			var m_roomConv = jsaConvolverFactory(config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
+			console.log("loading impulse response from file: " + config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
 			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
 
@@ -66,9 +70,14 @@ define(
 			}
 
 
+
+
 			// paramterize and connect graph nodes
 			child.connect(m_conv);
-			m_conv.connect(gainLevelNode);
+
+			m_conv.connect(m_roomConv);
+			m_roomConv.connect(gainLevelNode);
+
 			gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 
 			var releaseTimeOut;
@@ -77,6 +86,10 @@ define(
 
 			//  requestAnimationFrame callback function
 			var animate = function (e) {
+				animationcount++;
+				if ((animationcount%100)===0) console.log("plucky animation count  = " + animationcount);
+
+
 				if (! (playingP=== true)) return;
 
 				var now = config.audioContext.currentTime;	// this is the time this callback comes in - there could be jitter, etc.	
@@ -105,6 +118,7 @@ define(
 					}
 
 					if (ticksToNote===0){
+
 						child.play();
 
 						if ((tickCount%64)===24){   // end on "tonic" once every two phrases
@@ -115,6 +129,7 @@ define(
 						} else {
 							child.setParam("Frequency", audioUtils.note2Freq(notes[scaleNum][getNextNoteNum()]))
 						}
+
 
 
 						if ((tickCount%32)===24){   // take a breather at the end of every phrase
@@ -188,6 +203,14 @@ define(
 				console.log("plucky stopping children");
 			};
 
+
+			myInterface.destroy = function () {
+				child && child.disconnect();
+				m_conv && m_conv.disconnect();
+				m_roomConv && m_roomConv.disconnect();
+				console.log("DESTROY resource-hungry conv nodes")
+			}
+
 			// Exposed soundmodel parameters --------------------
 
 			myInterface.registerParam(
@@ -234,6 +257,7 @@ define(
 				function (i_val) {
 					m_gainLevel = i_val;
 					gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
+					console.log("just set Plucky gain to " + gainLevelNode.gain.value);
 				}
 			);
 
