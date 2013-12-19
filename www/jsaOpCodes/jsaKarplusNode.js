@@ -34,7 +34,7 @@ define(
 
 			karplusNode.onaudioprocess = function (e) {
 				karplusanimationcount++;
-				if ((karplusanimationcount%10)===0) console.log("KARPLUS animation count  = " + karplusanimationcount);
+				//if ((karplusanimationcount%10)===0) console.log("KARPLUS animation count  = " + karplusanimationcount);
 
 				var xn;
 				var outBuffer = e.outputBuffer.getChannelData(0);

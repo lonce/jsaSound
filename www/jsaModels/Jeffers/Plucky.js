@@ -49,7 +49,7 @@ define(
 			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
 			var m_roomConv = jsaConvolverFactory(config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
-			console.log("loading impulse response from file: " + config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
+			//console.log("loading impulse response from file: " + config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
 			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
 
@@ -87,7 +87,7 @@ define(
 			//  requestAnimationFrame callback function
 			var animate = function (e) {
 				animationcount++;
-				if ((animationcount%100)===0) console.log("plucky animation count  = " + animationcount);
+				//if ((animationcount%100)===0) console.log("plucky animation count  = " + animationcount);
 
 
 				if (! (playingP=== true)) return;
@@ -200,7 +200,7 @@ define(
 				// stops the animation frame callbacks
 				playingP=false;
 				child.release();
-				console.log("plucky stopping children");
+				//console.log("plucky stopping children");
 			};
 
 
@@ -208,7 +208,6 @@ define(
 				child && child.disconnect();
 				m_conv && m_conv.disconnect();
 				m_roomConv && m_roomConv.disconnect();
-				console.log("DESTROY resource-hungry conv nodes")
 			}
 
 			// Exposed soundmodel parameters --------------------
@@ -257,7 +256,6 @@ define(
 				function (i_val) {
 					m_gainLevel = i_val;
 					gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
-					console.log("just set Plucky gain to " + gainLevelNode.gain.value);
 				}
 			);
 

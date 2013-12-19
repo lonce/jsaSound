@@ -90,7 +90,7 @@ define(
 
 				oscNode.start(now, stopTime-now);
 				//console.log("starting at " + now +", and will stop at " + stopTime + ", for a duration of " + stopTime-now);
-				console.log("starting at " + now +", and will stop at " + stopTime );
+				//console.log("starting at " + now +", and will stop at " + stopTime );
 				//oscNode.stop(10000000000+stopTime);
 			};
 
