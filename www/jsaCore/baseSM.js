@@ -70,6 +70,7 @@ define(
 					"value": i_val,
 					"f": i_f
 				};
+				//i_f(i_val); // initializization
 				params[i_name] = paramObject;
 				paramname.push(i_name);
 			};

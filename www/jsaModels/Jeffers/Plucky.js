@@ -31,7 +31,7 @@ define(
 
 
 			var k_impulseDuration=.5;
-			var k_gain_factor=25; // for sounds that just need a boost
+			var k_gain_factor=100; // for sounds that just need a boost
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 			var m_gainLevel = .9;
 
@@ -48,7 +48,7 @@ define(
 			var child = childNodeFactory(k_impulseDuration); // short burst, created only once
 			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
-			var m_roomConv = jsaConvolverFactory(config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
+			var m_roomConv = jsaConvolverFactory(config.resourcesPath + "jsaResources/impulse-response/diffusor3.wav");
 			//console.log("loading impulse response from file: " + config.resourcesPath + "jsaResources/impulse-response/diffusor2.wav");
 			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 

@@ -6,6 +6,8 @@ define(
 			//var connect_to = i_connect_to;
 
 			function gotAudio(stream) {
+				
+
 				console.log("in gotAudio, stream is " + stream);
 				console.log("in gotAudio, audioContext is " + config.audioContext);
 				if (! config.microphone) {
@@ -26,7 +28,9 @@ define(
     			merger.connect(connect_to);
 				*/
 
-				microphone.connect(connect_to);
+				// do this GraphNode Wrapping just in case the node we are connecting to is a GraphNode
+				var micWrapper=org.anclab.steller.GraphNode({}, [], [microphone]);
+				micWrapper.connect(connect_to);
 			}
 
 			function error() {

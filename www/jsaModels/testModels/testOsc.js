@@ -13,11 +13,13 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // There is an attack time, a hold until release() is called, and a decay time.
 // ******************************************************************************************************
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM"],
-	function (config, baseSM) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/ringModulatorNode"],
+	function (config, baseSM, ringModulatorFactory) {
 		return function () {
 			
 			var	oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
+			var oscNodeUnwrapped;
+
 			var	gainEnvNode = config.audioContext.createGain();
 			var	gainLevelNode = config.audioContext.createGain(); 
 
@@ -29,17 +31,34 @@ define(
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
 			var now = 0.0;
 
+			var rm = ringModulatorFactory();
+
+
+
 			// (Re)create the nodes and thier connections.
 			// Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
 			var buildModelArchitectureAGAIN = function () {
 				// if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
-				oscNode && oscNode.disconnect();
-				oscNode = config.audioContext.createOscillator();
-				oscNode.type = 1;  //square
-				oscNode.isPlaying=false;
+				oscNodeUnwrapped && oscNodeUnwrapped.disconnect();
+
+				//oscNodeUnwrapped = config.audioContext.createOscillator();
+				//oscNode=org.anclab.steller.GraphNode(oscNodeUnwrapped, [], [oscNodeUnwrapped]);
+
+
+				oscNodeUnwrapped = config.audioContext.createOscillator();
+				oscNode=org.anclab.steller.GraphNode({}, [], [oscNodeUnwrapped]);
+
+				oscNodeUnwrapped.type = 1;  //square
+				oscNodeUnwrapped.isPlaying=false;
 
 				// make the graph connections
-				oscNode.connect(gainEnvNode);
+
+
+				//oscNode.connect(gainEnvNode);
+				oscNode.connect(rm);
+
+				rm.connect(gainEnvNode);
+
 				gainEnvNode.connect(gainLevelNode);
 			};
 
@@ -53,8 +72,10 @@ define(
 
 				console.log("rebuild model node architecture!");
 				buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
-				oscNode.start(now);
-				oscNode.isPlaying=true;
+				oscNodeUnwrapped.start(now);
+
+
+				oscNodeUnwrapped.isPlaying=true;
 				gainEnvNode.gain.value = 0;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
@@ -62,7 +83,7 @@ define(
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				oscNode.frequency.value = i_freq || m_frequency;
+				oscNodeUnwrapped.frequency.value = i_freq || m_frequency;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
@@ -84,7 +105,7 @@ define(
 				},
 				function (i_freq) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					oscNode.frequency.value = m_frequency = i_freq;
+					oscNodeUnwrapped.frequency.value = m_frequency = i_freq;
 				}
 			);
 
@@ -132,17 +153,21 @@ define(
 
 			// ----------------------------------------
 			myInterface.release = function () {
-				now = config.audioContext.currentTime;
-				stopTime = now + m_releaseTime;
+			    var now = config.audioContext.currentTime;
+                var stopTime = now + m_releaseTime;
 
-				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+                gainEnvNode.gain.cancelScheduledValues(now);
+                gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+                gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				oscNode && oscNode.isPlaying && oscNode.stop(stopTime);
-				if (oscNode) oscNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
+				oscNodeUnwrapped && oscNodeUnwrapped.isPlaying && oscNodeUnwrapped.stop(stopTime);
+				if (oscNodeUnwrapped) oscNodeUnwrapped.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
 			};
+
+			myInterface.registerChildParam(rm, "modFreq");
+			myInterface.registerChildParam(rm, "DryWet");
 
 			return myInterface;
 		};
