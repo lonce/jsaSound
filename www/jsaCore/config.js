@@ -29,7 +29,8 @@ define(
 		} else if (typeof webkitAudioContext !== "undefined") {
 		    exports.audioContext = new webkitAudioContext();
 		} else {
-		    throw new Error('AudioContext not supported. :(');
+		    //throw new Error('AudioContext not supported. :(');
+		    	// let the system run without sound - this client can still be a controller. 
 		}
 
 		exports.bigNum = 10000000000.0;// Infinity;  
