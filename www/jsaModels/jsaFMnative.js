@@ -222,7 +222,7 @@ define(
                     );
 
             myInterface.release = function () {
-                console.log("nativeeFM release");
+                //console.log("nativeeFM release");
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
                     // common model ones
