@@ -53,8 +53,8 @@ require(
 		// play the sound
 		var mdown=function(e){
 			//snd.play();
-			snd.setParamNorm("play", 1);
-			//alert("play");
+			
+			alert("play");
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
@@ -76,6 +76,7 @@ require(
 		};
 
 		window.onmousedown=function(e){
+			snd.setParamNorm("play", 1);
 			mdown(e);
 		};
 
