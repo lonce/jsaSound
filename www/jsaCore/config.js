@@ -26,7 +26,7 @@ define(
 		exports.audioContext=null;
 		if('webkitAudioContext' in window) {
     		exports.audioContext = new webkitAudioContext();
-    		alert("AudioContext OK!");
+    		//alert("AudioContext OK!");
 		}
 
 		/*

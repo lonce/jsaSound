@@ -49,9 +49,9 @@ require(
 			any event or object in your javascript code. Here we use simple mouse events and motion.
 		*/
 
-		window.addEventListner("touchstart", window.onmousedown, false);
-		window.addEventListner("touchmove", window.onmousemove, false);
-		window.addEventListner("touchend", window.onmouseup, false);
+		window.addEventListener("touchstart", window.onmousedown, false);
+		window.addEventListener("touchmove", window.onmousemove, false);
+		window.addEventListener("touchend", window.onmouseup, false);
 		// play the sound
 		window.onmousedown=function(){
 			//snd.play();
