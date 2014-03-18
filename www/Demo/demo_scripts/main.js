@@ -51,20 +51,20 @@ require(
 
 
 		// play the sound
-		window.onmousedown=function(e){
+		var mdown=function(e){
 			//snd.play();
 			snd.setParamNorm("play", 1);
 			//alert("play");
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
-		window.onmouseup=function(e){
+		var mup=function(e){
 			//snd.release();
 			snd.setParamNorm("play", 0);
 		};
 
 		// Setting sound parameters, in this case using normalized values (in [0,1]).
-		window.onmousemove=function(e){
+		var mmove=function(e){
 			var normX = e.clientX/window.innerWidth;
 			var normY = e.clientY/window.innerHeight;
 			
@@ -75,9 +75,23 @@ require(
 			//console.log("Modulation Index has val=" + snd.getParam("Modulation Index","val") + ", and normed val=" + snd.getParam("Modulation Index","normval"));
 		};
 
-		window.addEventListener("touchstart", window.onmousedown, false);
-		window.addEventListener("touchmove", window.onmousemove, false);
-		window.addEventListener("touchend", window.onmouseup, false);
+		window.onmousedown=function(e){
+			mdown(e);
+		};
+
+		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
+		window.onmouseup=function(e){
+			mup(e);
+		};
+
+		// Setting sound parameters, in this case using normalized values (in [0,1]).
+		window.onmousemove=function(e){
+			mmove(e);
+		};
+
+		window.addEventListener("touchstart", mdown, false);
+		window.addEventListener("touchmove", mmove, false);
+		window.addEventListener("touchend", mup, false);
 
 	}
 );
