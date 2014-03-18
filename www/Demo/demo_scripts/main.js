@@ -49,18 +49,22 @@ require(
 			any event or object in your javascript code. Here we use simple mouse events and motion.
 		*/
 
-		window.addEventListener("touchstart", window.onmousedown, false);
+		window.addEventListener("touchstart", hamburgerhelper, false);
 		window.addEventListener("touchmove", window.onmousemove, false);
 		window.addEventListener("touchend", window.onmouseup, false);
+
+		function hamburgerhelper(e){
+			alert("hamburgerhelper");
+		}
 		// play the sound
-		window.onmousedown=function(){
+		window.onmousedown=function(e){
 			//snd.play();
 			snd.setParamNorm("play", 1);
 			alert("play");
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
-		window.onmouseup=function(){
+		window.onmouseup=function(e){
 			//snd.release();
 			snd.setParamNorm("play", 0);
 		};
