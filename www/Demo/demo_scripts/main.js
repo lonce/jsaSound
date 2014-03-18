@@ -49,19 +49,12 @@ require(
 			any event or object in your javascript code. Here we use simple mouse events and motion.
 		*/
 
-		window.addEventListener("touchstart", hamburgerhelper, false);
-		window.addEventListener("touchmove", window.onmousemove, false);
-		window.addEventListener("touchend", window.onmouseup, false);
 
-		function hamburgerhelper(e){
-			alert("hamburgerhelper");
-			snd.setParamNorm("play", 1);
-		}
 		// play the sound
 		window.onmousedown=function(e){
 			//snd.play();
 			snd.setParamNorm("play", 1);
-			alert("play");
+			//alert("play");
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
@@ -81,5 +74,10 @@ require(
 			snd.setParamNorm("Modulation Index", normY); // setting by parameter name
 			//console.log("Modulation Index has val=" + snd.getParam("Modulation Index","val") + ", and normed val=" + snd.getParam("Modulation Index","normval"));
 		};
+
+		window.addEventListener("touchstart", window.onmousedown, false);
+		window.addEventListener("touchmove", window.onmousemove, false);
+		window.addEventListener("touchend", window.onmouseup, false);
+
 	}
 );
