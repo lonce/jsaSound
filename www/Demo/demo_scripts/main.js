@@ -49,10 +49,14 @@ require(
 			any event or object in your javascript code. Here we use simple mouse events and motion.
 		*/
 
+		window.addEventListner("touchstart", window.onmousedown, false);
+		window.addEventListner("touchmove", window.onmousemove, false);
+		window.addEventListner("touchend", window.onmouseup, false);
 		// play the sound
 		window.onmousedown=function(){
 			//snd.play();
 			snd.setParamNorm("play", 1);
+			alert("play");
 		};
 
 		// release the sound sending it into its decay segmen (use stop() if you want to stop the sound abruptly)
