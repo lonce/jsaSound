@@ -55,6 +55,7 @@ require(
 
 		function hamburgerhelper(e){
 			alert("hamburgerhelper");
+			snd.setParamNorm("play", 1);
 		}
 		// play the sound
 		window.onmousedown=function(e){
