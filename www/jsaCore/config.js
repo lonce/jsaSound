@@ -24,20 +24,14 @@ define(
 		//exports.resourcesPath = "http://localhost:8001";
 		exports.resourcesPath = wheredoilive;
 		exports.audioContext=null;
-		if('webkitAudioContext' in window) {
+		if('AudioContext' in window) {
+    		exports.audioContext = new AudioContext();
+    		//alert("AudioContext OK!");
+		} else if ('webkitAudioContext' in window) {
     		exports.audioContext = new webkitAudioContext();
     		//alert("AudioContext OK!");
-		}
-
-		/*
-		if (typeof AudioContext !== "undefined") {
-		    exports.audioContext = new AudioContext();
-		} else if (typeof webkitAudioContext !== "undefined") {
-		    exports.audioContext = new webkitAudioContext();
-		} 
-*/
-		else {
-			alert("Audio conext does not appear to be supported but we'll run siltenlty anyway!");
+		}  else {
+			alert("Audio conext does not appear to be supported but we'll run silently anyway!");
 		    //throw new Error('AudioContext not supported. :(');
 		    	// let the system run without sound - this client can still be a controller. 
 		}
