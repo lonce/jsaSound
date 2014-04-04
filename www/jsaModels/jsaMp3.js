@@ -22,71 +22,74 @@ define(
 
 			//CUrrently, I've just enabled looping to overcome that problem
 
-			var buffLoaded = false;
+			var sm=new Object();
 
-			var xhr = new XMLHttpRequest();
+			sm.buffLoaded = false;
 
-			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
+			sm.xhr = new XMLHttpRequest();
 
-			var gainLevelNode = config.audioContext.createGain();
-			var gainEnvNode = config.audioContext.createGain();
-			var sourceNode;
+			sm.soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
-			var m_gainLevel = 1.0;
-			var m_attackTime = 0.05;
-			var m_releaseTime = 1.0;
-			var m_soundUrl = "";
-			var stopTime = 0.0;
-			var now = 0.0;
+			sm.gainLevelNode = config.audioContext.createGain();
+			sm.gainEnvNode = config.audioContext.createGain();
 
-			var myInterface = baseSM({},[],[gainLevelNode]);
+
+			sm.m_gainLevel = 1.0;
+			sm.m_attackTime = 0.05;
+			sm.m_releaseTime = 1.0;
+			sm.m_soundUrl = "";
+			sm.stopTime = 0.0;
+			sm.now = 0.0;
+
+			var myInterface = baseSM({},[],[sm.gainLevelNode]);
+			//myInterface.sourceNode;
 			myInterface.setAboutText("Simple mp3 (or wav) player - must load sounds from same domain as server.")
 
-			// Must keep rebuilding on play() this because sourceNode goes away after you call sourceNode.noeOff()
-			buildModelArchitectureAGAIN = function() {
-				sourceNode = config.audioContext.createBufferSource();
-				sourceNode.buffer = soundBuff;
-				sourceNode.loop = true;
+			// Must keep rebuilding on play() this because myInterface.sourceNode goes away after you call myInterface.sourceNode.noeOff()
+			myInterface.buildModelArchitectureAGAIN = function() {
+				myInterface.sourceNode = config.audioContext.createBufferSource();
+				myInterface.sourceNode.buffer = sm.soundBuff;
+				myInterface.sourceNode.loop = false;
 
-				sourceNode.connect(gainEnvNode);
-				gainEnvNode.connect(gainLevelNode);
+				myInterface.sourceNode.connect(sm.gainEnvNode);
+				sm.gainEnvNode.connect(sm.gainLevelNode);
 			};
 
-			function sendXhr() {				
-				//SHOULD XHR BE RE-CONSTRUCTED??
-				xhr.open('GET', m_soundUrl, true);
-				xhr.responseType = 'arraybuffer';
-				xhr.onerror = function (e) {
+			function sendxhr() {				
+				//SHOULD sm.xhr BE RE-CONSTRUCTED??
+				sm.xhr.open('GET', sm.m_soundUrl, true);
+				sm.xhr.responseType = 'arraybuffer';
+				sm.xhr.onerror = function (e) {
 					console.error(e);
 				};
-				xhr.onload = function () {
+				sm.xhr.onload = function () {
 					console.log("Sound(s) loaded");
-					soundBuff = config.audioContext.createBuffer(xhr.response, false);
-					buffLoaded = true;
+					sm.soundBuff = config.audioContext.createBuffer(sm.xhr.response, false);
+					sm.buffLoaded = true;
 					console.log("Buffer Loaded!");
 				};
-				xhr.send();		
+				sm.xhr.send();		
 			}
 
 			myInterface.play = function (i_gain) {
-				if (buffLoaded) {
-					now = config.audioContext.currentTime;
+				if (sm.buffLoaded) {
+					sm.now = config.audioContext.currentTime;
 
 					console.log("rebuilding");
-					sourceNode && sourceNode.disconnect(0); // in case it wasn't stop()ed, we still want to get rid of it before rebuilding.
-					buildModelArchitectureAGAIN();
-					sourceNode.start(now);
-					gainEnvNode.gain.value = 0;
+					myInterface.sourceNode && myInterface.sourceNode.disconnect(0); // in case it wasn't stop()ed, we still want to get rid of it before rebuilding.
+					myInterface.buildModelArchitectureAGAIN();
+					myInterface.sourceNode.start(sm.now);
+					sm.gainEnvNode.gain.value = 0;
 
-					gainEnvNode.gain.cancelScheduledValues(now);
+					sm.gainEnvNode.gain.cancelScheduledValues(sm.now);
 
-					stopTime = config.bigNum;
+					sm.stopTime = config.bigNum;
 
-					gainLevelNode.gain.value = i_gain || m_gainLevel;
-					console.log("Gain set at " + gainLevelNode.gain.value);
+					sm.gainLevelNode.gain.value = i_gain || sm.m_gainLevel;
+					console.log("Gain set at " + sm.gainLevelNode.gain.value);
 
-					gainEnvNode.gain.setValueAtTime(0, now);
-					gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime);
+					sm.gainEnvNode.gain.setValueAtTime(0, sm.now);
+					sm.gainEnvNode.gain.linearRampToValueAtTime(1, sm.now + sm.m_attackTime);
 
 					if (myInterface.getNumOutConnections() === 0){
 						console.log("connecting MyInterface to audio context desination");
@@ -107,11 +110,11 @@ define(
 				{
 					"min": 0,
 					"max": 2,
-					"val": m_gainLevel
+					"val": sm.m_gainLevel
 				},
 				function (i_val) {
-					m_gainLevel = i_val;
-					gainLevelNode.gain.value =  i_val;
+					sm.m_gainLevel = i_val;
+					sm.gainLevelNode.gain.value =  i_val;
 				}
 			);
 
@@ -121,10 +124,10 @@ define(
 				{
 					"min": 0,
 					"max": 1,
-					"val": m_attackTime
+					"val": sm.m_attackTime
 				},
 				function (i_val) {
-					m_attackTime = parseFloat(i_val);
+					sm.m_attackTime = parseFloat(i_val);
 				}
 			);
 
@@ -134,10 +137,10 @@ define(
 				{
 					"min": 0,
 					"max": 3,
-					"val": m_releaseTime
+					"val": sm.m_releaseTime
 				},
 				function (i_val) {
-					m_releaseTime = parseFloat(i_val);
+					sm.m_releaseTime = parseFloat(i_val);
 				}
 			);
 
@@ -148,20 +151,20 @@ define(
 					"val": config.resourcesPath + "jsaResources/sounds/BeingRural22k.mp3"
 				},
 				function (i_val) {
-					m_soundUrl = i_val;
-					buffLoaded = false;
-					sendXhr();
+					sm.m_soundUrl = i_val;
+					sm.buffLoaded = false;
+					sendxhr();
 				}
 			);
 
 			myInterface.release = function () {
-				now = config.audioContext.currentTime;
-				stopTime = now + m_releaseTime;
+				sm.now = config.audioContext.currentTime;
+				sm.stopTime = sm.now + sm.m_releaseTime;
 
-				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-				sourceNode && sourceNode.stop(stopTime);
+				sm.gainEnvNode.gain.cancelScheduledValues(sm.now);
+				sm.gainEnvNode.gain.setValueAtTime(sm.gainEnvNode.gain.value, sm.now ); 
+				sm.gainEnvNode.gain.linearRampToValueAtTime(0, sm.stopTime);
+				myInterface.sourceNode && myInterface.sourceNode.stop(sm.stopTime);
 				console.log("ok, releasing");
 			};
 
