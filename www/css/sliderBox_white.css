@@ -1,0 +1,32 @@
+body
+{
+
+background-size:16px 16px;
+}
+.tb{ 
+font-family:arial, helvetica; font-size:14px; 
+color:#000000;
+border:2px solid;
+border-radius:5px;
+border-color:#000000;
+background-color:#FFFFFF;
+} 
+.aswFooter{ 
+font-family:arial, helvetica; font-size:14px; 
+color:#000000;
+border:2px solid;
+border-radius:5px;
+border-color:#000000;
+background-color:#FFFFFF;
+width:10em;
+} 
+.paramName{ 
+font-family:arial, helvetica; font-size:12px; 
+color:#000000;
+margin-top:10px;
+margin-bottom:4px;
+}	
+#playbutton_ID{
+margin-top:10px;
+margin-bottom:10px;
+}

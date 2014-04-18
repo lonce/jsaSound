@@ -41,7 +41,7 @@ define(
 			var	gainLevelNode = config.audioContext.createGain();
 
 
-			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+			var requestAnimationFrame = window.requestAnimationFrame;
 
 			//  requestAnimationFrame callback function
 			var animate = function (e) {

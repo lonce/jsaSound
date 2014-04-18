@@ -24,8 +24,8 @@ doesn't push the ALLOW button, the model will not work properly.
 //		-audioContext
 //		-bigNum
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode", "jsaSound/jsaOpCodes/jsaMicInputNode", "jsaSound/jsaOpCodes/ringModulatorNode"],
-	function (config, baseSM, noiseNodeFactory, micInputNode, ringModulatorFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM",  "jsaSound/jsaOpCodes/jsaMicInputNode", "jsaSound/jsaOpCodes/ringModulatorNode"],
+	function (config, baseSM, micInputNode, ringModulatorFactory) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects

@@ -29,7 +29,7 @@ jsaUtils/utils.js
 //		-audioContext
 //		-bigNum
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode"],
 	function (config, baseSM, noiseNodeFactory) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
@@ -51,7 +51,7 @@ define(
 			
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Bandpass noise");
+			myInterface.setAboutText("Bandpass noise with native nodes");
 
 
 			// Create the nodes and thier connections. Runs once on load
@@ -202,9 +202,6 @@ define(
 			};
 				
 
-			// Web Audio BUG
-			//This little hack get the ScriptProcessorNode (the noise) generating so that the first time we hit play, we don't get a late start in the middle of the short attach period. 
-			//myInterface.play(0, 0);
 
 			return myInterface;
 		};

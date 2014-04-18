@@ -53,7 +53,8 @@ define(
 			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
 
-			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+			var requestAnimationFrame = window.requestAnimationFrame;
+			
 
 			//var m_lastInterval=0;
 			var m_lastNoteNum=5;

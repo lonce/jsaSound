@@ -10,7 +10,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaFModOsc"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc"],
 	function (config, baseSM, fmodOscFactory) {
         return function () {
             var	oscModulatorNode;
@@ -40,7 +40,7 @@ define(
             gainLevelNode.gain.value = m_gainLevel;
             gainEnvNode.gain.value = 0;
 
-            m_CarrierNode.setModIndex(m_modIndex);
+            m_CarrierNode.setParam("modIndex", m_modIndex);
 
             // make the graph connections
             m_CarrierNode.connect(gainEnvNode);
@@ -49,7 +49,7 @@ define(
             // -- END FIXED SETUP --
 
             var myInterface = baseSM({},[],[gainLevelNode]);
-            myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.");
+            myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
 
             // With no note playing, nothing happens when you
             // try to set the frequency.
@@ -60,6 +60,7 @@ define(
             // play() is a pure play(). To change frequency,
             // use the parameter setting calls before calling play().
             // -Kumar
+            var nodeWrapper;
             myInterface.play = function () {
                 var now = config.audioContext.currentTime;
 
@@ -72,7 +73,16 @@ define(
                     oscModulatorNode = config.audioContext.createOscillator();
                     oscModulatorNode.type = 0;  //sin
                     oscModulatorNode.frequency.value = m_mod_freq;
-                    oscModulatorNode.connect(m_CarrierNode);
+
+
+                    nodeWrapper=oscModulatorNode;
+                    if (m_CarrierNode.nodeType==="GraphNode"){
+                        nodeWrapper=org.anclab.steller.GraphNode({}, [], [oscModulatorNode]);
+                        console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
+                    }
+                    nodeWrapper.connect(m_CarrierNode);
+
+                    
                     oscModulatorNode.start(now);
                     gainLevelNode.gain.value = m_gainLevel;
 
@@ -121,7 +131,7 @@ define(
                     },
                     function (i_val) {
                         m_car_freq = i_val;
-                        m_CarrierNode.setFreq(m_car_freq);
+                        m_CarrierNode.setParam("carrierFrequency", m_car_freq);
                     }
                     );
 
@@ -135,7 +145,7 @@ define(
                     },
                     function (i_val) {
                         m_modIndex = i_val;
-                        m_CarrierNode.setModIndex(m_modIndex);
+                        m_CarrierNode.setParam("modIndex", m_modIndex);
                     }
                     );
 

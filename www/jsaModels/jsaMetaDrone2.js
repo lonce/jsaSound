@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils", "jsaSound/jsaModels/jsaFilteredNoiseBand"],
-	function (config, baseSM, utils, jsaFilteredNoiseBandFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils", "jsaSound/jsaModels/FilteredNoiseBand"],
+	function (config, baseSM, utils, FilteredNoiseBandFactory) {
 		return function () {
 			var	childModel = [];
 			var k_maxNumChildren = 6;
@@ -50,7 +50,7 @@ define(
 			var init = (function () {
 				var i;
 				for (i = 0; i < k_maxNumChildren; i += 1) {
-					childModel[i] = jsaFilteredNoiseBandFactory();  
+					childModel[i] = FilteredNoiseBandFactory();  
 
 					childModel[i].setParam("Filter Q", 150);
 					childModel[i].setParam("Gain", m_childGain);

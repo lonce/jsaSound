@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 define(
 	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode"],
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNodeFactoryMaker"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNodeFactoryMaker"],
 	function (config, baseSM, noiseNodeFactoryMaker) {
 		return function () {
 
@@ -29,8 +29,8 @@ define(
 
 
 			var noiseNode = noiseNodeFactory();
-				noiseNode.setType("white");
-				noiseNode.keep();
+				//noiseNode.setType("white");
+				//noiseNode.keep();
 
 			var m_gainLevel = 0.40;
 			var	gainLevelNode = config.audioContext.createGain();

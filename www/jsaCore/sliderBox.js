@@ -45,7 +45,7 @@ define(
 			var myWindow = {};
 			myWindow = window.open('', '', "width = 400,height = " + h);
 			myWindow.document.write("<link href=\"css/sliderBox.css\" rel=\"stylesheet\" type=\"text/css\">");
-			myWindow.document.title = sm_string_name || "jsaSound Parameter Slider Box";
+			myWindow.document.title = sm_string_name.replace("jsaModels/","") || "jsaSound Parameter Slider Box";
 
 			if (i_sm.getAboutText()) {
 				myWindow.document.write("<div class=\"tb\" id=\"aboutTextID\"></div>");  //so it can be styled
@@ -82,18 +82,19 @@ define(
 				var controllerElement = myWindow.document.getElementById(controllerID);
 
 				//TODO: Check if it might be better to separate this as a factory function
-				controllerElement.change = (function (i_textID, pName) {
+				controllerElement.update = (function (i_textID, pName) {
 					var cb = function () {
 						var sval = parseFloat(controllerElement.value);
 						//Set the parameter in the SM
 						i_sm.setParam(pName, sval);
+						//console.log("calling set param with value " + sval);
 						//-----------------------------paramFunc(sval); // jsbug - w/o parseFloat, when values are whole numbers, they can get passed as strings!!
 						myWindow.document.getElementById(i_textID).value = sval;
 					};
 					return cb;
 				}(textID, paramName));
 
-				controllerElement.addEventListener('change', controllerElement.change);
+				controllerElement.addEventListener('input', controllerElement.update);
 
 				// Store the min and max value of the parameters so that we can properly set the sliders from normalized control message values
 				// We dont need the default value or store a function to call - thus the two nulls
@@ -128,7 +129,7 @@ define(
 				controllerButton = myWindow.document.getElementById(controllerID + "_button");
 
 				//TODO: Check if it might be better to separate this as a factory function
-				controllerElement.change = (function (ctlelmt, pName) {
+				controllerElement.update = (function (ctlelmt, pName) {
 					var cb = function () {
 						var sval = ctlelmt.value;
 						i_sm.setParam(pName, sval);
@@ -138,7 +139,7 @@ define(
 					return cb;
 				}(controllerElement, paramName)); // control element is the url text box, not the button. 
 
-				controllerButton.addEventListener('click', controllerElement.change);
+				controllerButton.addEventListener('click', controllerElement.update);
 				//NOT IMPLEMENTING THAT registerParam thing... yet
 			}
 
@@ -157,7 +158,7 @@ define(
 
 				var controllerElement = myWindow.document.getElementById(controllerID);
 				var buttonElement = myWindow.document.getElementById(buttonID);
-				controllerElement.change = (function (controllerElement, buttonElement, paramName) {
+				controllerElement.update = (function (controllerElement, buttonElement, paramName) {
 					var cb = function () {
 						var val = parseFloat(controllerElement.value);
 						i_sm.setParam(paramName, val);
@@ -249,7 +250,7 @@ define(
 				// console.log("controllerElement is:");
 				// console.log(controllerElement);
 				// console.log("!!!VALUE IS " + controllerElement.value);
-				controllerElement.change();
+				controllerElement.update();
 			};
 
 			myInterface.setParam = function (i_name, i_val) {
@@ -262,7 +263,7 @@ define(
 
 				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
 				controllerElement.value = i_val;
-				controllerElement.change();
+				controllerElement.update();
 			};
 
 			function isParamChecked(paramName) {
@@ -411,8 +412,8 @@ define(
 				}
 			});
 
-			myWindow.document.write("<div class=\"aswFooter\" id=\"homeLink\" ></div>");  //so it can be styled
-			myWindow.document.getElementById("homeLink").innerHTML = "<a href=\"http://animatedsoundworks.com:8001\" target=\"_blank\">AnimatedSoundWorks</a>";
+			//myWindow.document.write("<div class=\"aswFooter\" id=\"homeLink\" ></div>");  //so it can be styled
+			//myWindow.document.getElementById("homeLink").innerHTML = "<a href=\"http://animatedsoundworks.com:8001\" target=\"_blank\">AnimatedSoundWorks</a>";
 
 			//   -------------              -------------------------
 

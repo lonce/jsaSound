@@ -29,7 +29,10 @@ define(
 				*/
 
 				// do this GraphNode Wrapping just in case the node we are connecting to is a GraphNode
-				var micWrapper=org.anclab.steller.GraphNode({}, [], [microphone]);
+				var micWrapper=microphone;
+				if (connect_to.nodeType==="GraphNode"){
+					micWrapper=org.anclab.steller.GraphNode({}, [], [microphone]);
+				}
 				micWrapper.connect(connect_to);
 			}
 

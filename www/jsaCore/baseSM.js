@@ -45,7 +45,7 @@ define(
 
 
 			var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
-
+			bsmInterface.nodeType="GraphNode";
 
 
 			bsmInterface.getSched = function(){

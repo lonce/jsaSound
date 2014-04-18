@@ -44,7 +44,7 @@ define(
 			var m_ephasor = jsaEventPhasor();
 			m_ephasor.setFreq(m_rate);
 
-			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+			var requestAnimationFrame = window.requestAnimationFrame;
 
 			//  requestAnimationFrame callback function
 			var animate = function (e) {

@@ -24,7 +24,7 @@ jsaUtils/utils.js
 ******************************************************************************************************
 */
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaNoiseNode", "jsaSound/jsaOpCodes/jsaFModOsc"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode", "jsaSound/jsaOpCodes/nativeFModOsc"],
 	function (config, baseSM, noiseNodeFactory, fmodOscFactory) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
@@ -43,6 +43,8 @@ define(
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
 
+			var nodeWrapper; // to connect to a graph node
+
 			// (Re)create the nodes and thier connections.
 			// Must be called everytime we want to start playing since nodes are *deleted* when they aren't being used.
 			var buildModelArchitecture = (function () {
@@ -58,10 +60,20 @@ define(
 				gainEnvNode.gain.value = 0;
 
 				//This is an opcode. The unified "set" interface is not there for opcodes yet. TODO?
-				m_CarrierNode.setModIndex(m_modIndex);
+				m_CarrierNode.setParam("modIndex", m_modIndex);
 
 				// make the graph connections
-				noiseModulatorNode.connect(m_CarrierNode);
+				//noiseModulatorNode.connect(m_CarrierNode);
+			    nodeWrapper=noiseModulatorNode;
+                if (m_CarrierNode.nodeType==="GraphNode"){
+                    nodeWrapper=org.anclab.steller.GraphNode({}, [], [noiseModulatorNode]);
+                    console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
+                }
+                nodeWrapper.connect(m_CarrierNode);
+
+
+
+
 				m_CarrierNode.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
@@ -80,7 +92,7 @@ define(
 
 				// if no input, remember from last time set
 				m_car_freq = i_freq || m_car_freq;
-				m_CarrierNode.setFreq(m_car_freq);
+				m_CarrierNode.setParam("carrierFrequency", m_car_freq);
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
@@ -104,7 +116,7 @@ define(
 				},
 				function (i_val) {
 					m_car_freq = i_val;
-					m_CarrierNode.setFreq(m_car_freq);
+					m_CarrierNode.setParam("carrierFrequency", m_car_freq);
 				}
 			);
 
@@ -118,7 +130,7 @@ define(
 				},
 				function (i_val) {
 					m_modIndex = i_val;
-					m_CarrierNode.setModIndex(m_modIndex);
+					m_CarrierNode.setParam("modIndex", m_modIndex);
 				}
 			);
 
@@ -131,7 +143,6 @@ define(
 					"val": m_gainLevel
 				},
 				function (i_val) {
-					console.log("setting noisyFM gain to " + i_val);
 					gainLevelNode.gain.value = m_gainLevel = i_val;
 				}
 			);

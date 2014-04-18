@@ -1,6 +1,0 @@
-{
-	"name": "jsaMonsterVoice",
-	"version": 0.1,
-	"requiredModels": [],
-	"requiredOpCodes": ["noiseNode", "googleJungle", "MicInputNode"]
-}

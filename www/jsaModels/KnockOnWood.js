@@ -33,7 +33,7 @@ define(
 			var	gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
 
-			var requestAnimationFrame = window.webkitRequestAnimationFrame;
+			var requestAnimationFrame = window.requestAnimationFrame;
 
 			// paramterize and connect graph nodes
 			m_conv.connect(gainLevelNode);
