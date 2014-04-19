@@ -126,8 +126,8 @@ define(
                     "range",
                     {
                         "min": 200,
-                "max": 1000,
-                "val": m_car_freq
+                        "max": 1000,
+                        "val": m_car_freq
                     },
                     function (i_val) {
                         m_car_freq = i_val;
@@ -140,8 +140,8 @@ define(
                     "range",
                     {
                         "min": 0,
-                "max": 100,
-                "val": m_modIndex
+                        "max": 100,
+                        "val": m_modIndex
                     },
                     function (i_val) {
                         m_modIndex = i_val;
@@ -154,8 +154,8 @@ define(
                     "range",
                     {
                         "min": 0,
-                "max": 200,
-                "val": m_mod_freq
+                        "max": 200,
+                        "val": m_mod_freq
                     },
                     function (i_val) {
                         // Turn around and call whatever setFreq function
@@ -171,8 +171,8 @@ define(
                     "range",
                     {
                         "min": 0,
-                "max": 1,
-                "val": m_gainLevel
+                        "max": 1,
+                        "val": m_gainLevel
                     },
                     function (i_val) {
                         gainLevelNode.gain.value = m_gainLevel = i_val;
@@ -184,8 +184,8 @@ define(
                     "range",
                     {
                         "min": 0,
-                "max": 1,
-                "val": m_attackTime
+                        "max": 1,
+                        "val": m_attackTime
                     },
                     function (i_val) {
                         m_attackTime = parseFloat(i_val);  // javascript makes me cry ....
@@ -197,8 +197,8 @@ define(
                     "range",
                     {
                         "min": 0,
-                "max": 3,
-                "val": m_releaseTime
+                        "max": 3,
+                        "val": m_releaseTime
                     },
                     function (i_val) {
                         m_releaseTime = parseFloat(i_val); // javascript makes me cry ....

@@ -44,7 +44,7 @@ define(
 			
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("NOTE: Canary only on a proper web server. Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
+			myInterface.setAboutText("NOTE:  Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
 
 
 			myInterface.play = function (i_freq, i_gain) {

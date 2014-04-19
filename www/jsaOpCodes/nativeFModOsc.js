@@ -19,7 +19,7 @@ define(
 		return function () {
 
 			var m_modIndex=0;
-			var m_carFreq=400;
+			var m_carFreq=440;
 
             var modIndexNode = config.audioContext.createGain();   //mod index
 
@@ -38,8 +38,8 @@ define(
                 "carrierFrequency",
                 "range",
                 {
-                    "min": 300,
-                    "max": 500,
+                    "min": 200,
+                    "max": 1000,
                     "val": m_carFreq
                 },
                 function (i_val) {

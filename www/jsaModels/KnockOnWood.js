@@ -44,7 +44,7 @@ define(
 			//  requestAnimationFrame callback function
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Glottal pulse meant to be used within other sounds (like voies)")
+			myInterface.setAboutText("One knock per play click")
 
 
 			// get a new SourceBufferNode for every event (oi.)

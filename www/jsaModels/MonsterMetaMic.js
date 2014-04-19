@@ -54,7 +54,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]); // make gainLevelNode available for connections
-			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models to deonstrate the composability of sound models using GraphNode. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
+			myInterface.setAboutText("Press ALLOW (twice) on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)");
 
 			// ----------------------------------------
 			myInterface.play = function (i_bn, i_gain) {
