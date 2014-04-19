@@ -45,7 +45,7 @@ define(
 			var myWindow = {};
 			myWindow = window.open('', '', "width = 400,height = " + h);
 			myWindow.document.write("<link href=\"css/sliderBox.css\" rel=\"stylesheet\" type=\"text/css\">");
-			sm_string_name && myWindow.document.title = sm_string_name.replace("jsaModels/","") || "jsaSound Parameter Slider Box";
+			if (sm_string_name) myWindow.document.title = sm_string_name.replace("jsaModels/","") || "jsaSound Parameter Slider Box";
 
 			if (i_sm.getAboutText()) {
 				myWindow.document.write("<div class=\"tb\" id=\"aboutTextID\"></div>");  //so it can be styled
