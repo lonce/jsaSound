@@ -1,4 +1,5 @@
 {
 	"displayName": "Wilson Monster Voice",
-	"fileName": "jsaModels/jsaMonsterVoice"
+	"fileName": "jsaModels/jsaMonsterVoice",
+	"modelKeys": ["mic"]
 }

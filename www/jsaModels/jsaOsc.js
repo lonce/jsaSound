@@ -21,6 +21,8 @@ define(
 			var	gainEnvNode = config.audioContext.createGain();
 			var	gainLevelNode = config.audioContext.createGain(); 
 
+			var k_gainFactor = .15;
+
 			// defaults for setting up initial values (and displays) 
 			var m_gainLevel = 0.25;    // the point to (or from) which gainEnvNode ramps glide
 			var m_frequency = 440;
@@ -99,7 +101,8 @@ define(
 				},
 				function (i_val) {
 					//console.log("in sm.setGain, gainLevelNode = " + gainLevelNode);
-					gainLevelNode.gain.value = m_gainLevel = i_val;
+					m_gainLevel = i_val;
+					gainLevelNode.gain.value = k_gainFactor * m_gainLevel;
 				}
 			);
 

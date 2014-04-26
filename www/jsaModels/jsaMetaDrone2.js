@@ -23,7 +23,7 @@ define(
 	function (config, baseSM, utils, FilteredNoiseBandFactory) {
 		return function () {
 			var	childModel = [];
-			var k_maxNumChildren = 6;
+			var k_maxNumChildren = 10;
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
@@ -137,8 +137,8 @@ define(
 				"Number of Generators",
 				"range",
 				{
-					"min": 0,
-					"max": 10,
+					"min": 1,
+					"max": k_maxNumChildren,
 					"val": m_currentNumChildrenActive
 				},
 				function (i_gens) {

@@ -79,6 +79,22 @@ define(
 			};
 
 			// ----------------------------------------
+			myInterface.setFrequency = myInterface.registerParam(
+				"Frequency",
+				"range",
+				{
+					"min": 40,
+					"max": 1000,
+					"val": m_freq
+				},
+				function (i_val) {
+					m_freq=i_val;
+					formantSynthNode.setParam("Frequency", m_freq);
+				}
+			);
+
+			myInterface.registerChildParam(formantSynthNode, "Vibrato Depth");
+			myInterface.registerChildParam(formantSynthNode, "Vibrato Frequency");
 
 			myInterface.setVoice = myInterface.registerParam(
 				"Voice",
@@ -114,22 +130,7 @@ define(
 				}
 			);
 	
-			myInterface.setFrequency = myInterface.registerParam(
-				"Frequency",
-				"range",
-				{
-					"min": 40,
-					"max": 1000,
-					"val": m_freq
-				},
-				function (i_val) {
-					m_freq=i_val;
-					formantSynthNode.setParam("Frequency", m_freq);
-				}
-			);
 
-			myInterface.registerChildParam(formantSynthNode, "Vibrato Frequency");
-			myInterface.registerChildParam(formantSynthNode, "Vibrato Depth");
 
 			// ----------------------------------------		
 			myInterface.setGain = myInterface.registerParam(

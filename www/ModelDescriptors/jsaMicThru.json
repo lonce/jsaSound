@@ -1,4 +1,5 @@
 {
 	"displayName": "Mic Thru",
-	"fileName": "jsaModels/jsaMicThru"
+	"fileName": "jsaModels/jsaMicThru",
+	"modelKeys": ["mic"]
 }

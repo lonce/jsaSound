@@ -67,7 +67,7 @@ define(
 			    nodeWrapper=noiseModulatorNode;
                 if (m_CarrierNode.nodeType==="GraphNode"){
                     nodeWrapper=org.anclab.steller.GraphNode({}, [], [noiseModulatorNode]);
-                    console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
+                    //console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                 }
                 nodeWrapper.connect(m_CarrierNode);
 

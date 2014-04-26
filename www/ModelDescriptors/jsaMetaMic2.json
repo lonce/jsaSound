@@ -1,4 +1,5 @@
 {
 	"displayName": "Meta Mic 2",
-	"fileName": "jsaModels/jsaMetaMic2"
+	"fileName": "jsaModels/jsaMetaMic2",
+	"modelKeys": ["mic"]
 }

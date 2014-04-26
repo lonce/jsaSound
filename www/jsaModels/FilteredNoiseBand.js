@@ -69,7 +69,7 @@ define(
 
 				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
-				console.log("build arch with gain" +  gainLevelNode.gain.value);
+				//console.log("build arch with gain" +  gainLevelNode.gain.value);
 
 				// make the graph connections
 				m_noiseNode.connect(m_filterNode);
