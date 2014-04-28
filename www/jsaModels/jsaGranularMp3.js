@@ -156,28 +156,16 @@ define(
 			};
 
 			myInterface.registerParam(
-				"Gain",
+				"Pitch",
 				"range",
 				{
-					"min": 0,
-					"max": 1,
-					"val": m_gainLevel
+					"min": -2.0,
+					"max": 2.0,
+					"val": m_pitch
 				},
 				function (i_val) {
-					gainLevelNode.gain.value = m_gainLevel = i_val;
-				}
-			);
-
-			myInterface.registerParam(
-				"Speed",
-				"range",
-				{
-					"min": 0,
-					"max": 2,
-					"val": m_speed
-				},
-				function (i_val) {
-					speed = m_speed = i_val;
+					m_pitch = i_val;
+					pitchRate = Math.pow(2.0, m_pitch);
 				}
 			);
 
@@ -197,18 +185,20 @@ define(
 			);
 
 			myInterface.registerParam(
-				"Pitch",
+				"Speed",
 				"range",
 				{
-					"min": -2.0,
-					"max": 2.0,
-					"val": m_pitch
+					"min": 0,
+					"max": 2,
+					"val": m_speed
 				},
 				function (i_val) {
-					m_pitch = i_val;
-					pitchRate = Math.pow(2.0, m_pitch);
+					speed = m_speed = i_val;
 				}
 			);
+
+
+
 
 			myInterface.registerParam(
 				"Sound URL",
@@ -222,6 +212,20 @@ define(
 					sendXhr();
 				}
 			);
+
+			myInterface.registerParam(
+				"Gain",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": m_gainLevel
+				},
+				function (i_val) {
+					gainLevelNode.gain.value = m_gainLevel = i_val;
+				}
+			);
+
 
 			myInterface.release = function () {
 				console.log("release triggered");

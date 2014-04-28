@@ -14,32 +14,30 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM"],
 	function (config, baseSM) {
-		return function (i_fname) {
 
+		var buffRequested = false;
+		var buffLoaded = false; 
+		var soundBuff = config.audioContext.createBuffer(2,2,44100); 
+		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/130014__ermfilm__ruber-duck-big-1(lw.excerpt).mp3";
 
-			var buffLoaded = false;
+		return function () {
 
 			var xhr = new XMLHttpRequest();
-			//var foo = new ArrayBuffer(100);
-			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
 
 			var m_gainLevel = .5;
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/130014__ermfilm__ruber-duck-big-1(lw.excerpt).mp3";
-			var stopTime = 0.0;
-
-       		
+			var stopTime = 0.0;      		
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Simple mp3 (or wav) sample player - must load sounds from same domain as server.")
 
-
-
 			var init = (function (){
-				sendXhr(m_soundUrl);
-				//i_fname && sendXhr(i_fname);
+				if (! buffRequested){
+					buffRequested=true;
+					sendXhr(m_soundUrl);
+				} 
 			}());
 
 
@@ -121,18 +119,7 @@ define(
 				}
 			);
 
-/*
-			myInterface.registerParam(
-				"Sound URL",
-				"url",
-				{
-					"val": i_fname || config.resourcesPath + "jsaResources/sounds/Thunder0.wav"
-				},
-				function (i_val) {
-					sendXhr(i_val);
-				}
-			);
-*/
+
 			myInterface.release = function () {
 
 

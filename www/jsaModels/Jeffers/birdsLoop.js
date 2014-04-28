@@ -14,15 +14,20 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM"],
 	function (config, baseSM) {
-		return function (i_fname) {
 
 
-			var buffLoaded = false;
+		var buffRequested = false;
+		var buffLoaded = false; 
+		var soundBuff = config.audioContext.createBuffer(2,2,44100); 
+		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/141252__oroborosnz__parrots-in-tree.mp3";
+
+
+		return function () {
+
+
 			var playWhenBufferLoadsP =false;
 
 			var xhr = new XMLHttpRequest();
-			//var foo = new ArrayBuffer(100);
-			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainEnvNode = config.audioContext.createGain();
 			var gainLevelNode = config.audioContext.createGain();
@@ -30,27 +35,21 @@ define(
 
 			var m_gainLevel = .5;
 
-			//hard-coded file name
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/141252__oroborosnz__parrots-in-tree.mp3";
-
-
 			var m_attackTime = 1,
 			m_releaseTime = 3.0,
 			stopTime = 0.0,	// will be > audioContext.currentTime if playing
 			now = 0.0;
 
 
-       		
-
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Simple mp3 (or wav) sample player - must load sounds from same domain as server.")
 
 
-
 			var init = (function (){
-				sendXhr(m_soundUrl);
-
-				//i_fname && sendXhr(i_fname);
+				if (! buffRequested){
+					buffRequested=true;
+					sendXhr(m_soundUrl);
+				} 
 			}());
 
 
@@ -189,18 +188,7 @@ define(
 				}
 			);
 
-/*
-			myInterface.registerParam(
-				"Sound URL",
-				"url",
-				{
-					"val": i_fname || config.resourcesPath + "jsaResources/sounds/Rain.wav"
-				},
-				function (i_val) {
-					sendXhr(i_val);
-				}
-			);
-*/
+
 			myInterface.release = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
