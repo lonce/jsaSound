@@ -22,8 +22,8 @@ It creates a new window for a "player" GUI with sliders and text boxes to show v
 
 // Create the GUI for sound model interaction and the callbacks for taking action
 define(
-	["jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils"],
-	function (baseSM, utils) {
+	["jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils", "jsaSound/jsaCore/config"],
+	function (baseSM, utils, config) {
 
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
@@ -240,10 +240,10 @@ define(
 				if (utils.isInteger(i_name)) {
 					paramName = myInterface.getParamName(i_name);
 				} else {
-					paramName = i_name; //----------------i_name.replace(/\s+/g, '') + "_controllerID";
+					paramName = decodeURIComponent(i_name); 
 				}
 
-				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
+				var controllerElement = myWindow.document.getElementById(paramName.replace(/\s+/g, '') + "_controllerID");
 				// console.log("!!!!PARAM NORM IS BEING SET!!!");
 				controllerElement.value = i_sm.getParam(paramName,"min") + i_val * (i_sm.getParam(paramName,"max") - i_sm.getParam(paramName,"min"));   // pfunc(pmin + i_Val * (pmax - pmin))
 				// console.log("i_val is " + i_val);
@@ -258,10 +258,10 @@ define(
 				if (utils.isInteger(i_name)) {
 					paramName = myinterface.getParamName(i_name);
 				} else {
-					paramName = i_name;
+					paramName = decodeURIComponent(i_name);
 				}
 
-				var controllerElement = myWindow.document.getElementById(i_name.replace(/\s+/g, '') + "_controllerID");
+				var controllerElement = myWindow.document.getElementById(paramName.replace(/\s+/g, '') + "_controllerID");
 				controllerElement.value = i_val;
 				controllerElement.update();
 			};
@@ -356,6 +356,7 @@ define(
 
 			myWindow.document.write(" <hr style=\"height:.1em;\" />");
 
+			// ----------------------    Code Capture  ----------------------//
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Code Capture\" /> ");
@@ -392,6 +393,30 @@ define(
 
 				pstring +=  "] <br>";
 				captureWindow.document.write(pstring);
+			});
+
+
+			// ------------------- Query String Capture
+			myWindow.document.write(" <input id = \"quesryStringbutton_ID\" type = \"button\" style=\"float:right;\" value = \"URL String\" /> ");
+			// Play button callback
+			myWindow.document.getElementById("quesryStringbutton_ID").addEventListener('mousedown', function () {
+			var urlWindow = {};
+			urlWindow = window.open('', '', "width = 625,height = " + 40);
+			var pstring="";
+			
+			pstring+=config.resourcesPath; //"http://animatedsoundworks.com:8001/";
+			pstring+="?modelname=jsaSound/" + sm_string_name;
+
+
+			for (i = 0; i < i_sm.getNumParams(); i++) {
+				if (i!=0) {
+					//pstring += "&" + "\"" + i_sm.getParam(i, "name") +  "\"" + "=";
+					pstring += "&" +  i_sm.getParam(i, "name") +  "=";
+					pstring +=  i_sm.getParam(i, "val") ;
+				}
+			}
+			urlWindow.document.write(pstring);
+
 			});
 
 			//   -------------    RECORDING -------------------------

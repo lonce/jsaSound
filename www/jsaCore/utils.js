@@ -101,6 +101,10 @@ define(
 			return n===+n && n===(n|0);
 		};
 
+		utils.formatURL = function(i_url){
+			
+		}
+
 
 //--------------------------------------------------
 // This writes to the local client sandboxed area. REally not very helpful.
@@ -239,6 +243,22 @@ define(
 				results = regex.exec(location.search);
 			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 		}
+
+
+		utils.QueryStringToJSON = function() {            
+		    var pairs = location.search.slice(1).split('&');
+		    
+		    var result = {};
+		    pairs.forEach(function(pair) {
+		        pair = pair.split('=');
+		        result[pair[0]] = decodeURIComponent(pair[1] || '');
+		    });
+
+		    return JSON.parse(JSON.stringify(result));
+		}
+
+
+
 
 		return utils;
 	}

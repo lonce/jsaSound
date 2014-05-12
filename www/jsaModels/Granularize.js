@@ -31,19 +31,29 @@ define(
 
 			var gainLevelNode = config.audioContext.createGain();
 
-			var m_gainLevel = 0.75;
+			var m_gainLevel = 0.4;
 
-			var m_grainSize = 0.9;
-			var m_speed = 1.0;
-			var m_pitch = 0.0;
+			var m_grainDuration = 0.9;  // units = seconds?
+			var m_stepSize = .25;  // seconds
+			var m_pitch = 0.0;  // octavves
+			var m_rpitch=0.0
+
+
 
 			var bufferDuration = 1.0; //This is a very irrelevant figure at this point
 			var realTime = 0.0;
 			var grainTime = 0.0;
-			var grainDuration = m_grainSize;
-			var grainSpacing = 0.25 * grainDuration;
-			var speed = m_speed;
-			var pitchRate = Math.pow(2.0, m_pitch);
+
+			var m_grainPlayInterval = m_stepSize; 
+
+			var p_fileLoopStartRel=0; // in [0,1]
+			var p_fileLoopLengthRel=1; // in [0,1]
+
+			var m_fileLoopStart=0; // in seconds
+			var m_fileLoopLength=1; // in seconds
+			var m_fileLoopEnd; // derived
+
+			var pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
 
 			var grainWindow;
 			var grainWindowLength = 16384;
@@ -57,7 +67,10 @@ define(
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Experimental. Exploring granular synthesis based on Google example.")
 
-			function sendXhr(i_url) {			
+			function sendXhr(i_url) {
+
+				//var t_url=utils.formatURL(i_url);
+
 				buffLoaded = false;
 				//SHOULD XHR BE RE-CONSTRUCTED??
 				xhr.open('GET', i_url, true);
@@ -68,6 +81,13 @@ define(
 				xhr.onload = function () {
 					console.log("Sound(s) loaded");
 					soundBuff = config.audioContext.createBuffer(xhr.response, false);
+					bufferDuration = soundBuff.duration;
+
+					
+					m_fileLoopStart =  p_fileLoopStartRel*bufferDuration;
+					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
+
+
 					buffLoaded = true;
 					console.log("Buffer Loaded!");
 				};
@@ -79,10 +99,12 @@ define(
 			}
 
 			function scheduleGrain() {
-				//console.log("scheduleGrain triggered");
 				var source = config.audioContext.createBufferSource();
+				//console.log("scheduleGrain triggered");
 				//console.log("source created");
 				source.buffer = soundBuff;
+				pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
+				console.log("pitchRate = ", pitchRate);
 				source.playbackRate.value = pitchRate;
 				//console.log("soundBuff created");
 
@@ -92,20 +114,21 @@ define(
 				source.connect(grainWindowNode);
 				grainWindowNode.connect(gainLevelNode);
 
-				source.noteGrainOn(realTime, grainTime, grainDuration);
+				source.noteGrainOn(realTime, grainTime, m_grainDuration);
 
 				grainWindowNode.gain.value = 0.0;
-				grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, grainDuration / pitchRate);
+				grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, m_grainDuration / pitchRate);
 
-				realTime += grainSpacing;
+				realTime += m_grainPlayInterval;
 
-				grainTime += grainSpacing * speed;
+				grainTime += m_stepSize;
+				grainTime = Math.max(grainTime, m_fileLoopStart);
 
-				if (grainTime > bufferDuration) {
-					grainTime = 0.0;
+				if (grainTime > m_fileLoopEnd) {
+					grainTime = m_fileLoopStart;
 				}
 				if (grainTime < 0.0) {
-					grainTime += bufferDuration; // Not Sure why
+					grainTime += m_stepSize; 
 				}
 			}
 
@@ -115,7 +138,7 @@ define(
 			}
 
 			function schedule() {
-				console.log("schedule triggered");
+				//console.log("schedule triggered");
 				if (!continuePlaying) {
 					return;
 				}
@@ -165,9 +188,24 @@ define(
 				},
 				function (i_val) {
 					m_pitch = i_val;
-					pitchRate = Math.pow(2.0, m_pitch);
+					//pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
 				}
 			);
+
+			myInterface.registerParam(
+				"Randomize Pitch",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": m_pitch
+				},
+				function (i_val) {
+					m_rpitch = i_val;
+					//pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
+				}
+			);
+
 
 			myInterface.registerParam(
 				"Grain Size",
@@ -175,41 +213,83 @@ define(
 				{
 					"min": 0.010,
 					"max": 0.5,
-					"val": m_grainSize
+					"val": m_grainDuration
 				},
 				function (i_val) {
-					m_grainSize = i_val;
-					grainDuration = m_grainSize;
-					grainSpacing = 0.25 * grainDuration;
+					m_grainDuration = i_val;
+					//m_grainPlayInterval = 0.25 * grainDuration;
 				}
 			);
 
+
+
 			myInterface.registerParam(
-				"Speed",
+				"Step Size",
 				"range",
 				{
 					"min": 0,
 					"max": 2,
-					"val": m_speed
+					"val": m_stepSize
 				},
 				function (i_val) {
-					speed = m_speed = i_val;
+					m_stepSize =  i_val;
 				}
 			);
 
+			myInterface.registerParam(
+				"Grain Play Interval",
+				"range",
+				{
+					"min": .05,
+					"max": 1,
+					"val": m_grainPlayInterval
+				},
+				function (i_val) {
+					m_grainPlayInterval =  i_val;
+				}
+			);
 
+			myInterface.registerParam(
+				"File Loop Start",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": p_fileLoopStartRel
+				},
+				function (i_val) {
+					p_fileLoopStartRel = i_val;
+					m_fileLoopStart =  p_fileLoopStartRel*bufferDuration;
+					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
+				}
+			);
+
+			myInterface.registerParam(
+				"File Loop Length",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": p_fileLoopLengthRel
+				},
+				function (i_val) {
+					p_fileLoopLengthRel=i_val;
+					m_fileLoopLength =  i_val*bufferDuration;
+					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
+				}
+			);
 
 
 			myInterface.registerParam(
 				"Sound URL",
 				"url",
 				{
-					"val": config.resourcesPath + "jsaResources/sounds/BeingRural22k.mp3"
+					"val": config.resourcesPath + "jsaResources/sounds/BeingRuralshort22k.mp3"
 				},
 				function (i_val) {
 					val = i_val;
 					buffLoaded = false;
-					sendXhr();
+					sendXhr(i_val);
 				}
 			);
 

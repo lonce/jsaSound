@@ -1,6 +1,6 @@
 define(
-	["jsaSound/jsaCore/config"],
-	function (config) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/GraphNode"],
+	function (config, GraphNode) {
 		return function (microphone, connect_to) {
 			//var microphone = i_microphone;
 			//var connect_to = i_connect_to;
@@ -31,7 +31,7 @@ define(
 				// do this GraphNode Wrapping just in case the node we are connecting to is a GraphNode
 				var micWrapper=microphone;
 				if (connect_to.nodeType==="GraphNode"){
-					micWrapper=org.anclab.steller.GraphNode({}, [], [microphone]);
+					micWrapper=GraphNode({}, [], [microphone]);
 				}
 				micWrapper.connect(connect_to);
 			}

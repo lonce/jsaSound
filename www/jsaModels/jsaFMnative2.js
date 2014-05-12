@@ -10,8 +10,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc"],
-	function (config, baseSM, fmodOscFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc","jsaSound/jsaCore/GraphNode"],
+	function (config, baseSM, fmodOscFactory, GraphNode) {
         return function () {
             var	oscModulatorNode;
             var m_CarrierNode;
@@ -77,7 +77,7 @@ define(
 
                     nodeWrapper=oscModulatorNode;
                     if (m_CarrierNode.nodeType==="GraphNode"){
-                        nodeWrapper=org.anclab.steller.GraphNode({}, [], [oscModulatorNode]);
+                        nodeWrapper=GraphNode({}, [], [oscModulatorNode]);
                         console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                     }
                     nodeWrapper.connect(m_CarrierNode);

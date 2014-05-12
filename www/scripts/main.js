@@ -51,7 +51,7 @@ require(
 			loadSoundFromPath(pathToLoad);
 		}
 
-		function loadSoundFromPath(path) {
+		function loadSoundFromPath(path, params) {
 			require(
 				// Get the model
 				[path], // -1 since we added a blank first element to the selection options
@@ -60,14 +60,23 @@ require(
 					if (path.indexOf("jsaSound/") === 0)
 						path = path.substr("jsaSound/".length);
 					sb = makeSliderBox(currentSM(), path);
+					for (var pname in params){
+						console.log("param " + pname + "= " + params[pname])
+						sb.setParam(pname, params[pname])
+					}
 				}
 			);
 		}
 
 		// If model name is assigned in the querystring
 		if (utils.getParameterByName("modelname")) {
-			loadSoundFromPath(utils.getParameterByName("modelname"));
+			var params=utils.QueryStringToJSON();
+			delete params["modelname"]
+			loadSoundFromPath(utils.getParameterByName("modelname"), params);
+			var foo = 3;
 		}
+
+
 
 		makeSoundListSelector();
 		soundSelectorElem.addEventListener("change", soundChoice);

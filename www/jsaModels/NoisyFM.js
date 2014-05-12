@@ -24,8 +24,8 @@ jsaUtils/utils.js
 ******************************************************************************************************
 */
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode", "jsaSound/jsaOpCodes/nativeFModOsc"],
-	function (config, baseSM, noiseNodeFactory, fmodOscFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode", "jsaSound/jsaOpCodes/nativeFModOsc", "jsaSound/jsaCore/GraphNode"],
+	function (config, baseSM, noiseNodeFactory, fmodOscFactory, GraphNode) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
@@ -66,7 +66,8 @@ define(
 				//noiseModulatorNode.connect(m_CarrierNode);
 			    nodeWrapper=noiseModulatorNode;
                 if (m_CarrierNode.nodeType==="GraphNode"){
-                    nodeWrapper=org.anclab.steller.GraphNode({}, [], [noiseModulatorNode]);
+                    //nodeWrapper=org.anclab.steller.GraphNode({}, [], [noiseModulatorNode]);
+                    nodeWrapper=GraphNode({}, [], [noiseModulatorNode]);
                     //console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                 }
                 nodeWrapper.connect(m_CarrierNode);

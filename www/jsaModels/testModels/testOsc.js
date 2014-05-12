@@ -13,8 +13,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // There is an attack time, a hold until release() is called, and a decay time.
 // ******************************************************************************************************
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/ringModulatorNode"],
-	function (config, baseSM, ringModulatorFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/ringModulatorNode", "jsaSound/jsaCore/GraphNode"],
+	function (config, baseSM, ringModulatorFactory, GraphNode) {
 		return function () {
 			
 			var	oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
@@ -46,7 +46,7 @@ define(
 
 
 				oscNodeUnwrapped = config.audioContext.createOscillator();
-				oscNode=org.anclab.steller.GraphNode({}, [], [oscNodeUnwrapped]);
+				oscNode=GraphNode({}, [], [oscNodeUnwrapped]);
 
 				oscNodeUnwrapped.type = 1;  //square
 				oscNodeUnwrapped.isPlaying=false;
