@@ -257,6 +257,35 @@ define(
 		    return JSON.parse(JSON.stringify(result));
 		}
 
+		var freesoundfix=function(i_url){
+			if (i_url.match(/freesound.org/) != null){
+				var sid = i_url.match("sounds/(.*)/download"); // array containing match and target substring
+				if (sid && sid.length>1){
+					console.log("freesound: " + "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0");
+					return "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0";
+				} 
+			}
+			return i_url;
+		}
+
+
+		utils.loadAudioResource = function(i_url, i_onload){
+			var xhr = new XMLHttpRequest();
+			i_url = freesoundfix(i_url);
+
+			buffLoaded = false;
+			xhr.open('GET', i_url, true);
+			xhr.responseType = 'arraybuffer';
+
+			xhr.onerror = function (e) {
+				console.log("utils.getAudioResource xhr.onload error.")
+				console.error(e);
+			};
+
+			xhr.onload = function(){i_onload(xhr.response)};
+			xhr.send();	
+		}
+
 
 
 

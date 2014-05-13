@@ -377,7 +377,10 @@ define(
 
 				for (i = 0; i < i_sm.getNumParams(); i++) {
 					pstring += "&#160&#160&#160 snd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
-					pstring += "&#160&#160&#160 //or// snd.setParamNorm(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "normval").toFixed(3) + ");<br>";
+					if ((typeof i_sm.getParam(i, "val")) === "number"){
+						pstring += "&#160&#160&#160 //or// snd.setParamNorm(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "normval").toFixed(3) + ");";
+					}
+					pstring += "<br>";
 				}
 
 				pstring+="});<br>";
@@ -385,7 +388,7 @@ define(
 
 				captureWindow.document.write(pstring);
 
-				var pstring="// parameters in array form: <br> [";
+				var pstring="// Normalized parameters in array form: <br> [";
 				for (i = 0; i < i_sm.getNumParams(); i++) {
 					if (i!=0) pstring += ", ";
 					pstring +=  i_sm.getParam(i, "val") ;

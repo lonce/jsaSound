@@ -8,39 +8,29 @@ This library is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
 
-//PARA: config
-//		-config.audioContext
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM"],
-	function (config, baseSM) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils"],
+	function (config, baseSM, utils) {
 		return function () {
-			//Useful addition:
-			//When the file finishes playing, change release time to 0;
-			//otherwise it's confusing: Press release and it will wait for the release time, but won't really DO anything
-			//user may just click play immediately, and the architecture won't be rebuilt, so noting will happen
-
-			//Currently, I've just enabled looping to overcome that problem
 
 			var tempNum = 0;
 			var i = 0;
 
 			var buffLoaded = false;
 
-			var xhr = new XMLHttpRequest();
 			var soundBuff = null;
 
 			var gainLevelNode = config.audioContext.createGain();
 
 			var m_gainLevel = 0.4;
 
-			var m_grainDuration = 0.9;  // units = seconds?
+			var m_grainDuration = 0.9;  // units = seconds
 			var m_stepSize = .25;  // seconds
-			var m_pitch = 0.0;  // octavves
-			var m_rpitch=0.0
+			var m_pitch = 0.0;  // octaves
+			var m_rpitch=0.0; // octaves
 
 
-
-			var bufferDuration = 1.0; //This is a very irrelevant figure at this point
+			var bufferDuration = 1.0; 
 			var realTime = 0.0;
 			var grainTime = 0.0;
 
@@ -65,34 +55,20 @@ define(
 			var continuePlaying = true;
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Experimental. Exploring granular synthesis based on Google example.")
+			myInterface.setAboutText("Granular Synthesis")
 
-			function sendXhr(i_url) {
-
-				//var t_url=utils.formatURL(i_url);
-
-				buffLoaded = false;
-				//SHOULD XHR BE RE-CONSTRUCTED??
-				xhr.open('GET', i_url, true);
-				xhr.responseType = 'arraybuffer';
-				xhr.onerror = function (e) {
-					console.error(e);
-				};
-				xhr.onload = function () {
+			function onLoadAudioResource(i_response){  // parameter is xhr.response
 					console.log("Sound(s) loaded");
-					soundBuff = config.audioContext.createBuffer(xhr.response, false);
+					soundBuff = config.audioContext.createBuffer(i_response, false);
 					bufferDuration = soundBuff.duration;
 
-					
 					m_fileLoopStart =  p_fileLoopStartRel*bufferDuration;
 					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
 
-
 					buffLoaded = true;
-					console.log("Buffer Loaded!");
-				};
-				xhr.send();		
+					console.log("Buffer Loaded!");				
 			}
+
 
 			function buildModelArchitecture() {
 				
@@ -107,7 +83,6 @@ define(
 				console.log("pitchRate = ", pitchRate);
 				source.playbackRate.value = pitchRate;
 				//console.log("soundBuff created");
-
 
 
 				var grainWindowNode = config.audioContext.createGain();
@@ -222,7 +197,6 @@ define(
 			);
 
 
-
 			myInterface.registerParam(
 				"Step Size",
 				"range",
@@ -289,7 +263,7 @@ define(
 				function (i_val) {
 					val = i_val;
 					buffLoaded = false;
-					sendXhr(i_val);
+					utils.loadAudioResource(i_val, onLoadAudioResource);
 				}
 			);
 
@@ -315,7 +289,7 @@ define(
 			};
 
 			buffLoaded = false;
-			sendXhr(myInterface.getParam("Sound URL", "val"));
+			utils.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 			return myInterface;
 		};
 	}
