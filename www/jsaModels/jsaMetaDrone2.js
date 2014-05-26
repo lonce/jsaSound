@@ -27,7 +27,7 @@ define(
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
-			var m_childGain = 1.0;
+			var m_childGain = .1;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
@@ -35,7 +35,7 @@ define(
 			// These numbers are semitones to be used relative to a "base note" 
 			var scale = [0.0, 2.0, 4.0, 6.0, 7.0, 9.0, 11.0, 12.0, 14.0];
 
-			var m_gainLevel = .5;
+			var m_gainLevel = .4;
 			var gainLevelNode = config.audioContext.createGain();  // will collect output the children
 
 			// get a frequency as a random function of the base_note
@@ -45,6 +45,8 @@ define(
 				return freq;
 			};
 
+			
+
 			// Init runs once when the sound model is constructed only
 			var foo = 0;
 			var init = (function () {
@@ -52,7 +54,7 @@ define(
 				for (i = 0; i < k_maxNumChildren; i += 1) {
 					childModel[i] = FilteredNoiseBandFactory();  
 
-					childModel[i].setParam("Filter Q", 150);
+					childModel[i].setParam("Filter Q", 40);
 					childModel[i].setParam("Gain", m_childGain);
 					foo = note2Freq(m_baseNote);
 					childModel[i].setParam("Center Frequency", foo);

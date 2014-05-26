@@ -44,7 +44,7 @@ define(
 				// Also have to set all of their state values since they all get forgotten, too!!
 				gainLevelNode.gain.value = m_gainLevel;
 				gainEnvNode.gain.value = 0;
-				oscModulatorNode.type = 0;  //sin
+				oscModulatorNode.setType(0);  //sin
 
 				oscModulatorNode.frequency.value = m_mod_freq;
 				m_CarrierNode.setModIndex(m_modIndex);

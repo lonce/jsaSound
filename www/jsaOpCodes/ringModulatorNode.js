@@ -16,7 +16,7 @@ define(
 
 
             var osc = config.audioContext.createOscillator();
-            osc.type = osc.SINE;
+            osc.setType(osc.SINE);
             osc.frequency.value = 0; //Math.pow( 2, parseFloat( document.getElementById("rmfreq").value ) );
 
 

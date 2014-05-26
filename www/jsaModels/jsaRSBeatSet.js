@@ -16,8 +16,8 @@ Date: July 2012
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaBeatPattern"],
-	function (config, baseSM, jsaPatternFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPattern"],
+	function (config, baseSM, jsaConvolverFactory, jsaPatternFactory) {
 		return function () {
 
 			var m_rate = 4.0;
@@ -35,8 +35,11 @@ define(
 
 			var m_beatPattern = [];
 
-			var convolver = config.audioContext.createConvolver();
-			var convolverbuffer=0;
+			//var m_conv = config.audioContext.createConvolver();
+			//var convolverbuffer=0;
+
+			var m_conv = jsaConvolverFactory(config.resourcesPath + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav");
+
 
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -73,27 +76,13 @@ define(
 					childModel[i].setBeatPattern(m_beatPattern[i]);
 
 					if (childModel[i].hasOutputs()){
-						childModel[i].connect(convolver); // collect audio from children output nodes into gainLevelNode 
+						childModel[i].connect(m_conv); // collect audio from children output nodes into gainLevelNode 
 						//childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 					}
-					convolver.connect(gainLevelNode);
+					m_conv.connect(gainLevelNode);
 					childModel[i].setParam("Gain", m_gainLevel);
 					
 				}
-
-				// load impulse response
-				var request = new XMLHttpRequest();
-  				//request.open("GET", "jsaResources/impulse-response/diffusor1.wav", true);
-  				//request.open("GET", "jsaResources/impulse-response/JMP_Rekorder/marshall_cust_m930.wav", true);
-  				request.open("GET", config.resourcesPath + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav", true);
-  				request.responseType = "arraybuffer";
-  				request.onload = function () {
-   					 convolver.buffer = config.audioContext.createBuffer(request.response, false);
-   					 console.log("impulse response loaded");
-  				}
-  				request.send();
-
-
 
 			}());
 

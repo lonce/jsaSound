@@ -26,7 +26,6 @@ define(
 
 			sm.buffLoaded = false;
 
-			sm.xhr = new XMLHttpRequest();
 
 			sm.soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
@@ -55,21 +54,12 @@ define(
 				sm.gainEnvNode.connect(sm.gainLevelNode);
 			};
 
-			function sendxhr() {				
-				//SHOULD sm.xhr BE RE-CONSTRUCTED??
-				sm.xhr.open('GET', sm.m_soundUrl, true);
-				sm.xhr.responseType = 'arraybuffer';
-				sm.xhr.onerror = function (e) {
-					console.error(e);
-				};
-				sm.xhr.onload = function () {
-					console.log("Sound(s) loaded");
-					sm.soundBuff = config.audioContext.createBuffer(sm.xhr.response, false);
-					sm.buffLoaded = true;
-					console.log("Buffer Loaded!");
-				};
-				sm.xhr.send();		
+			function onLoadAudioResource(b){
+				sm.soundBuff = b;
+				buffLoaded = true;
+				console.log("Buffer Loaded!");
 			}
+
 
 			myInterface.play = function (i_gain) {
 				if (sm.buffLoaded) {
@@ -153,7 +143,7 @@ define(
 				function (i_val) {
 					sm.m_soundUrl = i_val;
 					sm.buffLoaded = false;
-					sendxhr();
+					myInterface.loadAudioResource(sm.m_soundUrl, onLoadAudioResource);
 				}
 			);
 

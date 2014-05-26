@@ -19,8 +19,6 @@ define(
 
 			var buffLoaded = false;
 
-			var xhr = new XMLHttpRequest();
-			//var foo = new ArrayBuffer(100);
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainLevelNode = config.audioContext.createGain();
@@ -38,8 +36,7 @@ define(
 
 
 			var init = (function (){
-				sendXhr(m_soundUrl);
-				//i_fname && sendXhr(i_fname);
+				myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
 			}());
 
 
@@ -53,22 +50,10 @@ define(
 				sourceNode.connect(gainLevelNode);
 			};
 
-			function sendXhr(i_url) {			
-				m_soundUrl 	= i_url;
-				buffLoaded = false;
-				//SHOULD XHR BE RE-CONSTRUCTED??
-				xhr.open('GET', i_url, true);
-				xhr.responseType = 'arraybuffer';
-				xhr.onerror = function (e) {
-					console.error(e);
-				};
-				xhr.onload = function () {
-					console.log("Sound(s) loaded");
-					soundBuff = config.audioContext.createBuffer(xhr.response, false);
-					buffLoaded = true;
-					console.log("Buffer Loaded!");
-				};
-				xhr.send();		
+			function onLoadAudioResource(b){
+				soundBuff = b;
+				buffLoaded = true;
+				console.log("Buffer Loaded!");
 			}
 
 			myInterface.play = function (i_gain) {
@@ -130,18 +115,6 @@ define(
 				}
 			);
 
-/*
-			myInterface.registerParam(
-				"Sound URL",
-				"url",
-				{
-					"val": i_fname || config.resourcesPath + "jsaResources/sounds/Thunder0.wav"
-				},
-				function (i_val) {
-					sendXhr(i_val);
-				}
-			);
-*/
 			myInterface.release = function () {
 
 					//sourceNode && sourceNode.stop(0);

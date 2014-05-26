@@ -27,7 +27,7 @@ define(
 			var m_filterQ = [];
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-			var m_gainLevel = 1.5, // the point to (or from) which gainEnvNode ramps glide
+			var m_gainLevel = .7, // the point to (or from) which gainEnvNode ramps glide
 				m_attackTime = 0.05,
 				m_releaseTime = 1.0,
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
@@ -158,7 +158,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 2,
+					"max": 1,
 					"val": m_gainLevel
 				},
 				function (i_val) {

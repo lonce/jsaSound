@@ -24,14 +24,11 @@ define(
 
 			var playWhenBufferLoadsP =false;
 
-			var xhr = new XMLHttpRequest();
-			//var foo = new ArrayBuffer(100);
-
 			var gainEnvNode = config.audioContext.createGain();
 			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
 
-			var m_gainLevel = .1;
+			var m_gainLevel = .6;
 
 			var m_attackTime = 1,
 			m_releaseTime = 3.0,
@@ -46,7 +43,7 @@ define(
 			var init = (function (){
 				if (! buffRequested){
 					buffRequested=true;
-					sendXhr(m_soundUrl);
+					myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
 				} 
 			}());
 
@@ -65,25 +62,10 @@ define(
 				gainEnvNode.connect(gainLevelNode);
 			};
 
-			function sendXhr(i_url) {			
-				m_soundUrl 	= i_url;
-				//buffLoaded = false;
-
-				xhr.open('GET', i_url, true);
-				xhr.responseType = 'arraybuffer';
-				xhr.onerror = function (e) {
-					console.error(e);
-				};
-				xhr.onload = function () {
-					console.log("Sound(s) loaded");
-					soundBuff = config.audioContext.createBuffer(xhr.response, false);
-					buffLoaded = true;
-					console.log("Buffer Loaded!");
-					if (playWhenBufferLoadsP===true) {
-						myInterface.play();
-					}
-				};
-				xhr.send();		
+			function onLoadAudioResource(b){
+				soundBuff = b;
+				buffLoaded = true;
+				console.log("Buffer Loaded!");
 			}
 
 			myInterface.play = function (i_gain) {

@@ -20,11 +20,12 @@ define(
 
 			var m_modIndex=0;
 			var m_carFreq=440;
+            var m_carType=0;
 
             var modIndexNode = config.audioContext.createGain();   //mod index
 
             var m_CarrierNode = config.audioContext.createOscillator();
-            m_CarrierNode.type = 0; //sin
+            m_CarrierNode.setType(m_carType); 
             m_CarrierNode.frequency.value = m_carFreq;
             m_CarrierNode.start(0);
 
@@ -38,8 +39,8 @@ define(
                 "carrierFrequency",
                 "range",
                 {
-                    "min": 200,
-                    "max": 1000,
+                    "min": 0,
+                    "max": 2000,
                     "val": m_carFreq
                 },
                 function (i_val) {
@@ -64,8 +65,25 @@ define(
                 }
             );
 
+            myInterface.registerParam(
+                "Type",
+                "range",
+                {
+                    "min": 0,
+                    "max": 4,
+                    "val": m_carType
+                },
+                function (i_val) {
+                    if (m_CarrierNode != undefined) {
+                        m_CarrierNode.setType(i_val);
+                    }
+                }
+            );
+
+
             myInterface.setParam("modIndex", m_modIndex);
             myInterface.setParam("carrierFrequency", m_carFreq);
+            myInterface.setParam("Type", m_carType);
 
 			return myInterface;
 		};

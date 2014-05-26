@@ -39,7 +39,7 @@ define(
 			// (Re)create the nodes and thier connections. Because oscNode.notOff invalidates the node
 			var buildModelArchitectureAGAIN = function () {
 				oscNode = config.audioContext.createOscillator();
-				oscNode.type = m_oscType;  //square
+				oscNode.setType(m_oscType);  //square
 
 				// make the graph connections
 				oscNode.connect(gainEnvNode);
@@ -104,7 +104,8 @@ define(
 				},
 				function (i_type) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					oscNode.type = m_oscType = i_type;
+					m_oscType = i_type;
+					oscNode.setType(m_oscType);
 				}
 			);
 

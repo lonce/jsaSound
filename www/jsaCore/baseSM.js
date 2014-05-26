@@ -44,6 +44,28 @@ define(
 					sched.running=true;
 				}
 
+				config.audioContext.createOscillator().__proto__.setType=function(num){
+					switch(num){
+						case 0:
+							this.type="sine";
+							break;
+						case 1:
+							this.type="square";
+							break;
+						case 2:
+							this.type="sawtooth";
+							break;
+						case 3:
+							this.type="triangle";
+							break;
+						case 4:
+							this.type="custom";
+							break;
+						default:
+							this.type="sine";
+					}
+				}
+
 
 			}());
 
@@ -76,9 +98,9 @@ define(
 					"value": i_val,
 					"f": i_f
 				};
-				//i_f(i_val); // initializization
 				params[i_name] = paramObject;
 				paramname.push(i_name);
+				//i_f(i_val); // can't do this because objects and noted used in the functions may not have been defined yet. 
 			};
 
 			// So a sound can directly expose a parameter of a child sound
@@ -239,6 +261,33 @@ define(
 				}
 			);
 
+			// -----------------  loading samples --------------
+			// not in utils.js because it needs the config.audioContext - also would like to manage sample buffers from urls centrally so they are only loaded once.
+			bsmInterface.loadAudioResource = function(i_url, i_onload){
+				var xhr = new XMLHttpRequest();
+				i_url = utils.freesoundfix(i_url);
+
+				buffLoaded = false;
+				xhr.open('GET', i_url, true);
+				xhr.responseType = 'arraybuffer';
+
+				xhr.onerror = function (e) {
+					console.log("utils.getAudioResource xhr.onload error.")
+					console.error(e);
+				};
+
+				xhr.onDecode=function(b){
+					i_onload(b);
+				}
+
+				xhr.onload = function () {
+					console.log("Sound(s) loaded");
+					config.audioContext.decodeAudioData(xhr.response, xhr.onDecode, xhr.onerror);
+				};
+
+				xhr.send();	
+			}
+
 			//------------------  RECORDING  -------------------
 			var isRecording=false;
 			var audioRecorder=null;
@@ -260,6 +309,7 @@ define(
     			Recorder.forceDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
     			recIndex++;
 			}
+
 
 
 			return bsmInterface;

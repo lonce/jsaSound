@@ -10,28 +10,33 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc","jsaSound/jsaCore/GraphNode"],
-	function (config, baseSM, fmodOscFactory, GraphNode) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaCore/GraphNode"],
+	function (config, baseSM, fmodOscFactory, jsaConvolverFactory, GraphNode) {
         return function () {
             var	oscModulatorNode;
             var m_CarrierNode;
             var	gainEnvNode;
+            var m_conv; 
             var	gainLevelNode;
+
 
             // these are defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
             var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
-            var m_car_freq = 440;
+            var m_car_freq = 60;
+            var m_car_type = 2;
             var m_mod_freq = 30;
-            var m_modIndex = 1.0;
+            var m_modIndex = 60.01;
+            var m_modIndexOctaves = -1;
+            var m_mod_Type = 2;
             var m_attackTime = 0.05;
             var m_releaseTime = 1.0;
 
-            // Setup the fixed nodes that the FM modulator node (oscModulatorNode)
-            // must connect to.
-            // -Kumar
-            // -- BEGIN FIXED SETUP --
+            // Begin Setup
             m_CarrierNode = fmodOscFactory();
             gainEnvNode = config.audioContext.createGain();
+
+            m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
+
             gainLevelNode = config.audioContext.createGain();
 
             //console.log("in BUILD, gain level node is " + gainLevelNode );
@@ -43,10 +48,12 @@ define(
             m_CarrierNode.setParam("modIndex", m_modIndex);
 
             // make the graph connections
-            m_CarrierNode.connect(gainEnvNode);
+            m_CarrierNode.connect(m_conv);
+
+            m_conv.connect(gainEnvNode);
 
             gainEnvNode.connect(gainLevelNode);
-            // -- END FIXED SETUP --
+            // -- END Setup --
 
             var myInterface = baseSM({},[],[gainLevelNode]);
             myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
@@ -54,8 +61,8 @@ define(
             // With no note playing, nothing happens when you
             // try to set the frequency.
             // -Kumar
-            function dummySetFreq(i_freq) {}
-            var setFreq = dummySetFreq;
+            //function dummySetFreq(i_freq) {}
+            //var setFreq = dummySetFreq;
 
             // play() is a pure play(). To change frequency,
             // use the parameter setting calls before calling play().
@@ -71,8 +78,10 @@ define(
                 // -Kumar
                 if (!oscModulatorNode) {
                     oscModulatorNode = config.audioContext.createOscillator();
-                    oscModulatorNode.setType(0);  //sin
-                    oscModulatorNode.frequency.value = m_mod_freq;
+                    oscModulatorNode.setType(m_mod_Type);  
+
+                    //oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
+                    myInterface.setParam("Carrier Frequency", m_car_freq);
 
 
                     nodeWrapper=oscModulatorNode;
@@ -100,6 +109,7 @@ define(
                     // of the oscModulatorNode.
                     //
                     // -Kumar
+                    /*
                     setFreq = (function (node) {
                         return function (i_freq) {
                             // If the thing finished, we can giveup the reference
@@ -113,6 +123,7 @@ define(
                             node.frequency.value = m_mod_freq = i_freq;
                         };
                     }(oscModulatorNode));
+                    */
                 }
 
                 if (myInterface.getNumOutConnections() === 0){
@@ -125,15 +136,33 @@ define(
                     "Carrier Frequency",
                     "range",
                     {
-                        "min": 200,
-                        "max": 1000,
+                        "min": 60,
+                        "max": 1200,
                         "val": m_car_freq
                     },
                     function (i_val) {
                         m_car_freq = i_val;
                         m_CarrierNode.setParam("carrierFrequency", m_car_freq);
+                        //setFreq(m_car_freq*Math.pow(2,m_modIndexOctaves));
+                        oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
                     }
                     );
+
+            myInterface.registerParam(
+                    "Carrier Type",
+                    "range",
+                    {
+                        "min": 0,
+                        "max": 4.99,
+                        "val": m_car_type
+                    },
+                    function (i_val) {
+                        m_car_type = Math.floor(i_val);
+                        m_CarrierNode.setParam("Type", m_car_type);
+                    }
+                    );
+
+
 
             myInterface.registerParam(
                     "Modulation Index",
@@ -150,21 +179,41 @@ define(
                     );
 
             myInterface.registerParam(
-                    "Modulator Frequency",
+                    "Modulator Frequency (octaves rel carrier)",
                     "range",
                     {
-                        "min": 0,
-                        "max": 200,
-                        "val": m_mod_freq
+                        "min": -2,
+                        "max": 0,
+                        "val": m_modIndexOctaves // m_mod_freq
                     },
                     function (i_val) {
+                        m_modIndexOctaves=i_val;
                         // Turn around and call whatever setFreq function
                         // is active at the moment. Perhaps a release tail
                         // is still active?
                         // -Kumar
-                        setFreq(i_val);
+                        //setFreq(m_car_freq*Math.pow(2,m_modIndexOctaves));
+                        oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
                     }
                     );
+
+            myInterface.registerParam(
+                    "Modulator Type",
+                    "range",
+                    {
+                        "min": 0,
+                        "max": 4.99,
+                        "val": m_mod_Type
+                    },
+                    function (i_val) {
+                        m_mod_Type = Math.floor(i_val);
+                        if (oscModulatorNode) {
+                            oscModulatorNode.setType(m_mod_Type);  
+                        }
+                    }
+                    );
+
+
 
             myInterface.registerParam(
                     "Gain",
@@ -229,16 +278,6 @@ define(
                 }
             };
             
-
-            /* just experimenting ....
-            myInterface.storeCurrentPSet();
-            myInterface.setParamNorm("Gain", 0.1);
-            myInterface.storeCurrentPSet();
-            myInterface.savePSets();
-            */
-
-
-
             return myInterface;
         };
 	}

@@ -69,7 +69,7 @@ define(
 
                 if (!m_CarrierNode){
                     m_CarrierNode = config.audioContext.createOscillator();
-                    m_CarrierNode.type = 0; //sin
+                    m_CarrierNode.setType(0); //sin
                     m_CarrierNode.frequency.value = m_car_freq;
                     m_CarrierNode.start(now);
                     m_CarrierNode.connect(gainEnvNode);
@@ -86,7 +86,7 @@ define(
                 // -Kumar
                 if (!oscModulatorNode) {
                     oscModulatorNode = config.audioContext.createOscillator();
-                    oscModulatorNode.type = 0;  //sin
+                    oscModulatorNode.setType(0);  
                     oscModulatorNode.frequency.value = m_mod_freq;
                     oscModulatorNode.connect(modIndexNode);
 

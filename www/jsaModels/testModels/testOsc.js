@@ -48,7 +48,7 @@ define(
 				oscNodeUnwrapped = config.audioContext.createOscillator();
 				oscNode=GraphNode({}, [], [oscNodeUnwrapped]);
 
-				oscNodeUnwrapped.type = 1;  //square
+				oscNodeUnwrapped.setType(1);  //square
 				oscNodeUnwrapped.isPlaying=false;
 
 				// make the graph connections

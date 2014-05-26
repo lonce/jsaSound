@@ -24,8 +24,11 @@ define(
 			var k_gainFactor = .15;
 
 			// defaults for setting up initial values (and displays) 
-			var m_gainLevel = 0.25;    // the point to (or from) which gainEnvNode ramps glide
+			var m_gainLevel = 0.2;    // the point to (or from) which gainEnvNode ramps glide
 			var m_frequency = 440;
+
+			var m_type=1;
+
 			var m_attackTime = 0.05;
 			var m_releaseTime = 1.0;
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
@@ -37,7 +40,7 @@ define(
 				// if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
 				oscNode && oscNode.disconnect();
 				oscNode = config.audioContext.createOscillator();
-				oscNode.type = 1;  //square
+				oscNode.setType(m_type);  //square
 				oscNode.isPlaying=false;
 
 				// make the graph connections
@@ -87,6 +90,22 @@ define(
 				function (i_freq) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
 					oscNode.frequency.value = m_frequency = i_freq;
+				}
+			);
+
+			myInterface.registerParam(
+				"Type",
+				"range",
+				{
+					"min": 0,
+					"max": 3.999999,
+					"val": m_type
+				},
+				function (i_type) {
+					//console.log("in sm.setFreq, oscNode = " + oscNode);
+					m_type=Math.floor(i_type);
+					console.log("setting osc type to " + m_type);
+					oscNode.setType(m_type);
 				}
 			);
 

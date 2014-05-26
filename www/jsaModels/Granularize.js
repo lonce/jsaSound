@@ -55,11 +55,11 @@ define(
 			var continuePlaying = true;
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Granular Synthesis")
+			myInterface.setAboutText("Granular Synthesis");
 
-			function onLoadAudioResource(i_response){  // parameter is xhr.response
+			function onLoadAudioResource(b){  
 					console.log("Sound(s) loaded");
-					soundBuff = config.audioContext.createBuffer(i_response, false);
+					soundBuff = b;
 					bufferDuration = soundBuff.duration;
 
 					m_fileLoopStart =  p_fileLoopStartRel*bufferDuration;
@@ -68,6 +68,8 @@ define(
 					buffLoaded = true;
 					console.log("Buffer Loaded!");				
 			}
+
+
 
 
 			function buildModelArchitecture() {
@@ -80,7 +82,7 @@ define(
 				//console.log("source created");
 				source.buffer = soundBuff;
 				pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
-				console.log("pitchRate = ", pitchRate);
+				//console.log("pitchRate = ", pitchRate);
 				source.playbackRate.value = pitchRate;
 				//console.log("soundBuff created");
 
@@ -89,7 +91,8 @@ define(
 				source.connect(grainWindowNode);
 				grainWindowNode.connect(gainLevelNode);
 
-				source.noteGrainOn(realTime, grainTime, m_grainDuration);
+				//source.noteGrainOn(realTime, grainTime, m_grainDuration);
+				source.start(realTime, grainTime, m_grainDuration);
 
 				grainWindowNode.gain.value = 0.0;
 				grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, m_grainDuration / pitchRate);
@@ -263,7 +266,7 @@ define(
 				function (i_val) {
 					val = i_val;
 					buffLoaded = false;
-					utils.loadAudioResource(i_val, onLoadAudioResource);
+					myInterface.loadAudioResource(i_val, onLoadAudioResource);
 				}
 			);
 
@@ -289,7 +292,7 @@ define(
 			};
 
 			buffLoaded = false;
-			utils.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 			return myInterface;
 		};
 	}

@@ -117,8 +117,8 @@ function Jungle(context) {
     var modGain1 = context.createGain();
     var modGain2 = context.createGain();
 
-    var delay1 = context.createDelayNode();
-    var delay2 = context.createDelayNode();
+    var delay1 = context.createDelay();
+    var delay2 = context.createDelay();
     mod1.connect(modGain1);
     mod2.connect(modGain2);
     modGain1.connect(delay1.delayTime);
@@ -172,6 +172,6 @@ function Jungle(context) {
 }
 
 Jungle.prototype.setDelay = function(delayTime) {
-    this.modGain1.gain.setTargetValueAtTime(0.5*delayTime, 0, 0.010);
-    this.modGain2.gain.setTargetValueAtTime(0.5*delayTime, 0, 0.010);
+    this.modGain1.gain.setTargetAtTime(0.5*delayTime, 0, 0.010);
+    this.modGain2.gain.setTargetAtTime(0.5*delayTime, 0, 0.010);
 }
