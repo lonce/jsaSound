@@ -46,6 +46,8 @@ define(
             gainEnvNode.gain.value = 0;
 
             m_CarrierNode.setParam("modIndex", m_modIndex);
+            m_CarrierNode.setParam("carrierFrequency", m_car_freq);
+            m_CarrierNode.setParam("Type", m_car_type);
 
             // make the graph connections
             m_CarrierNode.connect(m_conv);

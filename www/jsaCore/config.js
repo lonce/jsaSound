@@ -10,8 +10,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // TODO: All sound models need an audioContext
 
 define(
-	["jsaSound/jsaCore/wheredoilive"],
-	function (wheredoilive) {
+	["jsaSound/jsaCore/wheredoilive", "jsaSound/jsaCore/webAudioExtensions"],
+	function (wheredoilive, extensionsFactory) {
 		/*
 		if (!window.webkitAudioContext) {
 			alert("Web Audio API is not supported. Try Chrome!");
@@ -40,6 +40,8 @@ define(
 		exports.k_bufferLength = 1024;// What is the right way to set the so that all nodes agree?
 
 		exports.microphone=undefined;
+
+		extensionsFactory(exports.audioContext);
 
 		return exports;
 	}
