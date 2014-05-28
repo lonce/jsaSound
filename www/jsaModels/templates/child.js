@@ -60,7 +60,7 @@ define(
 				m_noiseNode = noiseNodeFactory();
 
 				m_filterNode = config.audioContext.createBiquadFilter();
-				m_filterNode.type = m_filterNode.BANDPASS;
+				m_filterNode.setType("bandpass");
 				m_filterNode.frequency.value = m_freq;
 				m_filterNode.Q.value = m_Q;
 

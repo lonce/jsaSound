@@ -1,7 +1,6 @@
 define(
 	function () {		
 		return function(ctx){
-			//config.audioContext.createOscillator().__proto__.setType=function(num){
 
 			Object.getPrototypeOf(ctx.createOscillator()).setType=function(num){
 				switch(num){
@@ -23,6 +22,21 @@ define(
 					default:
 						this.type="sine";
 				}
-			}
+			};
+
+			var ftypes=["lowpass","highpass","bandpass","lowshelf","highshelf","peaking","notch","allpass"];
+			Object.getPrototypeOf(ctx.createBiquadFilter()).setType=function(ft){
+				if (typeof ft === "string"){
+					this.type=ft;
+					return;
+				} 
+				if (typeof ft === "number"){
+					if (ft < ftypes.length){
+						this.type=ftypes[num];
+						return;
+					} 					
+				}
+				console.log("filter.setType: trying to set illegal filter type " + ft);
+			};
 		}
 });

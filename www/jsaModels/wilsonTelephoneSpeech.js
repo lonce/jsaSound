@@ -58,16 +58,16 @@ define(
 				hpf1 = config.audioContext.createBiquadFilter();
 				hpf2 = config.audioContext.createBiquadFilter();
 
-				lpf1.type = lpf1.LOWPASS;
+				lpf1.setType("lowpass");
 				lpf1.frequency.value = 2000.0;
 
-				lpf2.type = lpf2.LOWPASS;
+				lpf2.setType("lowpass");
 				lpf2.frequency.value = 2000.0;
 
-				hpf1.type = hpf1.HIGHPASS;
+				hpf1.setType("highpass");
 				hpf1.frequency.value = 500.0;
 
-				hpf2.type = hpf2.HIGHPASS;
+				hpf2.setType("highpass");
 				hpf2.frequency.value = 500.0;
 
 				lpf1.connect( lpf2 );

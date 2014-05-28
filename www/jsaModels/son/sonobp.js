@@ -53,7 +53,7 @@ define(
 				//gainLevelNode = config.audioContext.createGain();
 
 				lpNode =config.audioContext.createBiquadFilter();
-				lpNode.type = "lowpass";
+				lpNode.setType("lowpass");
 				lpNode.frequency.value = 2000;
 
 				bpNoiseNode.connect(lpNode);

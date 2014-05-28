@@ -66,7 +66,7 @@ define(
 
 				for(i=0;i<k_numFormants; i++){
 					m_filterNode[i] = config.audioContext.createBiquadFilter();
-					m_filterNode[i].type = m_filterNode[i].BANDPASS;
+					m_filterNode[i].setType("bandpass"); 
 					m_filterNode[i].frequency.value = m_filterFreq[i];
 					m_filterNode[i].Q.value = m_filterQ[i];
 					m_filterGainNode[i].gain.value = m_filterGain[i];
