@@ -56,7 +56,7 @@ define(
 
 			function onLoadAudioResource(b){
 				sm.soundBuff = b;
-				buffLoaded = true;
+				sm.buffLoaded = true;
 				console.log("Buffer Loaded!");
 			}
 

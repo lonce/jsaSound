@@ -241,28 +241,27 @@ define(
 			// -----------------  loading samples --------------
 			// not in utils.js because it needs the config.audioContext - also would like to manage sample buffers from urls centrally so they are only loaded once.
 			bsmInterface.loadAudioResource = function(i_url, i_onload){
-				var xhr = new XMLHttpRequest();
-				i_url = utils.freesoundfix(i_url);
+					var xhr = new XMLHttpRequest();
+					i_url = utils.freesoundfix(i_url);
 
-				buffLoaded = false;
-				xhr.open('GET', i_url, true);
-				xhr.responseType = 'arraybuffer';
+					xhr.open('GET', i_url, true);
+					xhr.responseType = 'arraybuffer';
 
-				xhr.onerror = function (e) {
-					console.log("utils.getAudioResource xhr.onload error.")
-					console.error(e);
-				};
+					xhr.onerror = function (e) {
+						console.log("utils.getAudioResource xhr.onload error.")
+						console.error(e);
+					};
 
-				xhr.onDecode=function(b){
-					i_onload(b);
-				}
+					xhr.onDecode=function(b){
+						i_onload(b);
+					}
 
-				xhr.onload = function () {
-					console.log("Sound(s) loaded");
-					config.audioContext.decodeAudioData(xhr.response, xhr.onDecode, xhr.onerror);
-				};
+					xhr.onload = function () {
+						console.log("Sound(s) loaded");
+						config.audioContext.decodeAudioData(xhr.response, xhr.onDecode, xhr.onerror);
+					};
 
-				xhr.send();	
+					xhr.send();	
 			}
 
 			//------------------  RECORDING  -------------------
