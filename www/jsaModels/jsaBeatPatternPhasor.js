@@ -26,7 +26,7 @@ define(
 			var child = jsaDrumFactory(i_fname);
 			var	gainLevelNode = config.audioContext.createGain();
 
-                        var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
+            var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
             var m_ephasor = jsaEventPhasor();
@@ -43,7 +43,7 @@ define(
             var temp_gain;
 			var myInterface = baseSM({},[],[gainLevelNode]);
 
-                        var playingP=false;
+            var playingP=false;
             //  requestAnimationFrame callback function
             var animate = function (e) {
                     if (! (playingP=== true)) return;
@@ -57,12 +57,9 @@ define(
                     while (next_uptotime > nextTickTime) {
                             ptime = nextTickTime;
 
-                            //child.qplay(ptime);
-                            //init();
                             temp_gain=m_beatPattern[(m_beatIndex++) % m_beatPattern.length];
-                            child.qplay(ptime, temp_gain )
-                            //child.start(ptime);
-                            //child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
+                            console.log("qplay at ptime= " + ptime);
+                            child.qplay(ptime, temp_gain)
 
                             m_ephasor.advanceToTick();
                             nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
@@ -71,24 +68,24 @@ define(
                     requestAnimationFrame(animate);
             };
 
+			if (child.hasOutputs()){
+					child.connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
+			}
+
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
 			myInterface.setAboutText("Schedules a series of drum hits using the DrumSample model.")
 
-
-
-
-
 			myInterface.play = function (i_freq, i_gain) {
 				m_beatIndex=0;
 				//child.stop(0); // in case it is still releasing...
-                                var now = config.audioContext.currentTime;
-                                m_ephasor.setPhase(0.999999999);        // so that the phaser wraps to generate an event immediately after starting
-                                m_ephasor.setCurrentTime(now);
+                var now = config.audioContext.currentTime;
+                m_ephasor.setPhase(0.999999999);        // so that the phaser wraps to generate an event immediately after starting
+                m_ephasor.setCurrentTime(now);
 
-                                playingP=true;
-                                requestAnimationFrame(animate);
+                playingP=true;
+                requestAnimationFrame(animate);
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);

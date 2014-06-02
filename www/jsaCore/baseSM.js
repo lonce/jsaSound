@@ -12,14 +12,10 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // The sound model base class that all models use as a prototype
 //==============================================================================
 define(
-	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/GraphNode", "jsaSound/jsaCore/jsasteller"],
-	function (config, utils, r, GraphNode) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
-
-		// Common to all sound models, and private
-		var m_loadedResources={}; // stores file names (as property names) and ArrayBuffers (as property values) so audio file resources don't have to be retrieved for than once (for example if multiple instances of a resource-using sound model are loaded). 
+	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/GraphNode", "jsaSound/jsaCore/audioResourceManager", "jsaSound/jsaCore/jsasteller"],
+	function (config, utils, r, GraphNode, resourceManager) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 
 		return function (i_node, i_inputs, i_outputs) {
-
 
 			var that=this;
 			var aboutText = "";
@@ -243,38 +239,7 @@ define(
 			);
 
 			// -----------------  loading samples --------------
-			// not in utils.js because it needs the config.audioContext - also would like to manage sample buffers from urls centrally so they are only loaded once.
-			bsmInterface.loadAudioResource = function(i_url, i_onload){
-
-					var xhr = new XMLHttpRequest();
-
-					xhr.onerror = function (e) {
-						console.log("utils.getAudioResource xhr.onload error.")
-						console.error(e);
-					};
-
-					xhr.onload = function () {
-						console.log("Sound(s) loaded");
-						config.audioContext.decodeAudioData(xhr.response, onDecode, xhr.onerror);
-					};
-
-					var onDecode=function(b){
-						m_loadedResources[i_url]=b;
-						i_onload(b);
-					}
-
-
-					if (m_loadedResources.hasOwnProperty(i_url)){
-						console.log("The url, " + i_url + "was previously loaded. Using loaded buffer again");
-						var foob = m_loadedResources[i_url];
-						onDecode(m_loadedResources[i_url]);
-						return;
-					}
-
-					xhr.open('GET', utils.freesoundfix(i_url), true);
-					xhr.responseType = 'arraybuffer';
-					xhr.send();	
-			}
+			bsmInterface.loadAudioResource = resourceManager;
 
 			//------------------  RECORDING  -------------------
 			var isRecording=false;

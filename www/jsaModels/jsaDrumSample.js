@@ -47,6 +47,7 @@ define(
 				sourceNode.loop = false;
 				sourceNode.isPlaying=false;
 
+
 				sourceNode.connect(gainLevelNode);
 			};
 
@@ -70,12 +71,7 @@ define(
 				}
 
 				if (buffLoaded) {
-
-					//sourceNode && sourceNode.disconnect();
-					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
-					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
-
-
+					console.log("build");
 					buildModelArchitectureAGAIN();
 
 					stopTime = config.bigNum;
@@ -86,6 +82,12 @@ define(
 
 					sourceNode.start(i_ptime);
 					sourceNode.isPlaying=true;
+
+
+					sourceNode.onended = function(){
+						this.isPlaying && this.stop(0);
+						this.isPlaying=false;
+					};
 
 
 					if (myInterface.getNumOutConnections() === 0){
@@ -131,6 +133,7 @@ define(
 			myInterface.release = function () {
 
 				//sourceNode && sourceNode.stop(0);
+				console.log("release");
 				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
 				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
