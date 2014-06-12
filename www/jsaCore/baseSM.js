@@ -1,3 +1,12 @@
+/**
+* Provides the base class for all sound models
+* @module baseSM
+*/
+/**
+* class factory for sound models
+* @class baseSM
+*
+*/
 /* ---------------------------------------------------------------------------------------
 This jsaSound Code is distributed under LGPL 3
 Copyright (C) 2012 National University of Singapore
@@ -11,9 +20,11 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 //==============================================================================
 // The sound model base class that all models use as a prototype
 //==============================================================================
+
+
 define(
-	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/GraphNode", "jsaSound/jsaCore/audioResourceManager", "jsaSound/jsaCore/jsasteller"],
-	function (config, utils, r, GraphNode, resourceManager) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
+	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/GraphNode", "jsaSound/jsaCore/audioResourceManager", "jsaSound/jsaCore/eQueue", "jsaSound/jsaCore/jsasteller"],
+	function (config, utils, r, GraphNode, resourceManager, queueManager) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 
 		return function (i_node, i_inputs, i_outputs) {
 
@@ -57,11 +68,18 @@ define(
 				return sched;
 			}
 
-
+			/**
+			* @method setAboutText
+			* @param {String} i_text text descritption of model, hints, etc
+			*/
 			bsmInterface.setAboutText = function (i_text){
 				aboutText=i_text;
 			};
 
+			/**
+			* @method getAboutText
+			* @return text descritption of model, hints, created with setAboutText(String)
+			*/
 			bsmInterface.getAboutText = function () { return aboutText;};
 
 			// Parameters are not over-writable
@@ -163,9 +181,14 @@ define(
 			};
 
 			// All sound models need to have these methods
-			bsmInterface.play = function () {
-				console.log("baseSM.play() should probably be overridden ");
+
+			bsmInterface.play = function (i_ptime) {
+				this.onPlay(i_ptime);
 			};
+			bsmInterface.onPlay = function (i_ptime) {
+				console.log("override onPlay")
+			};
+
 			bsmInterface.release = function () {
 				console.log("baseSM.release() should probably be overridden ");
 			};
@@ -209,8 +232,9 @@ define(
 
 
 
-			bsmInterface.savePSets = function(){utils.saveToFile(pSets)};
+			bsmInterface.savePSets = function(){utils.saveToFile(pSets);};
 
+			bsmInterface.schedule = function(t, f){queueManager.schedule(t, f);};
 
 			// vvvvvvvvvvvvvvvvvvvvvvvvvvvv   // intended for use only by jsaSound system
 			bsmInterface.system={};

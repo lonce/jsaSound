@@ -14,11 +14,11 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 define(
 	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode"],
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNodeFactoryMaker"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker"],
 	function (config, baseSM, noiseNodeFactoryMaker) {
 		return function () {
 
-			var BufferNoiseNodeFactory = BufferNoiseNodeFactoryMaker();
+			var noiseNodeFactory = noiseNodeFactoryMaker();
 
 
 			var m_attack = 0.002;
@@ -31,6 +31,8 @@ define(
 			var noiseNode = noiseNodeFactory();
 				//noiseNode.setType("white");
 				//noiseNode.keep();
+				noiseNode.loop=true;
+				noiseNode.start();
 
 			var m_gainLevel = 0.40;
 			var	gainLevelNode = config.audioContext.createGain();
@@ -55,6 +57,7 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
+				console.log("noiseTick qplay -----")
 				now = config.audioContext.currentTime;
 				//console.log("NodeNoiseTick: now is " + now + ", and ptime is " + i_ptime);
 				
@@ -64,9 +67,10 @@ define(
 				//var ptime = i_ptime;
 
 
-				gainEnvNode.gain.cancelScheduledValues(ptime);
+				//gainEnvNode.gain.cancelScheduledValues(ptime);
 				// The model turns itself off after a fixed amount of time	
 				stopTime = ptime + m_attack + m_sustain + m_release;
+				console.log("now is " + now + ", and stop time is " + stopTime);
 
 				// Generate the "event"
 				gainEnvNode.gain.setValueAtTime(0, ptime);
@@ -130,6 +134,7 @@ define(
 			myInterface.release = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_release;
+				console.log("release called at time " + now + ", and will stop at time " + stopTime);
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 

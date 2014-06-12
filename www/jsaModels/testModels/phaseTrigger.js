@@ -11,23 +11,12 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 Author: Lonce Wyse
 Date: July 2012
 */
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
-	for baseSM 
-	
-jsaModels/jsaSimpleNoiseTick2.js
-	 for jsaSimpleNoiseTickFactory2
-	 
-*/
-/* This model explores using JavaScriptAudioNode.onaudioprocess() as a callback for generating events for other Audio Node. 
-	A phasor is used to trigger events for another SoundModel each time it "ticks" (wraps around).
-	
-*/
+
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/testModels/JSNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/testModels/noiseTick", "jsaSound/jsaOpCodes/jsaEventPhasor"],
 	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaOpCodes/jsaEventPhasor"],
-	function (config, baseSM, JSNodeNoiseTick2Factory, jsaEventPhasor) {
+	function (config, baseSM, noiseTickFactory, jsaEventPhasor) {
 		return function () {
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 
@@ -36,7 +25,7 @@ define(
 
 			var playingP=false;
 
-			var child = JSNodeNoiseTick2Factory();
+			var child = noiseTickFactory();
 
 			var	gainLevelNode = config.audioContext.createGain();
 
@@ -61,7 +50,7 @@ define(
 				while (next_uptotime > nextTickTime) {
 					ptime = nextTickTime;
 
-					child.qplay(ptime);
+					child.play(ptime);
 					console.log("jsaPhaseTrigger animate: child play at time " + ptime);
 
 					m_ephasor.advanceToTick();
@@ -97,8 +86,11 @@ define(
 			};
 
 			myInterface.release = function () {
+				myInterface.schedule(config.audioContext.currentTime+2, function(t){
 				child.release();
-				playingP=false;
+				playingP=false;		
+				});
+
 			};
 
 			myInterface.registerParam(

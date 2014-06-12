@@ -1,7 +1,7 @@
 define(
 	function () {		
 		return function(ctx){
-
+/*
 			Object.getPrototypeOf(ctx.createOscillator()).setType=function(num){
 				switch(num){
 					case 0:
@@ -23,6 +23,25 @@ define(
 						this.type="sine";
 				}
 			};
+*/
+			var ftypes=["sine","square","sawtooth","triangle","custom"];
+			Object.getPrototypeOf(ctx.createOscillator()).setType=function(ot){
+				if (typeof ot === "string"){
+					this.type=ot;
+					return;
+				} 
+				if (typeof ot === "number"){
+					if (ot < ftypes.length){
+						this.type=ftypes[num];
+						return;
+					} else{
+						this.type=ftypes[0]; // default to sine for out-of-range number
+						return;
+					}					
+				}
+				console.log("oscillator.setType: trying to set illegal oscillator type " + ot);
+			};
+
 
 			var ftypes=["lowpass","highpass","bandpass","lowshelf","highshelf","peaking","notch","allpass"];
 			Object.getPrototypeOf(ctx.createBiquadFilter()).setType=function(ft){

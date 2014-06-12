@@ -59,7 +59,7 @@ define(
          		return sched.fire(function (clock) {
          			temp_gain=m_beatPattern[(m_beatIndex++) % m_beatPattern.length];
          			if (temp_gain > 0){
-             			child.qplay(clock.t1, temp_gain );
+             			child.play(clock.t1);
              		}
          		});
 	     	}

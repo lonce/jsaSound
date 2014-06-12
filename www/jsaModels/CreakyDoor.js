@@ -32,7 +32,7 @@ define(
                         var m_gainLevel = .8;
 
                         var playingP=false;
-                        var child = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
+                        var noiseNode = BufferNoiseNodeFactory(k_impulseDuration); // short burst, created only once
                         var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/OneDoorCreak.wav");
                         var        swingGainNode = config.audioContext.createGain(); // manipuloated internally
                         var        gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
@@ -62,10 +62,10 @@ define(
                                 while (next_uptotime > nextTickTime) {
                                         ptime = nextTickTime;
 
-                                        //child.qplay(ptime);
+                                        //noiseNode.qplay(ptime);
                                         init();
-                                        child.start(ptime);
-                                        child.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
+                                        noiseNode.start(ptime);
+                                        noiseNode.stop(ptime+k_impulseDuration); // this would have to change if the SourceBuffer.playRate changes...
 
                                         m_ephasor.advanceToTick();
                                         nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
@@ -80,12 +80,12 @@ define(
 
                         // get a new SourceBufferNode for every event (oi.)
                         var init = function () {
-                                        child = BufferNoiseNodeFactory();
-                                        child.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
+                                        noiseNode = BufferNoiseNodeFactory();
+                                        noiseNode.connect(m_conv); // collect audio from children output nodes into gainLevelNode 
                         };
 
 
-                        myInterface.play = function (i_freq, i_gain) {
+                        myInterface.play = function () {
                                 var now = config.audioContext.currentTime;
                                 m_ephasor.setPhase(0.999999999);        // so that the phaser wraps to generate an event immediately after starting
                                 m_ephasor.setCurrentTime(now);

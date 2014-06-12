@@ -13,59 +13,80 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
+	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode"],
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker"],
-	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode"],
 	function (config, baseSM, noiseNodeFactoryMaker) {
 		return function () {
-			var m_attack = 0.002;
-			var m_sustain = 0.01;
-			var m_release = 0.002;
-			var m_gain = 0.80;
-
-			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
-			var now;
-			//var val;
 
 			var noiseNodeFactory = noiseNodeFactoryMaker();
 
-			var noiseNode = noiseNodeFactory();
-			noiseNode.loop=true;
-			noiseNode.start();
-			
-			var	gainEnvNode = config.audioContext.createGain();
 
-			noiseNode.connect(gainEnvNode);
-			gainEnvNode.gain.setValueAtTime(0, 0);
-			
+			var m_attack = 0.002;
+			var m_sustain = 0.01;
+			var m_release = 2.002;
+			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
+			var now;
 
-			var myInterface = baseSM({},[],[gainEnvNode]);
+			// new for each tick
+			var noiseNode;
+
+			var m_gainLevel = 0.40;
+			var	gainLevelNode = config.audioContext.createGain();
+			
+			// permanent part of graph
+			var	gainEnvNode;
+
+
+			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
 
-			myInterface.play = function () {
-				myInterface.qplay(config.audioContext.currentTime);
-			};
+			function rebuildArchitecture(){
+				gainEnvNode = config.audioContext.createGain();	
+				gainEnvNode.gain.setValueAtTime(0, 0);		
+				//noiseNode.connect(gainEnvNode);		
+				gainEnvNode.connect(gainLevelNode);
 
-			myInterface.qplay = function (i_ptime) {
+				noiseNode = noiseNodeFactory();
+				noiseNode.loop=true;
+				noiseNode.connect(gainEnvNode);
+			}
+
+			//myInterface.qplay = function (i_ptime) {};
+
+			myInterface.play = function (i_ptime) {
+				var ptime = (! i_ptime)? 0 : i_ptime; 
+				now = config.audioContext.currentTime;
+				ptime = Math.max(now, ptime || now);
+
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
-				/*
-				now = config.audioContext.currentTime;
-				console.log("Noise tick play call at time = " + now);
-				var ptime = Math.max(now, i_ptime || now);
-				*/
-				var ptime = i_ptime;
+
+				rebuildArchitecture();
+
+				noiseNode.start();
+
+				console.log("noiseTick qplay -----")
+
+				//console.log("NodeNoiseTick: now is " + now + ", and ptime is " + i_ptime);
+				
+				//console.log("Noise tick play call at time = " + now);
+
+				
+				//var ptime = i_ptime;
 
 
-				gainEnvNode.gain.cancelScheduledValues(ptime);
+				//gainEnvNode.gain.cancelScheduledValues(ptime);
 				// The model turns itself off after a fixed amount of time	
 				stopTime = ptime + m_attack + m_sustain + m_release;
+				console.log("now is " + now + ", and stop time is " + stopTime);
 
 				// Generate the "event"
 				gainEnvNode.gain.setValueAtTime(0, ptime);
-				gainEnvNode.gain.linearRampToValueAtTime(m_gain, ptime + m_attack);
-				gainEnvNode.gain.linearRampToValueAtTime(m_gain, ptime + m_attack + m_sustain);
+				gainEnvNode.gain.linearRampToValueAtTime(1, ptime + m_attack);
+				gainEnvNode.gain.linearRampToValueAtTime(1, ptime + m_attack + m_sustain);
 				gainEnvNode.gain.linearRampToValueAtTime(0, ptime + m_attack + m_sustain + m_release);
+				noiseNode.stop(ptime + m_attack + m_sustain + m_release);
 			};
 
 			myInterface.registerParam(
@@ -74,10 +95,10 @@ define(
 				{
 					"min": 0,
 					"max": 1,
-					"val": m_gain
+					"val": m_gainLevel
 				},
 				function (i_val) {
-					m_gain = parseFloat(i_val);
+					gainLevelNode.gain.value = m_gainLevel = i_val;
 				}
 			);
 
@@ -99,7 +120,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 3,
+					"max": 300,
 					"val": m_sustain
 				},
 				function (i_val) {
@@ -119,6 +140,18 @@ define(
 					m_release = parseFloat(i_val); // javascript makes me cry ....
 				}
 			);
+
+			myInterface.release = function () {
+				now = config.audioContext.currentTime;
+				stopTime = now + m_release;
+				console.log("release called at time " + now + ", and will stop at time " + stopTime);
+
+				gainEnvNode.gain.cancelScheduledValues(now);
+				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+				noiseNode.stop(stopTime);
+			};
+
 
 			//console.log("paramlist = " + myInterface.getParamList().prettySstring());					
 			return myInterface;

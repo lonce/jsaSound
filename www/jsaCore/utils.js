@@ -17,6 +17,21 @@ define(
 			return Math.pow(10.0, i_dB/20.0);
 		}
 
+        utils.getRequestAnimationFrameFunc = function() {
+            try {
+                return (window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame ||
+                        window.msRequestAnimationFrame ||
+                        (function (cb) {
+                            setTimeout(cb, 1000/60);
+                        }));
+            } catch (e) {
+                return undefined;
+            }
+        };
+
+
 		utils.relMouseCoords = function (event) {
 			var totalOffsetX = 0;
 			var totalOffsetY = 0;
@@ -268,6 +283,7 @@ define(
 			return i_url;
 		}
 
+/*   // see baseSM audioResourceManager
 		utils.loadAudioResource = function(i_url, config, i_onload){
 			var xhr = new XMLHttpRequest();
 			i_url = utils.freesoundfix(i_url);
@@ -292,6 +308,7 @@ define(
 
 			xhr.send();	
 		}
+*/ 
 
 
 		return utils;

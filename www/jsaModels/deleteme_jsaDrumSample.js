@@ -16,7 +16,9 @@ define(
 	function (config, baseSM) {
 		return function (i_fname) {
 
+
 			var buffLoaded = false;
+
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			var gainLevelNode = config.audioContext.createGain();
@@ -26,9 +28,11 @@ define(
 			var m_defaultsoundURL = config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav";
 			var stopTime = 0.0;
 
+       		
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Simple mp3 (or wav) sample player - must load sounds from same domain as server.")
+
 
 
 			var init = (function (){
@@ -42,6 +46,8 @@ define(
 				sourceNode.buffer = soundBuff;
 				sourceNode.loop = false;
 				sourceNode.isPlaying=false;
+
+
 				sourceNode.connect(gainLevelNode);
 			};
 
@@ -51,19 +57,32 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			myInterface.play= function (i_ptime) {
+			myInterface.play = function (i_gain) {
+				if (arguments.length > 0) {
+					myInterface.qplay(config.audioContext.currentTime, i_gain);
+				} else{
+					myInterface.qplay(config.audioContext.currentTime);
+				}
+			};
+
+			myInterface.qplay = function (i_ptime, i_gain) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
 
 				if (buffLoaded) {
+					console.log("build");
 					buildModelArchitectureAGAIN();
 
 					stopTime = config.bigNum;
 
-					//sourceNode.start(i_ptime);
+					if (arguments.length > 1) {
+						myInterface.setParam("Gain", i_gain);
+					}
+
 					sourceNode.start(i_ptime);
 					sourceNode.isPlaying=true;
+
 
 					sourceNode.onended = function(){
 						this.isPlaying && this.stop(0);
@@ -112,6 +131,9 @@ define(
 			);
 
 			myInterface.release = function () {
+
+				//sourceNode && sourceNode.stop(0);
+				console.log("release");
 				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
 				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
