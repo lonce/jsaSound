@@ -187,10 +187,13 @@ define(
 
 			bsmInterface.play = function (i_time) {
 				bsmInterface.isPlaying=true;
-				this.onPlay(i_time);
-			};
-			bsmInterface.onPlay = function (i_ptime) {
-				console.log("override onPlay")
+
+				if (this.hasOwnProperty("onPlay")) {
+					this.onPlay(i_time);
+				} 
+				
+				if (i_time === undefined) i_time=0;
+				this.fire({"type": "play", "ptime": i_time, "snd": this});
 			};
 
 			bsmInterface.release = function (i_time) {
@@ -203,7 +206,7 @@ define(
 
 			bsmInterface.stop = function (i_time) {
 				this.onStop(i_time);
-				this.fire({"type": "stop", "snd": this});
+				this.fire({"type": "stop", "ptime": i_time, "snd": this});
 				bsmInterface.isPlaying=false;
 			};
 			bsmInterface.onStop = function (i_time) {

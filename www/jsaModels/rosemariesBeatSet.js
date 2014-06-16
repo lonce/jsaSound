@@ -30,17 +30,12 @@ define(
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
 			var ticks; // a track
-			//var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
-			//var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
-
 			var m_beatPattern = [];
 
-			//var m_conv = config.audioContext.createConvolver();
-			//var convolverbuffer=0;
+			var m_conv = config.audioContext.createConvolver();
+			var convolverbuffer=0;
 
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "/jsaResources/impulse-response/jazz/GK09_jazz_chorus_room_K.wav");
-
-
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
@@ -79,9 +74,9 @@ define(
 
 
 					if (childModel[i].hasOutputs()){
-						childModel[i].connect(gainLevelNode);
+						childModel[i].connect(m_conv);
 					}
-					//m_conv.connect(gainLevelNode);
+					m_conv.connect(gainLevelNode);
 					childModel[i].setParam("Gain", m_gainLevel);
 					
 				}
@@ -89,10 +84,8 @@ define(
 			}());
 
 
-
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Model hierarchy: Beat Set -> Beat Patterns -> Drum Samples")
-
 
 
 			myInterface.onPlay = function (i_freq, i_gain) {

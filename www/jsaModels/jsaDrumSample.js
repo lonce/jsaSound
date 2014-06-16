@@ -51,7 +51,8 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			myInterface.play= function (i_ptime) {
+			//myInterface.play= function (i_ptime) {
+			myInterface.on("play", function(e){
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
@@ -67,7 +68,7 @@ define(
 
 
 					//sourceNode.start(i_ptime);
-					sourceNode.start(i_ptime);
+					sourceNode.start(e.ptime);
 					sourceNode.isPlaying=true;
 
 					sourceNode.onended = function(){
@@ -87,7 +88,7 @@ define(
 					//CREATE EXTERNAL CALLBACK HERE!!!
 					//alert("Press load and wait!");
 				}
-			};
+			});
 
 			myInterface.registerParam(
 				"Gain",

@@ -86,7 +86,8 @@ define(
 				m_baseNote = i_bn || m_baseNote;
 				//console.log("will send play to " + m_currentNumChildrenActive + " currently active children");
 				for (i = 0; i < m_currentNumChildrenActive; i += 1) {
-					childModel[i].play(note2Freq(m_baseNote));
+					childModel[i].setParam("Center Frequency", note2Freq(m_baseNote));
+					childModel[i].play();
 				}
 
 
@@ -157,7 +158,8 @@ define(
 							var f = note2Freq(m_baseNote);
 							childModel[i].setParam("Gain", m_childGain);
 							if (stopTime > config.audioContext.currentTime){ // if playingP
-								childModel[i].play(f);
+								childModel[i].setParam("Center Frequency", f);
+								childModel[i].play();
 							}
 						}
 					} else { // in_gens < m_currentNumChildrenActive

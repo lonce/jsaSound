@@ -51,6 +51,7 @@ define(
 			
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
+
 			myInterface.setAboutText("Bandpass noise with native nodes");
 
 
@@ -81,27 +82,17 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_f, i_gain) {
+			//var onPlay = function (i_ptime) {
+			myInterface.on("play", function(e){
 				// if no input, remember from last time set
 				now = config.audioContext.currentTime;
 
-				m_freq = i_f || m_freq;
-				myInterface.setParam("Center Frequency", m_freq);
-
-				if (i_gain != undefined){
-					gainLevelNode.gain.value = i_gain;
-					console.log("i_gain != undefined  play with gain " +  gainLevelNode.gain.value);
-				}
-				else {
-					gainLevelNode.gain.value = m_gainLevel;
-					console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
-				}
+				gainLevelNode.gain.value = m_gainLevel;
+				console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
-
-				
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 
@@ -110,7 +101,10 @@ define(
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
 
-			};
+			});
+
+			//console.log("setting play callback on interface owned by " + myInterface.owner);
+			//myInterface.on("play", function(e){onPlay(e.i_ptime);});
 
 			// ----------------------------------------
 			myInterface.setCenterFreq = myInterface.registerParam(
