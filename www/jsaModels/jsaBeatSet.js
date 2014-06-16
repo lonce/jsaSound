@@ -82,7 +82,7 @@ define(
 
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -101,10 +101,12 @@ define(
 
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				for(var i=0;i<numChildren;i++){
 					childModel[i].release();
 				}
+
+				myInterface.stop();
 			};
 
 			myInterface.registerParam(

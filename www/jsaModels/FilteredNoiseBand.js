@@ -81,7 +81,7 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_f, i_gain) {
+			myInterface.onPlay = function (i_f, i_gain) {
 				// if no input, remember from last time set
 				now = config.audioContext.currentTime;
 
@@ -184,7 +184,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
@@ -192,6 +192,10 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 
 			};
 			//--------------------------------------------------------------------------------

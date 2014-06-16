@@ -1,0 +1,11 @@
+{
+    "name": "The jsaSound API",
+    "description": "The jsaSound API for building sound models with Web Audio",
+    "version": "0.0.1",
+    "url": "http://animatedsoundworks.com:8001/",
+    "logo": "http://anclab.org/wp-content/themes/atahualpa/images/header/anclab_header.jpg",
+    "options": {
+        "outdir": "Docs/apiDocs",
+	    "paths": "./jsaCore"
+    }
+}

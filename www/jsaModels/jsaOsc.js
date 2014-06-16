@@ -53,7 +53,7 @@ define(
 			myInterface.setAboutText("Simple square wave with attack, hold, release");
 
 			// ----------------------------------------
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 
 				console.log("rebuild model node architecture!");
@@ -103,7 +103,9 @@ define(
 				},
 				function (i_type) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					m_type=Math.floor(i_type);
+					i_type=Math.floor(i_type);
+					if (m_type === i_type) return;
+					m_type=i_type;
 					console.log("setting osc type to " + m_type);
 					oscNode.setType(m_type);
 				}
@@ -153,7 +155,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
@@ -164,6 +166,9 @@ define(
 				oscNode && oscNode.isPlaying && oscNode.stop(stopTime);
 				if (oscNode) oscNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 			};
 
 			return myInterface;

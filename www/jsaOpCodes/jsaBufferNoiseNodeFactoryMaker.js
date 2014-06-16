@@ -1,5 +1,3 @@
-
-
 define(
     ["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils"],
     function (config) {

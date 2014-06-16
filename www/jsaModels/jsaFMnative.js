@@ -63,7 +63,7 @@ define(
             // play() is a pure play(). To change frequency,
             // use the parameter setting calls before calling play().
             // -Kumar
-            myInterface.play = function () {
+            myInterface.onPlay = function () {
                 var now = config.audioContext.currentTime;
 
 
@@ -221,7 +221,7 @@ define(
                     }
                     );
 
-            myInterface.release = function () {
+            myInterface.onRelease = function () {
                 //console.log("nativeeFM release");
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
@@ -246,6 +246,10 @@ define(
 
                     m_CarrierNode.stop(stopTime);
                     m_CarrierNode = null;
+
+                    myInterface.schedule(stopTime, function () {
+                        myInterface.stop();
+                    });
 
                 }
             };

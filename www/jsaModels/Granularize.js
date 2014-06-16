@@ -85,7 +85,7 @@ define(
 				//console.log("pitchRate = ", pitchRate);
 				source.playbackRate.value = pitchRate;
 				//console.log("soundBuff created");
-
+				
 
 				var grainWindowNode = config.audioContext.createGain();
 				source.connect(grainWindowNode);
@@ -132,7 +132,7 @@ define(
 				setTimeout(schedule, 20);
 			}
 
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				if (buffLoaded) {
 					realTime = config.audioContext.currentTime;
 					console.log("got realTime");
@@ -284,11 +284,13 @@ define(
 			);
 
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				console.log("release triggered");
 
 				//TODO: Remove this timeOut thing if possible
 				setTimeout(stopScheduler, 0);
+
+				myInterface.stop(); // no ring out time? 
 			};
 
 			buffLoaded = false;

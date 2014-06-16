@@ -47,7 +47,7 @@ define(
 			myInterface.setAboutText("NOTE:  Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime
 				stopTime = config.bigNum;
 
@@ -78,13 +78,14 @@ define(
 			);
 
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now;
 				//gainLevelNode.gain.setValueAtTime(0, now);
 				gainLevelNode.gain.value = 0;
 				console.log("releasing Monster setting gain to = "+ gainLevelNode.gain.value);
 
+				myInterface.stop();
 			};
 
 			myInterface.registerParam(

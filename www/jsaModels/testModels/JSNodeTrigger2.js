@@ -53,7 +53,7 @@ define(
 
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=1;
 				ticks = sh.track([
@@ -68,12 +68,14 @@ define(
 				}
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				child.release();
 				//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 				stp_playingP.value=0;
 				sh.stop();
 				//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+				myInterface.stop();
 			};
 
 			myInterface.registerParam(

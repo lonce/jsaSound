@@ -53,7 +53,7 @@ define(
 
 			//myInterface.qplay = function (i_ptime) {};
 
-			myInterface.play = function (i_ptime) {
+			myInterface.onPlay = function (i_ptime) {
 				var ptime = (! i_ptime)? 0 : i_ptime; 
 				now = config.audioContext.currentTime;
 				ptime = Math.max(now, ptime || now);
@@ -141,7 +141,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_release;
 				console.log("release called at time " + now + ", and will stop at time " + stopTime);
@@ -150,6 +150,10 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 				noiseNode.stop(stopTime);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 			};
 
 

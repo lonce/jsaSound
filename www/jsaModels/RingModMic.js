@@ -68,7 +68,7 @@ define(
 			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
@@ -127,7 +127,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 
 				// shouldn't need this line, but for long sustain times, the system seems to "forget" what its current value is....
@@ -141,6 +141,10 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 			};
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface

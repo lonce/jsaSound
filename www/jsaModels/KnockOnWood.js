@@ -55,7 +55,7 @@ define(
 			};
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				var now = config.audioContext.currentTime;
 				//myInterface.stop();
 				releaseTimeOut && clearTimeout(releaseTimeOut);

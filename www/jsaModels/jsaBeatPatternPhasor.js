@@ -18,18 +18,19 @@ Date: July 2012
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaDrumSample", "jsaSound/jsaCore/poly", "jsaSound/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, jsaDrumFactory, poly, jsaEventPhasor) {
-		return function (i_fname) {
+		return function (i_fname, i_poly) {
 
 			var fooURL = i_fname;
-			var m_rate = 5.0;
+			var m_poly = i_poly || 8;
+			var m_rate = 4.0;
 			var m_gainLevel = 0.9;
 
-			var numChildSources=2;
+
 			var snum=0;
 			var child;
 			var	gainLevelNode = config.audioContext.createGain();
 
-			var childSource = poly.addSnd(function(){return jsaDrumFactory(i_fname)}, 8, gainLevelNode);
+			var polySource = poly(function(){return jsaDrumFactory(i_fname)}, m_poly, gainLevelNode);
 
 
             var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
@@ -64,14 +65,20 @@ define(
                             ptime = nextTickTime;
 
                             temp_gain=m_beatPattern[(m_beatIndex++) % m_beatPattern.length];
-                            console.log("qplay at ptime= " + ptime);
-                            child=poly.getSnd(); //childSource[(snum++)%numChildSources];
-                            myInterface.schedule(ptime, function () {
-                            	child.setParam("Gain", temp_gain);
-                            	});
-                            myInterface.schedule(ptime, child.play);
+                            //console.log("qplay at ptime= " + ptime);
 
-                            //child.qplay(ptime, temp_gain);
+                         	if (temp_gain != 0) {
+                         	    myInterface.schedule(ptime, function () {
+	                             	child=polySource.getSnd(); 
+	                             	if (child) {
+	                             		child.setParam("Gain", temp_gain);
+	                             		child.play(ptime);
+	                             	} else{
+	                             		console.log("didn't get a poly sound");
+	                             	}
+                        		});
+                         	}
+
 
                             m_ephasor.advanceToTick();
                             nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
@@ -79,19 +86,13 @@ define(
                     m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
                     requestAnimationFrame(animate);
             };
-/*
-            for(var c=0;c<numChildSources;c++){
-				if (childSource[c].hasOutputs()){
-						childSource[c].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
-				}
-			}
-*/
+
 
 			//================================================^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
 			myInterface.setAboutText("Schedules a series of drum hits using the DrumSample model.")
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				m_beatIndex=0;
 				//child.stop(0); // in case it is still releasing...
                 var now = config.audioContext.currentTime;
@@ -106,9 +107,13 @@ define(
 				}
 			};
 
-			myInterface.release = function () {
-				child.release();
+			myInterface.onRelease = function () {
+				child && child.release();
 				playingP=false;
+				myInterface.schedule(config.audioContext.currentTime+.3, function () {
+					myInterface.stop();
+				});
+
 			};
 
 
@@ -123,7 +128,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 48,
+					"max": 24,
 					"val": m_rate
 				},
 				function (i_val) {					
@@ -137,7 +142,7 @@ define(
 			myInterface.registerParam(
 				"Sound URL",
 				"url",
-				{
+				{ 
 					"val": i_fname || (config.resourcesPath + "jsaResources/drum-samples/LINN/snare.wav")
 				},
 				function (i_val) {
@@ -160,14 +165,9 @@ define(
 
 			);
 
-/*
-			// load the default sound
-			for(var c=0;c<numChildSources;c++){
-				childSource[c].setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
-			}
-*/
+
 			//child.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
-			poly.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
+			polySource.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
 			return myInterface;
 		};
 	}

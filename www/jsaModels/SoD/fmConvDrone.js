@@ -70,7 +70,7 @@ define(
             // use the parameter setting calls before calling play().
             // -Kumar
             var nodeWrapper;
-            myInterface.play = function () {
+            myInterface.onPlay = function () {
                 var now = config.audioContext.currentTime;
 
                 // The model uses an oscillator "voice" as the input that
@@ -256,7 +256,7 @@ define(
                     }
                     );
 
-            myInterface.release = function () {
+            myInterface.onRelease = function () {
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
                     // common model ones
@@ -277,6 +277,11 @@ define(
                     // -Kumar
                     oscModulatorNode.stop(stopTime);
                     oscModulatorNode = null;
+
+                    myInterface.schedule(stopTime, function () {
+                        myInterface.stop();
+                    });
+                    
                 }
             };
             

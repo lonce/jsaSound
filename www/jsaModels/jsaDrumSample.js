@@ -58,8 +58,13 @@ define(
 
 				if (buffLoaded) {
 					buildModelArchitectureAGAIN();
+					// self time out
+					//console.log("current time is " + config.audioContext.currentTime);
+					stopTime = config.audioContext.currentTime + soundBuff.duration + .1; // config.bigNum;
+					myInterface.schedule(stopTime, function () {
+						myInterface.stop();
+					});
 
-					stopTime = config.bigNum;
 
 					//sourceNode.start(i_ptime);
 					sourceNode.start(i_ptime);
@@ -111,10 +116,12 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
-				sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
-				if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
-
+			myInterface.onRelease = function () {
+				myInterface.schedule(config.audioContext.currentTime+.3, function () {
+					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+					myInterface.stop();
+				});
 			};
 
 			buffLoaded = false;

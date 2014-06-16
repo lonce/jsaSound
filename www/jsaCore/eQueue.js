@@ -27,7 +27,7 @@ define(
     			for (var i=queueManager.q.length-1;i>=0;i--){
     				if (queueManager.q[i].time <= now+interval){
     					queueManager.q[i].func(queueManager.q[i].time);
-                        console.log("fire from queue at time " + now + "with timestamp " + queueManager.q[i].time);
+                        //console.log("fire from queue at time " + now + "with timestamp " + queueManager.q[i].time);
     					queueManager.q.pop();
     				} 
     			}

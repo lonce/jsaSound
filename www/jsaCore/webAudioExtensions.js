@@ -24,18 +24,18 @@ define(
 				}
 			};
 */
-			var ftypes=["sine","square","sawtooth","triangle","custom"];
+			var wtypes=["sine","square","sawtooth","triangle","custom"];
 			Object.getPrototypeOf(ctx.createOscillator()).setType=function(ot){
 				if (typeof ot === "string"){
 					this.type=ot;
 					return;
 				} 
 				if (typeof ot === "number"){
-					if (ot < ftypes.length){
-						this.type=ftypes[num];
+					if (ot < wtypes.length){
+						this.type=wtypes[ot];
 						return;
 					} else{
-						this.type=ftypes[0]; // default to sine for out-of-range number
+						this.type=wtypes[0]; // default to sine for out-of-range number
 						return;
 					}					
 				}

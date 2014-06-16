@@ -20,7 +20,7 @@ define(
 						i_onload(b);
 						// and same for those waiting for this resource
 						while (resourceManager.m_waitingForResource[i_url].length > 0){
-							console.log("OK, got the resource I was waiting for!");
+							//console.log("OK, got the resource I was waiting for!");
 							resourceManager.m_waitingForResource[i_url].shift()(b);						
 						}
 
@@ -35,7 +35,7 @@ define(
 					if (resourceManager.m_loadedResources.hasOwnProperty(i_url)){
 						if (resourceManager.m_loadedResources[i_url]==="loading"){
 							// queue up call back
-							console.log("Somebody else is loading this resource, wait for it....!")
+							//console.log("Somebody else is loading this resource, wait for it....!")
 							resourceManager.m_waitingForResource[i_url].push(i_onload);
 							return;
 						} // else return the buffer previously loaded to the caller. 

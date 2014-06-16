@@ -57,7 +57,7 @@ define(
 			myInterface.setAboutText("Press ALLOW (twice) on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)");
 
 			// ----------------------------------------
-			myInterface.play = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_bn, i_gain) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -80,7 +80,7 @@ define(
 
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;

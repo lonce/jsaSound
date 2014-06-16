@@ -71,7 +71,7 @@ define(
 			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models to deonstrate the composability of sound models using GraphNode. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
 
 			// ----------------------------------------
-			myInterface.play = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_bn, i_gain) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -92,7 +92,7 @@ define(
 
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;
@@ -101,6 +101,7 @@ define(
 				for (i = 0; i < m_currentNumChildrenActive; i += 1) {
 					childModel[i].release();
 				}
+				myInterface.stop();
 
 				//console.log("------------[released]");
 			};

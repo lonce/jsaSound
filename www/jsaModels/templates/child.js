@@ -78,7 +78,7 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
@@ -170,13 +170,17 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 
 			};
 			//--------------------------------------------------------------------------------

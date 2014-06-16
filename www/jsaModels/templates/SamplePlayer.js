@@ -56,7 +56,7 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				if (arguments.length > 0) {
 					myInterface.qplay(config.audioContext.currentTime, i_gain);
 				} else{
@@ -115,11 +115,13 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 
 					//sourceNode && sourceNode.stop(0);
 					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
 					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+
+					myInterface.stop();
 			};
 
 

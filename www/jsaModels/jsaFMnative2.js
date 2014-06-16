@@ -54,6 +54,8 @@ define(
             // With no note playing, nothing happens when you
             // try to set the frequency.
             // -Kumar
+             myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
+
             function dummySetFreq(i_freq) {}
             var setFreq = dummySetFreq;
 
@@ -61,7 +63,7 @@ define(
             // use the parameter setting calls before calling play().
             // -Kumar
             var nodeWrapper;
-            myInterface.play = function () {
+            myInterface.onPlay = function () {
                 var now = config.audioContext.currentTime;
 
                 // The model uses an oscillator "voice" as the input that
@@ -205,7 +207,7 @@ define(
                     }
                     );
 
-            myInterface.release = function () {
+            myInterface.onRelease = function () {
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
                     // common model ones
@@ -226,6 +228,11 @@ define(
                     // -Kumar
                     oscModulatorNode.stop(stopTime);
                     oscModulatorNode = null;
+
+                    myInterface.schedule(stopTime, function () {
+                        myInterface.stop();
+                    });
+
                 }
             };
             
@@ -241,5 +248,5 @@ define(
 
             return myInterface;
         };
-	}
+    }
 );

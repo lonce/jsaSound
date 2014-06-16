@@ -62,7 +62,7 @@ define(
 
 
 			// ----------------------------------------
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				now = config.audioContext.currentTime;
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
@@ -177,13 +177,17 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
-	
 				//formantSynthNode.release(); // twould be nice to be able to provide a time argument here
 				formantSynthNode.setParam("play", 0);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
+				
 			};
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface

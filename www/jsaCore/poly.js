@@ -8,63 +8,80 @@ define(
 	["jsaSound/jsaCore/config"],
 	function (config) {
 
-	var soundbank = {};
-	var m_maxPolyphony;
+       return function (sndFactory, poly, i_outNode) {
 
-        var m_polyNum; 
-        var snds=[];   
+    	   var soundbank = {};
+    	   var m_maxPolyphony;
 
-        soundbank.setParam = function(name, val){
-                for (var i=0;i<m_maxPolyphony;i++){
-                     snds[i].setParam(name, val);   
-                }
-        }
+            var m_polyNum; 
+            var snds=[];   
 
-        soundbank.addSnd = function(sndFactory, poly, outNode){
-        	m_maxPolyphony=poly;
-        	for(var i=0;i<poly;i++){
-        		snds[i]=sndFactory();
-        		snds[i].available=true;
-                        if (snds[i].hasOutputs()){
-                                snds[i].connect(outNode); // collect audio from children output nodes into gainLevelNode 
-                        }
-        	}
-                m_polyNum=0;
-        }
+            var outNode;
 
-        soundbank.getSnd = function(){
-		var i=0;
+            soundbank.setParam = function(name, val){
+                    for (var i=0;i<m_maxPolyphony;i++){
+                         snds[i].setParam(name, val);   
+                    }
+            }
+
+
+
+            soundbank.getSnd = function(){
+    		   var i=0;
                 nextSndNum=m_polyNum;
 
-                console.log("soundbank.getSnd:  nextSndNum = " + nextSndNum);
+                //console.log("soundbank.getSnd:  nextSndNum = " + nextSndNum);
 
-        	while(i<m_maxPolyphony) {
-        		nextSndNum=(nextSndNum+1)%m_maxPolyphony;
-
+            	while(i<m_maxPolyphony) {
+            		nextSndNum=(nextSndNum+1)%m_maxPolyphony;
+                                  
+            		if (! snds[nextSndNum].polyLock){
+            			snds[nextSndNum].polyLock=true; 
+                        
+                        if (snds[nextSndNum].hasOutputs()){
+                            snds[nextSndNum].connect(outNode); // collect audio from children output nodes into gainLevelNode 
+                        }
 
                         m_polyNum=nextSndNum;
-                        return snds[nextSndNum];
-                        /*      
-        		if (snds[nextSndNum].available){
-        			snds[nextSndNum].available=false;
-                                m_polyNum=nextSndNum;
-        			return snds[nextSndNum];
-        		} else{
-        			i=i+1;
-        		}
-                        */
+                        //console.log("poly getSnd num " + snds[nextSndNum].polyNum)
+            			return snds[nextSndNum];
+            		} else{
+            			i=i+1;
+            		}
+            	}
 
-        	}
+                    
+            	console.log("No sounds currently available - reached maximum polyphony");
+            	return undefined;
+            }
 
-                
-        	console.log("No sounds currently available - reached maximum polyphony");
-        	return undefined;
+            var releaseSnd = function(snd){
+
+            }
+
+//            soundbank.addSnd = function(sndFactory, poly, i_outNode){
+            outNode=i_outNode;
+
+            m_maxPolyphony=poly;
+            for(var i=0;i<poly;i++){
+                snds[i]=sndFactory();
+                snds[i].polyLock=false;
+                snds[i].polyNum=i;
+                snds[i].on("stop", function(e){
+                    //console.log("releaseSnd");
+                    e.snd.polyLock=false;
+                    if (e.snd.hasOutputs()){
+                        //console.log("poly stop callback, snd " + e.snd.polyNum );
+                        e.snd.disconnect(); // collect audio from children output nodes into gainLevelNode 
+                    }
+                });
+
+            }
+            m_polyNum=0;
+
+
+            
+
+            return soundbank;
         }
-
-        soundbank.releaseSnd = function(snd){
-        	snd.available=true;
-        }
-
-
-        return soundbank;
 });

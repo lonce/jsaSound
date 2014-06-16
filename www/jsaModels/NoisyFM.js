@@ -85,7 +85,7 @@ define(
 			myInterface.setAboutText("Frequency modulate a tone with noise. Index of modulation is noise amplitude.")
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 
@@ -174,13 +174,17 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+				
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 			};
 
 			//console.log("paramlist = " + myInterface.getParamList().prettyString());					

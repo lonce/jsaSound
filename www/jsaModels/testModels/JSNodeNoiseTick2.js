@@ -48,7 +48,7 @@ define(
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
 
-			myInterface.play = function () {
+			myInterface.onPlay = function () {
 				myInterface.qplay(config.audioContext.currentTime);
 			};
 
@@ -131,7 +131,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_release;
 				console.log("release called at time " + now + ", and will stop at time " + stopTime);
@@ -139,6 +139,10 @@ define(
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
 			};
 
 

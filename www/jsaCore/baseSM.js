@@ -61,7 +61,9 @@ define(
 
 			//var bsmInterface = org.anclab.steller.GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 			var bsmInterface = GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+
 			bsmInterface.nodeType="GraphNode";
+			bsmInterface.isPlaying=false;
 
 
 			bsmInterface.getSched = function(){
@@ -78,8 +80,9 @@ define(
 
 			/**
 			* @method getAboutText
-			* @return text descritption of model, hints, created with setAboutText(String)
+			* @return text descritption of model, hints, created with setA	* @param {String} i_text text descritption of model, hints, etc
 			*/
+
 			bsmInterface.getAboutText = function () { return aboutText;};
 
 			// Parameters are not over-writable
@@ -182,19 +185,31 @@ define(
 
 			// All sound models need to have these methods
 
-			bsmInterface.play = function (i_ptime) {
-				this.onPlay(i_ptime);
+			bsmInterface.play = function (i_time) {
+				bsmInterface.isPlaying=true;
+				this.onPlay(i_time);
 			};
 			bsmInterface.onPlay = function (i_ptime) {
 				console.log("override onPlay")
 			};
 
-			bsmInterface.release = function () {
-				console.log("baseSM.release() should probably be overridden ");
+			bsmInterface.release = function (i_time) {
+				this.onRelease(i_time);
 			};
-			bsmInterface.stop = function () {
-				console.log("baseSM.stop() should probably be overridden ");
+			bsmInterface.onRelease = function (i_time) {
+				console.log("override onRelease");
+				bsmInterface.stop(i_time);
 			};
+
+			bsmInterface.stop = function (i_time) {
+				this.onStop(i_time);
+				this.fire({"type": "stop", "snd": this});
+				bsmInterface.isPlaying=false;
+			};
+			bsmInterface.onStop = function (i_time) {
+				//console.log("override onStop");
+			};
+
 			bsmInterface.destroy = function () {
 				console.log("baseSM.destroy() should probably be overridden ");
 			};
@@ -206,6 +221,8 @@ define(
 				setTimeout(bsmInterface.release,ms);
 				}
 			};
+
+
 
 
 			// Takes parameter names or parameter indexes and checks for existence, return parameter string name
@@ -288,6 +305,8 @@ define(
 			}
 
 
+			// Let this guy be an event generator (adding 'fire' and 'on' functionality)
+			utils.eventuality(bsmInterface);
 
 			return bsmInterface;
 		};

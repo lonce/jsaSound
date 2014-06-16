@@ -16,7 +16,7 @@ Date: July 2012
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPattern"],
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPatternPhasor"],
 	function (config, baseSM, jsaConvolverFactory, jsaPatternFactory) {
 		return function () {
 
@@ -30,8 +30,8 @@ define(
 			//================================================VVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
 			var ticks; // a track
-			var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
-			var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
+			//var stp_delay = org.anclab.steller.Param({min: 0.01, max: 60, value: 1./m_rate});
+			//var stp_playingP = org.anclab.steller.Param({min: 0, max: 1, value: 0});
 
 			var m_beatPattern = [];
 
@@ -53,13 +53,15 @@ define(
 									0, 0, .0, 0.3,
                           			1.0, .5, .3, 1,
                           			0, 0, 0, 0.1];
+ 
 
   				childModel[1] = jsaPatternFactory( config.resourcesPath +"/jsaResources/drum-samples/4OP-FM/snare.wav");
-  				
+ 				
 				m_beatPattern[1] =  [0,0,0,0,
 									0, 1, 0, 1,
                           			0,0,0,0,
                           			0, 1, 0, 0];
+
 
   				childModel[2] = jsaPatternFactory(config.resourcesPath + "/jsaResources/drum-samples/4OP-FM/hihat.wav");
   				
@@ -75,11 +77,11 @@ define(
 
 					childModel[i].setBeatPattern(m_beatPattern[i]);
 
+
 					if (childModel[i].hasOutputs()){
-						childModel[i].connect(m_conv); // collect audio from children output nodes into gainLevelNode 
-						//childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
+						childModel[i].connect(gainLevelNode);
 					}
-					m_conv.connect(gainLevelNode);
+					//m_conv.connect(gainLevelNode);
 					childModel[i].setParam("Gain", m_gainLevel);
 					
 				}

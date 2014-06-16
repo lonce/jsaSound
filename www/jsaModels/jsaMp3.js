@@ -61,7 +61,7 @@ define(
 			}
 
 
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				if (sm.buffLoaded) {
 					sm.now = config.audioContext.currentTime;
 
@@ -147,7 +147,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				sm.now = config.audioContext.currentTime;
 				sm.stopTime = sm.now + sm.m_releaseTime;
 
@@ -156,6 +156,11 @@ define(
 				sm.gainEnvNode.gain.linearRampToValueAtTime(0, sm.stopTime);
 				myInterface.sourceNode && myInterface.sourceNode.stop(sm.stopTime);
 				console.log("ok, releasing");
+
+				myInterface.schedule(sm.stopTime, function () {
+					myInterface.stop();
+				});
+
 			};
 
 			return myInterface;

@@ -53,7 +53,7 @@ define(
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				now = config.audioContext.currentTime;
 				if (stopTime <= now) { // not playing
 					//console.log("rebuild PLUCK model node architecture!");
@@ -65,8 +65,13 @@ define(
 					//console.log(" ... NOT building architecure because stopTime (" + stopTime + ") is greater than now (" + now + ")");
 				}
 				gainEnvNode.gain.cancelScheduledValues(now);
-				// The model turns itself off after a fixed amount of time	
+
+				// self timeout	
 				stopTime = now + m_attackTime + m_sustainTime + m_releaseTime;
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
+
 
 				// if no input, remember from last time set
 				if (i_freq){
@@ -164,10 +169,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
-				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
-			};
-			myInterface.stop = function () {
+			myInterface.onRelease = function () {
 				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 

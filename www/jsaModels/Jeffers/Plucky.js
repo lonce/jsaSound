@@ -166,7 +166,7 @@ define(
 
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				var now = config.audioContext.currentTime;
 				myInterface.stop();
 
@@ -186,7 +186,7 @@ define(
 				ticksToNote=0;
 			};
 
-			myInterface.release = function (dur) {
+			myInterface.onRelease = function (dur) {
 				// stops the animation frame callbacks
 				if (arguments.length===0){
 					myInterface.stop();
@@ -197,7 +197,7 @@ define(
 
 			};
 
-			myInterface.stop = function () {
+			myInterface.onStop = function () {
 				// stops the animation frame callbacks
 				playingP=false;
 				child.release();

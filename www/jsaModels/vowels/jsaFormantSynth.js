@@ -36,6 +36,11 @@ define(
 				m_releaseTime = 1.0,
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
+		
+			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the trme = 0.05,
+				m_releaseTime = 1.0,
+				stopTime = 0.0,	// will be > audioContext.currentTime if playing
+				now = 0.0;
 
 
 			for(i=0;i<k_numFormants; i++){
@@ -80,7 +85,7 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
@@ -225,7 +230,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
@@ -235,12 +240,16 @@ define(
 
 				m_glottalPulseNode.release(m_releaseTime*1000); // twould be nice to be able to provide a time argument here
 
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
+
 			};
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
 
-				
+
 			return myInterface;
 		};
 	}

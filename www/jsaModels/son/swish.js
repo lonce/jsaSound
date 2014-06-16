@@ -50,7 +50,7 @@ define(
 
 
 			// ----------------------------------------
-			myInterface.play = function (i_gain) {
+			myInterface.onPlay = function (i_gain) {
 				now = config.audioContext.currentTime;
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
@@ -105,8 +105,9 @@ define(
 
 
 			// ----------------------------------------
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				childNode.release(); 
+				myInterface.stop()
 			};
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface

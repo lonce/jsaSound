@@ -57,7 +57,7 @@ define(
 			myInterface.setAboutText("Push ALLOW button on browser twice. Dry is Mic Thru, Wet is Wilson's Telephone speech");
 
 			// ----------------------------------------
-			myInterface.play = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_bn, i_gain) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -79,7 +79,7 @@ define(
 
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;
@@ -89,6 +89,7 @@ define(
 				// Revert to playin unprocessed microphone
 				childModel[0].release();
 				childModel[1].release();
+				myInterface.stop();
 
 				//console.log("------------[released]");
 			};

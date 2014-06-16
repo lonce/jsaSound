@@ -71,7 +71,7 @@ define(
 			myInterface.setAboutText("This is a simple frequency modulator with a-rate updates of the carrier frequency.")
 
 
-			myInterface.play = function () {
+			myInterface.onPlay = function () {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}				
@@ -182,7 +182,7 @@ define(
 				}
 			);
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				if (! isPlaying) return;
 
 				now = config.audioContext.currentTime;
@@ -196,7 +196,10 @@ define(
 				oscModulatorNode && oscModulatorNode.isPlaying && oscModulatorNode.stop(stopTime);
 				if (oscModulatorNode) oscModulatorNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
-
+				myInterface.schedule(stopTime, function () {
+					myInterface.stop();
+				});
+				
 				console.log("OK, we released ...")
 			};
 				

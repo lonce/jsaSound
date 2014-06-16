@@ -73,7 +73,7 @@ define(
 			}());
 
 
-			myInterface.play = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_freq, i_gain) {
 				var now = config.audioContext.currentTime;
 
 				playingP=true;
@@ -84,9 +84,11 @@ define(
 				}
 			};
 
-			myInterface.release = function () {
+			myInterface.onRelease = function () {
 				child.release();
 				playingP=false;
+
+				myInterface.stop();
 			};
 
 			myInterface.registerParam(
