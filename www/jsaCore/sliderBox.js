@@ -180,12 +180,12 @@ define(
 				buttonElement.addEventListener('click', togglePlaying);
 
 				// so play() and setParam("play", 1) have the same effect	
-				myInterface.onPlay = function () {
+				myInterface.onPlay = function (i_ptime) {
 					myInterface.setParam("play", 1);
 				};
 
 				// so release() and setParam("play", 0) have the same effect
-				myInterface.onRelease = function () {
+				myInterface.onRelease = function (i_ptime) {
 					myInterface.setParam("play", 0);
 				};
 

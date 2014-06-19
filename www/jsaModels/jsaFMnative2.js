@@ -51,19 +51,13 @@ define(
             var myInterface = baseSM({},[],[gainLevelNode]);
             myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
 
-            // With no note playing, nothing happens when you
-            // try to set the frequency.
-            // -Kumar
+
              myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
 
             function dummySetFreq(i_freq) {}
-            var setFreq = dummySetFreq;
-
-            // play() is a pure play(). To change frequency,
-            // use the parameter setting calls before calling play().
-            // -Kumar
+  
             var nodeWrapper;
-            myInterface.onPlay = function () {
+            myInterface.onPlay = function (i_ptime) {
                 var now = config.audioContext.currentTime;
 
                 // The model uses an oscillator "voice" as the input that
@@ -71,6 +65,7 @@ define(
                 // and throw it away on every release(). Note that the
                 // rest of the graph is not remade.
                 // -Kumar
+
                 if (!oscModulatorNode) {
                     oscModulatorNode = config.audioContext.createOscillator();
                     oscModulatorNode.setType(0);  //sin
@@ -83,39 +78,17 @@ define(
                         console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                     }
                     nodeWrapper.connect(m_CarrierNode);
-
-                    
                     oscModulatorNode.start(now);
+                }
+                    
+
                     gainLevelNode.gain.value = m_gainLevel;
 
                     gainEnvNode.gain.cancelScheduledValues(now);
                     gainEnvNode.gain.setValueAtTime(0, now);
                     gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
-                    // We want to relinquish our ref to the oscModulatorNode
-                    // once we begin the release(). However, the user may still
-                    // want to control the frequency during the tail of the release
-                    // before the next note is started. To do this, we keep a
-                    // reference around only for the sake of the frequency setting.
-                    //
-                    // If such control is not desired, then this code can simply be
-                    // in the body of the handler wrapped by a check for the presence
-                    // of the oscModulatorNode.
-                    //
-                    // -Kumar
-                    setFreq = (function (node) {
-                        return function (i_freq) {
-                            // If the thing finished, we can giveup the reference
-                            // to the freq control as well.
-                            // -Kumar
-                            if (node.playbackState === node.FINISHED_STATE) {
-                                setFreq = dummySetFreq;
-                                return;
-                            }
 
-                            node.frequency.value = m_mod_freq = i_freq;
-                        };
-                    }(oscModulatorNode));
-                }
+                
 
                 if (myInterface.getNumOutConnections() === 0){
                     //console.log("connecting MyInterface to audio context desination");
@@ -151,7 +124,7 @@ define(
                     }
                     );
 
-            myInterface.registerParam(
+           myInterface.registerParam(
                     "Modulator Frequency",
                     "range",
                     {
@@ -160,13 +133,11 @@ define(
                         "val": m_mod_freq
                     },
                     function (i_val) {
-                        // Turn around and call whatever setFreq function
-                        // is active at the moment. Perhaps a release tail
-                        // is still active?
-                        // -Kumar
-                        setFreq(i_val);
+                        oscModulatorNode.frequency.value = m_mod_freq = i_val;
+
                     }
                     );
+
 
             myInterface.registerParam(
                     "Gain",
@@ -207,7 +178,7 @@ define(
                     }
                     );
 
-            myInterface.onRelease = function () {
+            myInterface.onRelease = function (i_ptime) {
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
                     // common model ones
@@ -219,19 +190,11 @@ define(
                     gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
                     gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-                    // Schedule the osc node to turn off at the stop
-                    // time and forget about the node. I think stop()
-                    // can only be called once, based on an earlier discussion
-                    // with Chris Rogers. So it is much simpler to just
-                    // giveup the reference to the "voice" once you
-                    // schedule a stop for it.
-                    // -Kumar
-                    oscModulatorNode.stop(stopTime);
-                    oscModulatorNode = null;
-
                     myInterface.schedule(stopTime, function () {
-                        myInterface.stop();
-                    });
+                        myInterface.stop(stopTime);
+                        oscModulatorNode && oscModulatorNode.stop(stopTime);
+                        oscModulatorNode = null;
+                   });
 
                 }
             };

@@ -18,8 +18,10 @@ define(
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	m_noiseNode = noiseNodeFactory(),
+				individualGainNode=[],
 				gainEnvNode = config.audioContext.createGain(),
 				gainLevelNode = config.audioContext.createGain();
+
 
 			var m_filterNode=[];
 			var m_filterGain =[];
@@ -62,24 +64,27 @@ define(
 					m_filterNode[i].setType("bandpass");
 					m_filterNode[i].frequency.value = m_filterFreq[i];
 					m_filterNode[i].Q.value = m_filterQ[i];
-					m_filterNode[i].gain.value = m_filterGain[i];
+
+					individualGainNode[i]=config.audioContext.createGain();
+					individualGainNode[i].gain.value = m_filterGain[i];
 
 					m_noiseNode.connect(m_filterNode[i]); //  noise to all formants
-					m_filterNode[i].connect(gainEnvNode); //  all formants sum to env
+					m_filterNode[i].connect(individualGainNode[i]);  
+					individualGainNode[i].connect(gainEnvNode); //  all formants sum to env
 				}
 
 				gainEnvNode.connect(gainLevelNode);
 			}());
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs
@@ -112,7 +117,7 @@ define(
 			var makeGainSetter = function(i){
 				return function(i_val){
 						m_filterGain[i] = i_val;
-						m_filterNode[i].gain.value = m_filterGain[i];					
+						individualGainNode[i].gain.value = m_filterGain[i];					
 				}
 			}
 
@@ -128,6 +133,7 @@ define(
 					makeFreqSetter(i)
 				);
 				// ----------------------------------------
+				
 				myInterface.setFilterQ[i] = myInterface.registerParam(
 					"Filter Q " + i,
 					"range",
@@ -138,7 +144,8 @@ define(
 					},
 					makeQSetter(i)
 				);
-				// ----------------------- -----------------
+
+
 				myInterface.setGain[i] = myInterface.registerParam(
 					"Filter Gain " + i,
 					"range",
@@ -149,6 +156,7 @@ define(
 					},
 					makeGainSetter(i)
 				);
+
 
 			}
 
@@ -196,7 +204,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 

@@ -70,8 +70,8 @@ define(
             // use the parameter setting calls before calling play().
             // -Kumar
             var nodeWrapper;
-            myInterface.onPlay = function () {
-                var now = config.audioContext.currentTime;
+            myInterface.onPlay = function (i_ptime) {
+                var now = i_ptime || config.audioContext.currentTime;
 
                 // The model uses an oscillator "voice" as the input that
                 // controls the fmodOsc. We make one of these on every play()
@@ -100,32 +100,6 @@ define(
                     gainEnvNode.gain.cancelScheduledValues(now);
                     gainEnvNode.gain.setValueAtTime(0, now);
                     gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
-                    // We want to relinquish our ref to the oscModulatorNode
-                    // once we begin the release(). However, the user may still
-                    // want to control the frequency during the tail of the release
-                    // before the next note is started. To do this, we keep a
-                    // reference around only for the sake of the frequency setting.
-                    //
-                    // If such control is not desired, then this code can simply be
-                    // in the body of the handler wrapped by a check for the presence
-                    // of the oscModulatorNode.
-                    //
-                    // -Kumar
-                    /*
-                    setFreq = (function (node) {
-                        return function (i_freq) {
-                            // If the thing finished, we can giveup the reference
-                            // to the freq control as well.
-                            // -Kumar
-                            if (node.playbackState === node.FINISHED_STATE) {
-                                setFreq = dummySetFreq;
-                                return;
-                            }
-
-                            node.frequency.value = m_mod_freq = i_freq;
-                        };
-                    }(oscModulatorNode));
-                    */
                 }
 
                 if (myInterface.getNumOutConnections() === 0){
@@ -256,7 +230,7 @@ define(
                     }
                     );
 
-            myInterface.onRelease = function () {
+            myInterface.onRelease = function (i_ptime) {
                 if (oscModulatorNode) {
                     // Good to keep these local variables instead of
                     // common model ones

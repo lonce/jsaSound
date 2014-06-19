@@ -51,8 +51,8 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			//myInterface.play= function (i_ptime) {
-			myInterface.on("play", function(e){
+			myInterface.onPlay = function(i_ptime){
+			//myInterface.on("play", function(e){
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
@@ -68,7 +68,7 @@ define(
 
 
 					//sourceNode.start(i_ptime);
-					sourceNode.start(e.ptime);
+					sourceNode.start(i_ptime);
 					sourceNode.isPlaying=true;
 
 					sourceNode.onended = function(){
@@ -88,7 +88,7 @@ define(
 					//CREATE EXTERNAL CALLBACK HERE!!!
 					//alert("Press load and wait!");
 				}
-			});
+			};
 
 			myInterface.registerParam(
 				"Gain",
@@ -117,7 +117,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				myInterface.schedule(config.audioContext.currentTime+.3, function () {
 					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
 					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;

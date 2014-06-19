@@ -1,4 +1,5 @@
 {
 	"displayName": "Thunder Sample 2",
-	"fileName": "jsaModels/ICMCStory/ThunderSample2"
+	"fileName": "jsaModels/ICMCStory/ThunderSample2",
+	"modelKeys": ["ICMCStory"]
 }

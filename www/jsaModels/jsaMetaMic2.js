@@ -57,7 +57,7 @@ define(
 			myInterface.setAboutText("Push ALLOW button on browser twice. Dry is Mic Thru, Wet is Wilson's Telephone speech");
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -67,19 +67,19 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;  // collector turn back up
+				gainLevelNode.gain.value = m_gainLevel;  // collector turn back up
 
 
 				//Start telephone Speech
 				childModel[0].setParam("Gain", 1-m_drywet);
 				childModel[1].setParam("Gain", m_drywet);
-				childModel[1].play();
-				childModel[0].play();
+				childModel[1].play(i_ptime);
+				childModel[0].play(i_ptime);
 
 
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;

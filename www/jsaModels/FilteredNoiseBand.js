@@ -82,10 +82,10 @@ define(
 			}());
 
 			// ----------------------------------------
-			//var onPlay = function (i_ptime) {
-			myInterface.on("play", function(e){
+			myInterface.onPlay = function (i_ptime) {
+			//myInterface.on("play", function(e){
 				// if no input, remember from last time set
-				now = config.audioContext.currentTime;
+				now = i_ptime || config.audioContext.currentTime;
 
 				gainLevelNode.gain.value = m_gainLevel;
 				console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
@@ -101,7 +101,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
 
-			});
+			};
 
 			//console.log("setting play callback on interface owned by " + myInterface.owner);
 			//myInterface.on("play", function(e){onPlay(e.i_ptime);});
@@ -178,8 +178,8 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
-				now = config.audioContext.currentTime;
+			myInterface.onRelease = function (i_ptime) {
+				now = i_ptime || config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
 

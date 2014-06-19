@@ -62,13 +62,13 @@ define(
 			myInterface.setAboutText("Click the ALLOW button on Main Browser Window before playing. Best with headphones, and/or external mic or speaker.<br>")
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				//foo = now + m_attackTime;
@@ -121,7 +121,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 
 				// shouldn't need this line, but for long sustain times, the system seems to "forget" what its current value is....

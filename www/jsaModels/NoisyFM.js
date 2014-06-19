@@ -85,16 +85,16 @@ define(
 			myInterface.setAboutText("Frequency modulate a tone with noise. Index of modulation is noise amplitude.")
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				m_car_freq = i_freq || m_car_freq;
+				m_car_freq = m_car_freq;
 				m_CarrierNode.setParam("carrierFrequency", m_car_freq);
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				//foo = now + m_attackTime;
@@ -174,7 +174,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 

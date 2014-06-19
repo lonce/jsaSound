@@ -132,7 +132,7 @@ define(
 				setTimeout(schedule, 20);
 			}
 
-			myInterface.onPlay = function (i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				if (buffLoaded) {
 					realTime = config.audioContext.currentTime;
 					console.log("got realTime");
@@ -140,7 +140,7 @@ define(
 					console.log("before schedule");
 					setTimeout(schedule, 1);
 
-					gainLevelNode.gain.value = i_gain || m_gainLevel;
+					gainLevelNode.gain.value = m_gainLevel;
 					console.log("Gain set at " + gainLevelNode.gain.value);
 
 
@@ -284,7 +284,7 @@ define(
 			);
 
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				console.log("release triggered");
 
 				//TODO: Remove this timeOut thing if possible

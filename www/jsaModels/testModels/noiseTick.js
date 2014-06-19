@@ -141,7 +141,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_release;
 				console.log("release called at time " + now + ", and will stop at time " + stopTime);

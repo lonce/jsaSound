@@ -1,4 +1,5 @@
 {
 	"displayName": "Penguin Syllable",
-	"fileName": "jsaModels/Jeffers/Penguin"
+	"fileName": "jsaModels/Jeffers/Penguin",
+	"modelKeys": ["Jeffers"]
 }

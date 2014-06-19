@@ -73,8 +73,8 @@ define(
 			}());
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
-				var now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				var now = i_ptime || config.audioContext.currentTime;
 
 				playingP=true;
 				requestAnimationFrame(animate);
@@ -84,7 +84,7 @@ define(
 				}
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				child.release();
 				playingP=false;
 

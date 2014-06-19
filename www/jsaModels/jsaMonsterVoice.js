@@ -47,11 +47,11 @@ define(
 			myInterface.setAboutText("NOTE:  Press ALLOW on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)")
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime
 				stopTime = config.bigNum;
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
 					console.log("connecting MyInterface to audio context desination");
@@ -78,7 +78,7 @@ define(
 			);
 
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now;
 				//gainLevelNode.gain.setValueAtTime(0, now);

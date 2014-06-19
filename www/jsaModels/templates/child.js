@@ -78,8 +78,8 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				now = i_ptime || config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
@@ -170,7 +170,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 

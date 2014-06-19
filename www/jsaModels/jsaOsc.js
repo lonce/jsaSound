@@ -32,7 +32,7 @@ define(
 			var m_attackTime = 0.05;
 			var m_releaseTime = 1.0;
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
-			var now = 0.0;
+
 
 			// (Re)create the nodes and thier connections.
 			// Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
@@ -53,8 +53,14 @@ define(
 			myInterface.setAboutText("Simple square wave with attack, hold, release");
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				var now;
+				if (i_ptime != undefined){
+					now = i_ptime;
+				} else {
+					now = config.audioContext.currentTime;
+				}
+
 
 				console.log("rebuild model node architecture!");
 				buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
@@ -67,11 +73,11 @@ define(
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				oscNode.frequency.value = i_freq || m_frequency;
+				oscNode.frequency.value = m_frequency;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
 					console.log("connecting MyInterface to audio context desination");
@@ -155,8 +161,8 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
-				now = config.audioContext.currentTime;
+			myInterface.onRelease = function (i_ptime) {
+				var now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
 				gainEnvNode.gain.cancelScheduledValues(now);
@@ -166,7 +172,7 @@ define(
 				oscNode && oscNode.isPlaying && oscNode.stop(stopTime);
 				if (oscNode) oscNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
 
-				myInterface.schedule(stopTime, function () {
+				myInterface.schedule(stopTime,  function () {
 					myInterface.stop();
 				});
 			};

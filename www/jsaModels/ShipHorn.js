@@ -42,20 +42,20 @@ define(
 
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_gain) {
-				now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
 
 				for(var i=0;i<numChildren;i++){
-					childNode[i].play();
+					childNode[i].play(i_ptime);
 				}
 			};
 
@@ -96,7 +96,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 
 				for(var i=0;i<numChildren;i++){
 					childNode[i].release(); 

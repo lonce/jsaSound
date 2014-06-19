@@ -1,4 +1,5 @@
 {
 	"displayName": "Birds (loop)",
-	"fileName": "jsaModels/Jeffers/birdsLoop"
+	"fileName": "jsaModels/Jeffers/birdsLoop",
+	"modelKeys": ["Jeffers"]
 }

@@ -1,4 +1,5 @@
 {
 	"displayName": "Rubber Duck Sample",
-	"fileName": "jsaModels/Jeffers/RubberDuck"
+	"fileName": "jsaModels/Jeffers/RubberDuck",
+	"modelKeys": ["Jeffers"]
 }

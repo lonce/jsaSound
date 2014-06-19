@@ -53,7 +53,7 @@ define(
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				if (stopTime <= now) { // not playing
 					//console.log("rebuild PLUCK model node architecture!");
@@ -74,13 +74,11 @@ define(
 
 
 				// if no input, remember from last time set
-				if (i_freq){
-					oscNode.setFrequency(i_freq);
-				} else {
-					oscNode.setFrequency(m_frequency);
-				}
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				oscNode.setFrequency(m_frequency);
+
+
+				gainLevelNode.gain.value = m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				gainEnvNode.gain.setValueAtTime(0, now);
@@ -169,7 +167,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 

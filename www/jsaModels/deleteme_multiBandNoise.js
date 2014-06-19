@@ -7,93 +7,162 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-/* #NOTE
-Some of the sound models use microphone input. These models only work when run on a proper web web server (thought
-one on the localhost will work fine). Also, when the user opens one of these models, the ALLOW/DISALLOW buttons
-show up on the main browser window, not the sound model slider box window so it is easy to miss. If the user
-doesn't push the ALLOW button, the model will not work properly. 
-*/
 
-/* --------------------------------------------------------------
-	Architecture:
-		Gaussian mic input ->  gainenv -> gain
-******************************************************************************************************
-*/
-
-//PARA: config
-//		-audioContext
-//		-bigNum
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM",  "jsaSound/jsaOpCodes/jsaMicInputNode", "jsaSound/jsaOpCodes/ringModulatorNode"],
-	function (config, baseSM, micInputNode, ringModulatorFactory) {
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode"],
+	function (config, baseSM, noiseNodeFactory) {
 		return function () {
+
+			k_numFormants=4;
+			var i=0;
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
-			var	gainEnvNode = config.audioContext.createGain(),
+			var	m_noiseNode = noiseNodeFactory(),
+				gainEnvNode = config.audioContext.createGain(),
 				gainLevelNode = config.audioContext.createGain();
 
-			var microphone;
+			var m_filterNode=[];
+			var m_filterGain =[];
+			var m_filterFreq = [];
+			var m_filterQ = [];
 
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-			var m_gainLevel = 0.8, // the point to (or from) which gainEnvNode ramps glide
+			var m_gainLevel = .7, // the point to (or from) which gainEnvNode ramps glide
 				m_attackTime = 0.05,
 				m_releaseTime = 1.0,
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
 
-			var rm = ringModulatorFactory();
+
+			for(i=0;i<k_numFormants; i++){
+				m_filterNode[i]=config.audioContext.createBiquadFilter();
+				m_filterQ[i]=10;
+				m_filterGain[i]=.7;
+				m_filterFreq[i]=500;
+			}
+			
+			// define the PUBLIC INTERFACE for the model	
+			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Bandpass noise");
 
 
-			// (Re)create the nodes and thier connections.
+			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
 
+				m_noiseNode = noiseNodeFactory();
 
 				gainEnvNode = config.audioContext.createGain();
 				gainEnvNode.gain.value = 0;
 
-				gainLevelNode = config.audioContext.createGain();
+				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
 
+				for(i=0;i<k_numFormants; i++){
+					m_filterNode[i] = config.audioContext.createBiquadFilter();
+					m_filterNode[i].setType("bandpass");
+					m_filterNode[i].frequency.value = m_filterFreq[i];
+					m_filterNode[i].Q.value = m_filterQ[i];
+					m_filterNode[i].gain.value = m_filterGain[i];
 
-				micInputNode(microphone, rm);
-
-
-				rm.connect(gainEnvNode);
+					m_noiseNode.connect(m_filterNode[i]); //  noise to all formants
+					m_filterNode[i].connect(gainEnvNode); //  all formants sum to env
+				}
 
 				gainEnvNode.connect(gainLevelNode);
-				//gainLevelNode.connect(config.audioContext.destination);
 			}());
 
-			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
-
-
+			// ----------------------------------------
 			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
+				// if no input, remember from last time set
 				gainLevelNode.gain.value = m_gainLevel;
 
-				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
-				//foo = now + m_attackTime;
-				//console.log( " ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
-				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
+				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs
+
+
 				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
 					myInterface.connect(config.audioContext.destination);
-				}		
+				}
 			};
 
+			// ----------------------------------------
+			myInterface.setCenterFreq=[];
+			myInterface.setFilterQ=[];
+			myInterface.setGain=[];
 
-			myInterface.registerParam(
+			var makeFreqSetter = function(i){
+				return function(i_val){
+						m_filterFreq[i] = i_val;
+						m_filterNode[i].frequency.value = m_filterFreq[i];					
+				}
+			}
+
+			var makeQSetter = function(i){
+				return function(i_val){
+						m_filterQ[i] = i_val;
+						m_filterNode[i].Q.value = m_filterQ[i];					
+				}
+			}
+
+			var makeGainSetter = function(i){
+				return function(i_val){
+						m_filterGain[i] = i_val;
+						m_filterNode[i].gain.value = -40 + 2*40*m_filterGain[i];					
+				}
+			}
+
+			for(i=0;i<k_numFormants; i++){
+				myInterface.setCenterFreq[i] = myInterface.registerParam(
+					"Center Frequency " + i,
+					"range",
+					{
+						"min": 100,
+						"max": 2000,
+						"val": m_filterFreq[i]
+					},
+					makeFreqSetter(i)
+				);
+				// ----------------------------------------
+				
+				myInterface.setFilterQ[i] = myInterface.registerParam(
+					"Filter Q " + i,
+					"range",
+					{
+						"min": 0,
+						"max": 150,
+						"val": m_filterQ[i]
+					},
+					makeQSetter(i)
+				);
+
+				// ----------------------- -----------------
+				/* Gain not supported in BP filters
+				myInterface.setGain[i] = myInterface.registerParam(
+					"Filter Gain " + i,
+					"range",
+					{
+						"min": 0,
+						"max": 1,
+						"val": m_filterGain[i]
+					},
+					makeGainSetter(i)
+				);
+					*/
+
+			}
+
+			// ----------------------------------------		
+			myInterface.setGain = myInterface.registerParam(
 				"Gain",
 				"range",
 				{
 					"min": 0,
-					"max": 2,
+					"max": 1,
 					"val": m_gainLevel
 				},
 				function (i_val) {
@@ -101,7 +170,8 @@ define(
 				}
 			);
 
-			myInterface.registerParam(
+			// ----------------------------------------		
+			myInterface.setAttackTime = myInterface.registerParam(
 				"Attack Time",
 				"range",
 				{
@@ -114,7 +184,8 @@ define(
 				}
 			);
 
-			myInterface.registerParam(
+			// ----------------------------------------		
+			myInterface.setReleaseTime = myInterface.registerParam(
 				"Release Time",
 				"range",
 				{
@@ -124,20 +195,15 @@ define(
 				},
 				function (i_val) {
 					m_releaseTime = parseFloat(i_val); // javascript makes me cry ....
+
 				}
 			);
 
+			// ----------------------------------------
 			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
-
-				// shouldn't need this line, but for long sustain times, the system seems to "forget" what its current value is....
-				/*
-				if (stopTime > now) { // only do this if we are currently playing
-					gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now);
-				}
-				*/
-				// set new stoptime
 				stopTime = now + m_releaseTime;
+
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
@@ -149,13 +215,7 @@ define(
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
-			myInterface.getFreq = function () {
-				return m_freq;
-			};
-			//console.log("paramlist = " + myInterface.getParamList().prettyString());	
 
-			myInterface.registerChildParam(rm, "modFreq");
-			myInterface.registerChildParam(rm, "DryWet");
 				
 			return myInterface;
 		};

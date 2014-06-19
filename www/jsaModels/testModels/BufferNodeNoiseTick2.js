@@ -41,19 +41,11 @@ define(
 			var myInterface = baseSM({},[],[gainEnvNode]);
 			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
 
-			myInterface.onPlay = function () {
-				myInterface.qplay(config.audioContext.currentTime);
-			};
-
-			myInterface.qplay = function (i_ptime) {
+			myInterface.onPlay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
-				/*
-				now = config.audioContext.currentTime;
-				console.log("Noise tick play call at time = " + now);
-				var ptime = Math.max(now, i_ptime || now);
-				*/
+
 				var ptime = i_ptime;
 
 

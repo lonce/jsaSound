@@ -72,15 +72,9 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			myInterface.onPlay = function (i_gain) {
-				if (arguments.length > 0) {
-					myInterface.qplay(config.audioContext.currentTime, i_gain);
-				} else{
-					myInterface.qplay(config.audioContext.currentTime);
-				}
-			};
 
-			myInterface.qplay = function (i_ptime, i_gain) {
+
+			myInterface.onPlay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
@@ -94,10 +88,6 @@ define(
 
 					stopTime = config.bigNum;
 
-					if (arguments.length > 1) {
-						myInterface.setParam("Gain", i_gain);
-					}
-
 					sourceNode.start(i_ptime);
 					sourceNode.isPlaying=true;
 
@@ -105,7 +95,7 @@ define(
 					if (myInterface.getNumOutConnections() === 0){
 						//console.log("connecting MyInterface to audio context desination");
 						myInterface.connect(config.audioContext.destination);
-				}		
+					}		
 
 
 				} else {
@@ -171,7 +161,7 @@ define(
 			);
 
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 

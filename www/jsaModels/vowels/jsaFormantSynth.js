@@ -85,14 +85,14 @@ define(
 			}());
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_gain) {
-				now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				now = i_ptime || config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs
@@ -230,7 +230,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 

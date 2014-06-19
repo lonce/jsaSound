@@ -56,15 +56,8 @@ define(
 				console.log("Buffer Loaded!");
 			}
 
-			myInterface.onPlay = function (i_gain) {
-				if (arguments.length > 0) {
-					myInterface.qplay(config.audioContext.currentTime, i_gain);
-				} else{
-					myInterface.qplay(config.audioContext.currentTime);
-				}
-			};
 
-			myInterface.qplay = function (i_ptime, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
@@ -115,7 +108,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 
 					//sourceNode && sourceNode.stop(0);
 					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);

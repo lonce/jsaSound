@@ -1,4 +1,5 @@
 {
 	"displayName": "Rowboat (loop)",
-	"fileName": "jsaModels/Jeffers/RowingLoop"
+	"fileName": "jsaModels/Jeffers/RowingLoop",
+	"modelKeys": ["Jeffers"]
 }

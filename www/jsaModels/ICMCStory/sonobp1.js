@@ -67,13 +67,13 @@ define(
 
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
 				// if no input, remember from last time set
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				gainLevelNode.gain.value = m_gainLevel;
 				positionGainNode.gain.value = Math.sqrt(m_Position);
 
 				if (myInterface.getNumOutConnections() === 0){
@@ -119,7 +119,7 @@ define(
 			);
 
 			// ----------------------------------------
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				bpNoiseNode.release(); // twould be nice to be able to provide a time argument here
 			};
 			//--------------------------------------------------------------------------------

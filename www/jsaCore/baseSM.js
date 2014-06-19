@@ -24,7 +24,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 define(
 	["jsaSound/jsaCore/config","jsaSound/jsaCore/utils", "jsaSound/scripts/recorderjs/recorder",  "jsaSound/jsaCore/GraphNode", "jsaSound/jsaCore/audioResourceManager", "jsaSound/jsaCore/eQueue", "jsaSound/jsaCore/jsasteller"],
-	function (config, utils, r, GraphNode, resourceManager, queueManager) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
+	function (config, utils, r, GraphNode, resourceManager, queueFactory) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 
 		return function (i_node, i_inputs, i_outputs) {
 
@@ -40,6 +40,8 @@ define(
 
 			var fs; // file system for saving and loading psets
 
+
+			var queueManager = queueFactory();
 
 			(function () {
 				if (! i_outputs) {
@@ -187,6 +189,7 @@ define(
 
 			bsmInterface.play = function (i_time) {
 				bsmInterface.isPlaying=true;
+				bsmInterface.qClear(i_time);
 
 				if (this.hasOwnProperty("onPlay")) {
 					this.onPlay(i_time);
@@ -196,9 +199,18 @@ define(
 				this.fire({"type": "play", "ptime": i_time, "snd": this});
 			};
 
+			bsmInterface.onPlay = function(i_time){
+				console.log("override onPlay");
+			}
+
 			bsmInterface.release = function (i_time) {
-				this.onRelease(i_time);
+				if (bsmInterface.isPlaying) {
+					this.onRelease(i_time);
+					if (i_time === undefined) i_time=0;
+					this.fire({"type": "release", "ptime": i_time, "snd": this});
+				}
 			};
+
 			bsmInterface.onRelease = function (i_time) {
 				console.log("override onRelease");
 				bsmInterface.stop(i_time);
@@ -209,6 +221,7 @@ define(
 				this.fire({"type": "stop", "ptime": i_time, "snd": this});
 				bsmInterface.isPlaying=false;
 			};
+
 			bsmInterface.onStop = function (i_time) {
 				//console.log("override onStop");
 			};
@@ -251,10 +264,10 @@ define(
 			}
 
 
-
 			bsmInterface.savePSets = function(){utils.saveToFile(pSets);};
 
 			bsmInterface.schedule = function(t, f){queueManager.schedule(t, f);};
+			bsmInterface.qClear = function(){queueManager.qClear();};
 
 			// vvvvvvvvvvvvvvvvvvvvvvvvvvvv   // intended for use only by jsaSound system
 			bsmInterface.system={};

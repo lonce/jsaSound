@@ -71,7 +71,7 @@ define(
 			myInterface.setAboutText("This model wraps a bunch of jsaNoiseBand models to deonstrate the composability of sound models using GraphNode. This drone  was inspired by a Matt Diamond post to the public-audio@w3.org list.");
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -81,19 +81,19 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;  // collector turn back up
+				gainLevelNode.gain.value = m_gainLevel;  // collector turn back up
 
-				m_baseNote = i_bn || m_baseNote;
+				m_baseNote = m_baseNote;
 				//console.log("will send play to " + m_currentNumChildrenActive + " currently active children");
 				for (i = 0; i < m_currentNumChildrenActive; i += 1) {
 					childModel[i].setParam("Center Frequency", note2Freq(m_baseNote));
-					childModel[i].play();
+					childModel[i].play(i_ptime);
 				}
 
 
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;

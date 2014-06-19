@@ -97,16 +97,14 @@ define(
 			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
-				now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				now = i_ptime || config.audioContext.currentTime;
 				gainEnvNode.gain.cancelScheduledValues(now);
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
-				// if no input, remember from last time set
-				m_freq = i_freq || m_freq;
-				myInterface.setParam("Center Frequency", m_freq);
-				gainLevelNode.gain.value = i_gain || m_gainLevel;
+				// remember from last time set
+				gainLevelNode.gain.value =  m_gainLevel;
 
 				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				//foo = now + m_attackTime;
@@ -193,7 +191,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				now = config.audioContext.currentTime;
 
 				// shouldn't need this line, but for long sustain times, the system seems to "forget" what its current value is....

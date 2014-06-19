@@ -85,8 +85,8 @@ define(
                         };
 
 
-                        myInterface.play = function (i_freq, i_gain) {
-                                var now = config.audioContext.currentTime;
+                        myInterface.play = function (i_ptime) {
+                                var now = i_ptime || config.audioContext.currentTime;
                                 m_ephasor.setPhase(0.999999999);        // so that the phaser wraps to generate an event immediately after starting
                                 m_ephasor.setCurrentTime(now);
 
@@ -98,10 +98,10 @@ define(
                                 }
                         };
 
-                        myInterface.onRelease = function () {
+                        myInterface.onRelease = function (i_ptime) {
                                 // stops the animation frame callbacks
                                 playingP=false;
-                                myInterface.stop();
+                                myInterface.stop(i_ptime);
                         };
 
                         // Exposed soundmodel parameters --------------------

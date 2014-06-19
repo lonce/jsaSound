@@ -61,9 +61,13 @@ define(
 			}
 
 
-			myInterface.onPlay = function (i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				if (sm.buffLoaded) {
-					sm.now = config.audioContext.currentTime;
+					if (i_ptime != undefined){
+						sm.now = i_ptime;
+					} else {
+						sm.now = config.audioContext.currentTime;
+					}
 
 					console.log("rebuilding");
 					myInterface.sourceNode && myInterface.sourceNode.disconnect(0); // in case it wasn't stop()ed, we still want to get rid of it before rebuilding.
@@ -75,7 +79,7 @@ define(
 
 					sm.stopTime = config.bigNum;
 
-					sm.gainLevelNode.gain.value = i_gain || sm.m_gainLevel;
+					sm.gainLevelNode.gain.value = sm.m_gainLevel;
 					console.log("Gain set at " + sm.gainLevelNode.gain.value);
 
 					sm.gainEnvNode.gain.setValueAtTime(0, sm.now);
@@ -147,7 +151,7 @@ define(
 				}
 			);
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				sm.now = config.audioContext.currentTime;
 				sm.stopTime = sm.now + sm.m_releaseTime;
 

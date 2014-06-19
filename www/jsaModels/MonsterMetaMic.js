@@ -57,7 +57,7 @@ define(
 			myInterface.setAboutText("Press ALLOW (twice) on Main Browser Window before playing.  Uses Chris Wilson's Jungle code (http://webaudiodemos.appspot.com)");
 
 			// ----------------------------------------
-			myInterface.onPlay = function (i_bn, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
@@ -67,7 +67,7 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				gainLevelNode.gain.value = i_gain || m_gainLevel;  // collector turn back up
+				gainLevelNode.gain.value = m_gainLevel;  // collector turn back up
 
 
 				//Start telephone Speech
@@ -80,7 +80,7 @@ define(
 
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				var i;
 				now = config.audioContext.currentTime;
 				stopTime = now;

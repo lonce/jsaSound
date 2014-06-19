@@ -83,8 +83,8 @@ define(
 			}());
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
-				var now = config.audioContext.currentTime;
+			myInterface.onPlay = function (i_ptime) {
+				var now = i_ptime || config.audioContext.currentTime;
 				m_ephasor.setPhase(0.999999999);	// so that the phaser wraps to generate an event immediately after starting
 				m_ephasor.setCurrentTime(now);
 
@@ -96,7 +96,7 @@ define(
 				}
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				child.release();
 				playingP=false;
 

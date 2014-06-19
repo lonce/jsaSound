@@ -88,30 +88,26 @@ define(
 			myInterface.setAboutText("Model hierarchy: Beat Set -> Beat Patterns -> Drum Samples")
 
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 
-				now = config.audioContext.currentTime;
 				stopTime = config.bigNum;
-
-				if (arguments.length > 1) {
-					myInterface.setParam("Gain", i_gain);
-				}
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
 				
 				for(var i=0;i<numChildren;i++){
-					childModel[i].play();
+					childModel[i].play(i_ptime);
 				}
 
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				for(var i=0;i<numChildren;i++){
 					childModel[i].release();
 				}
-				myInterface.stop();
+
+				myInterface.stop();				
 			};
 
 			myInterface.registerParam(

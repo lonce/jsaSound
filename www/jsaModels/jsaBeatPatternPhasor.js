@@ -92,7 +92,7 @@ define(
 			
 			myInterface.setAboutText("Schedules a series of drum hits using the DrumSample model.")
 
-			myInterface.onPlay = function (i_freq, i_gain) {
+			myInterface.onPlay = function (i_ptime) {
 				m_beatIndex=0;
 				//child.stop(0); // in case it is still releasing...
                 var now = config.audioContext.currentTime;
@@ -107,10 +107,10 @@ define(
 				}
 			};
 
-			myInterface.onRelease = function () {
+			myInterface.onRelease = function (i_ptime) {
 				child && child.release();
 				playingP=false;
-				myInterface.schedule(config.audioContext.currentTime+.3, function () {
+				myInterface.schedule(config.audioContext.currentTime, function () {
 					myInterface.stop();
 				});
 
