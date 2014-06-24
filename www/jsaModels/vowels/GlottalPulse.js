@@ -97,7 +97,7 @@ define(
 
 			myInterface.onPlay = function (i_ptime) {
 				var now = i_ptime || config.audioContext.currentTime;
-				myInterface.stop(now);
+				//myInterface.stop(now);
 
 				m_ephasor.setPhase(0.999999999);	// so that the phaser wraps to generate an event immediately after starting
 				m_ephasor.setCurrentTime(now);
@@ -108,17 +108,17 @@ define(
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
-
-				
-				releaseTimeOut && clearTimeout(releaseTimeOut);
 			};
 
-			myInterface.onRelease = function (dur) {
+			myInterface.onRelease = function (i_time) {
 				// stops the animation frame callbacks
 				if (arguments.length===0){
 					myInterface.stop();
 				} else{
-					releaseTimeOut=setTimeout(function(){myInterface.stop();},dur);
+					//releaseTimeOut=setTimeout(function(){myInterface.stop();},dur);
+						myInterface.schedule(i_time, function () {
+							myInterface.stop();
+						});
 				}
 
 			};

@@ -102,7 +102,7 @@ define(
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				m_glottalPulseNode.play();
+				m_glottalPulseNode.play(i_ptime);
 			};
 
 			// ----------------------------------------
@@ -238,7 +238,7 @@ define(
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				m_glottalPulseNode.release(m_releaseTime*1000); // twould be nice to be able to provide a time argument here
+				m_glottalPulseNode.release(stopTime); 
 
 				myInterface.schedule(stopTime, function () {
 					myInterface.stop();
@@ -249,7 +249,9 @@ define(
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
 
-
+			myInterface.onStop = function (i_time){
+				console.log("Formant Synth onStop");
+			}
 			return myInterface;
 		};
 	}

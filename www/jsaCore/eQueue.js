@@ -7,7 +7,7 @@ define(
         return function(){
         	var reqaframe = utils.getRequestAnimationFrameFunc();
 
-        	var interval = .07; //ms to "play ahead" meant to cover events happening between now and the next call back time
+        	var interval = 0; //ms to "play ahead" meant to cover events happening between now and the next call back time
         	var queueManager =  {
         		"q" : [], // array of sorted time-stamped objects
         		"nextTime" : 0, // the time of the first event on the q
@@ -16,6 +16,13 @@ define(
         		// searched from high time to low time
         		// insert so that if time = previous node, playing will happen in order of insert
         		"schedule": function(t, f){
+                /*
+                    if (t <= config.audioContext.currentTime){
+                            f(t);
+                            console.log("why you so like that?");
+                            return;
+                    }
+                    */
                     //if quque was empty before, initiate callbacks now
                     if (queueManager.q.length === 0) queueManager.reqaframe(queueManager.processQ);
         			for(var i=0;i<queueManager.q.length;i++){
@@ -31,8 +38,8 @@ define(
         			var now = config.audioContext.currentTime;
         			for (var i=queueManager.q.length-1;i>=0;i--){
         				if (queueManager.q[i].time <= now+interval){
-        					queueManager.q[i].func(queueManager.q[i].time);
                             //console.log("fire from queue at time " + now + "with timestamp " + queueManager.q[i].time);
+        					queueManager.q[i].func(queueManager.q[i].time);
         					queueManager.q.pop();
         				} 
         			}
@@ -42,7 +49,7 @@ define(
 
                 // remove all elements with time stamps >= than i_time
                 "qClear": function(i_time){
-                    if (i_time === undefined) {
+                    if ((i_time === undefined) || (i_time === 0)) {
                         queueManager.q=[];
                         return;
                     } 

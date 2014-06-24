@@ -128,16 +128,17 @@ define(
 					scheduleGrain();
 				}
 
-				console.log("schedule: currentTime = " + currentTime);
-				myInterface.schedule(currentTime+.05, schedule);
+
+				setTimeout(schedule, 20);
 			}
 
 			myInterface.onPlay = function (i_ptime) {
 				if (buffLoaded) {
 					realTime = config.audioContext.currentTime;
+					console.log("got realTime");
 					continuePlaying = true;
-
-					schedule();
+					console.log("before schedule");
+					setTimeout(schedule, 1);
 
 					gainLevelNode.gain.value = m_gainLevel;
 					console.log("Gain set at " + gainLevelNode.gain.value);
@@ -285,7 +286,10 @@ define(
 
 			myInterface.onRelease = function (i_ptime) {
 				console.log("release triggered");
-				stopScheduler();
+
+				//TODO: Remove this timeOut thing if possible
+				setTimeout(stopScheduler, 0);
+
 				myInterface.stop(); // no ring out time? 
 			};
 

@@ -193,7 +193,9 @@ define(
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
 
-				
+			myInterface.onStop = function (i_ptime) {
+				console.log("vowles: onStop");
+			}
 			return myInterface;
 		};
 	}

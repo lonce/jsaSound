@@ -188,14 +188,16 @@ define(
 			// All sound models need to have these methods
 
 			bsmInterface.play = function (i_time) {
+				if (i_time === undefined) i_time=0;
 				bsmInterface.isPlaying=true;
 				bsmInterface.qClear(i_time);
+
+				console.log("at: " + bsmInterface.getAboutText() + " isPlaying");
 
 				if (this.hasOwnProperty("onPlay")) {
 					this.onPlay(i_time);
 				} 
 				
-				if (i_time === undefined) i_time=0;
 				this.fire({"type": "play", "ptime": i_time, "snd": this});
 			};
 
@@ -204,6 +206,7 @@ define(
 			}
 
 			bsmInterface.release = function (i_time) {
+				console.log("at: " + bsmInterface.getAboutText() + " isReleasing");
 				if (bsmInterface.isPlaying) {
 					this.onRelease(i_time);
 					if (i_time === undefined) i_time=0;
