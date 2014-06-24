@@ -192,7 +192,7 @@ define(
 				bsmInterface.isPlaying=true;
 				bsmInterface.qClear(i_time);
 
-				console.log("at: " + bsmInterface.getAboutText() + " isPlaying");
+				//console.log("at: " + bsmInterface.getAboutText() + " isPlaying");
 
 				if (this.hasOwnProperty("onPlay")) {
 					this.onPlay(i_time);
@@ -206,7 +206,7 @@ define(
 			}
 
 			bsmInterface.release = function (i_time) {
-				console.log("at: " + bsmInterface.getAboutText() + " isReleasing");
+				//console.log("at: " + bsmInterface.getAboutText() + " isReleasing");
 				if (bsmInterface.isPlaying) {
 					this.onRelease(i_time);
 					if (i_time === undefined) i_time=0;

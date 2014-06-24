@@ -42,7 +42,7 @@ define(
 
 			var myInterface = baseSM({},[],[sm.gainLevelNode]);
 			//myInterface.sourceNode;
-			myInterface.setAboutText("Simple mp3 (or wav) player - must load sounds from same domain as server.")
+			myInterface.setAboutText("Simple mp3 (or wav) player.")
 
 			// Must keep rebuilding on play() this because myInterface.sourceNode goes away after you call myInterface.sourceNode.noeOff()
 			myInterface.buildModelArchitectureAGAIN = function() {

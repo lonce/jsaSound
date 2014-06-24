@@ -63,9 +63,9 @@ define(
 			var ipvals = [0, 309.34, 72.84, 99.31, 0.32, 0.21, 1.55, 0, 309.34, 58.3, 77.85, 0.31, 0.41, 1.43, 0, 309.34, 53.46, 50.87, 0.16, 0.56, 1.49] ;
 			var j=0;
 			for(var i=0;i<numChildren;i++){
-				console.log("each child has " + childNode[i].getNumParams() + " params");
+				//console.log("each child has " + childNode[i].getNumParams() + " params");
 				for(var k=0;k<childNode[i].getNumParams();k++){
-					console.log("child[" + i + "].param["+k+"]= ipvals["+j+"]");
+					//console.log("child[" + i + "].param["+k+"]= ipvals["+j+"]");
 					childNode[i].setParam(childNode[i].getParam(k,"name"), ipvals[j++]);
 				}
 

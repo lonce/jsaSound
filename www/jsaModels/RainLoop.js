@@ -41,7 +41,7 @@ define(
        		
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Simple mp3 (or wav) sample player - must load sounds from same domain as server.")
+			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
 
 
 

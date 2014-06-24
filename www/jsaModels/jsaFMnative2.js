@@ -75,7 +75,7 @@ define(
                     nodeWrapper=oscModulatorNode;
                     if (m_CarrierNode.nodeType==="GraphNode"){
                         nodeWrapper=GraphNode({}, [], [oscModulatorNode]);
-                        console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
+                        //console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                     }
                     nodeWrapper.connect(m_CarrierNode);
                     oscModulatorNode.start(now);
@@ -133,7 +133,8 @@ define(
                         "val": m_mod_freq
                     },
                     function (i_val) {
-                        oscModulatorNode.frequency.value = m_mod_freq = i_val;
+                        m_mod_freq = i_val;
+                        oscModulatorNode && (oscModulatorNode.frequency.value = m_mod_freq);
 
                     }
                     );
