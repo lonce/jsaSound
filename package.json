@@ -1,0 +1,27 @@
+{
+  "name": "jsaSound",
+  "version": "0.1.0",
+  "description": "sound modeling library based on Web Audio API, and exposing a nice user API",
+  "main": "www/scripts/main.js",
+  "dependencies": {
+    "express": "~3.1.0",
+    "jade": "~0.35.0",
+    "ws": "~0.4.25"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lonce/jsaSound.git"
+  },
+  "keywords": [
+    "interactive",
+    "audio",
+    "\"sound",
+    "models\""
+  ],
+  "author": "Lonce Wyse",
+  "license": "LGPL"
+}
