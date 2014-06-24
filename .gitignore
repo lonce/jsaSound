@@ -8,6 +8,7 @@ www/Demo/jsaOpCodes
 www/Demo/jsaModels
 www/Demo/DELETEME
 www/deprecated
+node_modules
 *.sfk
 www/scripts/main_noserver.js
 www/Docs

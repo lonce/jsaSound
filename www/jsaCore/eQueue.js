@@ -7,7 +7,7 @@ define(
         return function(){
         	var reqaframe = utils.getRequestAnimationFrameFunc();
 
-        	var interval = 0; //ms to "play ahead" meant to cover events happening between now and the next call back time
+        	var interval = .01; //ms to "play ahead" meant to cover events happening between now and the next call back time
         	var queueManager =  {
         		"q" : [], // array of sorted time-stamped objects
         		"nextTime" : 0, // the time of the first event on the q
