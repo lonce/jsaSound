@@ -80,7 +80,7 @@ define(
 				now = i_ptime || config.audioContext.currentTime;
 
 				gainLevelNode.gain.value = m_gainLevel;
-				console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
+				//console.log("m_gainLevel ... play with gain " +  gainLevelNode.gain.value);
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);

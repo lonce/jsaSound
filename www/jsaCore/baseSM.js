@@ -135,6 +135,8 @@ define(
 
 			bsmInterface.getParam = function(i_name, i_prop){
 				i_name=testPName(i_name);
+				if (! i_name) return null;
+
 				var p = params[i_name];
 
 				switch (i_prop){
@@ -158,6 +160,7 @@ define(
 
 			bsmInterface.setParamNorm = function (i_name, i_val) {
 				i_name=testPName(i_name);
+				if (! i_name) return null;
 				var p = params[i_name];
 				p.value.val=p.value.min + i_val * (p.value.max - p.value.min);
 				/*
@@ -170,6 +173,7 @@ define(
 
 			bsmInterface.setParam = function (i_name) {
 				i_name=testPName(i_name);
+				if (! i_name) return null;
 
 				var args = [], i;
 				for (i = 1; i < arguments.length; i += 1) {
@@ -194,11 +198,15 @@ define(
 
 				//console.log("at: " + bsmInterface.getAboutText() + " isPlaying");
 
+				bsmInterface.onPlay(i_time);
+				bsmInterface.fire({"type": "play", "ptime": i_time, "snd": this});
+				/*
 				if (this.hasOwnProperty("onPlay")) {
 					this.onPlay(i_time);
 				} 
 				
 				this.fire({"type": "play", "ptime": i_time, "snd": this});
+				*/
 			};
 
 			bsmInterface.onPlay = function(i_time){
@@ -208,9 +216,11 @@ define(
 			bsmInterface.release = function (i_time) {
 				//console.log("at: " + bsmInterface.getAboutText() + " isReleasing");
 				if (bsmInterface.isPlaying) {
-					this.onRelease(i_time);
+					//this.onRelease(i_time);
+					bsmInterface.onRelease(i_time);
 					if (i_time === undefined) i_time=0;
-					this.fire({"type": "release", "ptime": i_time, "snd": this});
+					//this.fire({"type": "release", "ptime": i_time, "snd": this});
+					bsmInterface.fire({"type": "release", "ptime": i_time, "snd": this});
 				}
 			};
 
@@ -220,8 +230,13 @@ define(
 			};
 
 			bsmInterface.stop = function (i_time) {
+				/*
 				this.onStop(i_time);
 				this.fire({"type": "stop", "ptime": i_time, "snd": this});
+				*/
+				bsmInterface.onStop(i_time);
+				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});
+				
 				bsmInterface.isPlaying=false;
 			};
 
@@ -237,7 +252,8 @@ define(
 				if ((!ms) || ms === 0){
 					bsmInterface.release();
 				} else {
-				setTimeout(bsmInterface.release,ms);
+					bsmInterface.schedule(config.audioContext.currentTime+ms*.001, bsmInterface.release)
+				//setTimeout(bsmInterface.release,ms);
 				}
 			};
 
@@ -252,7 +268,9 @@ define(
 				} 
 
 				if (!params[i_ind]) {
-					throw "set: Parameter " + i_ind + " does not exist";
+					//throw "set: Parameter " + i_ind + " does not exist";
+					console.log("set: Parameter " + i_ind + " does not exist");
+					i_ind=undefined;
 				}
 				return i_ind;  // it has passed the existence test and been converted to the proper string name.
 			}

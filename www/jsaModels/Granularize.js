@@ -128,7 +128,7 @@ define(
 					scheduleGrain();
 				}
 
-				console.log("schedule: currentTime = " + currentTime);
+				//console.log("schedule: currentTime = " + currentTime);
 				myInterface.schedule(currentTime+.05, schedule);
 			}
 

@@ -39,7 +39,7 @@ define(
 			
 
 			var myInterface = baseSM({},[],[gainEnvNode]);
-			myInterface.setAboutText("EXPERIMENTAL. Noise tick qith qplay(time) method - used in NoiseTrigger2");
+			myInterface.setAboutText("EXPERIMENTAL.");
 
 			myInterface.onPlay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
