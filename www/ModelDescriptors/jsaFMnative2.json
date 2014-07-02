@@ -1,4 +1,5 @@
 {
 	"displayName": "FM Native 2",
-	"fileName": "jsaModels/jsaFMnative2"
+	"fileName": "jsaModels/jsaFMnative2",
+	"modelKeys": ["jsaSoundDemo"]
 }

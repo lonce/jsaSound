@@ -65,7 +65,7 @@ define(
 			}());
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
+			myInterface.setAboutText("Click the ALLOW button on Main Browser Window before playing. Best with headphones and/or extrnal mic.<br>")
 
 
 			myInterface.onPlay = function (i_ptime) {

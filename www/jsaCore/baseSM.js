@@ -252,7 +252,7 @@ define(
 				} 
 
 				if (!params[i_ind]) {
-					throw "set: Parameter " + o_name + " does not exist";
+					throw "set: Parameter " + i_ind + " does not exist";
 				}
 				return i_ind;  // it has passed the existence test and been converted to the proper string name.
 			}

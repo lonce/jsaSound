@@ -1,4 +1,5 @@
 {
 	"displayName": "Granularize Samplefile",
-	"fileName": "jsaModels/Granularize"
+	"fileName": "jsaModels/Granularize",
+	"modelKeys": ["jsaSoundDemo"]
 }

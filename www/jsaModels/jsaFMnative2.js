@@ -19,7 +19,7 @@ define(
             var	gainLevelNode;
 
             // these are defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-            var m_gainLevel = 0.5;    // the point to (or from) which gainEnvNode ramps glide
+            var m_gainLevel = 1;    // the point to (or from) which gainEnvNode ramps glide
             var m_car_freq = 440;
             var m_mod_freq = 30;
             var m_modIndex = 1.0;
@@ -54,7 +54,6 @@ define(
 
              myInterface.setAboutText("A simple frequency modulator with sample-rate modulation of the carrier frequency.");
 
-            function dummySetFreq(i_freq) {}
   
             var nodeWrapper;
             myInterface.onPlay = function (i_ptime) {

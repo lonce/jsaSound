@@ -28,7 +28,7 @@ define(
 
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
+			myInterface.setAboutText("Simple mp3 (or wav) sample trigger.")
 
 
 			var init = (function (){

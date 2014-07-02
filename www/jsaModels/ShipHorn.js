@@ -21,14 +21,14 @@ define(
 
 		
 			// these are both defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-			var m_gainLevel = 2.5, // the point to (or from) which gainEnvNode ramps glide
+			var m_gainLevel = 1, // the point to (or from) which gainEnvNode ramps glide
 				stopTime = 0.0,	// will be > audioContext.currentTime if playing
 				now = 0.0;
 
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Template");
+			myInterface.setAboutText("Ship horn");
 
 
 			// Create the nodes and thier connections. Runs once on load
@@ -59,8 +59,8 @@ define(
 				}
 			};
 
-	
-			var ipvals = [0, 309.34, 72.84, 99.31, 0.32, 0.21, 1.55, 0, 309.34, 58.3, 77.85, 0.31, 0.41, 1.43, 0, 309.34, 53.46, 50.87, 0.16, 0.56, 1.49] ;
+			/*										*                                          *                                          *                */
+			var ipvals = [0, 309.34, 72.84, 99.31, 0.64, 0.21, 1.55, 0, 309.34, 58.3, 77.85, 0.64, 0.41, 1.43, 0, 309.34, 53.46, 50.87, 0.32, 0.56, 1.49] ;
 			var j=0;
 			for(var i=0;i<numChildren;i++){
 				//console.log("each child has " + childNode[i].getNumParams() + " params");
@@ -87,7 +87,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 3,
+					"max": 1,
 					"val": m_gainLevel
 				},
 				function (i_val) {

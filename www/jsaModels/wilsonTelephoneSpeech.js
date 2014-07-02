@@ -94,7 +94,7 @@ define(
 			}());
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("NOTE: Runs in Canary only, and only on a proper web server. Also, you must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or mic.<br>")
+			myInterface.setAboutText("You must click the ALLOW button on Main Browser Window before playing. Best with headphones and/or external mic.<br>")
 
 
 			myInterface.onPlay = function (i_ptime) {
@@ -106,9 +106,6 @@ define(
 				// remember from last time set
 				gainLevelNode.gain.value =  m_gainLevel;
 
-				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
-				//foo = now + m_attackTime;
-				//console.log( " ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
 				//gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
 				gainEnvNode.gain.linearRampToValueAtTime(10, now + m_attackTime); // go to gain level over .1 secs			

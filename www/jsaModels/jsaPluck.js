@@ -8,13 +8,6 @@ This library is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
 
-
-// ******************************************************************************************************
-// A "sound model" (which is essentially just an oscillator).
-// There is an attack time, a hold until release() is called, and a decay time.
-// The attack and decay have weirdnesses - I *think* I am doing it correctly, so I blame webaudio beta and Canary....
-// The attack and decaya
-// ******************************************************************************************************
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaKarplusNode"],
 	function (config, baseSM, karplusNodeFactory) {
@@ -52,6 +45,7 @@ define(
 			};
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setAboutText("Basic Karplus-Strong plucker.")
 
 			myInterface.onPlay = function (i_ptime) {
 				now = config.audioContext.currentTime;
@@ -80,7 +74,6 @@ define(
 
 				gainLevelNode.gain.value = m_gainLevel;
 
-				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime + m_sustainTime);

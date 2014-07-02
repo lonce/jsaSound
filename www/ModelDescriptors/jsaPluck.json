@@ -1,4 +1,5 @@
 {
 	"displayName": "Basic Karplus Strong Plucker",
-	"fileName": "jsaModels/jsaPluck"
+	"fileName": "jsaModels/jsaPluck",
+	"modelKeys": ["jsaSoundDemo"]
 }

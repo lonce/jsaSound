@@ -36,10 +36,22 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 	</head>
 	<body>
-		<h1><center>jsaSound for Interactive Sound Modeling</center></h1>
-		jsaSound assists interactive sound designers in providing sound users (game, web, application developers) with models that have a simple and consistent API exposing exactly the interaction the model designer intends. <br>
-		<br>
-		<b> The Sound Model API: </b>
+		<h1><center>jsaSound for Interactive Sound on the Web</center></h1>
+		<p >
+			jsaSound is designed to serve two developer commumities:
+			<ol>
+				<li> <em>Web Developers</em> who want to use interactive audio on their web pages with a simple and consistent API, and 
+				</li>
+				<li> <em>Sound Model Developers</em> who want support for creating interactive sounds using the Web Audio API and want to provide a high degree of (re)usability for Web Developers. 
+				</li>  
+			</ol>
+			<b> Explore some sound model examples: </b>
+				<select id="soundSelector">
+			</select> <br> 
+		</p>
+		<hr>
+
+		<b> The Sound Model API for Web Developers: </b>
 		<div id="API" >
 			<div id="APItext">
 				play()<br>
@@ -55,22 +67,27 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 				getAboutText();<br>
 			</div>
 		</div>
-		The simplicity and consistency makes sounds models more shareable, and enables clean, readable, generalizable, and reusable code.  This slider box, for example, works with any sound that exposes the API:<br>
-		<b> Choose your sound model: </b>
-		<select id="soundSelector">
-		</select> <br>
-				<br>
-		To see the API in its modest glory (controlling an interactive sound in script on a web page) see <b> <a href="Demo/Demo.html">this DEMO.</a> </b><br>You might notice that the sound model for this demo is "served from the cloud" - your apps can use the sound models this way, too!
+		<p> The simplicity and consistency makes sounds models more shareable, and enables clean, readable, generalizable, and reusable code.  
+		</p>
+		<p>
+		To see the how simple and intuitive it is to use jsaSound models in your web pages, see <b> <a href="Demo/Demo.html">this DEMO.</a> </b><br>You might notice that the sound model for this demo is "served from the cloud" - your apps can use the sound models this way, too!
+		</p>
+
+		<p id="devP"> 
 		<br>
+		<b> The jsaSound library for Interactive Sound Model Developers: </b>
 		<br>
-		jsaSound also supports sound model developers with "composing" sound models in chains and heirarchies (using Kumar's very cool "GraphNode" for wrapping models to make them look like Audio Nodes), and for scheduling events in a varity of ways (see the rhythmic pattern models). 
+		</p>
+		The jsaSound library also supports sound model <em><b>developers</b><em> with exposing a consistent API, hiding some of the Web Audio API complexity, the ability to "compose" sound models in chains and heirarchies (using Kumar Subramanian's very cool "GraphNode" for wrapping models to make them look like Audio Nodes), and for scheduling events in a varity of ways (see the rhythmic pattern models). 
 		<br>
 		<br>
 		<hr />
-		<div id="Credits">
-		<a href="http://anclab.org">Arts and Creativity Lab, IDMI</a> / <a href="http://www.fas.nus.edu.sg/cnm/">Communications and New Media Department, National University of Singapore</a><br> 
-		<b>Code:</b> <a href="https://github.com/lonce/jsaSound"> https://github.com/lonce/jsaSound</a> <br />
-		<b>Contributors: Lonce Wyse, Kumar Subramanian, Pallav Shinghal</b>
+		<div id="footer">
+			<div id="Credits">
+				<a href="http://anclab.org">Arts and Creativity Lab, IDMI</a> / <a href="http://www.fas.nus.edu.sg/cnm/">Communications and New Media Department, National University of Singapore</a><br> 
+				<b>Code:</b> <a href="https://github.com/lonce/jsaSound"> https://github.com/lonce/jsaSound</a> <br />
+				<b>Contributors: Lonce Wyse, Kumar Subramanian, Pallav Shinghal</b>
+			</div>
 		</div>
 	</body>
 </html>

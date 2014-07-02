@@ -70,9 +70,6 @@ define(
 
 				gainLevelNode.gain.value = m_gainLevel;
 
-				// linear ramp attack isn't working for some reason (Canary). It just sets value at the time specified (and thus feels like a laggy response time).
-				//foo = now + m_attackTime;
-				//console.log( " ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
 				if (myInterface.getNumOutConnections() === 0){

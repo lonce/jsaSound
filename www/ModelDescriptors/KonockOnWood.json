@@ -1,4 +1,5 @@
 {
 	"displayName": "Knock On Wood",
-	"fileName": "jsaModels/KnockOnWood"
+	"fileName": "jsaModels/KnockOnWood",
+	"modelKeys": ["jsaSoundDemo"]
 }

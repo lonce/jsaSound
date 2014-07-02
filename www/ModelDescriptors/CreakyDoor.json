@@ -1,4 +1,5 @@
 {
 	"displayName": "Creaky Door",
-	"fileName": "jsaModels/CreakyDoor"
+	"fileName": "jsaModels/CreakyDoor",
+	"modelKeys": ["jsaSoundDemo"]
 }

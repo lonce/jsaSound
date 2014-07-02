@@ -75,7 +75,7 @@ define(
                         };
 
                         var myInterface = baseSM({},[],[gainLevelNode]);
-                        myInterface.setAboutText("First 'Play', then 'Swing'! (Tech note: uses event phasor for timing events) ")
+                        myInterface.setAboutText("First hit 'Play', then 'Swing'!")
 
 
                         // get a new SourceBufferNode for every event (oi.)

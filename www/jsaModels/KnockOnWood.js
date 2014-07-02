@@ -44,7 +44,7 @@ define(
 			//  requestAnimationFrame callback function
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("One knock per play click")
+			myInterface.setAboutText("White noise burst convolved with wood sound - so different each time.")
 
 
 			// get a new SourceBufferNode for every event (oi.)

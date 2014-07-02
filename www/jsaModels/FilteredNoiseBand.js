@@ -7,14 +7,6 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
- for baseSM and noiseNodeFactory()
-	
-jsaUtils/utils.js
-	for Array.prototype.prettyString
-	
-*/
 
 /* --------------------------------------------------------------
 	Just filtered noise band.
@@ -52,7 +44,7 @@ define(
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
 
-			myInterface.setAboutText("Bandpass noise with native nodes");
+			myInterface.setAboutText("Simple bandpass-filtered noise");
 
 
 			// Create the nodes and thier connections. Runs once on load

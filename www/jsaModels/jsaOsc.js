@@ -21,7 +21,7 @@ define(
 			var	gainEnvNode = config.audioContext.createGain();
 			var	gainLevelNode = config.audioContext.createGain(); 
 
-			var k_gainFactor = .15;
+			var k_gainFactor = .35;
 
 			// defaults for setting up initial values (and displays) 
 			var m_gainLevel = 0.2;    // the point to (or from) which gainEnvNode ramps glide
@@ -42,6 +42,7 @@ define(
 				oscNode = config.audioContext.createOscillator();
 				oscNode.setType(m_type);  //square
 				oscNode.isPlaying=false;
+				oscNode.frequency.value = m_frequency;
 
 				// make the graph connections
 				oscNode.connect(gainEnvNode);
@@ -50,7 +51,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Simple square wave with attack, hold, release");
+			myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
 			// ----------------------------------------
 			myInterface.onPlay = function (i_ptime) {
@@ -77,7 +78,7 @@ define(
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
-				gainLevelNode.gain.value = m_gainLevel;
+				gainLevelNode.gain.value = k_gainFactor*m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
 					console.log("connecting MyInterface to audio context desination");
@@ -95,7 +96,8 @@ define(
 				},
 				function (i_freq) {
 					//console.log("in sm.setFreq, oscNode = " + oscNode);
-					oscNode.frequency.value = m_frequency = i_freq;
+					m_frequency = i_freq;
+					oscNode && (oscNode.frequency.value = m_frequency);
 				}
 			);
 
@@ -113,7 +115,7 @@ define(
 					if (m_type === i_type) return;
 					m_type=i_type;
 					console.log("setting osc type to " + m_type);
-					oscNode.setType(m_type);
+					oscNode && (oscNode.setType(m_type));
 				}
 			);
 

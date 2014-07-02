@@ -45,7 +45,7 @@ define(
 			
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Bandpass noise");
+			myInterface.setAboutText("Mulit-band noise");
 
 
 			// Create the nodes and thier connections. Runs once on load

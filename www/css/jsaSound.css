@@ -1,9 +1,15 @@
 body
 {
-	background: -webkit-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 );
-	background: -moz-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 );
-	font-family:Calibri ; font-size:16px; 
+	 background-image: url("../jsaResources/background.jpg"); 
+	 border-color: #00FF00;
+	/* background: -webkit-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 ); */
+	/* background: -moz-linear-gradient( top left, #8c897a, #d7d4c3, #a6aac3 ); */
+	font: 14px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+	padding-left: 2%;
+
+/* font-family:Calibri ; font-size:16px; */
 } 
+
 
 #API
 {
@@ -14,13 +20,32 @@ body
 	border:2px solid;
 	border-radius:5px;
 	border-color:#000000;
-	background-color:  #a5accc;         
+	background: -webkit-linear-gradient( top left, #d7d4c3, #b7b4a3 );
+	/* background-color:  #a5accc;       */  
 }
 #APItext {
 		margin-left : 20px;
 		margin-top : 10px;
 		margin-bottom : 10px;
 }
+
+#soundSelector{
+	border:2px solid;
+	border-color: blue;
+}
+
+#devP{
+	border-top: 1px solid #ccc;;
+}
+
+#footer{
+}
+
 #Credits {
-	font-family:Calibri ; font-size:12px; 
+	font-family:Calibri ; font-size:12px;
+	text-align: center;	
+	background: #C8995B; /*#A8793B; */
+    border-radius: 10px;
+    border: 1px solid #B48547; /* #946527; */
+    margin: 5px;	
 }

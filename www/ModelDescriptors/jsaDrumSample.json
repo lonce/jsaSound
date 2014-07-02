@@ -1,4 +1,5 @@
 {
 	"displayName": "Sampled Drum Hit",
-	"fileName": "jsaModels/jsaDrumSample"
+	"fileName": "jsaModels/jsaDrumSample",
+	"modelKeys": ["jsaSoundDemo"]
 }
