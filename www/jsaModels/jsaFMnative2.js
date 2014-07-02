@@ -19,7 +19,7 @@ define(
             var	gainLevelNode;
 
             // these are defaults for setting up initial values (and displays) but also a way of remembring across the tragic short lifetime of Nodes.
-            var m_gainLevel = 1;    // the point to (or from) which gainEnvNode ramps glide
+            var m_gainLevel = .25;    // the point to (or from) which gainEnvNode ramps glide
             var m_car_freq = 440;
             var m_mod_freq = 30;
             var m_modIndex = 1.0;
