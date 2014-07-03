@@ -81,7 +81,7 @@ define(
 
 			gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
 
-			var releaseTimeOut;
+
 			var ticksToNote=0;
 			var tickCount=0;
 
@@ -168,40 +168,33 @@ define(
 
 			myInterface.onPlay = function (i_ptime) {
 				var now = config.audioContext.currentTime;
-				myInterface.stop();
+				//myInterface.stop();
 
 				m_ephasor.setPhase(0.999999999);	// so that the phaser wraps to generate an event immediately after starting
 				m_ephasor.setCurrentTime(now);
 
-				playingP=true;
-				requestAnimationFrame(animate);
+				if (! playingP){
+					playingP=true;
+					requestAnimationFrame(animate);
+				}
 
 				if (myInterface.getNumOutConnections() === 0){
 					myInterface.connect(config.audioContext.destination);
 				}
 
-				
-				releaseTimeOut && clearTimeout(releaseTimeOut);
 
 				ticksToNote=0;
 			};
 
-			myInterface.onRelease = function (dur) {
-				// stops the animation frame callbacks
-				if (arguments.length===0){
-					myInterface.stop();
-				} else{
-					releaseTimeOut=setTimeout(function(){myInterface.stop();},dur);
-				}
-
-
-			};
-
-			myInterface.onStop = function () {
+			myInterface.onRelease = function (i_ptime) {
 				// stops the animation frame callbacks
 				playingP=false;
-				child.release();
-				//console.log("plucky stopping children");
+				myInterface.stop(i_ptime);
+				child.release(i_ptime);
+			};
+
+			myInterface.onStop = function (i_ptime) {
+
 			};
 
 

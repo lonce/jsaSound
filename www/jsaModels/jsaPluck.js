@@ -161,6 +161,11 @@ define(
 			);
 
 			myInterface.onRelease = function (i_ptime) {
+				var now = config.audioContext.currentTime;  
+				myInterface.schedule(now+m_releaseTime, function () {
+					myInterface.stop();
+				});
+
 				//if (oscNode) oscNode.stop(stopTime);  // "cancels" any previously set future stops, I think
 			};
 

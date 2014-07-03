@@ -171,10 +171,14 @@ define(
 
 				function togglePlaying() {
 					var val = parseFloat(controllerElement.value);
-					if (val >= 1)
+					if (val >= 1){
 						myInterface.release();
-					else
+						//i_sm.release();
+					}
+					else{
 						myInterface.play();
+						//i_sm.play();
+					}
 				}
 
 				buttonElement.addEventListener('click', togglePlaying);
@@ -182,11 +186,13 @@ define(
 				// so play() and setParam("play", 1) have the same effect	
 				myInterface.onPlay = function (i_ptime) {
 					myInterface.setParam("play", 1);
+					//i_sm.play();
 				};
 
 				// so release() and setParam("play", 0) have the same effect
 				myInterface.onRelease = function (i_ptime) {
 					myInterface.setParam("play", 0);
+					//i_sm.release();
 				};
 
 			}

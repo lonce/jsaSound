@@ -216,10 +216,8 @@ define(
 			bsmInterface.release = function (i_time) {
 				//console.log("at: " + bsmInterface.getAboutText() + " isReleasing");
 				if (bsmInterface.isPlaying) {
-					//this.onRelease(i_time);
 					bsmInterface.onRelease(i_time);
 					if (i_time === undefined) i_time=0;
-					//this.fire({"type": "release", "ptime": i_time, "snd": this});
 					bsmInterface.fire({"type": "release", "ptime": i_time, "snd": this});
 				}
 			};
@@ -230,13 +228,8 @@ define(
 			};
 
 			bsmInterface.stop = function (i_time) {
-				/*
-				this.onStop(i_time);
-				this.fire({"type": "stop", "ptime": i_time, "snd": this});
-				*/
 				bsmInterface.onStop(i_time);
-				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});
-				
+				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});				
 				bsmInterface.isPlaying=false;
 			};
 

@@ -110,10 +110,6 @@ define(
 				}
 			}
 
-			function stopScheduler() {
-				console.log("stopping");
-				continuePlaying = false;
-			}
 
 			function schedule() {
 				//console.log("schedule triggered");
@@ -285,8 +281,9 @@ define(
 
 			myInterface.onRelease = function (i_ptime) {
 				console.log("release triggered");
-				stopScheduler();
-				myInterface.stop(); // no ring out time? 
+
+				continuePlaying = false;
+				myInterface.stop(i_ptime); // no ring out time? 
 			};
 
 			buffLoaded = false;

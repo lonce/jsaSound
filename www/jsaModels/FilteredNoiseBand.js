@@ -180,7 +180,7 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
 				myInterface.schedule(stopTime, function () {
-					myInterface.stop();
+					myInterface.stop(stopTime);
 				});
 
 			};
