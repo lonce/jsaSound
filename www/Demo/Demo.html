@@ -13,16 +13,27 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 		body
 		{
 			background-color:black;
-			background-image: url("Resources/CodeImage.jpg") ;
+			/* background-image: url("Resources/CodeImage.jpg") ; */
 			background-repeat: no-repeat;
 			-webkit-user-select: none;
 			-moz-user-select: none;
-
+			user-select: none;
 		}
 		h3 {color:white;
 			-webkit-user-select: none;
 			-moz-user-select: none;
+			user-select: none;
 			text-align: center}
+
+		#imgDiv {
+			-webkit-user-select: none;
+			-moz-user-select: none;
+		}
+		img {
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
 		</style>
 
 	 	<!--
@@ -50,6 +61,9 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 	</head>
 	<body >
 		<h3> jsaSound Demo: Use the mouse to play a sound.  </h3> 
+		<div id="imgDiv" unselectable="on">
+			<img draggable="false" src="Resources/CodeImage.jpg" alt="the code">
+		</div>
 
 	</body>
 </html>
