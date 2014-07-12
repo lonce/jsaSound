@@ -95,6 +95,32 @@ define(
                 }		
             };
 
+            myInterface.onRelease = function (i_ptime) {
+                if (oscModulatorNode) {
+                    // Good to keep these local variables instead of
+                    // common model ones
+                    // -Kumar
+                    var now = config.audioContext.currentTime;
+                    var stopTime = now + m_releaseTime;
+
+                    gainEnvNode.gain.cancelScheduledValues(now);
+                    gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+                    gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+
+                    myInterface.schedule(stopTime, function () {
+                        myInterface.stop(stopTime);
+                        oscModulatorNode && oscModulatorNode.stop(stopTime);
+                        oscModulatorNode = null;
+                   });
+
+                }
+            };
+
+            myInterface.onStop = function (i_ptime){
+                
+            }
+
+
             myInterface.registerParam(
                     "Carrier Frequency",
                     "range",
@@ -178,26 +204,6 @@ define(
                     }
                     );
 
-            myInterface.onRelease = function (i_ptime) {
-                if (oscModulatorNode) {
-                    // Good to keep these local variables instead of
-                    // common model ones
-                    // -Kumar
-                    var now = config.audioContext.currentTime;
-                    var stopTime = now + m_releaseTime;
-
-                    gainEnvNode.gain.cancelScheduledValues(now);
-                    gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-                    gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-
-                    myInterface.schedule(stopTime, function () {
-                        myInterface.stop(stopTime);
-                        oscModulatorNode && oscModulatorNode.stop(stopTime);
-                        oscModulatorNode = null;
-                   });
-
-                }
-            };
             
 
             /* just experimenting ....

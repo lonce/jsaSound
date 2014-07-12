@@ -231,14 +231,19 @@ define(
 				bsmInterface.onStop(i_time);
 				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});				
 				bsmInterface.isPlaying=false;
+				if (bsmInterface.getNumOutConnections() != 0){
+                    //console.log("disconnecting output");
+                    bsmInterface.disconnect();
+                }		
+ 
 			};
 
 			bsmInterface.onStop = function (i_time) {
-				//console.log("override onStop");
+				console.log("override onStop");
 			};
 
 			bsmInterface.destroy = function () {
-				console.log("baseSM.destroy() should probably be overridden ");
+				//console.log("baseSM.destroy() should probably be overridden ");
 			};
 
 			bsmInterface.qrelease = function (ms) {

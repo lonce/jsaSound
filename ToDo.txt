@@ -11,6 +11,10 @@ Before publishing to Chris Loewis:
 
    LATER
    	add cool sounds
+
+      Make it so people don't have to use animatedsoundworks.com, but can set up their own server.
+      Make it depolyable via npm
+
 +++++++++++++++++++
 
 
