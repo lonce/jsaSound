@@ -89,6 +89,15 @@ define(
 					//alert("Press load and wait!");
 				}
 			};
+			
+			myInterface.onRelease = function (i_ptime) {
+				myInterface.schedule(config.audioContext.currentTime+.3, function () {
+					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
+					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
+					myInterface.stop();
+				});
+			};
+
 
 			myInterface.registerParam(
 				"Gain",
@@ -116,14 +125,6 @@ define(
 					myInterface.loadAudioResource(val, onLoadAudioResource);
 				}
 			);
-
-			myInterface.onRelease = function (i_ptime) {
-				myInterface.schedule(config.audioContext.currentTime+.3, function () {
-					sourceNode && sourceNode.isPlaying && sourceNode.stop(0);
-					if (sourceNode) sourceNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
-					myInterface.stop();
-				});
-			};
 
 			buffLoaded = false;
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);

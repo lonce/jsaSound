@@ -7,13 +7,6 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-/* #INCLUDE
-jsaComponents/jsaAudioComponents.js
-	for baseSM and fmodOscFactory
-	
-jsaUtils/utils.js
-	for Array.prototype.prettyString 
-		*/
 
 /* --------------------------------------------------------------
 	FM with a noise source modulator.
@@ -62,21 +55,8 @@ define(
 				//This is an opcode. The unified "set" interface is not there for opcodes yet. TODO?
 				m_CarrierNode.setParam("modIndex", m_modIndex);
 
-				// make the graph connections
-				//noiseModulatorNode.connect(m_CarrierNode);
-			    nodeWrapper=noiseModulatorNode;
-                if (m_CarrierNode.nodeType==="GraphNode"){
-                    //nodeWrapper=org.anclab.steller.GraphNode({}, [], [noiseModulatorNode]);
-                    nodeWrapper=GraphNode({}, [], [noiseModulatorNode]);
-                    //console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
-                }
-                nodeWrapper.connect(m_CarrierNode);
-
-
-
-
+				noiseModulatorNode.connect(m_CarrierNode);
 				m_CarrierNode.connect(gainEnvNode);
-
 				gainEnvNode.connect(gainLevelNode);
 				
 			}());

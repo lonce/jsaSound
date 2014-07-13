@@ -12,8 +12,6 @@ Author: Lonce Wyse
 Date: July 2012
 */
 
-/* This model explores using the steller.js schedular for  generating events for other Audio Node. 	
-*/
 
 define(
 	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaDrumSample", "jsaSound/jsaCore/poly", "jsaSound/jsaOpCodes/jsaEventPhasor"],
@@ -110,7 +108,7 @@ define(
 			myInterface.onRelease = function (i_ptime) {
 				child && child.release();
 				playingP=false;
-				myInterface.schedule(config.audioContext.currentTime, function () {
+				myInterface.schedule(config.audioContext.currentTime+.3, function () { // give children time to release
 					myInterface.stop();
 				});
 
@@ -134,7 +132,6 @@ define(
 				function (i_val) {					
 					m_rate = parseFloat(i_val);
 					m_ephasor.setFreq(m_rate); //controls how high the frequency goes
-
 				}
 			);
 

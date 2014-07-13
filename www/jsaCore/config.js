@@ -10,8 +10,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // TODO: All sound models need an audioContext
 
 define(
-	["jsaSound/jsaCore/wheredoilive", "jsaSound/jsaCore/webAudioExtensions"],
-	function (wheredoilive, extensionsFactory) {
+	["jsaSound/jsaCore/wheredoilive"],
+	function (wheredoilive) {
 		/*
 		if (!window.webkitAudioContext) {
 			alert("Web Audio API is not supported. Try Chrome!");
@@ -41,7 +41,7 @@ define(
 
 		exports.microphone=undefined;
 
-		extensionsFactory(exports.audioContext);
+		//extensionsFactory(exports.audioContext);
 
 		return exports;
 	}

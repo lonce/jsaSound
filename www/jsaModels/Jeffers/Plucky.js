@@ -211,7 +211,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 100,
+					"max": 10,
 					"val": m_frequency
 				},
 				function (i_val) {

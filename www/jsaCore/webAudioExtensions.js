@@ -1,6 +1,7 @@
 define(
-	function () {		
-		return function(ctx){
+	["jsaSound/jsaCore/config", "jsaSound/jsaCore/GraphNode"],
+	function (config, GraphNode) {	 //(GraphNode) {		
+		//return function(ctx){
 /*
 			Object.getPrototypeOf(ctx.createOscillator()).setType=function(num){
 				switch(num){
@@ -25,7 +26,7 @@ define(
 			};
 */
 			var wtypes=["sine","square","sawtooth","triangle","custom"];
-			Object.getPrototypeOf(ctx.createOscillator()).setType=function(ot){
+			Object.getPrototypeOf(config.audioContext.createOscillator()).setType=function(ot){
 				if (typeof ot === "string"){
 					this.type=ot;
 					return;
@@ -44,7 +45,7 @@ define(
 
 
 			var ftypes=["lowpass","highpass","bandpass","lowshelf","highshelf","peaking","notch","allpass"];
-			Object.getPrototypeOf(ctx.createBiquadFilter()).setType=function(ft){
+			Object.getPrototypeOf(config.audioContext.createBiquadFilter()).setType=function(ft){
 				if (typeof ft === "string"){
 					this.type=ft;
 					return;
@@ -57,5 +58,16 @@ define(
 				}
 				console.log("filter.setType: trying to set illegal filter type " + ft);
 			};
-		}
+
+			
+			AudioNode.prototype.WAPIconnect = AudioNode.prototype.connect;
+			AudioNode.prototype.connect = function(to_node){
+				var wrapper;
+				if (to_node.nodeType==="GraphNode"){
+					GraphNode({}, [], [this]).connect(to_node);
+				} else{
+					this.WAPIconnect(to_node);
+				}
+			}	
+
 });

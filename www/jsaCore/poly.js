@@ -70,10 +70,12 @@ define(
                 snds[i].on("stop", function(e){
                     //console.log("releaseSnd");
                     e.snd.polyLock=false;
+                    /*
                     if (e.snd.hasOutputs()){
                         //console.log("poly stop callback, snd " + e.snd.polyNum );
                         e.snd.disconnect(); // collect audio from children output nodes into gainLevelNode 
                     }
+                    */
                 });
 
             }

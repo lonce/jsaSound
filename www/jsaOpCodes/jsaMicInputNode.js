@@ -28,12 +28,18 @@ define(
     			merger.connect(connect_to);
 				*/
 
+				/*
 				// do this GraphNode Wrapping just in case the node we are connecting to is a GraphNode
 				var micWrapper=microphone;
 				if (connect_to.nodeType==="GraphNode"){
 					micWrapper=GraphNode({}, [], [microphone]);
 				}
 				micWrapper.connect(connect_to);
+				*/
+
+				microphone.connect(connect_to);
+
+
 			}
 
 			function error() {

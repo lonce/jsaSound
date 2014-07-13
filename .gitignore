@@ -8,11 +8,12 @@ www/Demo/jsaOpCodes
 www/Demo/jsaModels
 www/Demo/DELETEME
 www/Demo/plumbing
-www/deprecated
+deprecated
 node_modules
 *.sfk
 www/scripts/main_noserver.js
-www/Docs
+www/Docs/DESIGN.txt
+www/Docs/ToDo.txt
 
 
 

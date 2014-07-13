@@ -1,0 +1,437 @@
+{
+    "project": {
+        "name": "The jsaSound API",
+        "description": "The jsaSound API for building sound models with Web Audio",
+        "version": "0.0.1",
+        "url": "http://animatedsoundworks.com:8001/",
+        "logo": "http://anclab.org/wp-content/themes/atahualpa/images/header/anclab_header.jpg"
+    },
+    "files": {
+        "jsaCore\\baseSM.js": {
+            "name": "jsaCore\\baseSM.js",
+            "modules": {
+                "baseSM.js": 1
+            },
+            "classes": {
+                "baseSM (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "baseSM.js": {
+            "name": "baseSM.js",
+            "submodules": {},
+            "classes": {
+                "baseSM (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaCore\\baseSM.js",
+            "line": 7,
+            "description": "Provides the base class for all sound models",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "baseSM (Anonymous)": {
+            "name": "baseSM (Anonymous)",
+            "shortname": "baseSM (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "baseSM.js",
+            "namespace": "",
+            "file": "jsaCore\\baseSM.js",
+            "line": 7,
+            "description": "Class factory for sound models"
+        }
+    },
+    "classitems": [
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 31,
+            "description": "Factory for sound models, returned by loading this module.",
+            "itemtype": "method",
+            "name": "Anonymous - returned on module load",
+            "params": [
+                {
+                    "name": "i_node",
+                    "description": "I forget.",
+                    "type": "AudioNode"
+                },
+                {
+                    "name": "input",
+                    "description": "nodes to make available for connections from other models and nodes",
+                    "type": "Audio Node Array"
+                },
+                {
+                    "name": "output",
+                    "description": "nodes to make available for connections to other models and nodes",
+                    "type": "AudioNodeArray"
+                }
+            ],
+            "return": {
+                "description": "the sound model interface"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 63,
+            "itemtype": "method",
+            "name": "setAboutText",
+            "params": [
+                {
+                    "name": "i_text",
+                    "description": "text descritption of model, hints, etc",
+                    "type": "String"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "getAboutText",
+            "return": {
+                "description": "text descritption of model, hints, created with setAboutText",
+                "type": "String"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 78,
+            "description": "Creates a parameter that will be used to control the model and provide information",
+            "itemtype": "method",
+            "name": "registerParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "name to expose to the world for this param",
+                    "type": "String"
+                },
+                {
+                    "name": "i_type",
+                    "description": "type [\"range\", \"URL\"]",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "initial value",
+                    "type": "String"
+                },
+                {
+                    "name": "i_f",
+                    "description": "function to execute when setParam(name, val) is called.",
+                    "type": "String"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 101,
+            "description": "Grabs a parameter from a child model, registers it on this model, and just reflects all calls to the child",
+            "itemtype": "method",
+            "name": "registerChildParam",
+            "params": [
+                {
+                    "name": "childModel",
+                    "description": "",
+                    "type": "SoundModel"
+                },
+                {
+                    "name": "childPname",
+                    "description": "name of the child parameter to expose",
+                    "type": "String"
+                },
+                {
+                    "name": "parentPname",
+                    "description": "name to use for the parameter",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "childPname"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 114,
+            "itemtype": "method",
+            "name": "getNumParams",
+            "return": {
+                "description": "the number of paramters the model exposes"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 122,
+            "itemtype": "method",
+            "name": "getParamNames",
+            "return": {
+                "description": "array of model parameter names"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 130,
+            "itemtype": "method",
+            "name": "getParamNames",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "index of the parameter whose name you want"
+                }
+            ],
+            "return": {
+                "description": "the name of the parameter with the secified index"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 144,
+            "description": "Get specified information about a parameter",
+            "itemtype": "method",
+            "name": "getParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want info about",
+                    "type": "String"
+                },
+                {
+                    "name": "i_prop",
+                    "description": "on of [\"name\", \"type\", \"val\", \"normval\", \"min\" or \"max\"]",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the value of the property you requested"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 175,
+            "description": "Set the parameter using values in [0,1]",
+            "itemtype": "method",
+            "name": "setParamNorm",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want to set",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "the value to set the parameter",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 194,
+            "description": "set the parameter using values using its own units in [min,max]",
+            "itemtype": "method",
+            "name": "setParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want to set",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "the value to set the parameter",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 219,
+            "itemtype": "method",
+            "name": "play",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "what time to play (recommended use: 0 or no argument; use schedule(t,func) to scheudle play in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 232,
+            "description": "Override this in your sound model",
+            "itemtype": "method",
+            "name": "onPlay",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to play (can be fed to Web Audio API nodes in your override)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 241,
+            "itemtype": "method",
+            "name": "release",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to release  (recommended use: 0 or no argument; use schedule(t,func) to scheudle releases in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 254,
+            "description": "Override this in your sound model  to send the model in to its release phase",
+            "itemtype": "method",
+            "name": "onRelease",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to release (can be fed to Web Audio API nodes in your override)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 264,
+            "description": "Stop the model from playing, disconnects it from output so it won't waste system resources anymore. Your onRelease() method should schedule or call stop when it is done",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to stop  (recommended use: 0 or no argument; use schedule(t,func) to scheudle stops in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 279,
+            "description": "override this in your sound model  (optional)",
+            "itemtype": "method",
+            "name": "onStop",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to stop (can be fed to Web Audio API nodes)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 302,
+            "description": "test a parameter number for existence",
+            "itemtype": "method",
+            "name": "testPName",
+            "params": [
+                {
+                    "name": "i_ind",
+                    "description": "index of parameter",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "either the parmaeter name (if it exists) or undefined"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 336,
+            "description": "schedule a function to run in the future (uses a queue and a single timer)",
+            "itemtype": "method",
+            "name": "schedule",
+            "params": [
+                {
+                    "name": "t",
+                    "description": "time to execute",
+                    "type": "Number"
+                },
+                {
+                    "name": "{Function",
+                    "description": "function to execute at time t"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 344,
+            "description": "Clear the queue of all future events for this model.",
+            "itemtype": "method",
+            "name": "qClear",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 384,
+            "description": "Start recording audio output from the model",
+            "itemtype": "method",
+            "name": "startRecording",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaCore\\baseSM.js",
+            "line": 397,
+            "description": "Stop recording audio output from the model",
+            "itemtype": "method",
+            "name": "stopRecording",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        }
+    ],
+    "warnings": []
+}

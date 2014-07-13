@@ -85,13 +85,16 @@ define(
                     //oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
                     myInterface.setParam("Carrier Frequency", m_car_freq);
 
-
+                    /*
                     nodeWrapper=oscModulatorNode;
                     if (m_CarrierNode.nodeType==="GraphNode"){
                         nodeWrapper=GraphNode({}, [], [oscModulatorNode]);
                         console.log("m_CarrierNode has nodeType = " + m_CarrierNode.nodeType);
                     }
                     nodeWrapper.connect(m_CarrierNode);
+                    */
+
+                    oscModulatorNode.connect(m_CarrierNode);
 
                     
                     oscModulatorNode.start(now);
