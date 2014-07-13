@@ -73,7 +73,7 @@ define(
 				gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 				setChildParams(m_Position);
 				bpNoiseNode.setParam("Release Time", m_releasetime);

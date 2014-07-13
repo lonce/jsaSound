@@ -1,5 +1,5 @@
 {
 	"displayName": "Ring Mod Mic",
 	"fileName": "jsaModels/RingModMic",
-	"modelKeys": ["mic"]
+	"modelKeys": ["jsaSoundDemo", "mic"]
 }

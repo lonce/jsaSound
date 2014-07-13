@@ -1,4 +1,5 @@
 {
 	"displayName": "Plucky Meolody",
-	"fileName": "jsaModels/Jeffers/Plucky"
+	"fileName": "jsaModels/Jeffers/Plucky",
+	"modelKeys": ["Jeffers", "jsaSoundDemo", "AntScore"]
 }

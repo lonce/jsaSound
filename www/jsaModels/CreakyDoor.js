@@ -94,7 +94,7 @@ define(
                                 requestAnimationFrame(animate);
 
                                 if (myInterface.getNumOutConnections() === 0){
-                                        myInterface.connect(config.audioContext.destination);
+                                        myInterface.connect(config.defaultDesintation);
                                 }
                         };
 

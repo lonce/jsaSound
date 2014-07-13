@@ -1,5 +1,5 @@
 {
 	"displayName": "Wilson's Telephone Speech (Mic)",
 	"fileName": "jsaModels/wilsonTelephoneSpeech",
-	"modelKeys": ["mic"]
+	"modelKeys": ["jsaSoundDemo", "mic"]
 }

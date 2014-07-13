@@ -71,7 +71,7 @@ define(
 				gainLevelNode.gain.value = m_gainLevel;
 
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 
 				formantSynthNode.play();

@@ -107,7 +107,7 @@ define(
 
                 if (myInterface.getNumOutConnections() === 0){
                     //console.log("connecting MyInterface to audio context desination");
-                    myInterface.connect(config.audioContext.destination);
+                    myInterface.connect(config.defaultDesintation);
                 }		
             };
 

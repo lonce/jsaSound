@@ -48,7 +48,7 @@ define(
 						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
 					}
 				}
-				//gainLevelNode.connect(config.audioContext.destination);
+				//gainLevelNode.connect(config.defaultDesintation);
 				//childModel[0].play(); // turn on unprocessed microphone
 			}());
 
@@ -64,7 +64,7 @@ define(
 				//console.log("Drone: PLAY! time = " + now);
 
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 
 				gainLevelNode.gain.value = m_gainLevel;  // collector turn back up

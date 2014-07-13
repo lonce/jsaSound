@@ -1,5 +1,5 @@
 {
 	"displayName": "Beat Pattern Phasor",
 	"fileName": "jsaModels/jsaBeatPatternPhasor",
-	"modelKeys": ["jsaSoundDemo"]
+	"modelKeys": ["jsaSoundDemo", "AntScore"]
 }

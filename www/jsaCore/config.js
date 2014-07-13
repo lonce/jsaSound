@@ -41,7 +41,20 @@ define(
 
 		exports.microphone=undefined;
 
-		//extensionsFactory(exports.audioContext);
+		var masterGain=undefined;
+
+		if (exports.audioContext){
+			masterGain=exports.audioContext.createGain();
+			masterGain.connect(exports.audioContext.destination);
+		}
+		exports.defaultDesintation = masterGain;
+		exports.setMute = function(bool){
+			if (bool===true){
+				masterGain.gain.value=0;
+			} else{
+				masterGain.gain.value=1;
+			}
+		}
 
 		return exports;
 	}

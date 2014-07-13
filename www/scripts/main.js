@@ -20,7 +20,7 @@ require(
 		var soundSelectorElem = document.getElementById("soundSelector");
 
 		var soundList;
-
+		var useList=["jsaSoundDemo"];
 		// Create the html select box using the hard-coded soundList above
 		function makeSoundListSelector() {
 			var i;
@@ -30,18 +30,32 @@ require(
 			//$.getJSON("soundList/TestModelDescriptors", function(data){
 			$.getJSON("/soundList/ModelDescriptors", function(data){
 
-			soundList =  data.jsonItems;
-			//console.log("Yip! sound list is " + soundList);
-			soundSelectorElem.options.length=0;
-			soundSelectorElem.add(new Option(''));
-			for (i = 0; i < soundList.length; i += 1) {
-				currOptionName = soundList[i].displayName || "";
-					//Add option to end of list
-					soundSelectorElem.add(new Option(currOptionName));
+				var items = data.jsonItems;
+				soundList=[];
+
+				//console.log("Yip! sound list is " + soundList);
+				soundSelectorElem.options.length=0;
+				soundSelectorElem.add(new Option('Choose Sound'));
+				for (i = 0; i < items.length; i += 1) {
+					if ((items[i].modelKeys) && (intersectionP(items[i].modelKeys, useList))){
+						currOptionName = items[i].displayName || "";
+						soundSelectorElem.add(new Option(currOptionName));
+						soundList.push(data.jsonItems[i]);
+					}
 				}
 				soundSelectorElem.options[0].selected="true";
 			});
 		}
+
+		function intersectionP(a1, a2){
+			for(var i=0;i<a1.length;i++){
+				for(var j=0;j<a2.length;j++){
+					if (a1[i]===a2[j]) return true;
+				}
+			}
+			return false;
+		}
+
 
 		// When a sound is selected
 		function soundChoice() {

@@ -59,7 +59,7 @@ define(
 				gainLevelNode.gain.value =  m_gainLevel * k_gain_factor;
 
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 
 				// Initial Values

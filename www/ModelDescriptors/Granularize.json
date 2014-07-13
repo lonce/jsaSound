@@ -1,5 +1,5 @@
 {
 	"displayName": "Granularize Samplefile",
 	"fileName": "jsaModels/Granularize",
-	"modelKeys": ["jsaSoundDemo"]
+	"modelKeys": ["jsaSoundDemo", "AntScore"]
 }

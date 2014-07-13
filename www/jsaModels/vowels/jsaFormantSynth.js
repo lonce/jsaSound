@@ -99,7 +99,7 @@ define(
 
 
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 
 				m_glottalPulseNode.play(i_ptime);

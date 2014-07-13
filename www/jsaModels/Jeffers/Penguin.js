@@ -62,7 +62,7 @@ define(
 
 			myInterface.onPlay = function (i_ptime) {
 				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.audioContext.destination);
+					myInterface.connect(config.defaultDesintation);
 				}
 
 				if (buffLoaded) {

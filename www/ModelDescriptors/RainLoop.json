@@ -1,4 +1,5 @@
 {
 	"displayName": "Rain",
-	"fileName": "jsaModels/RainLoop"
+	"fileName": "jsaModels/RainLoop",
+	"modelKeys": ["jsaSoundDemo"]
 }

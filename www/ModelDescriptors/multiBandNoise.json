@@ -1,4 +1,5 @@
 {
 	"displayName": "Multi Band Noise",
-	"fileName": "jsaModels/multiBandNoise"
+	"fileName": "jsaModels/multiBandNoise",
+	"modelKeys": ["jsaSoundDemo"]
 }
