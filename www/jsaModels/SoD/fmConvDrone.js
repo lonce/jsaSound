@@ -123,7 +123,9 @@ define(
                         m_car_freq = i_val;
                         m_CarrierNode.setParam("carrierFrequency", m_car_freq);
                         //setFreq(m_car_freq*Math.pow(2,m_modIndexOctaves));
-                        oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
+                        m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
+                        oscModulatorNode && (oscModulatorNode.frequency.value = m_mod_freq);
+                         
                     }
                     );
 
@@ -172,7 +174,9 @@ define(
                         // is still active?
                         // -Kumar
                         //setFreq(m_car_freq*Math.pow(2,m_modIndexOctaves));
-                        oscModulatorNode.frequency.value = m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
+                        m_mod_freq = m_car_freq*Math.pow(2,m_modIndexOctaves);
+                        oscModulatorNode && (oscModulatorNode.frequency.value = m_mod_freq);
+                     
                     }
                     );
 
