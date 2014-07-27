@@ -55,7 +55,14 @@ define(
 				console.log("Consider providing an output node so model can be composed with other models");
 			};
 
-			var bsmInterface = GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+			var bsmInterface =  GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+
+			/*
+			var m_graphNode;
+			var bsmInterface = function(i_node, i_inputs, i_outputs){
+				return GraphNode(m_graphNode, i_inputs || [], i_outputs || []);
+			}
+			*/
 
 			bsmInterface.nodeType="GraphNode";
 			bsmInterface.isPlaying=false;
@@ -215,7 +222,6 @@ define(
 				params[i_name].f.apply(this, args);
 			};
 
-
 			/** 
 			* @method play 
 			* @param {Number} i_time what time to play (recommended use: 0 or no argument; use schedule(t,func) to scheudle play in the future)
@@ -226,6 +232,13 @@ define(
 				bsmInterface.qClear(i_time);
 
 				bsmInterface.onPlay(i_time);
+
+				// if not connected in a graph or to a recorder, connect ouput to desination to be heard
+				if ((bsmInterface.getNumOutConnections() === 0) || (isRecording && (bsmInterface.getNumOutConnections() === 1))){
+					bsmInterface.connect(config.defaultDesintation);
+				}
+
+
 				bsmInterface.fire({"type": "play", "ptime": i_time, "snd": this});
 			};
 
@@ -270,8 +283,8 @@ define(
 				bsmInterface.onStop(i_time);
 				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});				
 				bsmInterface.isPlaying=false;
-				if (bsmInterface.getNumOutConnections() != 0){
-                    //console.log("disconnecting output on stop");
+				if ((bsmInterface.getNumOutConnections() != 0) && (! isRecording)){
+                    console.log("disconnecting output on stop");
                     bsmInterface.disconnect();
                 }		
 			};
@@ -387,11 +400,13 @@ define(
 			*/
 			bsmInterface.startRecording = function (){
 				if (audioRecorder===null){
+					console.log("create new recorder with graph node interface");
 					audioRecorder = new Recorder( bsmInterface );
 				}
 				audioRecorder.clear();
 				audioRecorder.record();
 				isRecording=true;
+				console.log("OK, recording!");
 			}
 
 			/** 
@@ -402,6 +417,7 @@ define(
 				isRecording=false;
 				audioRecorder.stop();
 				audioRecorder.exportWAV( doneEncoding );
+				console.log("Done recording!");
 			}
 
 			function doneEncoding( blob ) {

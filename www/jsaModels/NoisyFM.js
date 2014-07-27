@@ -78,10 +78,7 @@ define(
 
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
-				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
-					myInterface.connect(config.defaultDesintation);
-				}		
+	
 			};
 
 			myInterface.registerParam(

@@ -58,9 +58,7 @@ define(
 				now = config.audioContext.currentTime;
 				ptime = Math.max(now, ptime || now);
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
+
 
 				rebuildArchitecture();
 

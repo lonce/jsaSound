@@ -52,7 +52,7 @@ define(
                 outPin = node.outputs[outIx];
 
                 if (! outPin) {  // node.outputs === []
-                    alert("The model you are trying to use has not provided any ouptut nodes for connections");
+                    alert("The model you are trying to connect has not provided any ouptut nodes for connections");
                     throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
                     return node;
                 }
@@ -119,8 +119,8 @@ define(
             node.getNumOutConnections = function(){
 
                if (!(node.numOutConnections >= 0)) {  // node.outputs === []
-                    alert("The model you are trying to use has not provided any ouptut nodes for connections");
-                    throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
+                    console.log("The model you are asking about has not provided any ouptut nodes for connections");
+                    //throw("The model you are trying to use has not provided any ouptut nodes for connections"); // if nobody catches this, the message isn't delivered anywhere
                     return 0;
                 }
                 return node.numOutConnections;

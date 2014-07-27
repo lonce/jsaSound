@@ -72,9 +72,6 @@ define(
 				// if no input, remember from last time set
 				gainLevelNode.gain.value = m_gainLevel;
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
 				setChildParams(m_Position);
 				bpNoiseNode.setParam("Release Time", m_releasetime);
 				bpNoiseNode.play(now);

@@ -70,10 +70,6 @@ define(
 				// if no input, remember from last time set
 				gainLevelNode.gain.value = m_gainLevel;
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
-
 				formantSynthNode.play();
 				//formantSynthNode.setParam("play", 1);
 			};

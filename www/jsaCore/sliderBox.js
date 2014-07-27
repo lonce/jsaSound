@@ -172,12 +172,15 @@ define(
 				function togglePlaying() {
 					var val = parseFloat(controllerElement.value);
 					if (val >= 1){
-						myInterface.release();
+						//myInterface.release();
 						//i_sm.release();
+						myInterface.setParam("play", 0);
 					}
 					else{
-						myInterface.play();
+						//myInterface.play();
 						//i_sm.play();
+
+						myInterface.setParam("play", 1);
 					}
 				}
 
@@ -185,13 +188,13 @@ define(
 
 				// so play() and setParam("play", 1) have the same effect	
 				myInterface.onPlay = function (i_ptime) {
-					myInterface.setParam("play", 1);
+					//myInterface.setParam("play", 1);
 					//i_sm.play();
 				};
 
 				// so release() and setParam("play", 0) have the same effect
 				myInterface.onRelease = function (i_ptime) {
-					myInterface.setParam("play", 0);
+					//myInterface.setParam("play", 0);
 					//i_sm.release();
 				};
 

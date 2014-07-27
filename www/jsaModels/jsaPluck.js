@@ -79,10 +79,6 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime + m_sustainTime);
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				if (myInterface.getNumOutConnections() === 0){
-					//console.log("________connecting MyInterface to audio context desination");
-					myInterface.connect(config.defaultDesintation);
-				}		
 
 				oscNode.start(now, stopTime-now);
 				//console.log("starting at " + now +", and will stop at " + stopTime + ", for a duration of " + stopTime-now);

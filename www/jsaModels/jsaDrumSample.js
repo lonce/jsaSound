@@ -52,10 +52,6 @@ define(
 			}
 
 			myInterface.onPlay = function(i_ptime){
-			//myInterface.on("play", function(e){
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
 
 				if (buffLoaded) {
 					buildModelArchitectureAGAIN();
@@ -75,12 +71,6 @@ define(
 						this.isPlaying && this.stop(0);
 						this.isPlaying=false;
 					};
-
-
-					if (myInterface.getNumOutConnections() === 0){
-						//console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.defaultDesintation);
-				}		
 
 
 				} else {

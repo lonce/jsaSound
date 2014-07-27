@@ -47,10 +47,6 @@ define(
 				// if no input, remember from last time set
 				gainLevelNode.gain.value = i_gain || m_gainLevel;
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
-
 				childNode.play(now);
 			};
 

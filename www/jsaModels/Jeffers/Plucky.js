@@ -178,10 +178,6 @@ define(
 					requestAnimationFrame(animate);
 				}
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
-
 
 				ticksToNote=0;
 			};

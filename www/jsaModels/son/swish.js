@@ -58,10 +58,6 @@ define(
 				// if no input, remember from last time set
 				gainLevelNode.gain.value =  m_gainLevel * k_gain_factor;
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
-
 				// Initial Values
 				setChildParams(m_Position);
 

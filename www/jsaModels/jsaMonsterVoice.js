@@ -38,8 +38,6 @@ define(
 
 				micInputNode(microphone, m_jungleNode.input);
 				m_jungleNode.output.connect(gainLevelNode);
-
-				//gainLevelNode.connect(config.defaultDesintation);
 			}());
 			
 
@@ -53,10 +51,7 @@ define(
 
 				gainLevelNode.gain.value = m_gainLevel;
 
-				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
-					myInterface.connect(config.defaultDesintation);
-				}
+
 			};
 
 

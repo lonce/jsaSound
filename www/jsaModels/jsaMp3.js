@@ -85,12 +85,6 @@ define(
 					sm.gainEnvNode.gain.setValueAtTime(0, sm.now);
 					sm.gainEnvNode.gain.linearRampToValueAtTime(1, sm.now + sm.m_attackTime);
 
-					if (myInterface.getNumOutConnections() === 0){
-						console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.defaultDesintation);
-					}		
-
-
 				} else {
 					console.log("Buffer NOT loaded yet!");
 					//CREATE EXTERNAL CALLBACK HERE!!!

@@ -51,6 +51,7 @@ define(
 
 			// define the PUBLIC INTERFACE for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
+			console.log("now I have output nodes");
 			myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
 			// ----------------------------------------
@@ -80,10 +81,7 @@ define(
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
 				gainLevelNode.gain.value = k_gainFactor*m_gainLevel;
 
-				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
-					myInterface.connect(config.defaultDesintation);
-				}
+			
 			};
 
 			myInterface.registerParam(

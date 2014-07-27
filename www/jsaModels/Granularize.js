@@ -139,10 +139,6 @@ define(
 					console.log("Gain set at " + gainLevelNode.gain.value);
 
 
-					if (myInterface.getNumOutConnections() === 0){
-						console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.defaultDesintation);
-					}		
 
 
 				} else {

@@ -1,0 +1,7 @@
+
+
+Engine Rev:
+
+http://animatedsoundworks.com:8001/?modelname=jsaSound/jsaModels/SoD/fmConvDrone&Carrier Frequency=65.92&Carrier Type=2.48&Modulation Index=64.53&Modulator Frequency (octaves rel carrier)=-0.81&Modulator Type=3.63&Gain=0.5&Attack Time=0.05&Release Time=1
+
+http://localhost:8001/?modelname=jsaSound/jsaModels/SoD/fmConvDrone&Carrier Frequency=65.92&Carrier Type=2.48&Modulation Index=64.53&Modulator Frequency (octaves rel carrier)=-0.81&Modulator Type=3.63&Gain=0.5&Attack Time=0.05&Release Time=1

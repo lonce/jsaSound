@@ -23,6 +23,8 @@ define(
 			var m_rate = 4.0;
 			var m_gainLevel = 0.9;
 
+			var m_gainFactor=4;
+
 			var	childModel = [];
 			var numChildren=0;
 			var	gainLevelNode = config.audioContext.createGain();
@@ -92,13 +94,11 @@ define(
 
 				stopTime = config.bigNum;
 
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
-				
 				for(var i=0;i<numChildren;i++){
 					childModel[i].play(i_ptime);
 				}
+
+				myInterface.setParam("Gain", m_gainLevel);
 
 			};
 
@@ -131,11 +131,12 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 2,
+					"max": 1,
 					"val": m_gainLevel
 				},
 				function (i_val) {
 					gainLevelNode.gain.value = m_gainLevel = i_val;
+					gainLevelNode.gain.value*=m_gainFactor;
 				}
 
 			);

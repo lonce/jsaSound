@@ -75,9 +75,6 @@ define(
 
 
 			myInterface.onPlay = function (i_ptime) {
-				if (myInterface.getNumOutConnections() === 0){
-					myInterface.connect(config.defaultDesintation);
-				}
 
 				if (buffLoaded) {
 
@@ -90,13 +87,6 @@ define(
 
 					sourceNode.start(i_ptime);
 					sourceNode.isPlaying=true;
-
-
-					if (myInterface.getNumOutConnections() === 0){
-						//console.log("connecting MyInterface to audio context desination");
-						myInterface.connect(config.defaultDesintation);
-					}		
-
 
 				} else {
 					console.log("Buffer NOT loaded yet! - Will load and play");

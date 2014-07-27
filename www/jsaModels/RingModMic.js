@@ -61,7 +61,6 @@ define(
 				rm.connect(gainEnvNode);
 
 				gainEnvNode.connect(gainLevelNode);
-				//gainLevelNode.connect(config.defaultDesintation);
 			}());
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
@@ -81,10 +80,7 @@ define(
 				//console.log( " ramp to level " + gainLevelNode.gain.value + " at time " + foo);
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs			
-				if (myInterface.getNumOutConnections() === 0){
-					console.log("connecting MyInterface to audio context desination");
-					myInterface.connect(config.defaultDesintation);
-				}		
+	
 			};
 
 
