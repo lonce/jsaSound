@@ -8,13 +8,13 @@ This library is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 require.config({
-	paths: {
+	paths: {		
 		"jsaSound": "..",
 		"jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min"
 	}
 });
 require(
-	["require", "jsaSound/jsaSoundLib/sliderBox", "jsaSound/jsaSoundLib/utils", "jquery"],
+	["require", "jsaSound/jsaSndLib/sliderBox", "jsaSound/jsaSndLib/utils",  "jquery"],
 	function (require, makeSliderBox, utils) {
 		var currentSndModel;
 		var soundSelectorElem = document.getElementById("soundSelector");

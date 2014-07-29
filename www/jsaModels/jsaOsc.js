@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // There is an attack time, a hold until release() is called, and a decay time.
 // ******************************************************************************************************
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
 		return function () {
 			

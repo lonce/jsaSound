@@ -14,8 +14,8 @@ Date: July 2012
 
 
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaModels/testModels/noiseTick", "jsaSound/jsaSoundLib/jsaOpCodes/jsaEventPhasor"],
-	//["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaSoundLib/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/testModels/noiseTick", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
+	//["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, noiseTickFactory, jsaEventPhasor) {
 		return function () {
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now

@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ------------------------------------------------------------------------------------------*/
 
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/googleJungle", "jsaSound/jsaSoundLib/jsaOpCodes/jsaMicInputNode"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/googleJungle", "jsaSound/jsaSndLib/jsaOpCodes/jsaMicInputNode"],
 	function (config, baseSM, jungleNodeFactory, micInputNode) {
 		return function () {
 

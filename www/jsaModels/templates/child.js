@@ -29,7 +29,7 @@ jsaUtils/utils.js
 //		-audioContext
 //		-bigNum
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/nativeNoiseNode"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/nativeNoiseNode"],
 	function (config, baseSM, noiseNodeFactory) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.

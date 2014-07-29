@@ -16,7 +16,7 @@ Date: July 2012
 */
 
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPatternPhasor"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPatternPhasor"],
 	function (config, baseSM, jsaConvolverFactory, jsaPatternFactory) {
 		return function () {
 

@@ -25,7 +25,7 @@ doesn't push the ALLOW button, the model will not work properly.
 //		-audioContext
 //		-bigNum
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaMicInputNode"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaMicInputNode"],
 	function (config, baseSM,  micInputNode) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.

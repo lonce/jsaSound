@@ -21,6 +21,7 @@ require.config({
                 		host = "http://animatedsoundworks.com:8001/"
                 	} else {
                 		host = "http://"+window.document.location.host;
+                		console.log("host is set to: " + host);
                 	}
                 	return host ;
             	}())

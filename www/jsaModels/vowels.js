@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ------------------------------------------------------------------------------------------*/
 
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaModels/vowels/jsaFormantSynth", "jsaSound/jsaModels/vowels/voiceData", "jsaSound/jsaSoundLib/utils"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/vowels/jsaFormantSynth", "jsaSound/jsaModels/vowels/voiceData", "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, formantSynthFactory, voiceData, utils) {
 		return function () {
 

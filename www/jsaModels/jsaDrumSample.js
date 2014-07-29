@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 //		-audioContext
 //		bigNum
 define(
-	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
 		return function (i_fname) {
 
@@ -48,7 +48,7 @@ define(
 			function onLoadAudioResource(b){
 				soundBuff = b;
 				buffLoaded = true;
-				console.log("Buffer Loaded!");
+				//console.log("Buffer Loaded!");
 			}
 
 			myInterface.onPlay = function(i_ptime){
