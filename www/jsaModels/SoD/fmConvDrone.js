@@ -10,7 +10,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeFModOsc", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaCore/GraphNode"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/nativeFModOsc", "jsaSound/jsaSoundLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaSoundLib/GraphNode"],
 	function (config, baseSM, fmodOscFactory, jsaConvolverFactory, GraphNode) {
         return function () {
             var	oscModulatorNode;

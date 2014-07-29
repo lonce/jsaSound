@@ -13,8 +13,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
-	//["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNode"],
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker"],
+	//["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaBufferNoiseNode"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker"],
 	function (config, baseSM, noiseNodeFactoryMaker) {
 		return function () {
 

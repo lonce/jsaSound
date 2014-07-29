@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ------------------------------------------------------------------------------------------*/
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaKarplusNode"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaKarplusNode"],
 	function (config, baseSM, karplusNodeFactory) {
 		return function () {
 			// defined outside "oscInterface" so that they can't be seen be the user of the sound models.

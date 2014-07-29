@@ -14,7 +14,7 @@ Date: July 2012
 
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaDrumSample", "jsaSound/jsaCore/poly", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaModels/jsaDrumSample", "jsaSound/jsaSoundLib/poly", "jsaSound/jsaSoundLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, jsaDrumFactory, poly, jsaEventPhasor) {
 		return function (i_fname, i_poly) {
 

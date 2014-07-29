@@ -13,7 +13,7 @@ Date: June 2013
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker", "jsaSound/jsaSoundLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaSoundLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, BufferNoiseNodeFactoryMaker, jsaConvolverFactory, jsaEventPhasor) {
 		return function () {
 

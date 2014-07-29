@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ------------------------------------------------------------------------------------------*/
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/utils"],
 	function (config, baseSM, utils) {
 		return function () {
 

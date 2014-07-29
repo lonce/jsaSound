@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils", "jsaSound/jsaModels/jsaMicThru", "jsaSound/jsaModels/jsaMonsterVoice"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/utils", "jsaSound/jsaModels/jsaMicThru", "jsaSound/jsaModels/jsaMonsterVoice"],
 	function (config, baseSM, utils, jsaMicThruFactory, jsaMonsterFactory) {
 		return function () {
 			var	childModel = [];

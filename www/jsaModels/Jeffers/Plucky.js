@@ -13,7 +13,7 @@ Date: June 2013
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaModels/jsaPluck", "jsaSound/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaCore/audioUtils"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaModels/jsaPluck", "jsaSound/jsaSoundLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaSoundLib/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaSoundLib/audioUtils"],
 	function (config, baseSM, childNodeFactory, jsaConvolverFactory, jsaEventPhasor, audioUtils) {
 		return function () {
 

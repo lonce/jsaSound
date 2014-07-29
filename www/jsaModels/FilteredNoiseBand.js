@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 //		-audioContext
 //		-bigNum
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/nativeNoiseNode"],
 	function (config, baseSM, noiseNodeFactory) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.

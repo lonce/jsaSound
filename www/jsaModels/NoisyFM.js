@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 ******************************************************************************************************
 */
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaOpCodes/nativeNoiseNode", "jsaSound/jsaOpCodes/nativeFModOsc", "jsaSound/jsaCore/GraphNode"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/jsaOpCodes/nativeNoiseNode", "jsaSound/jsaSoundLib/jsaOpCodes/nativeFModOsc", "jsaSound/jsaSoundLib/GraphNode"],
 	function (config, baseSM, noiseNodeFactory, fmodOscFactory, GraphNode) {
 		return function () {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.

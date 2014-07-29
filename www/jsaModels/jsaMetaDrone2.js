@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 */
 
 define(
-	["jsaSound/jsaCore/config", "jsaSound/jsaCore/baseSM", "jsaSound/jsaCore/utils", "jsaSound/jsaModels/FilteredNoiseBand"],
+	["jsaSound/jsaSoundLib/config", "jsaSound/jsaSoundLib/baseSM", "jsaSound/jsaSoundLib/utils", "jsaSound/jsaModels/FilteredNoiseBand"],
 	function (config, baseSM, utils, FilteredNoiseBandFactory) {
 		return function () {
 			var	childModel = [];
