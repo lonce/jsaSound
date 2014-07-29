@@ -1,3 +1,14 @@
+
+/**
+* Provides the base class for all sound models
+* @module AudioResourceManager.js
+* @main AudioResourceManager.js
+* @uses jsaCore/config, jsaCore/utils
+*/
+/**
+* @class AudioResourceManager (Anonymous)
+*
+*/
 define(
     ["jsaSound/jsaCore/config", "jsaSound/jsaCore/utils"],
     function AudioResourceManager(config, utils){
@@ -6,6 +17,12 @@ define(
 			"m_loadedResources" : {}, // stores file names (as property names) and ArrayBuffers (as property values) so audio file resources don't have to be retrieved for than once (for example if multiple instances of a resource-using sound model are loaded). 
 			"m_waitingForResource": {}, // queue of callbacks waiting for a buffer already being loaded by another caller
 
+			/**
+			* Manages audio resource loading so that only resources are only loaded once, and are stored in buffers that multiple sounds (or polyphonic sounds) can then reference.
+			* @method loadAudioResource
+			* @param {String} i_url The url of the audio resource to be loaded
+			* @param {function} i_onload function to be called when loaded. Will be passed the buffer that the audio resource has been loaded in to. 
+			*/
 			"loadAudioResource": function(i_url, i_onload){
 
 					var xhr = new XMLHttpRequest();

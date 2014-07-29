@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>baseSM.js - The jsaSound API</title>
+    <title>jsaCore\audioUtils.js - The jsaSound API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -108,50 +108,89 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>baseSM.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: jsaCore\audioUtils.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/* ---------------------------------------------------------------------------------------
+This jsaSound Code is distributed under LGPL 3
+Copyright (C) 2012 National University of Singapore
+Inquiries: director@anclab.org
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/jsaCore_baseSM.js.html#l7"><code>jsaCore\baseSM.js:7</code></a>
-        </div>
-    
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or any later version.
+This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
+You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;
+------------------------------------------------------------------------------------------*/
+/**
+* Provides some basic utilities
+* @module audioUtils.js
+* @main audioUtils.js
+*/
+/**
+* @class audioUtil (Anonymous)
+*
+*/
+define(
+	function () {
+		var audioUtils = {};
 
-    
-</div>
+		//--------------------------------------------------------------------------------
+		var calculateNoteFreqs = function(){
+			var baseClassNames = [&#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;, &#x27;F&#x27;, &#x27;G&#x27;, &#x27;A&#x27;, &#x27;B&#x27;];
+			var baseClassInterval = [-9,-7,-5,-4,-2,0,2];
+			var accidentalNames = [&#x27;b&#x27;,&#x27;&#x27;,&#x27;#&#x27;];
+			var accidentalInterval=[-1,0,1];
+
+			var noteFreqs={};
+			var semitonesFromA4;
+
+			for (var octNum=0; octNum&lt;=9; octNum++){
+				for(var noteNum=0;noteNum&lt;=6;noteNum++){
+					for (var accNum=0;accNum&lt;=2;accNum++){
+						semitonesFromA4 = 12*(octNum-4) + baseClassInterval[noteNum]+accidentalInterval[accNum];
+						//console.log(&quot;semitones from a4 is &quot; + semitonesFromA4);
+						noteFreqs[baseClassNames[noteNum]+accidentalNames[accNum]+octNum]=440*Math.pow(2,semitonesFromA4/12);
+					}
+				}
+			}
+			return noteFreqs;
+		}
+
+		// creates an object that looks like this: {..., &quot;Ab4&quot;: 415, &quot;A4&quot;: 440, &quot;A#4&quot;: 466, ...} 
+		// with octave from [0,9], accidentals in [&#x27;b&#x27;, &#x27;&#x27;, &#x27;#&#x27;]
+		var noteFreqs=calculateNoteFreqs();
 
 
+		/**
+		* Converts note names (eg. Eb2, F#, A4) into frequency values 
+		* @method note2Freq
+		* @param {String} noteName
+		* @return {number} frequency value
+		*/
+		audioUtils.note2Freq = function(noteName){
+			if (noteFreqs[noteName]===undefined){
+				console.log(&quot;error in audioUtils.note2Freq: note &quot; + noteName + &quot; is not defined&quot;);
+				return 0;
+			}
+			return noteFreqs[noteName];
+		}
+		//--------------------------------------------------------------------------------
+		/**
+		* Converts db values in [-inf, 0] into &quot;gain&quot; values in [0,1]
+		* for example, 0 dB yields 1, -6 dB yields .5 
+		* @method dB2Ratio
+		* @param {number} i_dB
+		* @return {number} gain  value 10^(dB/20)
+		*/
+		audioUtils.dB2Ratio = function (i_dB ){
+			return Math.pow(10.0, i_dB/20.0);
+		}
 
-<div class="box intro">
-    <p>Provides the base class for all sound models</p>
 
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/baseSM (Anonymous).html">
-                        baseSM (Anonymous)
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+		return audioUtils;
+	}
+);
+    </pre>
 </div>
 
                     </div>

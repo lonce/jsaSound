@@ -7,7 +7,15 @@ This library is free software; you can redistribute it and/or modify it under th
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
 You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
 ------------------------------------------------------------------------------------------*/
-// args:
+/**
+* Provides some basic utilities
+* @module audioUtils.js
+* @main audioUtils.js
+*/
+/**
+* @class audioUtil (Anonymous)
+*
+*/
 define(
 	function () {
 		var audioUtils = {};
@@ -38,6 +46,13 @@ define(
 		// with octave from [0,9], accidentals in ['b', '', '#']
 		var noteFreqs=calculateNoteFreqs();
 
+
+		/**
+		* Converts note names (eg. Eb2, F#, A4) into frequency values 
+		* @method note2Freq
+		* @param {String} noteName
+		* @return {number} frequency value
+		*/
 		audioUtils.note2Freq = function(noteName){
 			if (noteFreqs[noteName]===undefined){
 				console.log("error in audioUtils.note2Freq: note " + noteName + " is not defined");
@@ -46,8 +61,13 @@ define(
 			return noteFreqs[noteName];
 		}
 		//--------------------------------------------------------------------------------
-
-		// 0 dB yields 1, -6 dB yeileds .5
+		/**
+		* Converts db values in [-inf, 0] into "gain" values in [0,1]
+		* for example, 0 dB yields 1, -6 dB yields .5 
+		* @method dB2Ratio
+		* @param {number} i_dB
+		* @return {number} gain  value 10^(dB/20)
+		*/
 		audioUtils.dB2Ratio = function (i_dB ){
 			return Math.pow(10.0, i_dB/20.0);
 		}

@@ -41,13 +41,37 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="../classes/AudioResourceManager (Anonymous).html">AudioResourceManager (Anonymous)</a></li>
+            
+                <li><a href="../classes/audioUtil (Anonymous).html">audioUtil (Anonymous)</a></li>
+            
                 <li><a href="../classes/baseSM (Anonymous).html">baseSM (Anonymous)</a></li>
+            
+                <li><a href="../classes/jsaConvolverNode (Anonymous).html">jsaConvolverNode (Anonymous)</a></li>
+            
+                <li><a href="../classes/jsaEvenPhasor (Anonymous).html">jsaEvenPhasor (Anonymous)</a></li>
+            
+                <li><a href="../classes/poly (Anonymous).html">poly (Anonymous)</a></li>
+            
+                <li><a href="../classes/utils (Anonymous).html">utils (Anonymous)</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
+                <li><a href="../modules/AudioResourceManager.js.html">AudioResourceManager.js</a></li>
+            
+                <li><a href="../modules/audioUtils.js.html">audioUtils.js</a></li>
+            
                 <li><a href="../modules/baseSM.js.html">baseSM.js</a></li>
+            
+                <li><a href="../modules/jsaConvolverNode.js.html">jsaConvolverNode.js</a></li>
+            
+                <li><a href="../modules/jsaEvenPhasor.js.html">jsaEvenPhasor.js</a></li>
+            
+                <li><a href="../modules/poly.js.html">poly.js</a></li>
+            
+                <li><a href="../modules/utils.js.html">utils.js</a></li>
             
             </ul>
         </div>
@@ -95,7 +119,7 @@
 * @uses jsaCore/config, jsaCore/utils, scripts/recorderjs/recorder, jsaCore/GraphNode, jsaCore/audioResourceManager, jsaCore/eQueue
 */
 /**
-* Class factory for sound models
+* Base factory for sound models
 * @class baseSM (Anonymous)
 *
 */
@@ -119,14 +143,16 @@ define(
 	function (config, utils, r, GraphNode, resourceManager, queueFactory) { // dont actually use this &quot;steller&quot; variable, but rather the global name space setup in jsasteller.
 
 	/**
-	* Factory for sound models, returned by loading this module.
-	* @method Anonymous - returned on module load 
-	* @param {AudioNode} i_node I forget. 
-	* @param {Audio Node Array} input nodes to make available for connections from other models and nodes
-	* @param {AudioNodeArray} output nodes to make available for connections to other models and nodes
-	* @return the sound model interface
-	*
-	*/		
+	* Wraps an audio node graph in to a new &quot;GraphNode&quot; that can be connected in an audio graph just like a Web Audio API audioNode ().
+	* The GraphNode returned also provides the generic interface (play, stop, setParam) for control.
+	* Also provides methods the sound modeler uses to, for example, register parameters to expose to users. 
+	* 
+	* @method (baseSM object named when file is loaded)
+	* @param i_node  should be empty literal object {}
+	* @param i_inputs an array of audio nodes that can be use to connect to this GraphNode
+	* @param i_outputs an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations
+	* @return The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model.
+	*/
 	return function (i_node, i_inputs, i_outputs) {
 
 			var that=this;
@@ -145,7 +171,7 @@ define(
 				console.log(&quot;Consider providing an output node so model can be composed with other models&quot;);
 			};
 
-			var bsmInterface = GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+			var bsmInterface =  GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
 
 			bsmInterface.nodeType=&quot;GraphNode&quot;;
 			bsmInterface.isPlaying=false;
@@ -305,7 +331,6 @@ define(
 				params[i_name].f.apply(this, args);
 			};
 
-
 			/** 
 			* @method play 
 			* @param {Number} i_time what time to play (recommended use: 0 or no argument; use schedule(t,func) to scheudle play in the future)
@@ -316,6 +341,13 @@ define(
 				bsmInterface.qClear(i_time);
 
 				bsmInterface.onPlay(i_time);
+
+				// if not connected in a graph or to a recorder, connect ouput to desination to be heard
+				if ((bsmInterface.getNumOutConnections() === 0) || (isRecording &amp;&amp; (bsmInterface.getNumOutConnections() === 1))){
+					bsmInterface.connect(config.defaultDesintation);
+				}
+
+
 				bsmInterface.fire({&quot;type&quot;: &quot;play&quot;, &quot;ptime&quot;: i_time, &quot;snd&quot;: this});
 			};
 
@@ -360,8 +392,8 @@ define(
 				bsmInterface.onStop(i_time);
 				bsmInterface.fire({&quot;type&quot;: &quot;stop&quot;, &quot;ptime&quot;: i_time, &quot;snd&quot;: this});				
 				bsmInterface.isPlaying=false;
-				if (bsmInterface.getNumOutConnections() != 0){
-                    //console.log(&quot;disconnecting output on stop&quot;);
+				if ((bsmInterface.getNumOutConnections() != 0) &amp;&amp; (! isRecording)){
+                    console.log(&quot;disconnecting output on stop&quot;);
                     bsmInterface.disconnect();
                 }		
 			};
@@ -477,11 +509,13 @@ define(
 			*/
 			bsmInterface.startRecording = function (){
 				if (audioRecorder===null){
+					console.log(&quot;create new recorder with graph node interface&quot;);
 					audioRecorder = new Recorder( bsmInterface );
 				}
 				audioRecorder.clear();
 				audioRecorder.record();
 				isRecording=true;
+				console.log(&quot;OK, recording!&quot;);
 			}
 
 			/** 
@@ -492,6 +526,7 @@ define(
 				isRecording=false;
 				audioRecorder.stop();
 				audioRecorder.exportWAV( doneEncoding );
+				console.log(&quot;Done recording!&quot;);
 			}
 
 			function doneEncoding( blob ) {

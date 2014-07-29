@@ -41,13 +41,37 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="../classes/AudioResourceManager (Anonymous).html">AudioResourceManager (Anonymous)</a></li>
+            
+                <li><a href="../classes/audioUtil (Anonymous).html">audioUtil (Anonymous)</a></li>
+            
                 <li><a href="../classes/baseSM (Anonymous).html">baseSM (Anonymous)</a></li>
+            
+                <li><a href="../classes/jsaConvolverNode (Anonymous).html">jsaConvolverNode (Anonymous)</a></li>
+            
+                <li><a href="../classes/jsaEvenPhasor (Anonymous).html">jsaEvenPhasor (Anonymous)</a></li>
+            
+                <li><a href="../classes/poly (Anonymous).html">poly (Anonymous)</a></li>
+            
+                <li><a href="../classes/utils (Anonymous).html">utils (Anonymous)</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
+                <li><a href="../modules/AudioResourceManager.js.html">AudioResourceManager.js</a></li>
+            
+                <li><a href="../modules/audioUtils.js.html">audioUtils.js</a></li>
+            
                 <li><a href="../modules/baseSM.js.html">baseSM.js</a></li>
+            
+                <li><a href="../modules/jsaConvolverNode.js.html">jsaConvolverNode.js</a></li>
+            
+                <li><a href="../modules/jsaEvenPhasor.js.html">jsaEvenPhasor.js</a></li>
+            
+                <li><a href="../modules/poly.js.html">poly.js</a></li>
+            
+                <li><a href="../modules/utils.js.html">utils.js</a></li>
             
             </ul>
         </div>
@@ -108,7 +132,7 @@
 
 
 <div class="box intro">
-    <p>Class factory for sound models</p>
+    <p>Base factory for sound models</p>
 
 </div>
 
@@ -137,7 +161,7 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_Anonymous - returned on module load">Anonymous - returned on module load</a>
+                                <a href="#method_(baseSM object named when file is loaded)">(baseSM object named when file is loaded)</a>
 
                                 
                                 
@@ -306,8 +330,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_Anonymous - returned on module load" class="method item">
-    <h3 class="name"><code>Anonymous - returned on module load</code></h3>
+                    <div id="method_(baseSM object named when file is loaded)" class="method item">
+    <h3 class="name"><code>(baseSM object named when file is loaded)</code></h3>
 
     
         <div class="args">
@@ -321,13 +345,13 @@
             
                 <li class="arg">
                     
-                        <code>input</code>
+                        <code>i_inputs</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>i_outputs</code>
                     
                 </li>
             
@@ -375,7 +399,9 @@
     </div>
 
     <div class="description">
-        <p>Factory for sound models, returned by loading this module.</p>
+        <p>Wraps an audio node graph in to a new &quot;GraphNode&quot; that can be connected in an audio graph just like a Web Audio API audioNode ().
+The GraphNode returned also provides the generic interface (play, stop, setParam) for control.
+Also provides methods the sound modeler uses to, for example, register parameters to expose to users.</p>
 
     </div>
 
@@ -388,13 +414,13 @@
                 <li class="param">
                     
                         <code class="param-name">i_node</code>
-                        <span class="type">AudioNode</span>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>I forget.</p>
+                        <p>should be empty literal object</p>
 
                     </div>
 
@@ -403,14 +429,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">input</code>
-                        <span class="type">Audio Node Array</span>
+                        <code class="param-name">i_inputs</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>nodes to make available for connections from other models and nodes</p>
+                        <p>an array of audio nodes that can be use to connect to this GraphNode</p>
 
                     </div>
 
@@ -419,14 +445,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
-                        <span class="type">AudioNodeArray</span>
+                        <code class="param-name">i_outputs</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>nodes to make available for connections to other models and nodes</p>
+                        <p>an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations</p>
 
                     </div>
 
@@ -444,7 +470,7 @@
             <div class="returns-description">
                 
                     
-                    <p>the sound model interface</p>
+                    <p>The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model.</p>
 
                 
             </div>
@@ -491,7 +517,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l71"><code>jsaCore\baseSM.js:71</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l73"><code>jsaCore\baseSM.js:73</code></a>
         
         </p>
 
@@ -563,7 +589,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l114"><code>jsaCore\baseSM.js:114</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l116"><code>jsaCore\baseSM.js:116</code></a>
         
         </p>
 
@@ -649,7 +675,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l144"><code>jsaCore\baseSM.js:144</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l146"><code>jsaCore\baseSM.js:146</code></a>
         
         </p>
 
@@ -760,7 +786,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l122"><code>jsaCore\baseSM.js:122</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l124"><code>jsaCore\baseSM.js:124</code></a>
         
         </p>
 
@@ -840,7 +866,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l130"><code>jsaCore\baseSM.js:130</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l132"><code>jsaCore\baseSM.js:132</code></a>
         
         </p>
 
@@ -940,7 +966,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l232"><code>jsaCore\baseSM.js:232</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l240"><code>jsaCore\baseSM.js:240</code></a>
         
         </p>
 
@@ -1029,7 +1055,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l254"><code>jsaCore\baseSM.js:254</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l262"><code>jsaCore\baseSM.js:262</code></a>
         
         </p>
 
@@ -1118,7 +1144,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l279"><code>jsaCore\baseSM.js:279</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l287"><code>jsaCore\baseSM.js:287</code></a>
         
         </p>
 
@@ -1207,7 +1233,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l219"><code>jsaCore\baseSM.js:219</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l220"><code>jsaCore\baseSM.js:220</code></a>
         
         </p>
 
@@ -1285,7 +1311,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l344"><code>jsaCore\baseSM.js:344</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l352"><code>jsaCore\baseSM.js:352</code></a>
         
         </p>
 
@@ -1362,7 +1388,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l101"><code>jsaCore\baseSM.js:101</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l103"><code>jsaCore\baseSM.js:103</code></a>
         
         </p>
 
@@ -1501,7 +1527,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l78"><code>jsaCore\baseSM.js:78</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l80"><code>jsaCore\baseSM.js:80</code></a>
         
         </p>
 
@@ -1638,7 +1664,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l241"><code>jsaCore\baseSM.js:241</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l249"><code>jsaCore\baseSM.js:249</code></a>
         
         </p>
 
@@ -1732,7 +1758,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l336"><code>jsaCore\baseSM.js:336</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l344"><code>jsaCore\baseSM.js:344</code></a>
         
         </p>
 
@@ -1837,7 +1863,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l63"><code>jsaCore\baseSM.js:63</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l65"><code>jsaCore\baseSM.js:65</code></a>
         
         </p>
 
@@ -1931,7 +1957,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l194"><code>jsaCore\baseSM.js:194</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l196"><code>jsaCore\baseSM.js:196</code></a>
         
         </p>
 
@@ -2042,7 +2068,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l175"><code>jsaCore\baseSM.js:175</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l177"><code>jsaCore\baseSM.js:177</code></a>
         
         </p>
 
@@ -2137,7 +2163,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l384"><code>jsaCore\baseSM.js:384</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l392"><code>jsaCore\baseSM.js:392</code></a>
         
         </p>
 
@@ -2202,7 +2228,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l264"><code>jsaCore\baseSM.js:264</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l272"><code>jsaCore\baseSM.js:272</code></a>
         
         </p>
 
@@ -2281,7 +2307,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l397"><code>jsaCore\baseSM.js:397</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l407"><code>jsaCore\baseSM.js:407</code></a>
         
         </p>
 
@@ -2350,7 +2376,7 @@
             
         
         
-        <a href="../files/jsaCore_baseSM.js.html#l302"><code>jsaCore\baseSM.js:302</code></a>
+        <a href="../files/jsaCore_baseSM.js.html#l310"><code>jsaCore\baseSM.js:310</code></a>
         
         </p>
 

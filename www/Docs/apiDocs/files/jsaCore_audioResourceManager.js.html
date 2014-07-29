@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>baseSM.js - The jsaSound API</title>
+    <title>jsaCore\audioResourceManager.js - The jsaSound API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -108,50 +108,87 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>baseSM.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: jsaCore\audioResourceManager.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/jsaCore_baseSM.js.html#l7"><code>jsaCore\baseSM.js:7</code></a>
-        </div>
-    
+/**
+* Provides the base class for all sound models
+* @module AudioResourceManager.js
+* @main AudioResourceManager.js
+* @uses jsaCore/config, jsaCore/utils
+*/
+/**
+* @class AudioResourceManager (Anonymous)
+*
+*/
+define(
+    [&quot;jsaSound/jsaCore/config&quot;, &quot;jsaSound/jsaCore/utils&quot;],
+    function AudioResourceManager(config, utils){
 
-    
-</div>
+    	var resourceManager =  {
+			&quot;m_loadedResources&quot; : {}, // stores file names (as property names) and ArrayBuffers (as property values) so audio file resources don&#x27;t have to be retrieved for than once (for example if multiple instances of a resource-using sound model are loaded). 
+			&quot;m_waitingForResource&quot;: {}, // queue of callbacks waiting for a buffer already being loaded by another caller
+
+			/**
+			* Manages audio resource loading so that only resources are only loaded once, and are stored in buffers that multiple sounds (or polyphonic sounds) can then reference.
+			* @method loadAudioResource
+			* @param {String} i_url The url of the audio resource to be loaded
+			* @param {function} i_onload function to be called when loaded. Will be passed the buffer that the audio resource has been loaded in to. 
+			*/
+			&quot;loadAudioResource&quot;: function(i_url, i_onload){
+
+					var xhr = new XMLHttpRequest();
+
+					xhr.onerror = function (e) {
+						console.log(&quot;utils.getAudioResource xhr.onload error for &quot; + i_url + &quot;.&quot;)
+						console.error(e);
+					};
+
+					var onDecode=function(b){
+						resourceManager.m_loadedResources[i_url]=b;
+						i_onload(b);
+						// and same for those waiting for this resource
+						while (resourceManager.m_waitingForResource[i_url].length &gt; 0){
+							//console.log(&quot;OK, got the resource I was waiting for!&quot;);
+							resourceManager.m_waitingForResource[i_url].shift()(b);						
+						}
+
+					}
+
+					xhr.onload = function () {
+						console.log(&quot;Sound(s) loaded&quot;);
+						config.audioContext.decodeAudioData(xhr.response, onDecode, xhr.onerror);
+					};
 
 
+					if (resourceManager.m_loadedResources.hasOwnProperty(i_url)){
+						if (resourceManager.m_loadedResources[i_url]===&quot;loading&quot;){
+							// queue up call back
+							//console.log(&quot;Somebody else is loading this resource, wait for it....!&quot;)
+							resourceManager.m_waitingForResource[i_url].push(i_onload);
+							return;
+						} // else return the buffer previously loaded to the caller. 
+						console.log(&quot;The url, &quot; + i_url + &quot;was previously loaded. UReturning loaded buffer to caller&quot;);
+						onDecode(resourceManager.m_loadedResources[i_url]);
+						return;
+					} else {
+						resourceManager.m_loadedResources[i_url]=&quot;loading&quot;;
+						resourceManager.m_waitingForResource[i_url]=[];
 
-<div class="box intro">
-    <p>Provides the base class for all sound models</p>
+						xhr.open(&#x27;GET&#x27;, utils.freesoundfix(i_url), true);
+						xhr.responseType = &#x27;arraybuffer&#x27;;
+						xhr.send();	
+					}
+			}
+		}
 
-</div>
+		return resourceManager.loadAudioResource;
+    }
+);
 
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/baseSM (Anonymous).html">
-                        baseSM (Anonymous)
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

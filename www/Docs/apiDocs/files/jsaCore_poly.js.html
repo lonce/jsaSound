@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>baseSM.js - The jsaSound API</title>
+    <title>jsaCore\poly.js - The jsaSound API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -108,50 +108,141 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>baseSM.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: jsaCore\poly.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+	The reason I use a soundbank is because I can&#x27;t figure out how and when 
+	ScriptAudioNodes are released (or not), so I can&#x27;t just get a new sound from 
+	the factory every time an event starts or else the system becomes bogged down 
+	in calls to the ScriptAudioNode generate audio functions!!!
+*/
+/**
+* Provides polyphonic support
+* @module poly.js
+* @main poly.js
+*/
+/**
+* @class poly (Anonymous)
+*
+*/
+define(
+	[&quot;jsaSound/jsaCore/config&quot;],
+	function (config) {
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/jsaCore_baseSM.js.html#l7"><code>jsaCore\baseSM.js:7</code></a>
-        </div>
-    
 
-    
-</div>
+    /**
+    * Creates a pool of instances of a sound model so that they can be played polyphonically
+    * @method (anonymous function named on module load)
+    * @param {sound model factor} funciton to be used for creating instances of a sound model
+    * @param {number} poly How large the pool (maximum polyphony) should be
+    * @parameter (audioNode) node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)
+    * returns the &quot;soundbank&quot; that exposes 
+    */
+       return function (sndFactory, poly, i_outNode) {
+
+    	   var soundbank = {};
+    	   var m_maxPolyphony;
+
+            var m_polyNum; 
+            var snds=[];   
+
+            var outNode;
+
+            /**
+            * Sets a parameter value (on all polyphonic instances in the pool)
+            * @method setParam
+            * @param {String} parameter name
+            * @param {number} parameter value
+            */
+            soundbank.setParam = function(name, val){
+                    for (var i=0;i&lt;m_maxPolyphony;i++){
+                         snds[i].setParam(name, val);   
+                    }
+            }
+
+ 
+            /**
+            * Sets a normalized parameter value (in [0,1] (on all polyphonic instances in the pool)
+            * @method setParamNorm
+            * @param {String} parameter name
+            * @param {number} parameter value
+            */
+           soundbank.setParamNorm = function(name, val){
+                    for (var i=0;i&lt;m_maxPolyphony;i++){
+                         snds[i].setParamNorm(name, val);   
+                    }
+            }
 
 
+            /**
+            * gets an available sound from the polyphony pool
+            * @method getSnd
+            */
+            soundbank.getSnd = function(){
+    		   var i=0;
+                nextSndNum=m_polyNum;
 
-<div class="box intro">
-    <p>Provides the base class for all sound models</p>
+                //console.log(&quot;soundbank.getSnd:  nextSndNum = &quot; + nextSndNum);
 
-</div>
+            	while(i&lt;m_maxPolyphony) {
+            		nextSndNum=(nextSndNum+1)%m_maxPolyphony;
+                                  
+            		if (! snds[nextSndNum].polyLock){
+            			snds[nextSndNum].polyLock=true; 
+                        
+                        if (snds[nextSndNum].hasOutputs()){
+                            snds[nextSndNum].connect(outNode); // collect audio from children output nodes into gainLevelNode 
+                        }
+
+                        m_polyNum=nextSndNum;
+                        //console.log(&quot;poly getSnd num &quot; + snds[nextSndNum].polyNum)
+            			return snds[nextSndNum];
+            		} else{
+            			i=i+1;
+            		}
+            	}
+
+                    
+            	console.log(&quot;No sounds currently available - reached maximum polyphony&quot;);
+            	return undefined;
+            }
+
+            var releaseSnd = function(snd){
+
+            }
+
+//            soundbank.addSnd = function(sndFactory, poly, i_outNode){
+            outNode=i_outNode;
+
+            m_maxPolyphony=poly;
+            for(var i=0;i&lt;poly;i++){
+                snds[i]=sndFactory();
+                snds[i].polyLock=false;
+                snds[i].polyNum=i;
+                snds[i].on(&quot;stop&quot;, function(e){
+                    //console.log(&quot;releaseSnd&quot;);
+                    e.snd.polyLock=false;
+                    /*
+                    if (e.snd.hasOutputs()){
+                        //console.log(&quot;poly stop callback, snd &quot; + e.snd.polyNum );
+                        e.snd.disconnect(); // collect audio from children output nodes into gainLevelNode 
+                    }
+                    */
+                });
+
+            }
+            m_polyNum=0;
 
 
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
             
-                <li class="module-class">
-                    <a href="../classes/baseSM (Anonymous).html">
-                        baseSM (Anonymous)
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
 
-    <div class="yui3-u-1-2">
-        
-    </div>
+            return soundbank;
+        }
+});
+
+    </pre>
 </div>
 
                     </div>

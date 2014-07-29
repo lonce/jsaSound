@@ -5,7 +5,7 @@
 * @uses jsaCore/config, jsaCore/utils, scripts/recorderjs/recorder, jsaCore/GraphNode, jsaCore/audioResourceManager, jsaCore/eQueue
 */
 /**
-* Class factory for sound models
+* Base factory for sound models
 * @class baseSM (Anonymous)
 *
 */
@@ -29,14 +29,16 @@ define(
 	function (config, utils, r, GraphNode, resourceManager, queueFactory) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 
 	/**
-	* Factory for sound models, returned by loading this module.
-	* @method Anonymous - returned on module load 
-	* @param {AudioNode} i_node I forget. 
-	* @param {Audio Node Array} input nodes to make available for connections from other models and nodes
-	* @param {AudioNodeArray} output nodes to make available for connections to other models and nodes
-	* @return the sound model interface
-	*
-	*/		
+	* Wraps an audio node graph in to a new "GraphNode" that can be connected in an audio graph just like a Web Audio API audioNode ().
+	* The GraphNode returned also provides the generic interface (play, stop, setParam) for control.
+	* Also provides methods the sound modeler uses to, for example, register parameters to expose to users. 
+	* 
+	* @method (baseSM object named when file is loaded)
+	* @param i_node  should be empty literal object {}
+	* @param i_inputs an array of audio nodes that can be use to connect to this GraphNode
+	* @param i_outputs an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations
+	* @return The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model.
+	*/
 	return function (i_node, i_inputs, i_outputs) {
 
 			var that=this;
@@ -56,13 +58,6 @@ define(
 			};
 
 			var bsmInterface =  GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
-
-			/*
-			var m_graphNode;
-			var bsmInterface = function(i_node, i_inputs, i_outputs){
-				return GraphNode(m_graphNode, i_inputs || [], i_outputs || []);
-			}
-			*/
 
 			bsmInterface.nodeType="GraphNode";
 			bsmInterface.isPlaying=false;

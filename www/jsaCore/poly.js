@@ -4,10 +4,28 @@
 	the factory every time an event starts or else the system becomes bogged down 
 	in calls to the ScriptAudioNode generate audio functions!!!
 */
+/**
+* Provides polyphonic support
+* @module poly.js
+* @main poly.js
+*/
+/**
+* @class poly (Anonymous)
+*
+*/
 define(
 	["jsaSound/jsaCore/config"],
 	function (config) {
 
+
+    /**
+    * Creates a pool of instances of a sound model so that they can be played polyphonically
+    * @method (anonymous function named on module load)
+    * @param {sound model factor} funciton to be used for creating instances of a sound model
+    * @param {number} poly How large the pool (maximum polyphony) should be
+    * @parameter (audioNode) node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)
+    * returns the "soundbank" that exposes 
+    */
        return function (sndFactory, poly, i_outNode) {
 
     	   var soundbank = {};
@@ -18,14 +36,36 @@ define(
 
             var outNode;
 
+            /**
+            * Sets a parameter value (on all polyphonic instances in the pool)
+            * @method setParam
+            * @param {String} parameter name
+            * @param {number} parameter value
+            */
             soundbank.setParam = function(name, val){
                     for (var i=0;i<m_maxPolyphony;i++){
                          snds[i].setParam(name, val);   
                     }
             }
 
+ 
+            /**
+            * Sets a normalized parameter value (in [0,1] (on all polyphonic instances in the pool)
+            * @method setParamNorm
+            * @param {String} parameter name
+            * @param {number} parameter value
+            */
+           soundbank.setParamNorm = function(name, val){
+                    for (var i=0;i<m_maxPolyphony;i++){
+                         snds[i].setParamNorm(name, val);   
+                    }
+            }
 
 
+            /**
+            * gets an available sound from the polyphony pool
+            * @method getSnd
+            */
             soundbank.getSnd = function(){
     		   var i=0;
                 nextSndNum=m_polyNum;
