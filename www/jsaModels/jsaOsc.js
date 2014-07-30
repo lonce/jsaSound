@@ -49,8 +49,9 @@ define(
 				gainEnvNode.connect(gainLevelNode);
 			};
 
-			// define the PUBLIC INTERFACE for the model	
+			// define the PUBLIC INTERFACE object for the model	
 			var myInterface = baseSM({},[],[gainLevelNode]);
+
 			console.log("now I have output nodes");
 			myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
@@ -85,15 +86,14 @@ define(
 			};
 
 			myInterface.registerParam(
-				"Frequency",
-				"range",
+				"Frequency",			// the name the user will use to interact with this parameter
+				"range",				// the type of the parameter
 				{
-					"min": 200,
-					"max": 1000,
-					"val": m_frequency
+					"min": 200,			// minimum value
+					"max": 1000,		// maximum value
+					"val": m_frequency  //a variable used to remember value across start/stops
 				},
-				function (i_freq) {
-					//console.log("in sm.setFreq, oscNode = " + oscNode);
+				function (i_freq) {		// function to call when the parameter is changed
 					m_frequency = i_freq;
 					oscNode && (oscNode.frequency.value = m_frequency);
 				}
@@ -165,14 +165,17 @@ define(
 				var now = config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
+				// ramp gain down to zero over the duration of m_releaseTime
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				oscNode && oscNode.isPlaying && oscNode.stop(stopTime);
-				if (oscNode) oscNode.isPlaying=false; // WHY DOES THIS NOT WORK: sourceNode && sourceNode.isPlaying=false;
-
+				// when release is finished, stop everything 
 				myInterface.schedule(stopTime,  function () {
+					if (oscNode && oscNode.isPlaying){
+						oscNode.stop();
+						oscNode.isPlaying=false; 
+					} 
 					myInterface.stop();
 				});
 			};

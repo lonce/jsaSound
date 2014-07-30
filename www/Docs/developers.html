@@ -1,0 +1,129 @@
+<!--
+This jsaSound Code is distributed under LGPL 3
+Copyright (C) 2012 National University of Singapore
+Inquiries: director@anclab.org
+
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or any later version.
+This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNULesser General Public License for more details.
+You should have received a copy of the GNU General Public License and GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+	 	<!--
+		This code demonstrates 
+		a) Using a dynamically created list selector to choose sound jsaModels,
+		b) a dynamically created "Player" to display sliders for sound model parameters
+		-->
+		<link rel="stylesheet" type="text/css" href="../css/jsaSound.css">
+		<title>jsaSound</title>
+		<meta name="description" content="jsaSound: an interactive sound library">
+
+	</head>
+	<body>
+		<h1><center>jsaSound for Sound Modelers</center></h1>
+		<p >
+			jsaSndLib helps you do 2 things:
+			<ol>
+				<li> Provide your sound users with a simple and consistent API so your sounds are easy to use and reuse in different applications, and 
+				</li>
+				<li> Provide you with some tools to support the development of rich and interesting interactive sound models. 
+				</li>  
+			</ol>
+		</p>
+		<hr>
+
+		<b> There are <a href="apiDocs/index.html">docs</a>, but examples might be more helpful. </b> 
+
+		<p>
+		You will typically create your sound models by connecting audioNodes together just as your normally do when using the WebAudio API. Then use the jsaSound Library magic.<br> 
+		There is a "base sound model" function object that gives you:
+			<ol>
+				<li> the interface methods that users call to interact with the model (play(), release(), stop(), setParam(), setParamNorm()), 
+				</li>
+				<li> callbacks to onPlay(), onRelease(), onStop() for you to use for sound-specific actions, 
+				</li> 
+				<li> methods for loading resources, queueing events in the future, etc.,
+				</li>
+				<li> a wrapper that makes your entire sound model "quack like an audioNode", so that you can use it in audio graphs (using connect()) with other Web Audio audioNodes. The provider of this ultra-useful capability is Kumar Subramanian who calls these things GraphNodes.
+				</li>
+			</ol>
+			This is the object your sound model factory returns to provide access to the interface. Hence you call it thus:<br>
+			<img src="dev_images/GraphNode.jpg"><br>
+			The last argument is an array of nodes your model will use to connect to other audioNodes. The second argument is an array of nodes that other audioNodes will use to connect to your model. The first argument is a mystery argument.
+		</p>
+
+
+		<p> One of the key features of jsaSound is the standardized interface it presents to the world. <br>
+			To expose a parameter for the model user:<br>
+			<img src="dev_images/registerParam.jpg"><br>
+			After that, model users can call the setParam and getParam family of methods in the jsaSound user interface. 
+		</p>
+
+		<div id="API" >
+			<div id="APItext">
+				play()<br>
+				release()<br>
+				stop()<br>
+				<br>
+				setParam([name, number],val)<br>
+				setParamNorm([name, number], val)<br>
+				<br>
+				getParam([name, number], ["name", "type", "val", "normval", "min","max"]) // type can return "range" or "url"<br>
+				<br>
+				getNumParams()<br>
+				getAboutText();<br>
+			</div>
+		</div>
+		<br>
+	<hr>
+		So here is an example using the basic jsaSound facilities described above. I create a Formant synthesizer model with parameters for setting each of four formants. Then I construct a Vowel sound model that uses the Formant synthesizer just like an audioNode:<br>
+		First, I create create an instance of the Formant model:<br>
+		<img src="dev_images/formantSynthFactory.jpg"><br>
+		then I connect it to my Vowel model gain node:<br>
+		<img src="dev_images/formantSynthConnect.jpg"><br>
+		Now my Vowel model uses the "user" API for the Formant model to control it:<br>
+		<img src="dev_images/formantSynthSetParam.jpg"><br>
+		If you want to register a parameter of a jsaSound model you are using like an audioNode on the model that is using it, there is a handy shorthand for that:
+		<br>
+		<img src="dev_images/formantSynthRegisterParam.jpg"><br>
+		which causes the FormantSynth paramters to show up as user paramters on the Vowel model.<br>
+	<hr>
+
+		A few other things you can do with the jsaSound tools:<br>
+		<ul>
+			<li> <b>Schedule function calls</b> in the future (like setTimeout, but it manages a single queue for lots of events to use fewer timer resources). Good for rhythmic patterns or for stopping sounds after a "release" segment. 
+			</li>
+			<li> Use the <b>poly object</b> to create a pool of instances of sound models so you don't have to keep track of them all yourself, 
+			</li>
+			<li> Use what is still a very small collection of <b>"OpCodes"</b> for creating objects that hide unsightly Web Audio API verbosity, 
+			</li>
+			<li> Load and manage audio resources. The <b>audio resource manager</b> insures that a network request is only made once for a given audio URL (no matter how many models or polyphonic pools need it, and hides all the XMLHttpRequest nonsense from you, as well). The loadAudioResources method does it all, calling a function you provide to receive your buffer all ready to go.
+			</li>
+			<li> Use what is still a very small collection of <b>utils</b> for converting between MIDI notenumbers and frequencies, gain values and dB, etc., 
+			</li> 
+		</ul>
+
+	<hr>
+ 								<h3><center>Examples</center></h3>
+	But the jsaSound project has it roots in creating a standard API for all sound models so that any application (and web developer) could use any and all sound models in a consistent way. Some examples: 
+	<ul>
+		<li>  The "slider box" controller (at <a href="http://animatedsoundworks.com:8001"> aniamtedsoundowrks.com </a>).
+		</li>
+		<li> The <a href="http://animatedsoundworks.com:8020/"> dynamic score interface </a> (the applicaiton is a shared graphical space for notating gestures that control sound models on a scrolling score),
+		</li>
+		<li> Sound tied to graphical behavior.
+		</li>
+	</ul> 
+
+            
+		<hr>
+		<div id="footer">
+			<div id="Credits">
+				<a href="http://anclab.org">Arts and Creativity Lab, IDMI</a> / <a href="http://www.fas.nus.edu.sg/cnm/">Communications and New Media Department, National University of Singapore</a><br> 
+				<b>Code:</b> <a href="https://github.com/lonce/jsaSound"> https://github.com/lonce/jsaSound</a> <br />
+				<b>Contributors: Lonce Wyse, Kumar Subramanian, Pallav Shinghal</b>
+			</div>
+		</div>
+	</body>
+</html>

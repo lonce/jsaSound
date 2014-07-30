@@ -279,7 +279,7 @@ define(
 				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});				
 				bsmInterface.isPlaying=false;
 				if ((bsmInterface.getNumOutConnections() != 0) && (! isRecording)){
-                    //console.log("disconnecting output on stop");
+                    console.log("disconnecting output on stop");
                     bsmInterface.disconnect();
                 }		
 			};

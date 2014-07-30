@@ -40,9 +40,12 @@ define(
 			var setVoiceData = function(i_type, i_vowel){
 				var m_dataSelect=voiceData[i_type][i_vowel];
 				for(i=0;i<k_numFormants; i++){
+
 					formantSynthNode.setParam("Center Frequency " + i, m_dataSelect.F[i]);
+					
 					formantSynthNode.setParam("Filter Q " + i, m_dataSelect.F[i]/m_dataSelect.B[i]);
 					formantSynthNode.setParam("Filter Gain " + i, utils.dB2Ratio(m_dataSelect.G[i]));
+
 				};
 			};
 
@@ -53,11 +56,15 @@ define(
 
 			// Create the nodes and thier connections. Runs once on load
 			var buildModelArchitecture = (function () {
+
 				formantSynthNode = formantSynthFactory();
+
 				setVoiceData(m_voices[m_voiceIdx], m_vowels[m_vowelIdx]);
 				//gainLevelNode = config.audioContext.createGain();
 				gainLevelNode.gain.value = m_gainLevel;
+
 				formantSynthNode.connect(gainLevelNode);
+
 			}());
 
 
