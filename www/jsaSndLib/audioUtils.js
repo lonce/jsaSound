@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 * @main audioUtils.js
 */
 /**
-* @class audioUtil (Anonymous)
+* @class audioUtils 
 *
 */
 define(
@@ -71,7 +71,6 @@ define(
 		audioUtils.dB2Ratio = function (i_dB ){
 			return Math.pow(10.0, i_dB/20.0);
 		}
-
 
 		return audioUtils;
 	}

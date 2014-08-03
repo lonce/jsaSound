@@ -1,0 +1,36 @@
+html, body
+{
+	background-color:black;
+	background-repeat: no-repeat;
+	-webkit-user-select: none;
+	height:100%;
+}
+h3,h4 {color:white;
+	-webkit-user-select: none;
+	text-align: center
+}
+
+#myCanvas
+{
+  width:  100%;
+  height: 100%;
+  margin: 0px;	
+  -webkit-user-select: none;
+}
+
+
+div#app {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-webkit-user-select: none;
+}
+#footer{
+	position:absolute; 
+	bottom:0; 
+	color:"blue";
+	margin-left: auto;
+    margin-right: auto;
+}
+

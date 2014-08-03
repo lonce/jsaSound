@@ -160,7 +160,7 @@ var requirejs, require, define;
      * @param {String} message human readable error.
      * @param {Error} [err] the original error, if there is one.
      *
-     * @returns {Error}
+     * @return {Error}
      */
     function makeError(id, msg, err, requireModules) {
         var e = new Error(msg + '\nhttp://requirejs.org/docs/errors.html#' + id);
@@ -262,7 +262,7 @@ var requirejs, require, define;
          * to.
          * @param {Boolean} applyMap apply the map config to the value. Should
          * only be done if this normalization is for a dependency ID.
-         * @returns {String} normalized name
+         * @return {String} normalized name
          */
         function normalize(name, baseName, applyMap) {
             var pkgMain, mapValue, nameParts, i, j, nameSegment, lastIndex,
@@ -409,7 +409,7 @@ var requirejs, require, define;
          * @param {Boolean} applyMap: apply the map config to the ID.
          * Should only be true if this map is for a dependency.
          *
-         * @returns {Object}
+         * @return {Object}
          */
         function makeModuleMap(name, parentModuleMap, isNormalized, applyMap) {
             var url, pluginModule, suffix, nameParts,
@@ -1198,7 +1198,7 @@ var requirejs, require, define;
          * Given an event from a script node, get the requirejs info from it,
          * and then removes the event listeners on the node.
          * @param {Event} evt
-         * @returns {Object}
+         * @return {Object}
          */
         function getScriptData(evt) {
             //Using currentTarget instead of target for Firefox 2.0's sake. Not

@@ -6,7 +6,7 @@
 */
 /**
 * Base factory for sound models
-* @class baseSM (Anonymous)
+* @class baseSM (Function)
 *
 */
 /* ---------------------------------------------------------------------------------------
@@ -29,15 +29,15 @@ define(
 	function (config, utils, r, GraphNode, resourceManager, queueFactory) { // dont actually use this "steller" variable, but rather the global name space setup in jsasteller.
 
 	/**
-	* Wraps an audio node graph in to a new "GraphNode" that can be connected in an audio graph just like a Web Audio API audioNode ().
+	* Creates a new "GraphNode" that can be connected in an audio graph just like a Web Audio API audioNode ().
 	* The GraphNode returned also provides the generic interface (play, stop, setParam) for control.
 	* Also provides methods the sound modeler uses to, for example, register parameters to expose to users. 
 	* 
-	* @method (baseSM object named when file is loaded)
-	* @param i_node  should be empty literal object {}
-	* @param i_inputs an array of audio nodes that can be use to connect to this GraphNode
-	* @param i_outputs an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations
-	* @return The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model.
+	* @method (baseSM)
+	* @param {Object} i_node  should be empty literal object {}
+	* @param {audioNode Array} i_inputs an array of audio nodes that can be use to connect to this GraphNode
+	* @param {audioNode Array} i_outputs an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations
+	* @return {Interface Object} The object used as "the model" providing the  interface for configuring and controling. All other methods in this module belong to this object.
 	*/
 	return function (i_node, i_inputs, i_outputs) {
 
@@ -115,7 +115,7 @@ define(
 
 			/** 
 			* @method getNumParams
-			* @return the number of paramters the model exposes
+			* @return {Number} the number of paramters the model exposes
 			*/
 			bsmInterface.getNumParams = function(){
 				return paramname.length;
@@ -123,7 +123,7 @@ define(
 
 			/** 
 			* @method getParamNames
-			* @return array of model parameter names
+			* @return {Array of Strings} array of model parameter names
 			*/
 			bsmInterface.getParamNames = function(){
 				return paramname;
@@ -132,7 +132,7 @@ define(
 			/** 
 			* @method getParamNames
 			* @param index index of the parameter whose name you want
-			* @return the name of the parameter with the secified index
+			* @return {String} the name of the parameter with the secified index
 			*/
 			bsmInterface.getParamName = function (index) {
 				if (index < paramname.length){
@@ -361,7 +361,14 @@ define(
 				return params[name];
 			}
 			// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+			/** 
+			* Register a param which will then be accessible through the interface functions: setParam, getParam, etc.
+			* @method registerParam 
+			* @param {Number} name the String value used to refer to this parameters
+			* @param {string} the jsaSound type of the parameter (either "range" or "URL"), the latter of which would better be called a string parameter. 
+			* @param {Object} with three numberical properties: ("min", "max", and "val"), the minimumum, maximum, and default values of the parameter. 
+			* @param {Function} function to execute when the parameter is set with setParam()
+			*/
 			bsmInterface.registerParam(
 				"play",
 				//"discrete range",

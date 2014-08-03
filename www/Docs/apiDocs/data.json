@@ -7,165 +7,95 @@
         "logo": "http://anclab.org/wp-content/themes/atahualpa/images/header/anclab_header.jpg"
     },
     "files": {
-        "jsaCore\\audioResourceManager.js": {
-            "name": "jsaCore\\audioResourceManager.js",
-            "modules": {
-                "AudioResourceManager.js": 1
-            },
-            "classes": {
-                "AudioResourceManager (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "jsaCore\\audioUtils.js": {
-            "name": "jsaCore\\audioUtils.js",
-            "modules": {
-                "audioUtils.js": 1
-            },
-            "classes": {
-                "audioUtil (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "jsaCore\\baseSM.js": {
-            "name": "jsaCore\\baseSM.js",
-            "modules": {
-                "baseSM.js": 1
-            },
-            "classes": {
-                "baseSM (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "jsaCore\\poly.js": {
-            "name": "jsaCore\\poly.js",
-            "modules": {
-                "poly.js": 1
-            },
-            "classes": {
-                "poly (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "jsaCore\\utils.js": {
-            "name": "jsaCore\\utils.js",
-            "modules": {
-                "utils.js": 1
-            },
-            "classes": {
-                "utils (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "jsaOpCodes\\jsaConvolveNode.js": {
-            "name": "jsaOpCodes\\jsaConvolveNode.js",
+        "jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js": {
+            "name": "jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
             "modules": {
                 "jsaConvolverNode.js": 1
             },
             "classes": {
-                "jsaConvolverNode (Anonymous)": 1
+                "jsaConvolverNode (Function)": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "jsaOpCodes\\jsaEventPhasor.js": {
-            "name": "jsaOpCodes\\jsaEventPhasor.js",
+        "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js": {
+            "name": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
             "modules": {
                 "jsaEvenPhasor.js": 1
             },
             "classes": {
-                "jsaEvenPhasor (Anonymous)": 1
+                "jsaEvenPhasor (Function)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "jsaSndLib\\audioResourceManager.js": {
+            "name": "jsaSndLib\\audioResourceManager.js",
+            "modules": {
+                "AudioResourceManager.js": 1
+            },
+            "classes": {
+                "AudioResourceManager": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "jsaSndLib\\audioUtils.js": {
+            "name": "jsaSndLib\\audioUtils.js",
+            "modules": {
+                "audioUtils.js": 1
+            },
+            "classes": {
+                "audioUtils": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "jsaSndLib\\baseSM.js": {
+            "name": "jsaSndLib\\baseSM.js",
+            "modules": {
+                "baseSM.js": 1
+            },
+            "classes": {
+                "baseSM (Function)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "jsaSndLib\\poly.js": {
+            "name": "jsaSndLib\\poly.js",
+            "modules": {
+                "poly.js": 1
+            },
+            "classes": {
+                "poly (Function)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "jsaSndLib\\utils.js": {
+            "name": "jsaSndLib\\utils.js",
+            "modules": {
+                "utils.js": 1
+            },
+            "classes": {
+                "utils": 1
             },
             "fors": {},
             "namespaces": {}
         }
     },
     "modules": {
-        "AudioResourceManager.js": {
-            "name": "AudioResourceManager.js",
-            "submodules": {},
-            "classes": {
-                "AudioResourceManager (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "main",
-            "file": "jsaCore\\audioResourceManager.js",
-            "line": 8,
-            "description": "Provides the base class for all sound models",
-            "itemtype": "main"
-        },
-        "audioUtils.js": {
-            "name": "audioUtils.js",
-            "submodules": {},
-            "classes": {
-                "audioUtil (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "main",
-            "file": "jsaCore\\audioUtils.js",
-            "line": 15,
-            "description": "Provides some basic utilities",
-            "itemtype": "main"
-        },
-        "baseSM.js": {
-            "name": "baseSM.js",
-            "submodules": {},
-            "classes": {
-                "baseSM (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "main",
-            "file": "jsaCore\\baseSM.js",
-            "line": 7,
-            "description": "Provides the base class for all sound models",
-            "itemtype": "main"
-        },
-        "poly.js": {
-            "name": "poly.js",
-            "submodules": {},
-            "classes": {
-                "poly (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "main",
-            "file": "jsaCore\\poly.js",
-            "line": 12,
-            "description": "Provides polyphonic support",
-            "itemtype": "main"
-        },
-        "utils.js": {
-            "name": "utils.js",
-            "submodules": {},
-            "classes": {
-                "utils (Anonymous)": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "main",
-            "file": "jsaCore\\utils.js",
-            "line": 15,
-            "description": "Provides some basic utilities",
-            "itemtype": "main"
-        },
         "jsaConvolverNode.js": {
             "name": "jsaConvolverNode.js",
             "submodules": {},
             "classes": {
-                "jsaConvolverNode (Anonymous)": 1
+                "jsaConvolverNode (Function)": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "main",
-            "file": "jsaOpCodes\\jsaConvolveNode.js",
+            "file": "jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
             "line": 6,
             "description": "Creates a convolver node",
             "itemtype": "main"
@@ -174,87 +104,91 @@
             "name": "jsaEvenPhasor.js",
             "submodules": {},
             "classes": {
-                "jsaEvenPhasor (Anonymous)": 1
+                "jsaEvenPhasor (Function)": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "main",
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
             "line": 19,
             "description": "Creates a phasor that can be used to time period events even period is changing",
+            "itemtype": "main"
+        },
+        "AudioResourceManager.js": {
+            "name": "AudioResourceManager.js",
+            "submodules": {},
+            "classes": {
+                "AudioResourceManager": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaSndLib\\audioResourceManager.js",
+            "line": 8,
+            "description": "Provides the base class for all sound models",
+            "itemtype": "main"
+        },
+        "audioUtils.js": {
+            "name": "audioUtils.js",
+            "submodules": {},
+            "classes": {
+                "audioUtils": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaSndLib\\audioUtils.js",
+            "line": 15,
+            "description": "Provides some basic utilities",
+            "itemtype": "main"
+        },
+        "baseSM.js": {
+            "name": "baseSM.js",
+            "submodules": {},
+            "classes": {
+                "baseSM (Function)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaSndLib\\baseSM.js",
+            "line": 7,
+            "description": "Provides the base class for all sound models",
+            "itemtype": "main"
+        },
+        "poly.js": {
+            "name": "poly.js",
+            "submodules": {},
+            "classes": {
+                "poly (Function)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaSndLib\\poly.js",
+            "line": 12,
+            "description": "Provides polyphonic support",
+            "itemtype": "main"
+        },
+        "utils.js": {
+            "name": "utils.js",
+            "submodules": {},
+            "classes": {
+                "utils": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "jsaSndLib\\utils.js",
+            "line": 15,
+            "description": "Provides some basic utilities",
             "itemtype": "main"
         }
     },
     "classes": {
-        "AudioResourceManager (Anonymous)": {
-            "name": "AudioResourceManager (Anonymous)",
-            "shortname": "AudioResourceManager (Anonymous)",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "AudioResourceManager.js",
-            "namespace": "",
-            "file": "jsaCore\\audioResourceManager.js",
-            "line": 8
-        },
-        "audioUtil (Anonymous)": {
-            "name": "audioUtil (Anonymous)",
-            "shortname": "audioUtil (Anonymous)",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "audioUtils.js",
-            "namespace": "",
-            "file": "jsaCore\\audioUtils.js",
-            "line": 15
-        },
-        "baseSM (Anonymous)": {
-            "name": "baseSM (Anonymous)",
-            "shortname": "baseSM (Anonymous)",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "baseSM.js",
-            "namespace": "",
-            "file": "jsaCore\\baseSM.js",
-            "line": 7,
-            "description": "Base factory for sound models"
-        },
-        "poly (Anonymous)": {
-            "name": "poly (Anonymous)",
-            "shortname": "poly (Anonymous)",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "poly.js",
-            "namespace": "",
-            "file": "jsaCore\\poly.js",
-            "line": 12
-        },
-        "utils (Anonymous)": {
-            "name": "utils (Anonymous)",
-            "shortname": "utils (Anonymous)",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "utils.js",
-            "namespace": "",
-            "file": "jsaCore\\utils.js",
-            "line": 15
-        },
-        "jsaConvolverNode (Anonymous)": {
-            "name": "jsaConvolverNode (Anonymous)",
-            "shortname": "jsaConvolverNode (Anonymous)",
+        "jsaConvolverNode (Function)": {
+            "name": "jsaConvolverNode (Function)",
+            "shortname": "jsaConvolverNode (Function)",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -262,12 +196,12 @@
             "extension_for": [],
             "module": "jsaConvolverNode.js",
             "namespace": "",
-            "file": "jsaOpCodes\\jsaConvolveNode.js",
+            "file": "jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
             "line": 6
         },
-        "jsaEvenPhasor (Anonymous)": {
-            "name": "jsaEvenPhasor (Anonymous)",
-            "shortname": "jsaEvenPhasor (Anonymous)",
+        "jsaEvenPhasor (Function)": {
+            "name": "jsaEvenPhasor (Function)",
+            "shortname": "jsaEvenPhasor (Function)",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -275,13 +209,243 @@
             "extension_for": [],
             "module": "jsaEvenPhasor.js",
             "namespace": "",
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
             "line": 19
+        },
+        "AudioResourceManager": {
+            "name": "AudioResourceManager",
+            "shortname": "AudioResourceManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "AudioResourceManager.js",
+            "namespace": "",
+            "file": "jsaSndLib\\audioResourceManager.js",
+            "line": 8
+        },
+        "audioUtils": {
+            "name": "audioUtils",
+            "shortname": "audioUtils",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "audioUtils.js",
+            "namespace": "",
+            "file": "jsaSndLib\\audioUtils.js",
+            "line": 15
+        },
+        "baseSM (Function)": {
+            "name": "baseSM (Function)",
+            "shortname": "baseSM (Function)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "baseSM.js",
+            "namespace": "",
+            "file": "jsaSndLib\\baseSM.js",
+            "line": 7,
+            "description": "Base factory for sound models"
+        },
+        "poly (Function)": {
+            "name": "poly (Function)",
+            "shortname": "poly (Function)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "poly.js",
+            "namespace": "",
+            "file": "jsaSndLib\\poly.js",
+            "line": 12
+        },
+        "utils": {
+            "name": "utils",
+            "shortname": "utils",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.js",
+            "namespace": "",
+            "file": "jsaSndLib\\utils.js",
+            "line": 15
         }
     },
     "classitems": [
         {
-            "file": "jsaCore\\audioResourceManager.js",
+            "file": "jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
+            "line": 15,
+            "description": "Creates convolver node based on the audio resource from a URL",
+            "itemtype": "method",
+            "name": "(jsaConvolverNode)",
+            "params": [
+                {
+                    "name": "soundUrl",
+                    "description": "name of audio resource to use as convolution kernel",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Web Audio API convolver node"
+            },
+            "class": "jsaConvolverNode (Function)",
+            "module": "jsaConvolverNode.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 27,
+            "description": "Creates a phasor used to periodically trigger events",
+            "itemtype": "method",
+            "name": "(jsaEvenPhasor)",
+            "return": {
+                "description": "Interface object for controlling the eventPhasor containing all the other methods in this module."
+            },
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 44,
+            "description": "Sets the time",
+            "itemtype": "method",
+            "name": "setCurrentTime",
+            "params": [
+                {
+                    "name": "time",
+                    "description": "(in secs)",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 53,
+            "description": "Sets the phaser to a specific phase",
+            "itemtype": "method",
+            "name": "setPhase",
+            "params": [
+                {
+                    "name": "phase",
+                    "description": "in [0,1]",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 62,
+            "description": "Get the current phse",
+            "itemtype": "method",
+            "name": "getPhase",
+            "params": [
+                {
+                    "name": "phase",
+                    "description": "in [0,1]",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 71,
+            "description": "Sets the frequency that the phase will move (revolutions per second)",
+            "itemtype": "method",
+            "name": "setFreq",
+            "type": "Number",
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 79,
+            "description": "Advance the time rotating the phasor accorording to its frequency.",
+            "itemtype": "method",
+            "name": "advance",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "of time to advance",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "current phase",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 90,
+            "description": "Set the time of the phasor rotating if from its current position as necessary",
+            "itemtype": "method",
+            "name": "advanceToTime",
+            "params": [
+                {
+                    "name": "The",
+                    "description": "time to advance the phasor to.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "current phase",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 103,
+            "description": "Advances the time to that of next zero phase (which is when it \"ticks\")",
+            "itemtype": "method",
+            "name": "advanceToTick",
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 112,
+            "description": "Advances the time to that of next zero phase (which is when it \"ticks\")",
+            "itemtype": "method",
+            "name": "nextTickTime",
+            "return": {
+                "description": "time in sseconds",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 124,
+            "description": "Get the time between now and the next tick",
+            "itemtype": "method",
+            "name": "timeToTick",
+            "return": {
+                "description": "the amount of time until next tick",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Function)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "jsaSndLib\\audioResourceManager.js",
             "line": 20,
             "description": "Manages audio resource loading so that only resources are only loaded once, and are stored in buffers that multiple sounds (or polyphonic sounds) can then reference.",
             "itemtype": "method",
@@ -298,11 +462,11 @@
                     "type": "Function"
                 }
             ],
-            "class": "AudioResourceManager (Anonymous)",
+            "class": "AudioResourceManager",
             "module": "AudioResourceManager.js"
         },
         {
-            "file": "jsaCore\\audioUtils.js",
+            "file": "jsaSndLib\\audioUtils.js",
             "line": 50,
             "description": "Converts note names (eg. Eb2, F#, A4) into frequency values",
             "itemtype": "method",
@@ -318,11 +482,11 @@
                 "description": "frequency value",
                 "type": "Number"
             },
-            "class": "audioUtil (Anonymous)",
+            "class": "audioUtils",
             "module": "audioUtils.js"
         },
         {
-            "file": "jsaCore\\audioUtils.js",
+            "file": "jsaSndLib\\audioUtils.js",
             "line": 64,
             "description": "Converts db values in [-inf, 0] into \"gain\" values in [0,1]\nfor example, 0 dB yields 1, -6 dB yields .5",
             "itemtype": "method",
@@ -338,37 +502,41 @@
                 "description": "gain  value 10^(dB/20)",
                 "type": "Number"
             },
-            "class": "audioUtil (Anonymous)",
+            "class": "audioUtils",
             "module": "audioUtils.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 31,
-            "description": "Wraps an audio node graph in to a new \"GraphNode\" that can be connected in an audio graph just like a Web Audio API audioNode ().\nThe GraphNode returned also provides the generic interface (play, stop, setParam) for control.\nAlso provides methods the sound modeler uses to, for example, register parameters to expose to users.",
+            "description": "Creates a new \"GraphNode\" that can be connected in an audio graph just like a Web Audio API audioNode ().\nThe GraphNode returned also provides the generic interface (play, stop, setParam) for control.\nAlso provides methods the sound modeler uses to, for example, register parameters to expose to users.",
             "itemtype": "method",
-            "name": "(baseSM object named when file is loaded)",
+            "name": "(baseSM)",
             "params": [
                 {
                     "name": "i_node",
-                    "description": "should be empty literal object"
+                    "description": "should be empty literal object {}",
+                    "type": "Object"
                 },
                 {
                     "name": "i_inputs",
-                    "description": "an array of audio nodes that can be use to connect to this GraphNode"
+                    "description": "an array of audio nodes that can be use to connect to this GraphNode",
+                    "type": "AudioNode Array"
                 },
                 {
                     "name": "i_outputs",
-                    "description": "an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations"
+                    "description": "an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations",
+                    "type": "AudioNode Array"
                 }
             ],
             "return": {
-                "description": "The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model."
+                "description": "The object used as \"the model\" providing the  interface for configuring and controling. All other methods in this module belong to this object.",
+                "type": "Interface Object"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 65,
             "itemtype": "method",
             "name": "setAboutText",
@@ -379,11 +547,11 @@
                     "type": "String"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 73,
             "itemtype": "method",
             "name": "getAboutText",
@@ -391,11 +559,11 @@
                 "description": "text descritption of model, hints, created with setAboutText",
                 "type": "String"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 80,
             "description": "Creates a parameter that will be used to control the model and provide information",
             "itemtype": "method",
@@ -422,11 +590,11 @@
                     "type": "String"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 103,
             "description": "Grabs a parameter from a child model, registers it on this model, and just reflects all calls to the child",
             "itemtype": "method",
@@ -450,33 +618,35 @@
                     "optdefault": "childPname"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 116,
             "itemtype": "method",
             "name": "getNumParams",
             "return": {
-                "description": "the number of paramters the model exposes"
+                "description": "the number of paramters the model exposes",
+                "type": "Number"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 124,
             "itemtype": "method",
             "name": "getParamNames",
             "return": {
-                "description": "array of model parameter names"
+                "description": "array of model parameter names",
+                "type": "Array of Strings"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 132,
             "itemtype": "method",
             "name": "getParamNames",
@@ -487,13 +657,14 @@
                 }
             ],
             "return": {
-                "description": "the name of the parameter with the secified index"
+                "description": "the name of the parameter with the secified index",
+                "type": "String"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 146,
             "description": "Get specified information about a parameter",
             "itemtype": "method",
@@ -513,11 +684,11 @@
             "return": {
                 "description": "the value of the property you requested"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 177,
             "description": "Set the parameter using values in [0,1]",
             "itemtype": "method",
@@ -534,11 +705,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 196,
             "description": "set the parameter using values using its own units in [min,max]",
             "itemtype": "method",
@@ -555,11 +726,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 220,
             "itemtype": "method",
             "name": "play",
@@ -570,11 +741,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 240,
             "description": "Override this in your sound model",
             "itemtype": "method",
@@ -586,11 +757,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 249,
             "itemtype": "method",
             "name": "release",
@@ -601,11 +772,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 262,
             "description": "Override this in your sound model  to send the model in to its release phase",
             "itemtype": "method",
@@ -617,11 +788,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 272,
             "description": "Stop the model from playing, disconnects it from output so it won't waste system resources anymore. Your onRelease() method should schedule or call stop when it is done",
             "itemtype": "method",
@@ -633,11 +804,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 287,
             "description": "override this in your sound model  (optional)",
             "itemtype": "method",
@@ -649,11 +820,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 310,
             "description": "test a parameter number for existence",
             "itemtype": "method",
@@ -668,11 +839,11 @@
             "return": {
                 "description": "either the parmaeter name (if it exists) or undefined"
             },
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 344,
             "description": "schedule a function to run in the future (uses a queue and a single timer)",
             "itemtype": "method",
@@ -688,60 +859,99 @@
                     "description": "function to execute at time t"
                 }
             ],
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
+            "file": "jsaSndLib\\baseSM.js",
             "line": 352,
             "description": "Clear the queue of all future events for this model.",
             "itemtype": "method",
             "name": "qClear",
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
-            "line": 392,
+            "file": "jsaSndLib\\baseSM.js",
+            "line": 364,
+            "description": "Register a param which will then be accessible through the interface functions: setParam, getParam, etc.",
+            "itemtype": "method",
+            "name": "registerParam",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the String value used to refer to this parameters",
+                    "type": "Number"
+                },
+                {
+                    "name": "the",
+                    "description": "jsaSound type of the parameter (either \"range\" or \"URL\"), the latter of which would better be called a string parameter.",
+                    "type": "String"
+                },
+                {
+                    "name": "with",
+                    "description": "three numberical properties: (\"min\", \"max\", and \"val\"), the minimumum, maximum, and default values of the parameter.",
+                    "type": "Object"
+                },
+                {
+                    "name": "function",
+                    "description": "to execute when the parameter is set with setParam()",
+                    "type": "Function"
+                }
+            ],
+            "class": "baseSM (Function)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "jsaSndLib\\baseSM.js",
+            "line": 399,
             "description": "Start recording audio output from the model",
             "itemtype": "method",
             "name": "startRecording",
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\baseSM.js",
-            "line": 407,
+            "file": "jsaSndLib\\baseSM.js",
+            "line": 414,
             "description": "Stop recording audio output from the model",
             "itemtype": "method",
             "name": "stopRecording",
-            "class": "baseSM (Anonymous)",
+            "class": "baseSM (Function)",
             "module": "baseSM.js"
         },
         {
-            "file": "jsaCore\\poly.js",
+            "file": "jsaSndLib\\poly.js",
             "line": 21,
             "description": "Creates a pool of instances of a sound model so that they can be played polyphonically",
             "itemtype": "method",
-            "name": "(anonymous function named on module load)",
+            "name": "(poly)",
             "params": [
                 {
                     "name": "funciton",
                     "description": "to be used for creating instances of a sound model",
-                    "type": "Sound model factor"
+                    "type": "Sound Model Factory Function"
                 },
                 {
                     "name": "poly",
                     "description": "How large the pool (maximum polyphony) should be",
                     "type": "Number"
+                },
+                {
+                    "name": "node",
+                    "description": "that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)",
+                    "type": "AudioNode"
                 }
             ],
-            "parameter": "(audioNode) node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)\nreturns the \"soundbank\" that exposes",
-            "class": "poly (Anonymous)",
+            "return": {
+                "description": "the \"soundbank\" Interface object that exposes all the other methods in this module.",
+                "type": "Interface Object"
+            },
+            "class": "poly (Function)",
             "module": "poly.js"
         },
         {
-            "file": "jsaCore\\poly.js",
+            "file": "jsaSndLib\\poly.js",
             "line": 39,
             "description": "Sets a parameter value (on all polyphonic instances in the pool)",
             "itemtype": "method",
@@ -758,11 +968,11 @@
                     "type": "Number"
                 }
             ],
-            "class": "poly (Anonymous)",
+            "class": "poly (Function)",
             "module": "poly.js"
         },
         {
-            "file": "jsaCore\\poly.js",
+            "file": "jsaSndLib\\poly.js",
             "line": 52,
             "description": "Sets a normalized parameter value (in [0,1] (on all polyphonic instances in the pool)",
             "itemtype": "method",
@@ -779,21 +989,21 @@
                     "type": "Number"
                 }
             ],
-            "class": "poly (Anonymous)",
+            "class": "poly (Function)",
             "module": "poly.js"
         },
         {
-            "file": "jsaCore\\poly.js",
+            "file": "jsaSndLib\\poly.js",
             "line": 65,
             "description": "gets an available sound from the polyphony pool",
             "itemtype": "method",
             "name": "getSnd",
-            "class": "poly (Anonymous)",
+            "class": "poly (Function)",
             "module": "poly.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 23,
+            "file": "jsaSndLib\\utils.js",
+            "line": 24,
             "description": "Converts db values in [-inf, 0] into \"gain\" values in [0,1]\nfor example, 0 dB yields 1, -6 dB yields .5",
             "itemtype": "method",
             "name": "dB2Ratio",
@@ -808,275 +1018,127 @@
                 "description": "gain  value 10^(dB/20)",
                 "type": "Number"
             },
-            "class": "utils (Anonymous)",
+            "class": "utils",
             "module": "utils.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 34,
+            "file": "jsaSndLib\\utils.js",
+            "line": 35,
             "description": "Get the requestAnimationFunction",
             "itemtype": "method",
             "name": "getRequestAnimationFrameFunc",
             "return": {
-                "description": "the right animationFrame funciton for the browser being used"
+                "description": "the correct version of the requestAnimationFrame funciton for the browser being used",
+                "type": "Function"
             },
-            "class": "utils (Anonymous)",
+            "class": "utils",
             "module": "utils.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 77,
+            "file": "jsaSndLib\\utils.js",
+            "line": 78,
             "description": "Get a norally distributed random number",
             "itemtype": "method",
             "name": "nrand",
             "params": [
                 {
                     "name": "m",
-                    "description": "mean"
+                    "description": "mean",
+                    "type": "Number"
+                },
+                {
+                    "name": "sd",
+                    "description": "standard deviation",
+                    "type": "Number"
                 }
             ],
-            "para": "sd standard deviation",
             "return": {
-                "description": "",
+                "description": "normally distributed random number",
                 "type": "Number"
             },
-            "class": "utils (Anonymous)",
+            "class": "utils",
             "module": "utils.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 95,
+            "file": "jsaSndLib\\utils.js",
+            "line": 96,
             "description": "Convert midi note number (can be floating point) to a frequency value",
             "itemtype": "method",
             "name": "mtof",
             "params": [
                 {
                     "name": "m",
-                    "description": "MIDI note number"
+                    "description": "MIDI note number",
+                    "type": "Number"
                 }
             ],
             "return": {
-                "description": "",
+                "description": "the frequency of the MIDI note number",
                 "type": "Number"
             },
-            "class": "utils (Anonymous)",
+            "class": "utils",
             "module": "utils.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 105,
+            "file": "jsaSndLib\\utils.js",
+            "line": 106,
             "description": "Maps a domain of numbers [f1, f2] linearly onto a range [t1, t2]",
             "itemtype": "method",
             "name": "mapconstrain",
             "params": [
                 {
                     "name": "f1",
-                    "description": "first endpoint of domain"
+                    "description": "first endpoint of domain",
+                    "type": "Number"
                 },
                 {
                     "name": "f2",
-                    "description": "second endpoint of domain"
+                    "description": "second endpoint of domain",
+                    "type": "Number"
                 },
                 {
                     "name": "f1",
-                    "description": "first endpoint of range"
+                    "description": "first endpoint of range",
+                    "type": "Number"
                 },
                 {
                     "name": "f1",
-                    "description": "second endpoint of range"
+                    "description": "second endpoint of range",
+                    "type": "Number"
                 },
                 {
                     "name": "x",
-                    "description": "number to map"
+                    "description": "number to map",
+                    "type": "Number"
                 }
             ],
             "return": {
                 "description": "result of mapping x (not actually limited to range!)",
                 "type": "Number"
             },
-            "class": "utils (Anonymous)",
+            "class": "utils",
             "module": "utils.js"
         },
         {
-            "file": "jsaCore\\utils.js",
-            "line": 120,
-            "description": "This is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.\nThe function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.\nThe first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.\nhttp://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.\n* @method rational_tanh\n* @param {Number} x  number to be mapped\n* @return {Nubmer} tanh(x)",
-            "class": "utils (Anonymous)",
-            "module": "utils.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaConvolveNode.js",
-            "line": 15,
-            "description": "Creates convolver node based on the audio resource from a URL",
+            "file": "jsaSndLib\\utils.js",
+            "line": 121,
+            "description": "This is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.\nThe function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.\nThe first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.\nhttp://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.",
             "itemtype": "method",
-            "name": "(anonymous function named on module load)",
+            "name": "rational_tanh",
             "params": [
                 {
-                    "name": "soundUrl\nreturns",
-                    "description": "Web Audio API convolver node",
-                    "type": "String"
-                }
-            ],
-            "class": "jsaConvolverNode (Anonymous)",
-            "module": "jsaConvolverNode.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 27,
-            "description": "Creates the phasor",
-            "itemtype": "method",
-            "name": "(anonymous function named on module load)",
-            "params": [
-                {
-                    "name": "soundUrl\nreturns",
-                    "description": "Web Audio API convolver node",
-                    "type": "String"
-                }
-            ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 46,
-            "description": "Sets the time",
-            "itemtype": "method",
-            "name": "setCurrentTime",
-            "params": [
-                {
-                    "name": "time",
-                    "description": "(in secs)",
+                    "name": "x",
+                    "description": "number to be mapped",
                     "type": "Number"
                 }
             ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 55,
-            "description": "Sets the phaser to a specific phase",
-            "itemtype": "method",
-            "name": "setPhase",
-            "params": [
-                {
-                    "name": "phase",
-                    "description": "in [0,1]",
-                    "type": "Number"
-                }
-            ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 64,
-            "description": "Get the current phse",
-            "itemtype": "method",
-            "name": "getPhase",
-            "params": [
-                {
-                    "name": "phase",
-                    "description": "in [0,1]",
-                    "type": "Number"
-                }
-            ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 73,
-            "description": "Sets the frequency that the phase will move (revolutions per second)",
-            "itemtype": "method",
-            "name": "setFreq",
-            "type": "Number",
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 81,
-            "description": "Advance the time rotating the phasor accorording to its frequency.",
-            "itemtype": "method",
-            "name": "advance",
-            "params": [
-                {
-                    "name": "interval",
-                    "description": "of time to advance",
-                    "type": "Number"
-                }
-            ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 91,
-            "description": "Set the time of the phasor rotating if from its current position as necessary",
-            "itemtype": "method",
-            "name": "advanceToTime",
-            "params": [
-                {
-                    "name": "The",
-                    "description": "time to advance the phasor to.",
-                    "type": "Number"
-                }
-            ],
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 103,
-            "description": "Set the time of the phasor to 0 (which is when it \"ticks\")",
-            "itemtype": "method",
-            "name": "advanceToTick",
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 112,
-            "description": "Get the time it will be when the phasor next \"ticks\" (jumps from 1 to 0)",
             "return": {
-                "description": "the time it will be when the phasor laps."
-            },
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
-        },
-        {
-            "file": "jsaOpCodes\\jsaEventPhasor.js",
-            "line": 123,
-            "description": "Get the time between \"now\" and the next \"tick\"",
-            "return": {
-                "description": "the amount of time until next tick",
+                "description": "tanh(x)",
                 "type": "Number"
             },
-            "class": "jsaEvenPhasor (Anonymous)",
-            "module": "jsaEvenPhasor.js"
+            "class": "utils",
+            "module": "utils.js"
         }
     ],
-    "warnings": [
-        {
-            "message": "unknown tag: parameter",
-            "line": " jsaCore\\poly.js:21"
-        },
-        {
-            "message": "unknown tag: para",
-            "line": " jsaCore\\utils.js:77"
-        },
-        {
-            "message": "Missing item type\nThis is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.\nThe function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.\nThe first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.\nhttp://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.\n* @method rational_tanh\n* @param {Number} x  number to be mapped\n* @return {Nubmer} tanh(x)",
-            "line": " jsaCore\\utils.js:120"
-        },
-        {
-            "message": "Missing item type\nGet the time it will be when the phasor next \"ticks\" (jumps from 1 to 0)",
-            "line": " jsaOpCodes\\jsaEventPhasor.js:112"
-        },
-        {
-            "message": "Missing item type\nGet the time between \"now\" and the next \"tick\"",
-            "line": " jsaOpCodes\\jsaEventPhasor.js:123"
-        }
-    ]
+    "warnings": []
 }

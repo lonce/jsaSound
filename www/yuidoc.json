@@ -6,6 +6,7 @@
     "logo": "http://anclab.org/wp-content/themes/atahualpa/images/header/anclab_header.jpg",
     "options": {
         "outdir": "Docs/apiDocs",
-	    "paths": ["./jsaCore", "jsaOpCodes"]
+	    "paths": ["jsaSndLib"],
+	    "exclude": "scripts"
     }
 }

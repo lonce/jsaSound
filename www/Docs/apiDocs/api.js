@@ -1,13 +1,13 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "AudioResourceManager (Anonymous)",
-        "audioUtil (Anonymous)",
-        "baseSM (Anonymous)",
-        "jsaConvolverNode (Anonymous)",
-        "jsaEvenPhasor (Anonymous)",
-        "poly (Anonymous)",
-        "utils (Anonymous)"
+        "AudioResourceManager",
+        "audioUtils",
+        "baseSM (Function)",
+        "jsaConvolverNode (Function)",
+        "jsaEvenPhasor (Function)",
+        "poly (Function)",
+        "utils"
     ],
     "modules": [
         "AudioResourceManager.js",

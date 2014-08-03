@@ -17,20 +17,18 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 * @main jsaEvenPhasor.js
 */
 /**
-* @class jsaEvenPhasor (Anonymous)
+* @class jsaEvenPhasor (Function)
 *
 */
 define(
 	["jsaSound/jsaSndLib/config"],
 	function (config) {
 
-    /**
-    * Creates the phasor
-    * @method (anonymous function named on module load)
-    * @param {String} soundUrl
-    * returns Web Audio API convolver node  
+   /**
+    * Creates a phasor used to periodically trigger events
+    * @method (jsaEvenPhasor)
+    * @return Interface object for controlling the eventPhasor containing all the other methods in this module.  
     */
-
 		return function () {
 			if (!config) {
 				console.log("No config passed to jsaEventPhasor");
@@ -82,6 +80,7 @@ define(
 		    * Advance the time rotating the phasor accorording to its frequency.
 		    * @method advance
 		    * @param {Number} interval of time to advance 
+		    * @return {Number} current phase
 		    */
 			myInterface.advance = function (i_t) {
 				m_currentPhase = (m_currentPhase + i_t * m_freq) % 1;
@@ -92,6 +91,7 @@ define(
 		    * Set the time of the phasor rotating if from its current position as necessary
 		    * @method advanceToTime
 		    * @param {Number} The time to advance the phasor to. 
+		    * @return {Number} current phase
 		    */
 			myInterface.advanceToTime = function (i_t) {
 				var advance = i_t - m_currentTime;
@@ -101,7 +101,7 @@ define(
 			};
 
 		    /**
-		    * Set the time of the phasor to 0 (which is when it "ticks")
+		    * Advances the time to that of next zero phase (which is when it "ticks")
 		    * @method advanceToTick
 		    */
 			myInterface.advanceToTick = function () {
@@ -110,8 +110,9 @@ define(
 			};
 
 		    /**
-		    * Get the time it will be when the phasor next "ticks" (jumps from 1 to 0)
-		    * @return the time it will be when the phasor laps.
+		    * Advances the time to that of next zero phase (which is when it "ticks")
+		    * @method nextTickTime
+		    * @return {Number} time in sseconds
 		    */
 			myInterface.nextTickTime = function () {
 				if (m_freq === 0) {
@@ -121,8 +122,9 @@ define(
 			};
 
 		    /**
-		    * Get the time between "now" and the next "tick"
-		    * @return {Number} the amount of time until next tick 
+		    * Get the time between now and the next tick
+		    * @method timeToTick
+		    * @return {Number} the amount of time until next tick
 		    */
 			myInterface.timeToTick = function () {
 				if (m_freq === 0) {

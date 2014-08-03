@@ -10,7 +10,7 @@
 * @main poly.js
 */
 /**
-* @class poly (Anonymous)
+* @class poly (Function)
 *
 */
 define(
@@ -20,11 +20,11 @@ define(
 
     /**
     * Creates a pool of instances of a sound model so that they can be played polyphonically
-    * @method (anonymous function named on module load)
-    * @param {sound model factor} funciton to be used for creating instances of a sound model
-    * @param {number} poly How large the pool (maximum polyphony) should be
-    * @parameter (audioNode) node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)
-    * returns the "soundbank" that exposes 
+    * @method (poly)
+    * @param {Sound Model Factory Function} funciton to be used for creating instances of a sound model
+    * @param {Number} poly How large the pool (maximum polyphony) should be
+    * @param {audioNode} node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)
+    * @return {Interface Object} the "soundbank" Interface object that exposes all the other methods in this module.
     */
        return function (sndFactory, poly, i_outNode) {
 

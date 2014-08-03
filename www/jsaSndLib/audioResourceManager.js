@@ -6,7 +6,7 @@
 * @uses jsaSdLib/config, jsaSdLib/utils
 */
 /**
-* @class AudioResourceManager (Anonymous)
+* @class AudioResourceManager
 *
 */
 define(

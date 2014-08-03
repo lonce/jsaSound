@@ -1,0 +1,1613 @@
+{
+    "project": {},
+    "files": {
+        "www\\jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js": {
+            "name": "www\\jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
+            "modules": {
+                "jsaConvolverNode.js": 1
+            },
+            "classes": {
+                "jsaConvolverNode (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js": {
+            "name": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "modules": {
+                "jsaEvenPhasor.js": 1
+            },
+            "classes": {
+                "jsaEvenPhasor (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\audioResourceManager.js": {
+            "name": "www\\jsaSndLib\\audioResourceManager.js",
+            "modules": {
+                "AudioResourceManager.js": 1
+            },
+            "classes": {
+                "AudioResourceManager (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\audioUtils.js": {
+            "name": "www\\jsaSndLib\\audioUtils.js",
+            "modules": {
+                "audioUtils.js": 1
+            },
+            "classes": {
+                "audioUtil (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\baseSM.js": {
+            "name": "www\\jsaSndLib\\baseSM.js",
+            "modules": {
+                "baseSM.js": 1
+            },
+            "classes": {
+                "baseSM (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\poly.js": {
+            "name": "www\\jsaSndLib\\poly.js",
+            "modules": {
+                "poly.js": 1
+            },
+            "classes": {
+                "poly (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\jsaSndLib\\utils.js": {
+            "name": "www\\jsaSndLib\\utils.js",
+            "modules": {
+                "utils.js": 1
+            },
+            "classes": {
+                "utils (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "www\\scripts\\require.js": {
+            "name": "www\\scripts\\require.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "jsaConvolverNode.js": {
+            "name": "jsaConvolverNode.js",
+            "submodules": {},
+            "classes": {
+                "jsaConvolverNode (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
+            "line": 6,
+            "description": "Creates a convolver node",
+            "itemtype": "main"
+        },
+        "jsaEvenPhasor.js": {
+            "name": "jsaEvenPhasor.js",
+            "submodules": {},
+            "classes": {
+                "jsaEvenPhasor (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 19,
+            "description": "Creates a phasor that can be used to time period events even period is changing",
+            "itemtype": "main"
+        },
+        "AudioResourceManager.js": {
+            "name": "AudioResourceManager.js",
+            "submodules": {},
+            "classes": {
+                "AudioResourceManager (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\audioResourceManager.js",
+            "line": 8,
+            "description": "Provides the base class for all sound models",
+            "itemtype": "main"
+        },
+        "audioUtils.js": {
+            "name": "audioUtils.js",
+            "submodules": {},
+            "classes": {
+                "audioUtil (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\audioUtils.js",
+            "line": 15,
+            "description": "Provides some basic utilities",
+            "itemtype": "main"
+        },
+        "baseSM.js": {
+            "name": "baseSM.js",
+            "submodules": {},
+            "classes": {
+                "baseSM (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 7,
+            "description": "Provides the base class for all sound models",
+            "itemtype": "main"
+        },
+        "poly.js": {
+            "name": "poly.js",
+            "submodules": {},
+            "classes": {
+                "poly (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 12,
+            "description": "Provides polyphonic support",
+            "itemtype": "main"
+        },
+        "utils.js": {
+            "name": "utils.js",
+            "submodules": {},
+            "classes": {
+                "utils (Anonymous)": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 15,
+            "description": "Provides some basic utilities",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "jsaConvolverNode (Anonymous)": {
+            "name": "jsaConvolverNode (Anonymous)",
+            "shortname": "jsaConvolverNode (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "jsaConvolverNode.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
+            "line": 6
+        },
+        "jsaEvenPhasor (Anonymous)": {
+            "name": "jsaEvenPhasor (Anonymous)",
+            "shortname": "jsaEvenPhasor (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "jsaEvenPhasor.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 19
+        },
+        "AudioResourceManager (Anonymous)": {
+            "name": "AudioResourceManager (Anonymous)",
+            "shortname": "AudioResourceManager (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "AudioResourceManager.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\audioResourceManager.js",
+            "line": 8
+        },
+        "audioUtil (Anonymous)": {
+            "name": "audioUtil (Anonymous)",
+            "shortname": "audioUtil (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "audioUtils.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\audioUtils.js",
+            "line": 15
+        },
+        "baseSM (Anonymous)": {
+            "name": "baseSM (Anonymous)",
+            "shortname": "baseSM (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "baseSM.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 7,
+            "description": "Base factory for sound models"
+        },
+        "poly (Anonymous)": {
+            "name": "poly (Anonymous)",
+            "shortname": "poly (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "poly.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 12
+        },
+        "utils (Anonymous)": {
+            "name": "utils (Anonymous)",
+            "shortname": "utils (Anonymous)",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.js",
+            "namespace": "",
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 15
+        }
+    },
+    "classitems": [
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaConvolveNode.js",
+            "line": 15,
+            "description": "Creates convolver node based on the audio resource from a URL",
+            "itemtype": "method",
+            "name": "(anonymous function named on module load)",
+            "params": [
+                {
+                    "name": "soundUrl",
+                    "description": "name of audio resource to use as convolution kernel",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Web Audio API convolver node"
+            },
+            "class": "jsaConvolverNode (Anonymous)",
+            "module": "jsaConvolverNode.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 27,
+            "description": "Creates a phasor used to periodically trigger events",
+            "itemtype": "method",
+            "name": "(anonymous function named on module load)",
+            "return": {
+                "description": "Factory method for eevent phasors"
+            },
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 44,
+            "description": "Sets the time",
+            "itemtype": "method",
+            "name": "setCurrentTime",
+            "params": [
+                {
+                    "name": "time",
+                    "description": "(in secs)",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 53,
+            "description": "Sets the phaser to a specific phase",
+            "itemtype": "method",
+            "name": "setPhase",
+            "params": [
+                {
+                    "name": "phase",
+                    "description": "in [0,1]",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 62,
+            "description": "Get the current phse",
+            "itemtype": "method",
+            "name": "getPhase",
+            "params": [
+                {
+                    "name": "phase",
+                    "description": "in [0,1]",
+                    "type": "Number"
+                }
+            ],
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 71,
+            "description": "Sets the frequency that the phase will move (revolutions per second)",
+            "itemtype": "method",
+            "name": "setFreq",
+            "type": "Number",
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 79,
+            "description": "Advance the time rotating the phasor accorording to its frequency.",
+            "itemtype": "method",
+            "name": "advance",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "of time to advance",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "current phase",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 90,
+            "description": "Set the time of the phasor rotating if from its current position as necessary",
+            "itemtype": "method",
+            "name": "advanceToTime",
+            "params": [
+                {
+                    "name": "The",
+                    "description": "time to advance the phasor to.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "current phase",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 103,
+            "description": "Advances the time to that of next zero phase (which is when it \"ticks\")",
+            "itemtype": "method",
+            "name": "advanceToTick",
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 112,
+            "description": "Advances the time to that of next zero phase (which is when it \"ticks\")",
+            "itemtype": "method",
+            "name": "nextTickTime",
+            "return": {
+                "description": "time in sseconds",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\jsaOpCodes\\jsaEventPhasor.js",
+            "line": 124,
+            "description": "Get the time between now and the next tick",
+            "itemtype": "method",
+            "name": "timeToTick",
+            "return": {
+                "description": "the amount of time until next tick",
+                "type": "Number"
+            },
+            "class": "jsaEvenPhasor (Anonymous)",
+            "module": "jsaEvenPhasor.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\audioResourceManager.js",
+            "line": 20,
+            "description": "Manages audio resource loading so that only resources are only loaded once, and are stored in buffers that multiple sounds (or polyphonic sounds) can then reference.",
+            "itemtype": "method",
+            "name": "loadAudioResource",
+            "params": [
+                {
+                    "name": "i_url",
+                    "description": "The url of the audio resource to be loaded",
+                    "type": "String"
+                },
+                {
+                    "name": "i_onload",
+                    "description": "function to be called when loaded. Will be passed the buffer that the audio resource has been loaded in to.",
+                    "type": "Function"
+                }
+            ],
+            "class": "AudioResourceManager (Anonymous)",
+            "module": "AudioResourceManager.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\audioUtils.js",
+            "line": 50,
+            "description": "Converts note names (eg. Eb2, F#, A4) into frequency values",
+            "itemtype": "method",
+            "name": "note2Freq",
+            "params": [
+                {
+                    "name": "noteName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "frequency value",
+                "type": "Number"
+            },
+            "class": "audioUtil (Anonymous)",
+            "module": "audioUtils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\audioUtils.js",
+            "line": 64,
+            "description": "Converts db values in [-inf, 0] into \"gain\" values in [0,1]\nfor example, 0 dB yields 1, -6 dB yields .5",
+            "itemtype": "method",
+            "name": "dB2Ratio",
+            "params": [
+                {
+                    "name": "i_dB",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "gain  value 10^(dB/20)",
+                "type": "Number"
+            },
+            "class": "audioUtil (Anonymous)",
+            "module": "audioUtils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 31,
+            "description": "Wraps an audio node graph in to a new \"GraphNode\" that can be connected in an audio graph just like a Web Audio API audioNode ().\nThe GraphNode returned also provides the generic interface (play, stop, setParam) for control.\nAlso provides methods the sound modeler uses to, for example, register parameters to expose to users.",
+            "itemtype": "method",
+            "name": "(baseSM object named when file is loaded)",
+            "params": [
+                {
+                    "name": "i_node",
+                    "description": "should be empty literal object {}",
+                    "type": "Object"
+                },
+                {
+                    "name": "i_inputs",
+                    "description": "an array of audio nodes that can be use to connect to this GraphNode",
+                    "type": "AudioNode Array"
+                },
+                {
+                    "name": "i_outputs",
+                    "description": "an array of audio nodes that will be used to connect this GraphNode  to other audio nodes or the audio destinations",
+                    "type": "AudioNode Array"
+                }
+            ],
+            "return": {
+                "description": "The GraphNode function object used to create the sound model (a graph of audioNodes with some identified as input and output nodes for the new GraphNode), as well as to provide the interface for control of the model.",
+                "type": "Funciton Object"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 65,
+            "itemtype": "method",
+            "name": "setAboutText",
+            "params": [
+                {
+                    "name": "i_text",
+                    "description": "text descritption of model, hints, etc",
+                    "type": "String"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 73,
+            "itemtype": "method",
+            "name": "getAboutText",
+            "return": {
+                "description": "text descritption of model, hints, created with setAboutText",
+                "type": "String"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 80,
+            "description": "Creates a parameter that will be used to control the model and provide information",
+            "itemtype": "method",
+            "name": "registerParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "name to expose to the world for this param",
+                    "type": "String"
+                },
+                {
+                    "name": "i_type",
+                    "description": "type [\"range\", \"URL\"]",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "initial value",
+                    "type": "String"
+                },
+                {
+                    "name": "i_f",
+                    "description": "function to execute when setParam(name, val) is called.",
+                    "type": "String"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 103,
+            "description": "Grabs a parameter from a child model, registers it on this model, and just reflects all calls to the child",
+            "itemtype": "method",
+            "name": "registerChildParam",
+            "params": [
+                {
+                    "name": "childModel",
+                    "description": "",
+                    "type": "SoundModel"
+                },
+                {
+                    "name": "childPname",
+                    "description": "name of the child parameter to expose",
+                    "type": "String"
+                },
+                {
+                    "name": "parentPname",
+                    "description": "name to use for the parameter",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "childPname"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 116,
+            "itemtype": "method",
+            "name": "getNumParams",
+            "return": {
+                "description": "the number of paramters the model exposes",
+                "type": "Number"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 124,
+            "itemtype": "method",
+            "name": "getParamNames",
+            "return": {
+                "description": "array of model parameter names",
+                "type": "Array of Strings"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 132,
+            "itemtype": "method",
+            "name": "getParamNames",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "index of the parameter whose name you want"
+                }
+            ],
+            "return": {
+                "description": "the name of the parameter with the secified index",
+                "type": "String"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 146,
+            "description": "Get specified information about a parameter",
+            "itemtype": "method",
+            "name": "getParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want info about",
+                    "type": "String"
+                },
+                {
+                    "name": "i_prop",
+                    "description": "on of [\"name\", \"type\", \"val\", \"normval\", \"min\" or \"max\"]",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the value of the property you requested"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 177,
+            "description": "Set the parameter using values in [0,1]",
+            "itemtype": "method",
+            "name": "setParamNorm",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want to set",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "the value to set the parameter",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 196,
+            "description": "set the parameter using values using its own units in [min,max]",
+            "itemtype": "method",
+            "name": "setParam",
+            "params": [
+                {
+                    "name": "i_name",
+                    "description": "the name of the param you want to set",
+                    "type": "String"
+                },
+                {
+                    "name": "i_val",
+                    "description": "the value to set the parameter",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 220,
+            "itemtype": "method",
+            "name": "play",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "what time to play (recommended use: 0 or no argument; use schedule(t,func) to scheudle play in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 240,
+            "description": "Override this in your sound model",
+            "itemtype": "method",
+            "name": "onPlay",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to play (can be fed to Web Audio API nodes in your override)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 249,
+            "itemtype": "method",
+            "name": "release",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to release  (recommended use: 0 or no argument; use schedule(t,func) to scheudle releases in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 262,
+            "description": "Override this in your sound model  to send the model in to its release phase",
+            "itemtype": "method",
+            "name": "onRelease",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to release (can be fed to Web Audio API nodes in your override)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 272,
+            "description": "Stop the model from playing, disconnects it from output so it won't waste system resources anymore. Your onRelease() method should schedule or call stop when it is done",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to stop  (recommended use: 0 or no argument; use schedule(t,func) to scheudle stops in the future)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 287,
+            "description": "override this in your sound model  (optional)",
+            "itemtype": "method",
+            "name": "onStop",
+            "params": [
+                {
+                    "name": "i_time",
+                    "description": "time to stop (can be fed to Web Audio API nodes)",
+                    "type": "Number"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 310,
+            "description": "test a parameter number for existence",
+            "itemtype": "method",
+            "name": "testPName",
+            "params": [
+                {
+                    "name": "i_ind",
+                    "description": "index of parameter",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "either the parmaeter name (if it exists) or undefined"
+            },
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 344,
+            "description": "schedule a function to run in the future (uses a queue and a single timer)",
+            "itemtype": "method",
+            "name": "schedule",
+            "params": [
+                {
+                    "name": "t",
+                    "description": "time to execute",
+                    "type": "Number"
+                },
+                {
+                    "name": "{Function",
+                    "description": "function to execute at time t"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 352,
+            "description": "Clear the queue of all future events for this model.",
+            "itemtype": "method",
+            "name": "qClear",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 364,
+            "description": "Register a param which will then be accessible through the interface functions: setParam, getParam, etc.",
+            "itemtype": "method",
+            "name": "registerParam",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the String value used to refer to this parameters",
+                    "type": "Number"
+                },
+                {
+                    "name": "the",
+                    "description": "jsaSound type of the parameter (either \"range\" or \"URL\"), the latter of which would better be called a string parameter.",
+                    "type": "String"
+                },
+                {
+                    "name": "with",
+                    "description": "three numberical properties: (\"min\", \"max\", and \"val\"), the minimumum, maximum, and default values of the parameter.",
+                    "type": "Object"
+                },
+                {
+                    "name": "function",
+                    "description": "to execute when the parameter is set with setParam()",
+                    "type": "Function"
+                }
+            ],
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 399,
+            "description": "Start recording audio output from the model",
+            "itemtype": "method",
+            "name": "startRecording",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\baseSM.js",
+            "line": 414,
+            "description": "Stop recording audio output from the model",
+            "itemtype": "method",
+            "name": "stopRecording",
+            "class": "baseSM (Anonymous)",
+            "module": "baseSM.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 21,
+            "description": "Creates a pool of instances of a sound model so that they can be played polyphonically",
+            "itemtype": "method",
+            "name": "(anonymous function named on module load)",
+            "params": [
+                {
+                    "name": "funciton",
+                    "description": "to be used for creating instances of a sound model",
+                    "type": "Sound model factor"
+                },
+                {
+                    "name": "poly",
+                    "description": "How large the pool (maximum polyphony) should be",
+                    "type": "Number"
+                },
+                {
+                    "name": "(audioNode)",
+                    "description": "node that the polyphonic model(s) should connect to  (managed dynamically as nodes are called into and put out of action)\nreturns the \"soundbank\" that exposes"
+                }
+            ],
+            "class": "poly (Anonymous)",
+            "module": "poly.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 39,
+            "description": "Sets a parameter value (on all polyphonic instances in the pool)",
+            "itemtype": "method",
+            "name": "setParam",
+            "params": [
+                {
+                    "name": "parameter",
+                    "description": "name",
+                    "type": "String"
+                },
+                {
+                    "name": "parameter",
+                    "description": "value",
+                    "type": "Number"
+                }
+            ],
+            "class": "poly (Anonymous)",
+            "module": "poly.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 52,
+            "description": "Sets a normalized parameter value (in [0,1] (on all polyphonic instances in the pool)",
+            "itemtype": "method",
+            "name": "setParamNorm",
+            "params": [
+                {
+                    "name": "parameter",
+                    "description": "name",
+                    "type": "String"
+                },
+                {
+                    "name": "parameter",
+                    "description": "value",
+                    "type": "Number"
+                }
+            ],
+            "class": "poly (Anonymous)",
+            "module": "poly.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\poly.js",
+            "line": 65,
+            "description": "gets an available sound from the polyphony pool",
+            "itemtype": "method",
+            "name": "getSnd",
+            "class": "poly (Anonymous)",
+            "module": "poly.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 24,
+            "description": "Converts db values in [-inf, 0] into \"gain\" values in [0,1]\nfor example, 0 dB yields 1, -6 dB yields .5",
+            "itemtype": "method",
+            "name": "dB2Ratio",
+            "params": [
+                {
+                    "name": "i_dB",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "gain  value 10^(dB/20)",
+                "type": "Number"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 35,
+            "description": "Get the requestAnimationFunction",
+            "itemtype": "method",
+            "name": "getRequestAnimationFrameFunc",
+            "return": {
+                "description": "the correct version of the requestAnimationFrame funciton for the browser being used",
+                "type": "Function"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 78,
+            "description": "Get a norally distributed random number",
+            "itemtype": "method",
+            "name": "nrand",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "mean",
+                    "type": "Number"
+                },
+                {
+                    "name": "sd",
+                    "description": "standard deviation",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "normally distributed random number",
+                "type": "Number"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 96,
+            "description": "Convert midi note number (can be floating point) to a frequency value",
+            "itemtype": "method",
+            "name": "mtof",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "MIDI note number",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "the frequency of the MIDI note number",
+                "type": "Number"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 106,
+            "description": "Maps a domain of numbers [f1, f2] linearly onto a range [t1, t2]",
+            "itemtype": "method",
+            "name": "mapconstrain",
+            "params": [
+                {
+                    "name": "f1",
+                    "description": "first endpoint of domain",
+                    "type": "Number"
+                },
+                {
+                    "name": "f2",
+                    "description": "second endpoint of domain",
+                    "type": "Number"
+                },
+                {
+                    "name": "f1",
+                    "description": "first endpoint of range",
+                    "type": "Number"
+                },
+                {
+                    "name": "f1",
+                    "description": "second endpoint of range",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "number to map",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "result of mapping x (not actually limited to range!)",
+                "type": "Number"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\jsaSndLib\\utils.js",
+            "line": 121,
+            "description": "This is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.\nThe function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.\nThe first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.\nhttp://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.",
+            "itemtype": "method",
+            "name": "rational_tanh",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "number to be mapped",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "tanh(x)",
+                "type": "Number"
+            },
+            "class": "utils (Anonymous)",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1,
+            "license": "RequireJS 2.1.14 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved.\nAvailable via the MIT or new BSD license.\nsee: http://github.com/jrburke/requirejs for details",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 49,
+            "description": "Helper function for iterating over an array. If the func returns\na true value, it will break out of the loop.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 64,
+            "description": "Helper function for iterating over an array backwards. If the func\nreturns a true value, it will break out of the loop.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 87,
+            "description": "Cycles over properties in an object and calls a function for each\nproperty value. If the function returns a truthy value, then the\niteration is stopped.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 103,
+            "description": "Simple function to mix in properties from source into target,\nbut only if target does not already have a property of the same name.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 157,
+            "description": "Constructs an error with a pointer to an URL with more information.",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "the error ID that maps to an ID on a web page.",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": "human readable error.",
+                    "type": "String"
+                },
+                {
+                    "name": "err",
+                    "description": "the original error, if there is one.",
+                    "type": "Error",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Error"
+            },
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 225,
+            "description": "Trims the . and .. from an array of path segments.\nIt will keep a leading path segment if a .. will become\nthe first path segment, to help with module name lookups,\nwhich act like paths, but can be remapped. But the end result,\nall paths that use this function should look normalized.\nNOTE: this method MODIFIES the input array.",
+            "params": [
+                {
+                    "name": "ary",
+                    "description": "the array of path segments.",
+                    "type": "Array"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 257,
+            "description": "Given a relative module name, like ./something, normalize it to\na real name that can be mapped to a path.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the relative name",
+                    "type": "String"
+                },
+                {
+                    "name": "baseName",
+                    "description": "a real name that the name arg is relative\nto.",
+                    "type": "String"
+                },
+                {
+                    "name": "applyMap",
+                    "description": "apply the map config to the value. Should\nonly be done if this normalization is for a dependency ID.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "normalized name",
+                "type": "String"
+            },
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 399,
+            "description": "Creates a module mapping that includes plugin prefix, module\nname, and path. If parentModuleMap is provided it will\nalso normalize the name via require.normalize()",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the module name",
+                    "type": "String"
+                },
+                {
+                    "name": "parentModuleMap",
+                    "description": "parent module map\nfor the module name, used to resolve relative names.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "isNormalized:",
+                    "description": "is the ID already normalized.\nThis is true if this call is done for a define() module ID.",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "applyMap:",
+                    "description": "apply the map config to the ID.\nShould only be true if this map is for a dependency.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 550,
+            "description": "Internal method to transfer globalQueue items to this context's\ndefQueue.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 832,
+            "description": "Checks if the module is ready to define itself, and if so,\ndefine it.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1197,
+            "description": "Given an event from a script node, get the requirejs info from it,\nand then removes the event listeners on the node.",
+            "params": [
+                {
+                    "name": "evt",
+                    "description": "",
+                    "type": "Event"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1250,
+            "description": "Set a configuration for the context.",
+            "params": [
+                {
+                    "name": "cfg",
+                    "description": "config object to integrate.",
+                    "type": "Object"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1437,
+            "description": "Converts a module name + .extension into an URL path.\n*Requires* the use of a module name. It does not support using\nplain URLs like nameToUrl.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1510,
+            "description": "Called to enable a module if it is still in the registry\nawaiting enablement. A second arg, parent, the parent module,\nis passed in for context, when this method is overridden by\nthe optimizer. Not shown here to keep code compact.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1523,
+            "description": "Internal method used by environment adapters to complete a load event.\nA load event could be a script load or just a load pass from a synchronous\nload call.",
+            "params": [
+                {
+                    "name": "moduleName",
+                    "description": "the name of the module to potentially complete.",
+                    "type": "String"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1579,
+            "description": "Converts a module name to a file path. Supports cases where\nmoduleName may actually be just an URL.\nNote that it **does not** call normalize on the moduleName,\nit is assumed to have already been normalized. This is an\ninternal API, not a public one. Use toUrl for the public API.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1650,
+            "description": "Executes a module callback function. Broken out as a separate function\nsolely to allow the build system to sequence the files in the built\nlayer in the right sequence.",
+            "access": "private",
+            "tagname": "",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1661,
+            "description": "callback for script loads, used to check status of loading.",
+            "params": [
+                {
+                    "name": "evt",
+                    "description": "the event from the browser for the script\nthat was loaded.",
+                    "type": "Event"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1683,
+            "description": "Callback for script errors.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1698,
+            "description": "Main entry point.\n\nIf the only argument to require is a string, then the module that\nis represented by that string is fetched for the appropriate context.\n\nIf the first argument is an array, then it will be treated as an array\nof dependency string names to fetch. An optional function callback can\nbe specified to execute when all of those dependencies are available.\n\nMake a local req variable to help Caja compliance (it assumes things\non a require that are not standardized), and to give a short\nname for minification/local scope use.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1748,
+            "description": "Support require.config() to make it easier to cooperate with other\nAMD loaders on globally agreed names.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1756,
+            "description": "Execute something after the current tick\nof the event loop. Override for other envs\nthat have a better solution than setTimeout.",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "function to execute later.",
+                    "type": "Function"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1766,
+            "description": "Export require as a global, but only if it does not already exist.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1813,
+            "description": "Any errors that require explicitly generates will be passed to this\nfunction. Intercept/override it if you want custom error handling.",
+            "params": [
+                {
+                    "name": "err",
+                    "description": "the error object.",
+                    "type": "Error"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1820,
+            "description": "Creates the node for the load command. Only used in browser envs.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1833,
+            "description": "Does the request to load a module for the browser case.\nMake this a separate function to allow other environments\nto override it.",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the require context to find state.",
+                    "type": "Object"
+                },
+                {
+                    "name": "moduleName",
+                    "description": "the name of the module.",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "the URL to the module.",
+                    "type": "Object"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 1989,
+            "description": "The function that handles definitions of modules. Differs from\nrequire() in that a string for the module should be the first argument,\nand the function to execute after dependencies are loaded should\nreturn a value to define the module corresponding to the first argument's\nname.",
+            "class": "",
+            "module": "utils.js"
+        },
+        {
+            "file": "www\\scripts\\require.js",
+            "line": 2063,
+            "description": "Executes the text. Normally just uses eval, but can be modified\nto use a better, environment-specific call. Only used for transpiling\nloader plugins, not for plain JS modules.",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "the text to execute/evaluate.",
+                    "type": "String"
+                }
+            ],
+            "class": "",
+            "module": "utils.js"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: license",
+            "line": " www\\scripts\\require.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " www\\scripts\\require.js:1"
+        },
+        {
+            "message": "Missing item type\nHelper function for iterating over an array. If the func returns\na true value, it will break out of the loop.",
+            "line": " www\\scripts\\require.js:49"
+        },
+        {
+            "message": "Missing item type\nHelper function for iterating over an array backwards. If the func\nreturns a true value, it will break out of the loop.",
+            "line": " www\\scripts\\require.js:64"
+        },
+        {
+            "message": "Missing item type\nCycles over properties in an object and calls a function for each\nproperty value. If the function returns a truthy value, then the\niteration is stopped.",
+            "line": " www\\scripts\\require.js:87"
+        },
+        {
+            "message": "Missing item type\nSimple function to mix in properties from source into target,\nbut only if target does not already have a property of the same name.",
+            "line": " www\\scripts\\require.js:103"
+        },
+        {
+            "message": "Missing item type\nConstructs an error with a pointer to an URL with more information.",
+            "line": " www\\scripts\\require.js:157"
+        },
+        {
+            "message": "Missing item type\nTrims the . and .. from an array of path segments.\nIt will keep a leading path segment if a .. will become\nthe first path segment, to help with module name lookups,\nwhich act like paths, but can be remapped. But the end result,\nall paths that use this function should look normalized.\nNOTE: this method MODIFIES the input array.",
+            "line": " www\\scripts\\require.js:225"
+        },
+        {
+            "message": "Missing item type\nGiven a relative module name, like ./something, normalize it to\na real name that can be mapped to a path.",
+            "line": " www\\scripts\\require.js:257"
+        },
+        {
+            "message": "Missing item type\nCreates a module mapping that includes plugin prefix, module\nname, and path. If parentModuleMap is provided it will\nalso normalize the name via require.normalize()",
+            "line": " www\\scripts\\require.js:399"
+        },
+        {
+            "message": "Missing item type\nInternal method to transfer globalQueue items to this context's\ndefQueue.",
+            "line": " www\\scripts\\require.js:550"
+        },
+        {
+            "message": "Missing item type\nChecks if the module is ready to define itself, and if so,\ndefine it.",
+            "line": " www\\scripts\\require.js:832"
+        },
+        {
+            "message": "Missing item type\nGiven an event from a script node, get the requirejs info from it,\nand then removes the event listeners on the node.",
+            "line": " www\\scripts\\require.js:1197"
+        },
+        {
+            "message": "Missing item type\nSet a configuration for the context.",
+            "line": " www\\scripts\\require.js:1250"
+        },
+        {
+            "message": "Missing item type\nConverts a module name + .extension into an URL path.\n*Requires* the use of a module name. It does not support using\nplain URLs like nameToUrl.",
+            "line": " www\\scripts\\require.js:1437"
+        },
+        {
+            "message": "Missing item type\nCalled to enable a module if it is still in the registry\nawaiting enablement. A second arg, parent, the parent module,\nis passed in for context, when this method is overridden by\nthe optimizer. Not shown here to keep code compact.",
+            "line": " www\\scripts\\require.js:1510"
+        },
+        {
+            "message": "Missing item type\nInternal method used by environment adapters to complete a load event.\nA load event could be a script load or just a load pass from a synchronous\nload call.",
+            "line": " www\\scripts\\require.js:1523"
+        },
+        {
+            "message": "Missing item type\nConverts a module name to a file path. Supports cases where\nmoduleName may actually be just an URL.\nNote that it **does not** call normalize on the moduleName,\nit is assumed to have already been normalized. This is an\ninternal API, not a public one. Use toUrl for the public API.",
+            "line": " www\\scripts\\require.js:1579"
+        },
+        {
+            "message": "Missing item type\nExecutes a module callback function. Broken out as a separate function\nsolely to allow the build system to sequence the files in the built\nlayer in the right sequence.",
+            "line": " www\\scripts\\require.js:1650"
+        },
+        {
+            "message": "Missing item type\ncallback for script loads, used to check status of loading.",
+            "line": " www\\scripts\\require.js:1661"
+        },
+        {
+            "message": "Missing item type\nCallback for script errors.",
+            "line": " www\\scripts\\require.js:1683"
+        },
+        {
+            "message": "Missing item type\nMain entry point.\n\nIf the only argument to require is a string, then the module that\nis represented by that string is fetched for the appropriate context.\n\nIf the first argument is an array, then it will be treated as an array\nof dependency string names to fetch. An optional function callback can\nbe specified to execute when all of those dependencies are available.\n\nMake a local req variable to help Caja compliance (it assumes things\non a require that are not standardized), and to give a short\nname for minification/local scope use.",
+            "line": " www\\scripts\\require.js:1698"
+        },
+        {
+            "message": "Missing item type\nSupport require.config() to make it easier to cooperate with other\nAMD loaders on globally agreed names.",
+            "line": " www\\scripts\\require.js:1748"
+        },
+        {
+            "message": "Missing item type\nExecute something after the current tick\nof the event loop. Override for other envs\nthat have a better solution than setTimeout.",
+            "line": " www\\scripts\\require.js:1756"
+        },
+        {
+            "message": "Missing item type\nExport require as a global, but only if it does not already exist.",
+            "line": " www\\scripts\\require.js:1766"
+        },
+        {
+            "message": "Missing item type\nAny errors that require explicitly generates will be passed to this\nfunction. Intercept/override it if you want custom error handling.",
+            "line": " www\\scripts\\require.js:1813"
+        },
+        {
+            "message": "Missing item type\nCreates the node for the load command. Only used in browser envs.",
+            "line": " www\\scripts\\require.js:1820"
+        },
+        {
+            "message": "Missing item type\nDoes the request to load a module for the browser case.\nMake this a separate function to allow other environments\nto override it.",
+            "line": " www\\scripts\\require.js:1833"
+        },
+        {
+            "message": "Missing item type\nThe function that handles definitions of modules. Differs from\nrequire() in that a string for the module should be the first argument,\nand the function to execute after dependencies are loaded should\nreturn a value to define the module corresponding to the first argument's\nname.",
+            "line": " www\\scripts\\require.js:1989"
+        },
+        {
+            "message": "Missing item type\nExecutes the text. Normally just uses eval, but can be modified\nto use a better, environment-specific call. Only used for transpiling\nloader plugins, not for plain JS modules.",
+            "line": " www\\scripts\\require.js:2063"
+        }
+    ]
+}

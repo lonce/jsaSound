@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 * @main utils.js
 */
 /**
-* @class utils (Anonymous)
+* @class utils
 *
 */
 define(
@@ -25,8 +25,8 @@ define(
 		* Converts db values in [-inf, 0] into "gain" values in [0,1]
 		* for example, 0 dB yields 1, -6 dB yields .5 
 		* @method dB2Ratio
-		* @param {number} i_dB
-		* @return {number} gain  value 10^(dB/20)
+		* @param {Number} i_dB
+		* @return {Number} gain  value 10^(dB/20)
 		*/
 		utils.dB2Ratio = function (i_dB ){
 			return Math.pow(10.0, i_dB/20.0);
@@ -35,7 +35,7 @@ define(
 		/**
 		* Get the requestAnimationFunction
 		* @method getRequestAnimationFrameFunc
-		* @return the right animationFrame funciton for the browser being used
+		* @return {Function} the correct version of the requestAnimationFrame funciton for the browser being used
 		*/
         utils.getRequestAnimationFrameFunc = function() {
             try {
@@ -78,9 +78,9 @@ define(
 		/**
 		* Get a norally distributed random number
 		* @method nrand
-		* @param m mean
-		* @para sd standard deviation
-		* @return {Number}
+		* @param {Number} m mean
+		* @param {Number} sd standard deviation
+		* @return {Number} normally distributed random number
 		*/
 		utils.nrand = function (m, sd) {
 			var x1, x2, rad, y1;
@@ -96,8 +96,8 @@ define(
 		/**
 		* Convert midi note number (can be floating point) to a frequency value
 		* @method mtof
-		* @param m MIDI note number
-		* @return {Number}
+		* @param {Number} m MIDI note number
+		* @return {Number} the frequency of the MIDI note number
 		*/
 		utils.mtof = function (m) {
 			return Math.pow(2, (m - 69) / 12) * 440;
@@ -106,11 +106,11 @@ define(
 		/**
 		* Maps a domain of numbers [f1, f2] linearly onto a range [t1, t2]
 		* @method mapconstrain
-		* @param f1 first endpoint of domain 
-		* @param f2 second endpoint of domain 
-		* @param f1 first endpoint of range 
-		* @param f1 second endpoint of range 
-		* @param x number to map
+		* @param {Number} f1 first endpoint of domain 
+		* @param {Number} f2 second endpoint of domain 
+		* @param {Number} f1 first endpoint of range 
+		* @param {Number} f1 second endpoint of range 
+		* @param {Number} x number to map
 		* @return {Number} result of mapping x (not actually limited to range!)
 		*/
 		utils.mapconstrain = function (f1, f2, t1, t2, x) {
@@ -119,13 +119,13 @@ define(
 		};
 
 		/**
-		This is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.
-		The function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.
-		The first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.
-		http://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.
+		* This is a rational function to approximate a tanh-like soft clipper. It is based on the pade-approximation of the tanh function with tweaked coefficients.
+		* The function is in the range x=-3..3 and outputs the range y=-1..1. Beyond this range the output must be clamped to -1..1.
+		* The first to derivatives of the function vanish at -3 and 3, so the transition to the hard clipped region is C2-continuous.
+		* http://stackoverflow.com/questions/6118028/fast-hyperbolic-tangent-approximation-in-javascript.
 		* @method rational_tanh
 		* @param {Number} x  number to be mapped
-		* @return {Nubmer} tanh(x)
+		* @return {Number} tanh(x)
 		*/
 		utils.rational_tanh = function (x) {
 			if (x < -3) {

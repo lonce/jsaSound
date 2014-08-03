@@ -4,7 +4,7 @@
 * @main jsaConvolverNode.js
 */
 /**
-* @class jsaConvolverNode (Anonymous)
+* @class jsaConvolverNode (Function)
 *
 */
 
@@ -14,9 +14,9 @@ define(
 
     /**
     * Creates convolver node based on the audio resource from a URL
-    * @method (anonymous function named on module load)
-    * @param {String} soundUrl
-    * returns Web Audio API convolver node  
+    * @method (jsaConvolverNode)
+    * @param {String} soundUrl name of audio resource to use as convolution kernel 
+    * @return Web Audio API convolver node  
     */
         return function (soundUrl) {
 
