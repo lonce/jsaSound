@@ -364,10 +364,65 @@ define(
 
 			myWindow.document.write(" <hr style=\"height:.1em;\" />");
 
+
+
+
+			//   -------------    RECORDING -------------------------
+			var recState=false;
+			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
+			//myWindow.document.write(" <div  class = \"captureButtons\" > ");
+			myWindow.document.write(" <input id = \"recordbutton_ID\" type = \"button\"  value = \"Record Audio\" /> ");
+			//myWindow.document.write("Record audio and save to file. <br>");
+			//myWindow.document.write(" </div> ");
+			// Play button callback
+			myWindow.document.getElementById("recordbutton_ID").addEventListener('mousedown', function () {
+				if (recState===false){
+					this.value="Stop/Save Audio";
+					recState=true;
+					i_sm.startRecording();
+
+				} else{
+					this.value="Record Audio";
+					recState=false;
+					i_sm.stopRecording();
+				}
+			});
+
+			// ------------------- Query String Capture
+			//myWindow.document.write(" <div  class = \"captureButtons\" > ");
+			myWindow.document.write(" <input id = \"quesryStringbutton_ID\" type = \"button\"  value = \"Create URL String\" /> ");
+			//myWindow.document.write("Generate url for this sound model<br>");
+			//myWindow.document.write(" </div> ");
+
+			// Play button callback
+			myWindow.document.getElementById("quesryStringbutton_ID").addEventListener('mousedown', function () {
+			var urlWindow = {};
+			urlWindow = window.open('', '', "width = 625,height = " + 40);
+			var pstring="";
+			
+			pstring+=config.resourcesPath; //"http://animatedsoundworks.com:8001/";
+			pstring+="?modelname=jsaSound/" + sm_string_name;
+
+
+			for (i = 0; i < i_sm.getNumParams(); i++) {
+				if (i!=0) {
+					//pstring += "&" + "\"" + i_sm.getParam(i, "name") +  "\"" + "=";
+					pstring += "&" +  i_sm.getParam(i, "name") +  "=";
+					pstring +=  i_sm.getParam(i, "val") ;
+				}
+			}
+			urlWindow.document.write(pstring);
+
+			});
+
 			// ----------------------    Code Capture  ----------------------//
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
-			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\" style=\"float:right;\" value = \"Code Capture\" /> ");
+			//myWindow.document.write(" <div  class = \"captureButtons\" > ");
+			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\"  value = \"Code Capture for js\" /> ");
+			//myWindow.document.write("Generate js code with current paramaters<br>");
+			//myWindow.document.write(" </div> ");
+
 			// Play button callback
 			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
 				//alert("capture");
@@ -396,7 +451,7 @@ define(
 
 				captureWindow.document.write(pstring);
 
-				var pstring="// Normalized parameters in array form: <br> [";
+				var pstring="// Parameters in array form: <br> [";
 				for (i = 0; i < i_sm.getNumParams(); i++) {
 					if (i!=0) pstring += ", ";
 					pstring +=  i_sm.getParam(i, "val") ;
@@ -405,51 +460,6 @@ define(
 				pstring +=  "] <br>";
 				captureWindow.document.write(pstring);
 			});
-
-
-			// ------------------- Query String Capture
-			myWindow.document.write(" <input id = \"quesryStringbutton_ID\" type = \"button\" style=\"float:right;\" value = \"URL String\" /> ");
-			// Play button callback
-			myWindow.document.getElementById("quesryStringbutton_ID").addEventListener('mousedown', function () {
-			var urlWindow = {};
-			urlWindow = window.open('', '', "width = 625,height = " + 40);
-			var pstring="";
-			
-			pstring+=config.resourcesPath; //"http://animatedsoundworks.com:8001/";
-			pstring+="?modelname=jsaSound/" + sm_string_name;
-
-
-			for (i = 0; i < i_sm.getNumParams(); i++) {
-				if (i!=0) {
-					//pstring += "&" + "\"" + i_sm.getParam(i, "name") +  "\"" + "=";
-					pstring += "&" +  i_sm.getParam(i, "name") +  "=";
-					pstring +=  i_sm.getParam(i, "val") ;
-				}
-			}
-			urlWindow.document.write(pstring);
-
-			});
-
-			//   -------------    RECORDING -------------------------
-			var recState=false;
-			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
-			myWindow.document.write(" <input id = \"recordbutton_ID\" type = \"button\" style=\"float:right;\" value = \"Start Recording\" /> ");
-			// Play button callback
-			myWindow.document.getElementById("recordbutton_ID").addEventListener('mousedown', function () {
-				if (recState===false){
-					this.value="Stop Recording";
-					recState=true;
-					i_sm.startRecording();
-
-				} else{
-					this.value="Start Recording";
-					recState=false;
-					i_sm.stopRecording();
-				}
-			});
-
-			//myWindow.document.write("<div class=\"aswFooter\" id=\"homeLink\" ></div>");  //so it can be styled
-			//myWindow.document.getElementById("homeLink").innerHTML = "<a href=\"http://animatedsoundworks.com:8001\" target=\"_blank\">AnimatedSoundWorks</a>";
 
 			//   -------------              -------------------------
 

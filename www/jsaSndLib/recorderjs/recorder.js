@@ -3,7 +3,7 @@
 //
 (function(window){
 
-  var WORKER_PATH = 'jsaSdLib/recorderjs/recorderWorker.js';
+  var WORKER_PATH = 'jsaSndLib/recorderjs/recorderWorker.js';
 
   var Recorder = function(source, cfg){
     var config = cfg || {};
