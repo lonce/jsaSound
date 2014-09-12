@@ -171,16 +171,20 @@ define(
 				now = i_ptime || config.audioContext.currentTime;
 				stopTime = now + m_releaseTime;
 
+				console.log("now is " + now + ", and stopTime is " + stopTime);
+
 
 				gainEnvNode.gain.cancelScheduledValues(now);
 				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+				console.log("current gain is " + gainEnvNode.gain.value);
 				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-				myInterface.schedule(stopTime, function () {
-					myInterface.stop(stopTime);
-				});
+				//myInterface.schedule(stopTime, function () {
+					//myInterface.stop(stopTime);
+				//});
 
 			};
+
 			//--------------------------------------------------------------------------------
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
