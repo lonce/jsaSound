@@ -162,21 +162,24 @@ define(
 
 			// ----------------------------------------
 			myInterface.onRelease = function (i_ptime) {
-				var now = config.audioContext.currentTime;
-				stopTime = now + m_releaseTime;
+				var rtime = i_ptime || config.audioContext.currentTime; 
 
-				// ramp gain down to zero over the duration of m_releaseTime
-				gainEnvNode.gain.cancelScheduledValues(now);
-				gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-				gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
+				myInterface.schedule(rtime, function (){
+					var now = config.audioContext.currentTime;
+	
+					// ramp gain down to zero over the duration of m_releaseTime
+					gainEnvNode.gain.cancelScheduledValues(now);
+					gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
+					gainEnvNode.gain.linearRampToValueAtTime(0, now + m_releaseTime);
 
-				// when release is finished, stop everything 
-				myInterface.schedule(stopTime,  function () {
-					if (oscNode && oscNode.isPlaying){
-						oscNode.stop();
-						oscNode.isPlaying=false; 
-					} 
-					myInterface.stop();
+					// when release is finished, stop everything 
+					myInterface.schedule(now + m_releaseTime,  function () {
+						if (oscNode && oscNode.isPlaying){
+							oscNode.stop();
+							oscNode.isPlaying=false; 
+						} 
+						myInterface.stop();
+					});
 				});
 			};
 

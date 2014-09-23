@@ -34,7 +34,7 @@ define(
 				console.log("No config passed to jsaEventPhasor");
 			}
 
-			var m_phase = 0;
+
 			var m_freq = 1; // seconds
 			var m_currentPhase = 0; //[0,1]
 			var m_currentTime=0;
@@ -56,7 +56,7 @@ define(
 		    * @param {Number} phase in [0,1] 
 		    */
 			myInterface.setPhase = function (i_p) {
-				m_phase = i_p;
+				m_currentPhase = i_p;
 			};
 
 		    /**
@@ -65,7 +65,7 @@ define(
 		    * @param {Number} phase in [0,1] 
 		    */
 			myInterface.getPhase = function () {
-				return m_phase;
+				return m_currentPhase;
 			};
 
 		    /**
