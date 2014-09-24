@@ -207,10 +207,10 @@ define(
                     // ramp gain down to zero over the duration of m_releaseTime
                     gainEnvNode.gain.cancelScheduledValues(now);
                     gainEnvNode.gain.setValueAtTime(gainEnvNode.gain.value, now ); 
-                    gainEnvNode.gain.linearRampToValueAtTime(0, now + .05);
+                    gainEnvNode.gain.linearRampToValueAtTime(0, now+.001);
 
                     // when release is finished, stop everything 
-                    myInterface.schedule(now + .05,  function () {
+                    myInterface.schedule(now + +.001,  function () {
                         if (oscNode && oscNode.isPlaying){
                             oscNode.stop();
                             oscNode.isPlaying=false; 
