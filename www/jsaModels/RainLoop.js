@@ -27,6 +27,8 @@ define(
 			var sourceNode;
 
 			var m_gainLevel = .1;
+			m_bufferDuration=1;
+			m_loopStartPhase=0;
 
 			//hard-coded file name
 			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/Rain.wav";
@@ -67,6 +69,7 @@ define(
 
 			function onLoadAudioResource(b){
 				soundBuff = b;
+				m_bufferDuration = soundBuff.duration;
 				buffLoaded = true;
 				console.log("Buffer Loaded!");
 			}
@@ -85,7 +88,8 @@ define(
 
 					stopTime = config.bigNum;
 
-					sourceNode.start(i_ptime);
+					sourceNode.start(i_ptime, m_loopStartPhase*m_bufferDuration);
+					console.log("will start loop at phase " + m_loopStartPhase + "which is at time offset = " + m_loopStartPhase*m_bufferDuration);
 					sourceNode.isPlaying=true;
 
 
@@ -132,6 +136,19 @@ define(
 				},
 				function (i_val) {
 					m_releaseTime = parseFloat(i_val); // javascript makes me cry ....
+				}
+			);
+
+			myInterface.setReleaseTime = myInterface.registerParam(
+				"Loop Start Phase",
+				"range",
+				{
+					"min": 0,
+					"max": 1,
+					"val": 0
+				},
+				function (i_val) {
+					m_loopStartPhase = parseFloat(i_val); // javascript makes me cry ....
 				}
 			);
 

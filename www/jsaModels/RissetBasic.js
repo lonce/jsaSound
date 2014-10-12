@@ -17,19 +17,24 @@ define(
 	function (config, baseSM) {
 		return function () {
 			
-			var	oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
+			var oscNodes=[];
+			var numOscs=10; 
+
+			//var	oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
 			var	gainEnvNode = config.audioContext.createGain();
 			var	gainLevelNode = config.audioContext.createGain(); 
 
-			var k_gainFactor = .35;
+			var k_gainFactor = .1;
 
 			// defaults for setting up initial values (and displays) 
-			var m_gainLevel = 0.2;    // the point to (or from) which gainEnvNode ramps glide
-			var m_frequency = 440;
+			var m_gainLevel = 0.3;    // the point to (or from) which gainEnvNode ramps glide
+			var m_frequency = 60;
+
+			var m_spacing=.05;
 
 			var m_type=1;
 
-			var m_attackTime = 0.05;
+			var m_attackTime = 0.25;
 			var m_releaseTime = 1.0;
 			var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
 
@@ -38,14 +43,17 @@ define(
 			// Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
 			var buildModelArchitectureAGAIN = function () {
 				// if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
-				oscNode && oscNode.disconnect();
-				oscNode = config.audioContext.createOscillator();
-				oscNode.setType(m_type);  //square
-				oscNode.isPlaying=false;
-				oscNode.frequency.value = m_frequency;
 
-				// make the graph connections
-				oscNode.connect(gainEnvNode);
+				for(var i=0;i<numOscs;i++){
+					oscNodes[i] && oscNodes[i].disconnect();
+					oscNodes[i] = config.audioContext.createOscillator();
+					oscNodes[i].setType(m_type);  //square
+					oscNodes[i].isPlaying=false;
+					oscNodes[i].frequency.value = m_frequency+i*m_spacing;
+
+					// make the graph connections
+					oscNodes[i].connect(gainEnvNode);
+				}
 				gainEnvNode.connect(gainLevelNode);
 			};
 
@@ -57,30 +65,26 @@ define(
 
 			// ----------------------------------------
 			myInterface.onPlay = function (i_ptime) {
-				var now;
-				if (i_ptime != undefined){
-					now = i_ptime;
-				} else {
-					now = config.audioContext.currentTime;
+				var now = i_ptime || config.audioContext.currentTime;
+
+				console.log("rebuild model node architecture!");
+				buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
+				for (var i=0;i<numOscs;i++){
+					oscNodes[i].start(now);
+					oscNodes[i].isPlaying=true;
+					// if no input, remember from last time set
+					oscNodes[i].frequency.value = m_frequency+i*m_spacing;
 				}
 
+				gainLevelNode.gain.value = k_gainFactor*m_gainLevel;
 
-				//console.log("rebuild model node architecture!");
-				buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
-				oscNode.start(now);
-				oscNode.isPlaying=true;
-				gainEnvNode.gain.value = 0;
-
+				//gainEnvNode.gain.value = 0
 				gainEnvNode.gain.cancelScheduledValues(now);
 
 				stopTime = config.bigNum;
 
-				// if no input, remember from last time set
-				oscNode.frequency.value = m_frequency;
-
 				gainEnvNode.gain.setValueAtTime(0, now);
 				gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
-				gainLevelNode.gain.value = k_gainFactor*m_gainLevel;
 
 			
 			};
@@ -89,13 +93,15 @@ define(
 				"Frequency",			// the name the user will use to interact with this parameter
 				"range",				// the type of the parameter
 				{
-					"min": 40,			// minimum value
-					"max": 1000,		// maximum value
+					"min": 20,			// minimum value
+					"max": 100,		// maximum value
 					"val": m_frequency  //a variable used to remember value across start/stops
 				},
 				function (i_freq) {		// function to call when the parameter is changed
 					m_frequency = i_freq;
-					oscNode && (oscNode.frequency.value = m_frequency);
+					for(var i=0;i<numOscs;i++){
+						oscNodes[i] && (oscNodes[i].frequency.value = m_frequency+i*m_spacing);
+					}
 				}
 			);
 
@@ -103,8 +109,8 @@ define(
 				"Type",
 				"range",
 				{
-					"min": 0,
-					"max": 3.999999,
+					"min": 1,
+					"max": 2.999999,
 					"val": m_type
 				},
 				function (i_type) {
@@ -113,10 +119,28 @@ define(
 					if (m_type === i_type) return;
 					m_type=i_type;
 					console.log("setting osc type to " + m_type);
-					oscNode && (oscNode.setType(m_type));
+					for(var i=0;i<numOscs;i++){
+						oscNodes[i] && (oscNodes[i].setType(m_type));
+					}
 				}
 			);
 
+
+			myInterface.registerParam(
+				"Spacing",
+				"range",
+				{
+					"min": 0,
+					"max": .25,
+					"val": m_spacing
+				},
+				function (i_arg) {
+					m_spacing = i_arg;
+					for(var i=0;i<numOscs;i++){
+						oscNodes[i] && (oscNodes[i].frequency.value = m_frequency+i*m_spacing);
+					}
+				}
+			);
  
 			myInterface.registerParam(
 				"Gain",
@@ -174,10 +198,12 @@ define(
 
 					// when release is finished, stop everything 
 					myInterface.schedule(now + m_releaseTime,  function () {
-						if (oscNode && oscNode.isPlaying){
-							oscNode.stop();
-							oscNode.isPlaying=false; 
-						} 
+						for(var i=0; i<numOscs;i++){
+							if (oscNodes[i] && oscNodes[i].isPlaying){
+								oscNodes[i].stop();
+								oscNodes[i].isPlaying=false; 
+							} 
+						}
 						myInterface.stop();
 					});
 				});

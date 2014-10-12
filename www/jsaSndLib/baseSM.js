@@ -251,7 +251,7 @@ define(
 			* @param {Number} i_time time to release  (recommended use: 0 or no argument; use schedule(t,func) to scheudle releases in the future)
 			*/
 			bsmInterface.release = function (i_time) {
-				console.log("at: " + bsmInterface.getAboutText() + " isReleasing with release time arg = " + i_time + ", and isPlaying = " + bsmInterface.isPlaying);
+				//console.log("at: " + bsmInterface.getAboutText() + " isReleasing with release time arg = " + i_time + ", and isPlaying = " + bsmInterface.isPlaying);
 				if (bsmInterface.isPlaying) {
 					bsmInterface.onRelease(i_time);
 					if (i_time === undefined) i_time=0;
@@ -279,7 +279,7 @@ define(
 				bsmInterface.fire({"type": "stop", "ptime": i_time, "snd": this});				
 				bsmInterface.isPlaying=false;
 				if ((bsmInterface.getNumOutConnections() != 0) && (! isRecording)){
-                    console.log("disconnecting output on stop");
+                    //console.log("disconnecting output on stop");
                     bsmInterface.disconnect();
                 }		
 			};
