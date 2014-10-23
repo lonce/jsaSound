@@ -13,6 +13,11 @@ define(
 	function (config, baseSM, utils) {
 		return function () {
 
+			var m_distRole=1;   // Your role in the distribution of grains
+			var m_distCount=0;  // grain counter (mod m_distTotal)
+			var m_distTotal=1   // the total numbr of distributed participants
+
+
 			var tempNum = 0;
 			var i = 0;
 
@@ -26,7 +31,7 @@ define(
 
 			var m_grainDuration = 0.9;  // units = seconds
 			var m_stepSize = .25;  // seconds
-			var m_pitch = 0.0;  // octaves
+			var m_pitch = 0.0;//Math.random();  // octaves
 			var m_rpitch=0.0; // octaves
 
 
@@ -81,27 +86,35 @@ define(
 			}
 
 			function scheduleGrain() {
-				var source = config.audioContext.createBufferSource();
 
-				//console.log("scheduleGrain triggered");
-				//console.log("source created");
-				source.buffer = soundBuff;
-				pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
-				//console.log("pitchRate = ", pitchRate);
-				source.playbackRate.value = pitchRate;
-				//console.log("soundBuff created");
-				
+				var source;
+				m_distCount = (m_distCount+1)%m_distTotal;
+				console.log("m_distCount= " + m_distCount);
 
-				var grainWindowNode = config.audioContext.createGain();
-				source.connect(grainWindowNode);
-				grainWindowNode.connect(gainLevelNode);
+				if ((m_distCount+1) ===m_distRole){
+					console.log("PLAY GRAIN");
 
-				//source.noteGrainOn(realTime, grainTime, m_grainDuration);
-				source.start(realTime, grainTime, m_grainDuration);
-				source.stop(realTime+m_grainDuration);  // no need with duration specified in start()?
+					source = config.audioContext.createBufferSource();
+					source.buffer = soundBuff;
+					pitchRate = Math.pow(2.0, m_pitch+m_rpitch*(2*Math.random()-1));
+					//console.log("pitchRate = ", pitchRate);
+					source.playbackRate.value = pitchRate;
+					//console.log("soundBuff created");
+					
 
-				grainWindowNode.gain.value = 0.0;
-				grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, m_grainDuration / pitchRate);
+					var grainWindowNode = config.audioContext.createGain();
+					source.connect(grainWindowNode);
+					grainWindowNode.connect(gainLevelNode);
+
+					//source.noteGrainOn(realTime, grainTime, m_grainDuration);
+					source.start(realTime, grainTime, m_grainDuration);
+					source.stop(realTime+m_grainDuration);  // no need with duration specified in start()?
+
+					grainWindowNode.gain.value = 0.0;
+					grainWindowNode.gain.setValueCurveAtTime(grainWindow, realTime, m_grainDuration / pitchRate);
+
+				}
+
 
 				realTime += m_grainPlayInterval;
 
@@ -299,6 +312,14 @@ define(
 				});
 				*/
 			};
+
+			//++++++++++++++++++++++++++++++++++++++
+			myInterface.setRole = function(i_role, i_total){
+				console.log("In granny sound, setting role to " + i_role + ", and roles to " + i_total)
+				m_distRole=i_role;
+				m_distTotal=i_total;
+			}
+			//++++++++++++++++++++++++++++++++++++++
 
 			buffLoaded = false;
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);

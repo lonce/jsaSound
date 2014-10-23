@@ -103,6 +103,7 @@ define(
 				realTime += m_grainPlayInterval;
 
 				grainTime += m_stepSize;
+				console.log("graintime = " + grainTime);
 				grainTime = Math.max(grainTime, m_fileLoopStart);
 
 				if (grainTime > m_fileLoopEnd) {
@@ -143,7 +144,7 @@ define(
 					schedule();
 
 					gainLevelNode.gain.value = m_gainLevel;
-					console.log("Gain set at " + gainLevelNode.gain.value);
+					//console.log("Gain set at " + gainLevelNode.gain.value);
 
 
 
