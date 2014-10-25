@@ -14,11 +14,11 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
-		return function (i_fname) {
+		return function (i_loadedCB) {
 
 
 			var buffLoaded = false;
-			var playWhenBufferLoadsP =false;
+			//var playWhenBufferLoadsP =false;
 
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
@@ -46,11 +46,11 @@ define(
 			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
 
 
-
+/*
 			var init = (function (){
 				myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
 			}());
-
+*/
 
 			// Must keep rebuilding on play() this because sourceNode goes away after you call sourceNode.noeOff()
 			var buildModelArchitectureAGAIN = function() {
@@ -71,7 +71,7 @@ define(
 				soundBuff = b;
 				m_bufferDuration = soundBuff.duration;
 				buffLoaded = true;
-				console.log("Buffer Loaded!");
+				console.log("Rain loop: Buffer Loaded!");
 			}
 
 
@@ -94,8 +94,8 @@ define(
 
 
 				} else {
-					console.log("Buffer NOT loaded yet! - Will load and play");
-					playWhenBufferLoadsP=true;
+					//console.log("Buffer NOT loaded yet! - Will load and play");
+					//playWhenBufferLoadsP=true;
 				}
 
 				now = config.audioContext.currentTime;
@@ -186,7 +186,13 @@ define(
 			};
 
 
-
+			console.log("Rain loop: returning myInterface");
+			myInterface.on("resourceLoaded", function(){
+						console.log("Rain loop: soundReady");
+						i_loadedCB && i_loadedCB();
+						myInterface.off("resourceLoaded");
+					});
+			myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
 			return myInterface;
 		};
 	}

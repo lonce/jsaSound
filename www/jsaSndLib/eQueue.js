@@ -16,10 +16,11 @@ define(
         		// searched from high time to low time
         		// insert so that if time = previous node, playing will happen in order of insert
         		"schedule": function(t, f){
+                
                 /*
                     if (t <= config.audioContext.currentTime){
                             f(t);
-                            console.log("why you so like that?");
+                            //alert("why you so like that?");
                             return;
                     }
                     */
@@ -31,8 +32,8 @@ define(
         					return;
         				}
         			}
-        			// either q.length i 0 or t < all queued items, so insert
-        			queueManager.q.splice(i,0,{"time": t,  "func": f});
+        			// either q.length i 0 or t < all queued items, so insert at the end
+        			queueManager.q.splice(queueManager.q.length,0,{"time": t,  "func": f});
         		},
         		"processQ": function(){
         			var now = config.audioContext.currentTime;

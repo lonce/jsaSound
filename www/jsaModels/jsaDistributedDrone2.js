@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaModels/FilteredNoiseBand"],
 	function (config, baseSM, utils, FilteredNoiseBandFactory) {
-		return function () {
+		return function (i_loadedCB) {
 			var	childModel = [];
 			var k_maxNumChildren = 10;
 
@@ -192,7 +192,9 @@ define(
 
 			);
 
-			//console.log("paramlist = " + myInterface.getParamList().prettyString());			
+			//console.log("paramlist = " + myInterface.getParamList().prettyString());	
+			console.log("jsaDistributedDrone: soundReady");		
+			i_loadedCB && i_loadedCB("jsaDistributedDrone");
 			return myInterface;
 		};
 	}

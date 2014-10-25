@@ -29,7 +29,7 @@ define(
     		//alert("using normal AudioContext call ");
 		} else if ('webkitAudioContext' in window) {
     		exports.audioContext = new webkitAudioContext();
-    		alert("using webkit AudioContext");
+    		//alert("using webkit AudioContext");
 		}  else {
 			alert("Audio conext does not appear to be supported but we'll run silently anyway!");
 		    //throw new Error('AudioContext not supported. :(');

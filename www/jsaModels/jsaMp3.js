@@ -25,8 +25,6 @@ define(
 			var sm=new Object();
 
 			sm.buffLoaded = false;
-
-
 			sm.soundBuff = config.audioContext.createBuffer(2,2,44100); 
 
 			sm.gainLevelNode = config.audioContext.createGain();
@@ -40,9 +38,13 @@ define(
 			sm.stopTime = 0.0;
 			sm.now = 0.0;
 
+
 			var myInterface = baseSM({},[],[sm.gainLevelNode]);
 			//myInterface.sourceNode;
 			myInterface.setAboutText("Simple mp3 (or wav) player.")
+
+
+			
 
 			// Must keep rebuilding on play() this because myInterface.sourceNode goes away after you call myInterface.sourceNode.noeOff()
 			myInterface.buildModelArchitectureAGAIN = function() {
@@ -160,6 +162,9 @@ define(
 				});
 
 			};
+
+
+
 
 			return myInterface;
 		};

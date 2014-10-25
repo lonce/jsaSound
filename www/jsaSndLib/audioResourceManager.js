@@ -21,9 +21,14 @@ define(
 			* Manages audio resource loading so that only resources are only loaded once, and are stored in buffers that multiple sounds (or polyphonic sounds) can then reference.
 			* @method loadAudioResource
 			* @param {String} i_url The url of the audio resource to be loaded
-			* @param {function} i_onload function to be called when loaded. Will be passed the buffer that the audio resource has been loaded in to. 
+			* @param {function} i_usrOnLoad function to be called when loaded. Will be passed the buffer that the audio resource has been loaded in to. 
 			*/
-			"loadAudioResource": function(i_url, i_onload){
+			"loadAudioResource": function(i_url, i_usrOnLoad, i_alsoOnLoad){
+
+					var combinedOnLoad=function(b){
+						i_usrOnLoad(b);
+						i_alsoOnLoad();
+					}
 
 					var xhr = new XMLHttpRequest();
 
@@ -34,7 +39,9 @@ define(
 
 					var onDecode=function(b){
 						resourceManager.m_loadedResources[i_url]=b;
-						i_onload(b);
+						combinedOnLoad(b);
+						//i_usrOnLoad(b);
+						//i_alsoOnLoad();
 						// and same for those waiting for this resource
 						while (resourceManager.m_waitingForResource[i_url].length > 0){
 							//console.log("OK, got the resource I was waiting for!");
@@ -53,7 +60,7 @@ define(
 						if (resourceManager.m_loadedResources[i_url]==="loading"){
 							// queue up call back
 							//console.log("Somebody else is loading this resource, wait for it....!")
-							resourceManager.m_waitingForResource[i_url].push(i_onload);
+							resourceManager.m_waitingForResource[i_url].push(combinedOnLoad);
 							return;
 						} // else return the buffer previously loaded to the caller. 
 						console.log("The url, " + i_url + "was previously loaded. UReturning loaded buffer to caller");

@@ -21,7 +21,7 @@ define(
 			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/ThunderSample1.wav";
 
 
-		return function (i_fname) {
+		return function (i_loadedCB) {
 
 			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
@@ -31,14 +31,14 @@ define(
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
 			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
-
+/*
 			var init = (function (){
 				if (! buffRequested){
 					buffRequested=true;
 					myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
 				} 
 			}());
-
+*/
 
 			// Must keep rebuilding on play() this because sourceNode goes away after you call sourceNode.noeOff()
 			var buildModelArchitectureAGAIN = function() {
@@ -101,6 +101,15 @@ define(
 				myInterface.stop();
 			};
 
+			myInterface.on("resourceLoaded", function(){
+						console.log("Thunder1: soundReady");
+						i_loadedCB && i_loadedCB("Thunder1");
+						myInterface.off("resourceLoaded");
+					});
+			if (! buffRequested){
+				buffRequested=true;
+				myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
+			} 
 
 			return myInterface;
 		};

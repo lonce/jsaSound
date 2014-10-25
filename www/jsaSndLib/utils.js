@@ -406,6 +406,27 @@ define(
                     }
                     return this;
                 };
+
+
+                that.off = function(type, method){
+                	if (registry.hasOwnProperty(type)) {
+                		if (! method){
+                			delete registry[type];
+                			return;
+                		}
+
+                		for (var i=registry[type].length-1;i>=0;i--){
+                			if (registry[type][i].method===method){
+                				registry[type].splice(i,1);
+                			}
+                		}
+                		if (registry[type].length===0){
+                			delete registry[type];
+                		}
+                	}
+                	return this;
+                }
+
                 return that;
             }
 

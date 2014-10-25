@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, utils) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var m_distRole=1;   // Your role in the distribution of grains
 			var m_distCount=0;  // grain counter (mod m_distTotal)
@@ -75,7 +75,7 @@ define(
 					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
 
 					buffLoaded = true;
-					console.log("Buffer Loaded!");				
+					console.log("Granny Voice: Buffer Loaded!");				
 			}
 
 
@@ -321,8 +321,16 @@ define(
 			}
 			//++++++++++++++++++++++++++++++++++++++
 
+			console.log("Granny Voice: returning myInterface");
+			myInterface.on("resourceLoaded", function(){
+						console.log("Granny Voice: soundReady");
+						i_loadedCB && i_loadedCB();
+						myInterface.off("resourceLoaded");
+					});
 			buffLoaded = false;
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+
+
 			return myInterface;
 		};
 	}

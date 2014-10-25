@@ -58,6 +58,7 @@ define(
 			};
 
 			var bsmInterface =  GraphNode(i_node || {}, i_inputs || [], i_outputs || []);
+		
 
 			bsmInterface.nodeType="GraphNode";
 			bsmInterface.isPlaying=false;
@@ -389,7 +390,14 @@ define(
 			);
 
 			// -----------------  loading samples --------------
-			bsmInterface.loadAudioResource = resourceManager;
+			//bsmInterface.loadAudioResource = resourceManager;
+
+			bsmInterface.loadAudioResource=function(i_url, i_onload){
+				resourceManager(i_url, i_onload, function(){
+					bsmInterface.fire({"type": "resourceLoaded", "snd": this});
+				});
+			}
+			
 
 			//------------------  RECORDING  -------------------
 			var isRecording=false;

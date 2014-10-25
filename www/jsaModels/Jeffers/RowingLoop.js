@@ -20,7 +20,7 @@ define(
 		var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/row/RowLoop.mp3";
 
-		return function () {
+		return function (i_loadedCB) {
 
 			var playWhenBufferLoadsP =false;
 
@@ -65,7 +65,7 @@ define(
 			function onLoadAudioResource(b){
 				soundBuff = b;
 				buffLoaded = true;
-				console.log("Buffer Loaded!");
+				console.log("Rowing loop: Buffer Loaded!");
 			}
 
 			myInterface.onPlay = function (i_ptime) {
@@ -166,6 +166,15 @@ define(
 			};
 
 
+			myInterface.on("resourceLoaded", function(){
+						console.log("Rowing loop: soundReady");
+						i_loadedCB && i_loadedCB("Rowing loop");
+						myInterface.off("resourceLoaded");
+					});
+			if (! buffRequested){
+					buffRequested=true;
+					myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);
+			} 
 			return myInterface;
 		};
 	}
