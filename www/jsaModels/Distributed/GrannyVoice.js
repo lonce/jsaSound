@@ -16,6 +16,7 @@ define(
 			var m_distRole=1;   // Your role in the distribution of grains
 			var m_distCount=0;  // grain counter (mod m_distTotal)
 			var m_distTotal=1   // the total numbr of distributed participants
+			var k_maxDist=20 // after that, mulitple clients get same roles
 
 
 			var tempNum = 0;
@@ -89,10 +90,10 @@ define(
 
 				var source;
 				m_distCount = (m_distCount+1)%m_distTotal;
-				console.log("m_distCount= " + m_distCount);
+				//console.log("m_distCount= " + m_distCount);
 
 				if ((m_distCount+1) ===m_distRole){
-					console.log("PLAY GRAIN");
+					//console.log("PLAY GRAIN");
 
 					source = config.audioContext.createBufferSource();
 					source.buffer = soundBuff;
@@ -315,13 +316,14 @@ define(
 
 			//++++++++++++++++++++++++++++++++++++++
 			myInterface.setRole = function(i_role, i_total){
+				console.log("In granny sound setRole, i_role is " + i_role + ", and i_total is " + i_total)
+				m_distRole=(i_role % k_maxDist);
+				m_distTotal=Math.min(i_total, k_maxDist);
 				console.log("In granny sound, setting role to " + i_role + ", and roles to " + i_total)
-				m_distRole=i_role;
-				m_distTotal=i_total;
 			}
 			//++++++++++++++++++++++++++++++++++++++
 
-			console.log("Granny Voice: returning myInterface");
+			//console.log("Granny Voice: returning myInterface");
 			myInterface.on("resourceLoaded", function(){
 						console.log("Granny Voice: soundReady");
 						i_loadedCB && i_loadedCB();
