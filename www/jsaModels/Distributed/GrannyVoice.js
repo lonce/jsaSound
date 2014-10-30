@@ -90,10 +90,10 @@ define(
 
 				var source;
 				m_distCount = (m_distCount+1)%m_distTotal;
-				//console.log("m_distCount= " + m_distCount);
+				console.log("m_distCount= " + m_distCount);
 
 				if ((m_distCount+1) ===m_distRole){
-					//console.log("PLAY GRAIN");
+					console.log("PLAY GRAIN");
 
 					source = config.audioContext.createBufferSource();
 					source.buffer = soundBuff;

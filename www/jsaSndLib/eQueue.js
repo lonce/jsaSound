@@ -17,13 +17,13 @@ define(
         		// insert so that if time = previous node, playing will happen in order of insert
         		"schedule": function(t, f){
                 
-                /*
+                
                     if (t <= config.audioContext.currentTime){
                             f(t);
-                            //alert("why you so like that?");
+                            console.log("nosched t= " + t + ", but ct = " + config.audioContext.currentTime);
                             return;
                     }
-                    */
+                    
                     //if quque was empty before, initiate callbacks now
                     if (queueManager.q.length === 0) queueManager.reqaframe(queueManager.processQ);
         			for(var i=0;i<queueManager.q.length;i++){
