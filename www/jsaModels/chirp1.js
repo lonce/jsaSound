@@ -55,7 +55,7 @@ define(
 
             // (Re)create the nodes and thier connections.
             // Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
-            var buildModelArchitectureAGAIN = function () {
+            var buildModelArchitecture = (function () {
                 // if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
                 oscNode && oscNode.disconnect();
                 oscNode = config.audioContext.createOscillator();
@@ -65,13 +65,14 @@ define(
 
                 // make the graph connections
                 oscNode.connect(gainEnvNode);
+                m_gainEnvNode.gain.setValueAtTime(0, 0); //(value, time)
                 gainEnvNode.connect(gainLevelNode);
-            };
+            })();
 
             // define the PUBLIC INTERFACE object for the model 
             var myInterface = baseSM({},[],[gainLevelNode]);
 
-            //console.log("now I have output nodes");
+            console.log("now I have output nodes");
             myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
             // ----------------------------------------
@@ -85,7 +86,7 @@ define(
 
 
                 //console.log("rebuild model node architecture!");
-                buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
+                //buildModelArchitectureAGAIN();   // Yuck - have to do this because we stop() the osc node
 
 
                 // if no input, remember from last time set
