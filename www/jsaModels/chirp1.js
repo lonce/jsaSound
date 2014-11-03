@@ -16,6 +16,8 @@ define(
     ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
     function (config, baseSM) {
         return function () {
+
+            var k_latency=0;
             
             var oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
             var gainEnvNode = config.audioContext.createGain();
@@ -36,7 +38,7 @@ define(
             var m_frequencyMin = 440*Math.pow(2,m_cFO+m_rangeO);
             var m_frequencyMax = 440*Math.pow(2,m_cFO-m_rangeO);
 
-            var m_duration=.1;
+            var m_duration=.09;
             var m_type=1;
 
             var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
@@ -57,7 +59,7 @@ define(
             // Must be called everytime we want to start playing since in this model, osc nodes are *deleted* when they aren't being used.
             var buildModelArchitecture = (function () {
                 // if you stop a node, you have to recreate it (though doesn't always seem necessary - see jsaFM!
-                oscNode && oscNode.disconnect();
+                //oscNode && oscNode.disconnect();
                 oscNode = config.audioContext.createOscillator();
                 oscNode.setType(m_type);  //square
                 oscNode.isPlaying=false;
@@ -65,8 +67,10 @@ define(
 
                 // make the graph connections
                 oscNode.connect(gainEnvNode);
-                m_gainEnvNode.gain.setValueAtTime(0, 0); //(value, time)
+                gainEnvNode.gain.setValueAtTime(0, 0); //(value, time)
                 gainEnvNode.connect(gainLevelNode);
+                oscNode.start(0);
+                oscNode.isPlaying=true;
             })();
 
             // define the PUBLIC INTERFACE object for the model 
@@ -97,7 +101,7 @@ define(
                 //oscNode.frequency.setValueAtTime(0, scaleFreq(m_Contour.f[0]));
                 for(var i=0;i<len;i++){
                     //console.log("now = " + now + ", will set freq to " + scaleFreq(m_Contour.f[i]) + " at time " + (now + m_Contour.tf[i]*m_duration));
-                    oscNode.frequency.exponentialRampToValueAtTime(scaleFreq(m_Contour.f[i]), (now + m_Contour.tf[i]*m_duration));
+                    oscNode.frequency.exponentialRampToValueAtTime(scaleFreq(m_Contour.f[i]), (now + k_latency + m_Contour.tf[i]*m_duration));
                 }
 
                 len = m_Contour.ta.length;
@@ -107,12 +111,12 @@ define(
 
                 for(var i=0;i<len;i++){
                      //console.log("now = " + now + ", will set amp to " + m_Contour.a[i] + " at time " + (now + m_Contour.ta[i]*m_duration));
-                     gainEnvNode.gain.linearRampToValueAtTime(m_Contour.a[i], (now + m_Contour.ta[i]*m_duration));
+                     gainEnvNode.gain.linearRampToValueAtTime(m_Contour.a[i], (now  + k_latency + m_Contour.ta[i]*m_duration));
                 }
 
 
-                oscNode.start(now);
-                oscNode.isPlaying=true;
+
+
 
                 stopTime = config.bigNum;
                 gainLevelNode.gain.value = k_gainFactor*m_gainLevel;
@@ -214,7 +218,7 @@ define(
                     // when release is finished, stop everything 
                     myInterface.schedule(now + +.001,  function () {
                         if (oscNode && oscNode.isPlaying){
-                            oscNode.stop();
+                            //oscNode.stop();
                             oscNode.isPlaying=false; 
                         } 
                         myInterface.stop();

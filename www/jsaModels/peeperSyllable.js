@@ -18,7 +18,7 @@ Date: May 2013
 */
 
 define(
-        ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM",  "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaModels/chirp"],
+        ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM",  "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaModels/chirp1"],
         function (config, baseSM,  jsaEventPhasor, chirpFactory) {
                 return function (i_loadedCB) {
 
