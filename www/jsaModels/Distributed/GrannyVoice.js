@@ -144,12 +144,14 @@ define(
 				currentTime = config.audioContext.currentTime;
 
 
-				while (realTime < currentTime + 0.100) {
+				//while (realTime < currentTime + 0.100) {
+				while (realTime < currentTime + 1.0) {
 					scheduleGrain();
 				}
 
 				//console.log("schedule: currentTime = " + currentTime);
-				myInterface.schedule(currentTime+.05, schedule);
+				//myInterface.schedule(currentTime+.05, schedule);
+				myInterface.schedule(currentTime+.5, schedule);
 			}
 
 			myInterface.onPlay = function (i_ptime) {

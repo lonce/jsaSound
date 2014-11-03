@@ -41,11 +41,12 @@ define(
 
             var stopTime = 0.0;        // will be > config.audioContext.currentTime if playing
 
+
             var m_Contour = {
-                "tf": [0,.25,.5,1],
-                "f": [0,1,.5,1],
-                "ta": [0, .1, .9, 1],
-                "a": [0,1,1,0]
+                "tf": [0,.25,.5,1],  // time for freq
+                "f": [0,1,.5,1],     // freq val (normalized)
+                "ta": [0, .1, .9, 1],// time for amplitude (normalized)
+                "a": [0,1,1,0]       // amplitude value
             }
 
             var scaleFreq=function(normFreq){

@@ -1,0 +1,6 @@
+
+Good crickit chirp:
+
+http://localhost:8001/?modelname=jsaSound/jsaModels/chirp&Center Frequency (octaves)=3.35&Frequency Range (octaves)=0.26&Duration=0.07&Type=1&Gain=0.6
+
+Good cf range for different phones: 3.35 - 3.6 
