@@ -31,7 +31,7 @@ define(
 			m_loopStartPhase=0;
 
 			//hard-coded file name
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/Rain.wav";
+			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/milloyItDoesntMatter_sm.mp3";
 
 
 			var m_attackTime = 1,
@@ -56,7 +56,7 @@ define(
 			var buildModelArchitectureAGAIN = function() {
 				sourceNode = config.audioContext.createBufferSource();
 				sourceNode.buffer = soundBuff;
-				sourceNode.loop = true;
+				sourceNode.loop = false;
 				sourceNode.isPlaying=false;
 
 
@@ -189,7 +189,7 @@ define(
 			console.log("Rain loop: returning myInterface");
 			myInterface.on("resourceLoaded", function(){
 						console.log("Rain loop: soundReady");
-						i_loadedCB && i_loadedCB();
+						i_loadedCB && i_loadedCB("GrannyVoiceGallery");
 						myInterface.off("resourceLoaded");
 					});
 			myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);

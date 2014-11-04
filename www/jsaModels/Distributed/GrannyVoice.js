@@ -280,7 +280,8 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": config.resourcesPath + "jsaResources/sounds/BeingRuralshort22k.mp3"
+					//"val": config.resourcesPath + "jsaResources/sounds/BeingRuralshort22k.mp3"
+					"val": config.resourcesPath + "jsaResources/sounds/milloyGlobalWarming_sm.mp3"
 				},
 				function (i_val) {
 					val = i_val;

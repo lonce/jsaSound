@@ -57,12 +57,7 @@ define(
 
 			// ----------------------------------------
 			myInterface.onPlay = function (i_ptime) {
-				var now;
-				if (i_ptime != undefined){
-					now = i_ptime;
-				} else {
-					now = config.audioContext.currentTime;
-				}
+				var now = i_ptime || config.audioContext.currentTime;
 
 
 				//console.log("rebuild model node architecture!");
@@ -139,7 +134,7 @@ define(
 				"range",
 				{
 					"min": 0,
-					"max": 1,
+					"max": 5,
 					"val": m_attackTime
 				},
 				function (i_val) {
