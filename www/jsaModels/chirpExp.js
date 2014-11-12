@@ -234,7 +234,7 @@ define(
 
 
             m_CarrierNode.setParam("carrierFrequency", m_car_freq);
-            i_loadedCB && i_loadedCB("chirpExp");
+            i_loadedCB && i_loadedCB(myInterface);
             return myInterface;
         };
     }

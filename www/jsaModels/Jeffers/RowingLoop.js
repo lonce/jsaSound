@@ -168,7 +168,7 @@ define(
 
 			myInterface.on("resourceLoaded", function(){
 						console.log("Rowing loop: soundReady");
-						i_loadedCB && i_loadedCB("Rowing loop");
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			if (! buffRequested){

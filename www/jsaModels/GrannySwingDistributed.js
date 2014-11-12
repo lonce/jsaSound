@@ -57,6 +57,7 @@ define(
 			var continuePlaying = true;
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setName("Granny Swing");
 			myInterface.setAboutText("Granular Synthesis");
 
 			function onLoadAudioResource(b){  
@@ -293,7 +294,7 @@ define(
 			buffLoaded = false;
 			myInterface.on("resourceLoaded", function(){
 						console.log("Granny Swing: soundReady");
-						i_loadedCB && i_loadedCB("Granny Swing");
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);

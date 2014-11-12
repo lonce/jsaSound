@@ -16,7 +16,7 @@ define(
     ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
     function (config, baseSM) {
         return function () {
-            alert("loaded chirp1");
+            //alert("loaded chirp1");
             var k_latency=0;
             
             var oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)

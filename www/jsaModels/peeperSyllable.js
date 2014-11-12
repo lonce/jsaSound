@@ -27,165 +27,169 @@ define(
                 var stopTime = 0.0;// will be > audioContext.currentTime if playing
 
 
-                        var k_gain_factor=1; // for sounds that just need a boost
-                        var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
-                        var m_gainLevel = .25;
-
-                        var m_position=1; // within th [0-1] syllable
-
-                        var k_begRate=10; // per second
-                        var k_finRate=20; // per second
-                        var m_eventRate= k_begRate - m_position*(k_begRate-k_finRate); // per second
-
-                        var k_begDutyCycle=.7;
-                        var k_finDutyCycle=1.4; 
-                        var m_dutyCycle = k_begDutyCycle + m_position*(k_finDutyCycle-k_begDutyCycle);
-                        var m_duration;
-
-                        //var k_begCFO=3.35;
-                        //var k_finCFO=3.35;
-                        var m_cfo=3.35;//k_begCFO - m_position*(k_begCFO-k_finCFO); 
+                var k_gain_factor=1; // for sounds that just need a boost
+                var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
+                var m_gainLevel = .25;
 
 
-                        var playingP=false;
-                        var child = chirpFactory(); // short burst, created only once
-                        var m_gainEnvNode = config.audioContext.createGain();
-                        var m_gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
+                var m_eventRate= 20; // per second
+                var m_dutyCycle = .75;
+                var m_duration;
 
-                        // for triggering periodic events
-                        var m_ephasor = jsaEventPhasor();
-                        m_ephasor.setFreq(m_eventRate);
+                //var k_begCFO=3.35;
+                //var k_finCFO=3.35;
+                var m_cfo=3.35;//k_begCFO - m_position*(k_begCFO-k_finCFO); 
 
-                        var requestAnimationFrame = window.requestAnimationFrame;
 
-                        m_gainEnvNode.connect(m_gainLevelNode); // collect audio from children output nodes into m_gainLevelNode 
-                        m_gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
-                        m_gainEnvNode.gain.value = 0;
+                var playingP=false;
+                var child = chirpFactory(); // short burst, created only once
+                var m_gainEnvNode = config.audioContext.createGain();
+                var m_gainLevelNode = config.audioContext.createGain(); // manipulated by sound user
 
-                        //  requestAnimationFrame callback function
-                        var animate = function (e) {
-                                if (! (playingP=== true)) return;
+                // for triggering periodic events
+                var m_ephasor = jsaEventPhasor();
+                m_ephasor.setFreq(m_eventRate);
 
-                                var now = config.audioContext.currentTime;        // this is the time this callback comes in - there could be jitter, etc.        
-                                var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
-                                var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around                
+                var requestAnimationFrame = window.requestAnimationFrame;
 
-                                var ptime;  // the event play time
+                m_gainEnvNode.connect(m_gainLevelNode); // collect audio from children output nodes into m_gainLevelNode 
+                m_gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
+                m_gainEnvNode.gain.value = 0;
 
-                                while (next_uptotime > nextTickTime) {
-                                        ptime = nextTickTime;
-                                        init();
-                                        m_duration = (m_eventRate===0) ? config.bigNum : m_dutyCycle/m_eventRate;
-                                        child.setParam("Duration", m_duration);                                        
-                                        child.setParam("Frequency Range (octaves)", .26);
-                                        child.setParam("Center Frequency (octaves)", m_cfo);
-                                        //console.log("dur= " + m_duration + ", and cf = " + m_cfo);
-                                        child.play(ptime);
-                                        child.release(ptime+m_duration); // this would have to change if the SourceBuffer.playRate changes...
+                //  requestAnimationFrame callback function
+                var animate = function (e) {
+                        if (! (playingP=== true)) return;
 
-                                        m_ephasor.advanceToTick();
-                                        nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
-                                }
-                                m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
+                        var now = config.audioContext.currentTime;        // this is the time this callback comes in - there could be jitter, etc.        
+                        var next_uptotime = now + m_futureinterval;  // comput events that happen up until this time
+                        var nextTickTime = m_ephasor.nextTickTime(); // A "tick" is when the phasor wraps around                
+
+                        var ptime;  // the event play time
+
+                        while (next_uptotime > nextTickTime) {
+                                ptime = nextTickTime;
+                                init();
+                                m_duration = (m_eventRate===0) ? config.bigNum : m_dutyCycle/m_eventRate;
+                                child.setParam("Duration", m_duration);                                        
+                                child.setParam("Frequency Range (octaves)", .26);
+                                child.setParam("Center Frequency (octaves)", m_cfo);
+                                //console.log("dur= " + m_duration + ", and cf = " + m_cfo);
+                                child.play(ptime);
+                                child.release(ptime+m_duration); // this would have to change if the SourceBuffer.playRate changes...
+
+                                m_ephasor.advanceToTick();
+                                nextTickTime = m_ephasor.nextTickTime();                // so when is the next tick?
+                        }
+                        m_ephasor.advanceToTime(next_uptotime); // advance phasor to the current computed upto time.
+                        requestAnimationFrame(animate);
+                };
+
+                var myInterface = baseSM({},[],[m_gainLevelNode]);
+                myInterface.setName("peeperSyllable");
+                myInterface.setAboutText("Generic event generator")
+
+
+                // get a new SourceBufferNode for every event (oi.)
+                var init = function () {
+                                child = chirpFactory();
+                                child.connect(m_gainEnvNode);
+                };
+
+
+                myInterface.onPlay = function (i_ptime) {
+                        var now = config.audioContext.currentTime;
+                        console.log("Chirps onPlay at " + i_ptime + ", or now = " + config.audioContext.currentTime);
+                        m_ephasor.setPhase(0.99);        // so that the phaser wraps to generate an event immediately after starting
+
+                        if (i_ptime && (i_ptime > now)){
+                            m_ephasor.setCurrentTime(i_ptime);
+                            myInterface.schedule(i_ptime, function(){
                                 requestAnimationFrame(animate);
-                        };
-
-                        var myInterface = baseSM({},[],[m_gainLevelNode]);
-                        myInterface.setAboutText("Generic event generator")
-
-
-                        // get a new SourceBufferNode for every event (oi.)
-                        var init = function () {
-                                        child = chirpFactory();
-                                        child.connect(m_gainEnvNode);
-                        };
-
-
-                        myInterface.onPlay = function (i_ptime) {
-                                var now = config.audioContext.currentTime;
-                                console.log("Chirps onPlay at " + i_ptime + ", or now = " + config.audioContext.currentTime);
-                                m_ephasor.setPhase(0.99);        // so that the phaser wraps to generate an event immediately after starting
-
-                                if (i_ptime && (i_ptime > now)){
-                                    m_ephasor.setCurrentTime(i_ptime);
-                                    myInterface.schedule(i_ptime, function(){
-                                        requestAnimationFrame(animate);
-                                    });
-                                } else {
-                                    console.log("start Chirps w/o waiting")
-                                    m_ephasor.setCurrentTime(now);
-                                    requestAnimationFrame(animate);
-                                }
-
-                                m_eventRate= k_begRate - m_position*(k_begRate-k_finRate); 
-
-                                playingP=true;
-
-                                m_gainEnvNode.gain.cancelScheduledValues(now);
-
-                                stopTime = config.bigNum;
-
-                                m_gainEnvNode.gain.setValueAtTime(0, now);
-                                m_gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
-
-                                
-                        };
-
-                        myInterface.onRelease = function (i_ptime) {
-                                // stops the animation frame callbacks
-                                //playingP=false;
-                                //myInterface.stop(i_ptime);
-
-                            now = i_ptime || config.audioContext.currentTime;
-                            stopTime = now + m_releaseTime;
-
-                            //console.log("now is " + now + ", and stopTime is " + stopTime);
-
-
-                            m_gainEnvNode.gain.cancelScheduledValues(now);
-                            m_gainEnvNode.gain.setValueAtTime(m_gainEnvNode.gain.value, now ); 
-                            //console.log("current gain is " + gainEnvNode.gain.value);
-                            m_gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
-
-                            myInterface.schedule(stopTime, function () {
-                                playingP=false;
-                                myInterface.stop(stopTime);
                             });
+                        } else {
+                            console.log("start Chirps w/o waiting")
+                            m_ephasor.setCurrentTime(now);
+                            requestAnimationFrame(animate);
+                        }
+
+                        playingP=true;
+
+                        m_gainEnvNode.gain.cancelScheduledValues(now);
+
+                        stopTime = config.bigNum;
+
+                        m_gainEnvNode.gain.setValueAtTime(0, now);
+                        m_gainEnvNode.gain.linearRampToValueAtTime(1, now + m_attackTime); // go to gain level over .1 secs
+
+                        
+                };
+
+                myInterface.onRelease = function (i_ptime) {
+                        // stops the animation frame callbacks
+                        //playingP=false;
+                        //myInterface.stop(i_ptime);
+
+                    now = i_ptime || config.audioContext.currentTime;
+                    stopTime = now + m_releaseTime;
+
+                    //console.log("now is " + now + ", and stopTime is " + stopTime);
 
 
-                        };
+                    m_gainEnvNode.gain.cancelScheduledValues(now);
+                    m_gainEnvNode.gain.setValueAtTime(m_gainEnvNode.gain.value, now ); 
+                    //console.log("current gain is " + gainEnvNode.gain.value);
+                    m_gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
-                        // Exposed soundmodel parameters --------------------
+                    myInterface.schedule(stopTime, function () {
+                        playingP=false;
+                        myInterface.stop(stopTime);
+                    });
 
-                        myInterface.registerParam(
-                                "Syllable Position",
-                                "range",
-                                {
-                                        "min": 0,
-                                        "max": 1,
-                                        "val": m_position
-                                },
-                                function (i_arg) {
-                                        m_position = i_arg;
-                                        m_eventRate= k_begRate - m_position*(k_begRate-k_finRate); 
-                                        m_ephasor.setFreq(m_eventRate); //controls how high the frequency goes
-                                        m_dutyCycle = k_begDutyCycle + m_position*(k_finDutyCycle-k_begDutyCycle)
-                                       // m_cfo=k_begCFO - m_position*(k_begCFO-k_finCFO);
-                                }
-                        );
 
-          myInterface.registerParam(
-                "Center Frequency (octaves)",            // the name the user will use to interact with this parameter
-                "range",                // the type of the parameter
-                {
-                    "min": child.getParam("Center Frequency (octaves)", "min"),        // minimum value
-                    "max": child.getParam("Center Frequency (octaves)", "max"),        // maximum value
-                    "val": m_cfo  //a variable used to remember value across start/stops
-                },
-                function (i_arg) {     // function to call when the parameter is changed
-                    m_cfo = i_arg;
-                }
-            );
+                };
+
+                // Exposed soundmodel parameters --------------------
+
+              myInterface.registerParam(
+                    "Center Frequency (octaves)",            // the name the user will use to interact with this parameter
+                    "range",                // the type of the parameter
+                    {
+                        "min": child.getParam("Center Frequency (octaves)", "min"),        // minimum value
+                        "max": child.getParam("Center Frequency (octaves)", "max"),        // maximum value
+                        "val": m_cfo  //a variable used to remember value across start/stops
+                    },
+                    function (i_arg) {     // function to call when the parameter is changed
+                        m_cfo = i_arg;
+                    }
+                );
+
+              myInterface.registerParam(
+                    "Chirp Rate",            // the name the user will use to interact with this parameter
+                    "range",                // the type of the parameter
+                    {
+                        "min": 1,        // minimum value
+                        "max": 25,        // maximum value
+                        "val": m_eventRate  //a variable used to remember value across start/stops
+                    },
+                    function (i_arg) {     // function to call when the parameter is changed
+                        m_eventRate = i_arg;
+                        m_ephasor.setFreq(m_eventRate); 
+                    }
+                );
+
+              myInterface.registerParam(
+                    "Duty Cycle",            // the name the user will use to interact with this parameter
+                    "range",                // the type of the parameter
+                    {
+                        "min": .05,        // minimum value
+                        "max": 1,        // maximum value
+                        "val": m_dutyCycle  //a variable used to remember value across start/stops
+                    },
+                    function (i_arg) {     // function to call when the parameter is changed
+                         m_dutyCycle = i_arg;
+                    }
+                );
+
 
 /*
                         myInterface.registerParam(
@@ -217,7 +221,7 @@ define(
                                         m_gainLevelNode.gain.value = k_gain_factor*m_gainLevel ;
                                 }
                         );
-                        i_loadedCB && i_loadedCB("peeperSyllable");
+                        i_loadedCB && i_loadedCB(myInterface);
                         return myInterface;
                 };
         }

@@ -27,7 +27,9 @@ define(
 
 			var m_currentNumChildrenActive = 6;
 			var m_baseNote = 69;
-			var m_childGain = .6;
+			var m_detune = 0;
+			var m_firstNoteNum = 5; // index in to scale array
+			var m_childGain = .7;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
@@ -35,20 +37,21 @@ define(
 			// These numbers are semitones to be used relative to a "base note" 
 			var scale = [0.0, 2.0, 4.0, 6.0, 7.0, 9.0, 11.0, 12.0, 14.0];
 
-			var m_gainLevel = .5;
+			var m_gainLevel = 1;
 			var gainLevelNode = config.audioContext.createGain();  // will collect output the children
 
 			// get a frequency as a random function of the base_note
-			var note2Freq = function (i_baseNote) {
-				var degree = Math.floor(Math.random() * scale.length);
-				var freq = utils.mtof(i_baseNote + scale[degree]);
+			var note2Freq = function (i_note) {
+				//var degree = Math.floor(Math.random() * scale.length);
+				var freq = utils.mtof(i_note +m_detune);
 				return freq;
 			};
+
 
 			
 
 			// Init runs once when the sound model is constructed only
-			var foo = 0;
+
 			var init = (function () {
 				var i;
 				for (i = 0; i < k_maxNumChildren; i += 1) {
@@ -56,8 +59,8 @@ define(
 
 					childModel[i].setParam("Filter Q", 40);
 					childModel[i].setParam("Gain", m_childGain);
-					foo = note2Freq(m_baseNote);
-					childModel[i].setParam("Center Frequency", foo);
+					childModel[i].notenum=m_baseNote+scale[Math.floor(Math.random() * scale.length)];
+					childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));
 
 					if (childModel[i].hasOutputs()){
 						childModel[i].connect(gainLevelNode); // collect audio from children output nodes into gainLevelNode 
@@ -79,10 +82,18 @@ define(
 
 				gainLevelNode.gain.value = m_gainLevel;  // collector turn back up
 
-				m_baseNote = m_baseNote;
+				//m_baseNote = m_baseNote;
 				//console.log("will send play to " + m_currentNumChildrenActive + " currently active children");
-				for (i = 0; i < m_currentNumChildrenActive; i += 1) {
-					childModel[i].setParam("Center Frequency", note2Freq(m_baseNote));
+
+				/* the first child's note is fixed */
+				childModel[0].notenum=m_baseNote + scale[m_firstNoteNum];
+				childModel[0].setParam("Center Frequency", note2Freq(childModel[0].notenum));
+				childModel[0].play(i_ptime);
+
+				/* the rest are random */
+				for (i = 1; i < m_currentNumChildrenActive; i += 1) {
+					childModel[i].notenum=m_baseNote + scale[Math.floor(Math.random() * scale.length)];
+					childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));
 					childModel[i].play(i_ptime);
 				}
 
@@ -122,15 +133,50 @@ define(
 					}
 
 					var bndif = in_bn - m_baseNote;
+					
 					//console.log("will send new base note to " + m_currentNumChildrenActive + " currently active children");
 					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
+						childModel[i].notenum +=bndif; 
 						//childModel[i].setCenterFreq(note2Freq(m_baseNote));  // reassign freqs
-						childModel[i].setParam("Center Frequency", childModel[i].getFreq() * Math.pow(2, bndif / 12));  // glide freqs
+						//////////childModel[i].setParam("Center Frequency", childModel[i].getFreq() * Math.pow(2, (bndif+m_detune) / 12));  // glide freqs
+						childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));  // glide freqs
 					}
 					m_baseNote = in_bn;
 				}
 			);
 
+			myInterface.registerParam(
+				"Detune",
+				"range",
+				{
+					"min": -1,
+					"max": 1,
+					"val": m_detune
+				},
+				function (i_val) {
+					m_detune=i_val;
+					//console.log("will send new base note to " + m_currentNumChildrenActive + " currently active children");
+					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
+						//childModel[i].setCenterFreq(note2Freq(m_baseNote));  // reassign freqs
+						childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));  // glide freqs
+					}
+				}
+			);
+
+			myInterface.registerParam(
+				"First Note Number",
+				"range",
+				{
+					"min": 0,
+					"max": scale.length-.00001,
+					"val": m_firstNoteNum
+				},
+
+				function (i_val) {
+					m_firstNoteNum = Math.floor(i_val);
+				}
+
+			);
 
 			// add or remove children from actively playing
 			myInterface.registerParam(
@@ -151,10 +197,11 @@ define(
 					if (in_gens > m_currentNumChildrenActive) {
 						for (i = m_currentNumChildrenActive; i < in_gens; i += 1) {
 							//console.log("setNumGenerators: will add child to playing list # " + i);
-							var f = note2Freq(m_baseNote);
+							childModel[i].notenum=m_baseNote+scale[Math.floor(Math.random() * scale.length)];;
+							//var f = note2Freq(m_baseNote);
 							childModel[i].setParam("Gain", m_childGain);
 							if (stopTime > config.audioContext.currentTime){ // if playingP
-								childModel[i].setParam("Center Frequency", f);
+								childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));
 								childModel[i].play();
 							}
 						}

@@ -43,6 +43,7 @@ define(
 
 			var that=this;
 			var aboutText = "";
+			var m_name = "";
 			var params = {};
 			var paramname = []; // array of parameter names
 
@@ -76,6 +77,23 @@ define(
 			* @return {String} text descritption of model, hints, created with setAboutText 
 			*/
 			bsmInterface.getAboutText = function () { return aboutText;};
+
+
+			/**
+			* @method setName
+			* @param {String} i_name name for this model
+			*/
+			bsmInterface.setName = function (i_name){
+				m_name=i_name;
+			};
+
+			/**
+			* @method getName
+			* @return {String} name for this model 
+			*/
+			bsmInterface.getName = function () { return m_name;};
+
+
 
 			// Parameters are not over-writable
 			/** 

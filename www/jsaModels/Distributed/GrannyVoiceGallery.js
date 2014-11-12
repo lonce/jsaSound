@@ -185,11 +185,12 @@ define(
 				});
 			};
 
-
+			myInterface.setName("GrannyVoiceGallery");
+			
 			console.log("Rain loop: returning myInterface");
 			myInterface.on("resourceLoaded", function(){
 						console.log("Rain loop: soundReady");
-						i_loadedCB && i_loadedCB("GrannyVoiceGallery");
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);

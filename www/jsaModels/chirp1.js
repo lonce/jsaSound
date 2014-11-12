@@ -76,7 +76,7 @@ define(
             // define the PUBLIC INTERFACE object for the model 
             var myInterface = baseSM({},[],[gainLevelNode]);
 
-            console.log("now I have output nodes");
+            //console.log("now I have output nodes");
             myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
             // ----------------------------------------

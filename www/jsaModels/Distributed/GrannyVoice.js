@@ -329,7 +329,7 @@ define(
 			//console.log("Granny Voice: returning myInterface");
 			myInterface.on("resourceLoaded", function(){
 						console.log("Granny Voice: soundReady");
-						i_loadedCB && i_loadedCB();
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			buffLoaded = false;

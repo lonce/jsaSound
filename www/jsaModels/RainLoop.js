@@ -43,6 +43,7 @@ define(
        		
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setName("Rain Loop")
 			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
 
 
@@ -189,7 +190,7 @@ define(
 			console.log("Rain loop: returning myInterface");
 			myInterface.on("resourceLoaded", function(){
 						console.log("Rain loop: soundReady");
-						i_loadedCB && i_loadedCB();
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			myInterface.loadAudioResource(m_soundUrl, onLoadAudioResource);

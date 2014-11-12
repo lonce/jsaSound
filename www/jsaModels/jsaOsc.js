@@ -53,6 +53,7 @@ define(
 			var myInterface = baseSM({},[],[gainLevelNode]);
 
 			console.log("now I have output nodes");
+			myInterface.setName("jsaOsc");
 			myInterface.setAboutText("Simple oscillator (type: sine, square, saw, triangle)");
 
 			// ----------------------------------------
@@ -180,7 +181,7 @@ define(
 			};
 
 			console.log("jsaOsc: soundReady");
-			i_loadedCB && i_loadedCB("jsaOsc");
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

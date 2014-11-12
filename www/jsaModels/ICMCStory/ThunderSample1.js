@@ -30,6 +30,7 @@ define(
 			var stopTime = 0.0;   		
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
+			myInterface.setName("Thunder1");
 			myInterface.setAboutText("Simple mp3 (or wav) sample player.")
 /*
 			var init = (function (){
@@ -103,7 +104,7 @@ define(
 
 			myInterface.on("resourceLoaded", function(){
 						console.log("Thunder1: soundReady");
-						i_loadedCB && i_loadedCB("Thunder1");
+						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
 			if (! buffRequested){
