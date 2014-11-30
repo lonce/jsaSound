@@ -29,7 +29,7 @@ define(
 			var m_baseNote = 69;
 			var m_detune = 0;
 			var m_firstNoteNum = 5; // index in to scale array
-			var m_childGain = .7;
+			var m_childGain = .9;
 
 			var stopTime = 0.0;        // will be > audioContext.currentTime if playing
 			var now = 0.0;
@@ -58,7 +58,11 @@ define(
 					childModel[i] = FilteredNoiseBandFactory();  
 
 					childModel[i].setParam("Filter Q", 40);
-					childModel[i].setParam("Gain", m_childGain);
+					if (i===0) {
+						childModel[i].setParam("Gain", m_childGain);
+					} else {
+						childModel[i].setParam("Gain", .6*m_childGain);
+					}
 					childModel[i].notenum=m_baseNote+scale[Math.floor(Math.random() * scale.length)];
 					childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));
 
@@ -155,11 +159,13 @@ define(
 				},
 				function (i_val) {
 					m_detune=i_val;
-					//console.log("will send new base note to " + m_currentNumChildrenActive + " currently active children");
+					childModel[0].setParam("Center Frequency", note2Freq(childModel[0].notenum));
+					/*
 					for (i = 0; i < m_currentNumChildrenActive; i += 1) {
 						//childModel[i].setCenterFreq(note2Freq(m_baseNote));  // reassign freqs
 						childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));  // glide freqs
 					}
+					*/
 				}
 			);
 
@@ -188,6 +194,7 @@ define(
 					"val": m_currentNumChildrenActive
 				},
 				function (i_gens) {
+					//console.log("will set num generators to " + i_gens);
 					var i;
 					var in_gens = parseInt(i_gens, 10);
 					if (in_gens === m_currentNumChildrenActive) {
@@ -199,7 +206,16 @@ define(
 							//console.log("setNumGenerators: will add child to playing list # " + i);
 							childModel[i].notenum=m_baseNote+scale[Math.floor(Math.random() * scale.length)];;
 							//var f = note2Freq(m_baseNote);
-							childModel[i].setParam("Gain", m_childGain);
+
+							if (i===0) {
+								childModel[i].setParam("Gain", m_childGain);
+							} else {
+								childModel[i].setParam("Gain", .6*m_childGain);
+							}
+
+
+
+
 							if (stopTime > config.audioContext.currentTime){ // if playingP
 								childModel[i].setParam("Center Frequency", note2Freq(childModel[i].notenum));
 								childModel[i].play();
