@@ -248,7 +248,9 @@ define(
 				bsmInterface.onPlay(i_time);
 
 				// if not connected in a graph or to a recorder, connect ouput to desination to be heard
-				if ((bsmInterface.getNumOutConnections() === 0) || (isRecording && (bsmInterface.getNumOutConnections() === 1))){
+				//if ((bsmInterface.getNumOutConnections() === 0) || (isRecording && (bsmInterface.getNumOutConnections() === 1))){
+				if ((bsmInterface.getNumOutConnections() === 0) ){
+					//console.log("baseSM: connecting " + bsmInterface.afooname + " to default destination");
 					bsmInterface.connect(config.defaultDesintation);
 				}
 

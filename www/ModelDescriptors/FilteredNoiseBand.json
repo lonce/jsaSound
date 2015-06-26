@@ -1,5 +1,5 @@
 {
-	"displayName": "Osc Node 2",
-	"fileName": "jsaModels/jsaOsc2",
+	"displayName": "Filtered Noise Band",
+	"fileName": "jsaModels/FilteredNoiseBand",
 	"modelKeys": ["jsaSoundDemo"]
 }

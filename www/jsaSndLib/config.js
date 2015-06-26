@@ -21,7 +21,6 @@ define(
 		// This file of code needs an instantiated webkitAudioContext in order to load, so we can't wait for the
 		// html window to be loaded before creating audioContext even though it might cause errors if WebAudio isn't supported. 
 		var exports = {};
-		//exports.resourcesPath = "http://localhost:8001";
 		exports.resourcesPath = wheredoilive;
 		exports.audioContext=null;
 		if('AudioContext' in window) {
