@@ -14,7 +14,7 @@ Date: July 2012
 
 
 define(
-	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/Dong", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
+	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/dong", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	//["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, DongFactory, jsaEventPhasor) {
 		return function () {

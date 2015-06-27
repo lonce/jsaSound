@@ -5,7 +5,6 @@
   "main": "www/scripts/main.js",
   "dependencies": {
     "express": "~3.1.0",
-    "jade": "~0.35.0",
     "ws": "~0.4.25"
   },
   "devDependencies": {},
