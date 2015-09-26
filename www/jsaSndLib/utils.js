@@ -320,8 +320,13 @@ define(
 			if (i_url.match(/freesound.org/) != null){
 				var sid = i_url.match("sounds/(.*)/download"); // array containing match and target substring
 				if (sid && sid.length>1){
+					/*
 					console.log("freesound: " + "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0");
 					return "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0";
+					*/
+					console.log("freesound: " + i_url + "&token=563bc5df64f8d4d9cc83f2b0409501ae4b441b01");
+					return i_url + "&token=563bc5df64f8d4d9cc83f2b0409501ae4b441b01" ;
+
 				} 
 			}
 			return i_url;

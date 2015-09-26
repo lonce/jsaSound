@@ -29,6 +29,7 @@ app.set('view engine', 'jade');
 
 // Way cool: Allow access to sounds that aren't specifically required by require.js in apps on other domains
 app.use(function (req, res, next) {
+  console.log("cross domain coolness");
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
@@ -68,7 +69,7 @@ app.get(["/soundList", "/soundList/ModelDescriptors"],function(req, res){
           //console.log("results are" + flist);
 
           jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
-          console.log("jsonObj.file name is " + jsonObj.fileName);
+          //console.log("jsonObj.file name is " + jsonObj.fileName);
           // could test for existence here before sending the info back to the client...
           jsonList.push(jsonObj);
         }
@@ -102,7 +103,7 @@ app.get(["/soundList/TestModelDescriptors"],function(req, res){
 // Generic function that recursivley searches a directory for files
 // return: list of full pathnames
 var getFileList = function(dir, done) {
-  console.log("walking the walk");
+  //console.log("walking the walk");
   var results = [];
   fs.readdir(dir, function(err, list) {
     if (err) return done(err);
