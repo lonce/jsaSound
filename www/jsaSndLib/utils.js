@@ -17,10 +17,9 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 *
 */
 define(
-	[],
-	function () {
+	["jsaSound/scripts/freesound"],
+	function (freesound) {
 		var utils = {};
-
 		/**
 		* Converts db values in [-inf, 0] into "gain" values in [0,1]
 		* for example, 0 dB yields 1, -6 dB yields .5 
@@ -315,15 +314,15 @@ define(
 
 		    return JSON.parse(JSON.stringify(result));
 		}
-
+/*
 		utils.freesoundfix=function(i_url){
 			if (i_url.match(/freesound.org/) != null){
 				var sid = i_url.match("sounds/(.*)/download"); // array containing match and target substring
 				if (sid && sid.length>1){
-					/*
-					console.log("freesound: " + "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0");
-					return "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0";
-					*/
+					
+					//console.log("freesound: " + "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0");
+					//return "http://www.freesound.org/api/sounds/" + sid[1] + "/serve/?api_key=e2d5c11c3584432c95e7d4f81ff509e0";
+					
 					console.log("freesound: " + i_url + "&token=563bc5df64f8d4d9cc83f2b0409501ae4b441b01");
 					return i_url + "&token=563bc5df64f8d4d9cc83f2b0409501ae4b441b01" ;
 
@@ -331,15 +330,34 @@ define(
 			}
 			return i_url;
 		}
+*/
+// See also: https://github.com/g-roma/freesound.js
+
+		utils.freesoundfix=function(i_url, cb){
+			if (i_url.match(/freesound.org/) != null){
+				var sid = i_url.match("sounds/(.*)/"); // array containing match and target substring
+				if (sid && sid.length>1){
+
+					freesound.setToken("563bc5df64f8d4d9cc83f2b0409501ae4b441b01");
+					freesound.getSound(sid[1],
+                		function(sound){
+                			console.log("freesound url is " + sound.previews['preview-hq-mp3']);
+                			cb(sound.previews['preview-hq-mp3']);
+                	});
+
+				} 
+			} else{ // not a freesound url
+					cb(i_url);
+				}
+		}
 
    // see baseSM audioResourceManager
 		utils.loadAudioResource = function(i_url, config, i_onload){
 			var xhr = new XMLHttpRequest();
-			i_url = utils.freesoundfix(i_url);
+
+
 
 			buffLoaded = false;
-			xhr.open('GET', i_url, true);
-			xhr.responseType = 'arraybuffer';
 
 			xhr.onerror = function (e) {
 				console.log("utils.getAudioResource xhr.onload error.")
@@ -355,7 +373,23 @@ define(
 				config.audioContext.decodeAudioData(xhr.response, xhr.onDecode, xhr.onerror);
 			};
 
-			xhr.send();	
+
+			if (i_url.match(/freesound.org/) != null){
+				utils.freesoundfix(i_url, function(url){
+					xhr.open('GET',url , true);
+					xhr.responseType = 'arraybuffer';
+					xhr.send();	
+
+				});
+			} else {
+				xhr.open('GET', i_url , true);
+				xhr.responseType = 'arraybuffer';
+				xhr.send();	
+			}
+
+
+
+
 		}
  
             //------------------------------------------------------------------------

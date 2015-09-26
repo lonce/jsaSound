@@ -70,9 +70,18 @@ define(
 						resourceManager.m_loadedResources[i_url]="loading";
 						resourceManager.m_waitingForResource[i_url]=[];
 
-						xhr.open('GET', utils.freesoundfix(i_url), true);
-						xhr.responseType = 'arraybuffer';
-						xhr.send();	
+						if (i_url.match(/freesound.org/) != null){
+							utils.freesoundfix(i_url, function(url){
+								xhr.open('GET',url , true);
+								xhr.responseType = 'arraybuffer';
+								xhr.send();	
+
+							});
+						} else {
+							xhr.open('GET', i_url , true);
+							xhr.responseType = 'arraybuffer';
+							xhr.send();	
+						}
 					}
 			}
 		}
