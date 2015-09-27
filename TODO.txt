@@ -1,0 +1,8 @@
+
+1) Fix "Code Capture" for Sound URL's
+   a) http... needs quotation
+   b) should include the snd.on("resourceLoaded", function(){
+   		console.log("snd resource loaded");
+       });
+
+2) Fix "Code Capture so that people can choose their variable name"

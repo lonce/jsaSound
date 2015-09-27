@@ -426,6 +426,9 @@ define(
 			// Play button callback
 			myWindow.document.getElementById("capturebutton_ID").addEventListener('mousedown', function () {
 				//alert("capture");
+				var userSndName = prompt("enter a name for this sound in your code.");
+				var userSndName = userSndName || "snd";
+				
 				var captureWindow = {};
 				captureWindow = window.open('', '', "width = 625,height = " + h/1.25);
 				var pstring="";
@@ -434,16 +437,31 @@ define(
 
 				pstring+="require.config({<br>&#160&#160&#160 paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}<br>});<br>";
 				pstring+="require(<br>&#160&#160&#160 [\"jsaSound/" + sm_string_name + "\"],<br><br>";
-				pstring+="function(sndFactory){<br>";
-				pstring+="&#160&#160&#160 var snd = sndFactory();<br><br>"
+				pstring+="function(" + userSndName + "Factory){<br>";
+				pstring+="&#160&#160&#160 var " + userSndName + " = " + userSndName + "Factory();<br><br>"
 
 
 				for (i = 0; i < i_sm.getNumParams(); i++) {
-					pstring += "&#160&#160&#160 snd.setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
-					if ((typeof i_sm.getParam(i, "val")) === "number"){
-						pstring += "&#160&#160&#160 //or// snd.setParamNorm(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "normval").toFixed(3) + ");";
+
+					if ("url" === i_sm.getParam(i,"type")){
+						
+						pstring += "<br>";
+						pstring += "&#160&#160&#160 //URL params can take some time to load - when done, they trigger the \"resourceLoaded\" event. <br>"
+						pstring += "&#160&#160&#160 " + userSndName + ".on(\"resourceLoaded\", function(){<br>";
+						pstring += "&#160&#160&#160&#160&#160&#160 console.log(\"----- sound loaded, so Play!\");<br>";
+						pstring += "&#160&#160&#160&#160&#160&#160 // " + userSndName + ".setParam(\"play\", 1);<br>";
+						pstring += "&#160&#160&#160 });<br>"
+						pstring += "&#160&#160&#160 " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
+
+						pstring += "<br><br>";
+						
+					} else { 
+						pstring += "&#160&#160&#160 " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
+						if ((typeof i_sm.getParam(i, "val")) === "number"){
+							pstring += "&#160&#160&#160 //or// " + userSndName + ".setParamNorm(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "normval").toFixed(3) + ");";
+						}
+						pstring += "<br>";
 					}
-					pstring += "<br>";
 				}
 
 				pstring+="});<br>";

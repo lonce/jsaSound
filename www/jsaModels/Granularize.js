@@ -301,7 +301,8 @@ define(
 			};
 
 			buffLoaded = false;
-			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+			// don't load since user might want a different sound!!!!!
+			//myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 			return myInterface;
 		};
 	}
