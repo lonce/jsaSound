@@ -1,8 +1,17 @@
 
 1) Fix "Code Capture" for Sound URL's
-   a) http... needs quotation
-   b) should include the snd.on("resourceLoaded", function(){
-   		console.log("snd resource loaded");
-       });
+   a) http... needs quotation in the "Paraters in array form" section
 
-2) Fix "Code Capture so that people can choose their variable name"
+
+2) Can the "code capture" be saved as a "sound factory" file that can be loaded in to 
+a program as a module? It would return a function that can be called to create 
+sounds with the specified parameters.
+
+Then the program would not have to deal with the long parameter list. 
+
+Id save the animatedsound model factory as a private vaiable, and return a
+function that when called, creates a new sound using the factory, sets all 
+the params, and then returns it. 
+
++++++++++
+ 
