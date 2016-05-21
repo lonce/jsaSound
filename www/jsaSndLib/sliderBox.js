@@ -22,8 +22,8 @@ It creates a new window for a "player" GUI with sliders and text boxes to show v
 
 // Create the GUI for sound model interaction and the callbacks for taking action
 define(
-	["jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaSndLib/config"],
-	function (baseSM, utils, config) {
+	["jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/FileSaver.req"],
+	function (baseSM, utils, config, fileSaver ) {
 
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
@@ -390,7 +390,7 @@ define(
 
 			// ------------------- Query String Capture
 			//myWindow.document.write(" <div  class = \"captureButtons\" > ");
-			myWindow.document.write(" <input id = \"quesryStringbutton_ID\" type = \"button\"  value = \"Create URL String\" /> ");
+			myWindow.document.write(" <input id = \"quesryStringbutton_ID\" type = \"button\"  value = \"URL String\" /> ");
 			//myWindow.document.write("Generate url for this sound model<br>");
 			//myWindow.document.write(" </div> ");
 
@@ -419,7 +419,7 @@ define(
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			// make a button for capturing Javascript code representation of parameter values for cutting and pasting into other programs
 			//myWindow.document.write(" <div  class = \"captureButtons\" > ");
-			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\"  value = \"Code Capture for js\" /> ");
+			myWindow.document.write(" <input id = \"capturebutton_ID\" type = \"button\"  value = \"Code Capture\" /> ");
 			//myWindow.document.write("Generate js code with current paramaters<br>");
 			//myWindow.document.write(" </div> ");
 
@@ -480,6 +480,59 @@ define(
 			});
 
 			//   -------------              -------------------------
+
+
+			myWindow.document.write(" <input id = \"saveModel_ID\" type = \"button\"  value = \"Save Model\" /> ");
+			myWindow.document.getElementById("saveModel_ID").addEventListener('mousedown', function () {
+			  
+				var userSndName = "snd";
+				var pstring="";
+
+				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):\n"
+
+				pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
+				pstring+="function(" + userSndName + "Factory){\n";
+				pstring+= "return function(){\n"
+				pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
+
+
+				for (i = 0; i < i_sm.getNumParams(); i++) {
+
+					if ("url" === i_sm.getParam(i,"type")){
+						
+						pstring += "\n";
+						pstring += "  //URL params can take some time to load - when done, they trigger the \"resourceLoaded\" event. \n"
+						pstring += "  "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
+						pstring += "    console.log(\"----- sound loaded, so Play!\");\n";
+						pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
+						pstring += "});\n"
+						pstring += "" + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
+
+						pstring += "\n\n";
+						
+					} else { 
+						pstring += userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
+						pstring += "\n";
+					}
+				}
+				pstring += "return(snd);\n"
+				pstring += "}\n";
+				pstring+="});\n";
+
+
+
+
+			  var blob = new Blob([pstring]);;
+			  var foo = new fileSaver(blob);
+
+			});
+
+
+
+
+
+
+
 
 			return myInterface;
 		};
