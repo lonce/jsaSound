@@ -22,8 +22,8 @@ It creates a new window for a "player" GUI with sliders and text boxes to show v
 
 // Create the GUI for sound model interaction and the callbacks for taking action
 define(
-	["jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/FileSaver.req"],
-	function (baseSM, utils, config, fileSaver ) {
+	["jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaSndLib/config", "require"],
+	function (baseSM, utils, config, require ) {
 
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
 			var i;
@@ -483,47 +483,55 @@ define(
 
 
 			myWindow.document.write(" <input id = \"saveModel_ID\" type = \"button\"  value = \"Save Model\" /> ");
-			myWindow.document.getElementById("saveModel_ID").addEventListener('mousedown', function () {
-			  
-				var userSndName = "snd";
-				var pstring="";
+			myWindow.document.getElementById("saveModel_ID").addEventListener('mousedown', 
+				function () {
+					console.log("saving a model file");
+				  	require( // for some reason, loading Filesaver at the top of this module was causing jsaSound system to call methods before they were defined .....
+				  		["jsaSound/jsaSndLib/FileSaver.req"],
+				  		function(fileSaver) {
 
-				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):\n"
+				  			console.log("the filesaver file module has been loaded as " + fileSaver);
+							var userSndName = "snd";
+							var pstring="";
 
-				pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
-				pstring+="function(" + userSndName + "Factory){\n";
-				pstring+= "return function(){\n"
-				pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
+							pstring+="// To use the sound on a web page with its current parameters (and without the slider box):\n"
 
-
-				for (i = 0; i < i_sm.getNumParams(); i++) {
-
-					if ("url" === i_sm.getParam(i,"type")){
-						
-						pstring += "\n";
-						pstring += "  //URL params can take some time to load - when done, they trigger the \"resourceLoaded\" event. \n"
-						pstring += "  "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
-						pstring += "    console.log(\"----- sound loaded, so Play!\");\n";
-						pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
-						pstring += "});\n"
-						pstring += "" + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
-
-						pstring += "\n\n";
-						
-					} else { 
-						pstring += userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
-						pstring += "\n";
-					}
-				}
-				pstring += "return(snd);\n"
-				pstring += "}\n";
-				pstring+="});\n";
+							pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
+							pstring+="function(" + userSndName + "Factory){\n";
+							pstring+= "return function(){\n"
+							pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
 
 
+							for (i = 0; i < i_sm.getNumParams(); i++) {
+
+								if ("url" === i_sm.getParam(i,"type")){
+									
+									pstring += "\n";
+									pstring += "  //URL params can take some time to load - when done, they trigger the \"resourceLoaded\" event. \n"
+									pstring += "  "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
+									pstring += "    console.log(\"----- sound loaded, so Play!\");\n";
+									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
+									pstring += "});\n"
+									pstring += "" + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
+
+									pstring += "\n\n";
+									
+								} else { 
+									pstring += userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
+									pstring += "\n";
+								}
+							}
+							pstring += "return(snd);\n"
+							pstring += "}\n";
+							pstring+="});\n";
 
 
-			  var blob = new Blob([pstring]);;
-			  var foo = new fileSaver(blob);
+
+
+						  var blob = new Blob([pstring]);
+						  console.log("now save blob");
+						  var foo = new fileSaver(blob);
+						});
 
 			});
 
