@@ -80,6 +80,7 @@
     var link = window.document.createElement('a');
     link.href = url;
     link.download = filename || 'output.wav';
+    // Needs the click to "download" 
     var click = document.createEvent("Event");
     click.initEvent("click", true, true);
     link.dispatchEvent(click);
