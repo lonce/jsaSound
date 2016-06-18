@@ -7,6 +7,7 @@ var recLength = 0,
   sampleRate;
 
 this.onmessage = function(e){
+  console.log("recordWorker.onmessag call with command = " + e.data.command);
   switch(e.data.command){
     case 'init':
       init(e.data.config);
@@ -31,18 +32,23 @@ function init(config){
 }
 
 function record(inputBuffer){
+   console.log("recordWorker.record")
   recBuffersL.push(inputBuffer[0]);
   recBuffersR.push(inputBuffer[1]);
   recLength += inputBuffer[0].length;
 }
 
 function exportWAV(type){
+  console.log("recordWorker.exportWAV with type = " + type);
   var bufferL = mergeBuffers(recBuffersL, recLength);
   var bufferR = mergeBuffers(recBuffersR, recLength);
   var interleaved = interleave(bufferL, bufferR);
   var dataview = encodeWAV(interleaved);
+
+  console.log("recordWorker about to make a new Blob");
   var audioBlob = new Blob([dataview], { type: type });
 
+  console.log("recordWorker done making Blob, now post message .....");
   this.postMessage(audioBlob);
 }
 
