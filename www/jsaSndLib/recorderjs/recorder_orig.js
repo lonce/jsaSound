@@ -1,34 +1,16 @@
 // This lovely recording code is from Matt Diamond:
 // https://github.com/mattdiamond/Recorderjs
 //
-define(["jsaSound/jsaSndLib/recorderjs/recorderWorker"],
-function(workerF){
+(function(window){
 
-  // The reason for this little piece of work is that paths to worker code are usually specificed 
-  //   as a file, but we get cross-domain errors when we point to the file. Instead we "require" a function
-  //   containing the worker code, blob it up, create a URL, and use that to pass to the worker constructor. Oi.
-  function getUrlForWorker(workerFunction) {
-
-        var mainString = workerFunction.toString();
-        var bodyString     = mainString.substring( mainString.indexOf("{")+1, mainString.lastIndexOf("}") );
-        var blob = new Blob([bodyString]);
-        // Obtain a blob URL reference to our worker 'file'.
-        return window.URL.createObjectURL(blob);
-  }
-
-
-  var WORKER_PATH = getUrlForWorker(workerF);
+  var WORKER_PATH = 'jsaSndLib/recorderjs/recorderWorker.js';
 
   var Recorder = function(source, cfg){
     var config = cfg || {};
     var bufferLen = config.bufferLen || 4096;
     this.context = source.context;
     this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
-    try {
-      var worker = new Worker(WORKER_PATH);
-    } catch (err){
-      console.log("error constructing worker");
-    }
+    var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
       command: 'init',
       config: {
@@ -106,6 +88,4 @@ function(workerF){
 
   window.Recorder = Recorder;
 
-}
-
-);
+})(window);

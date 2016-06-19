@@ -29,7 +29,7 @@ app.set('view engine', 'jade');
 
 // Way cool: Allow access to sounds that aren't specifically required by require.js in apps on other domains
 app.use(function (req, res, next) {
-  console.log("cross domain coolness");
+  console.log("cross domain coolness for " + req.url);
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
