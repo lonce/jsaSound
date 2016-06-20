@@ -8,7 +8,6 @@ function(workerF){
   //   as a file, but we get cross-domain errors when we point to the file. Instead we "require" a function
   //   containing the worker code, blob it up, create a URL, and use that to pass to the worker constructor. Oi.
   function getUrlForWorker(workerFunction) {
-
         var mainString = workerFunction.toString();
         var bodyString     = mainString.substring( mainString.indexOf("{")+1, mainString.lastIndexOf("}") );
         var blob = new Blob([bodyString]);
@@ -61,8 +60,11 @@ function(workerF){
       recording = true;
     }
 
-    this.stop = function(){
+    this.stop = function(bufferCB){
       recording = false;
+      if (bufferCB){
+        this.getBuffer(bufferCB);
+      }
     }
 
     this.clear = function(){

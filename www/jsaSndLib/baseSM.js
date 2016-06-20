@@ -443,10 +443,15 @@ define(
 			* Stop recording audio output from the model 
 			* @method stopRecording 
 			*/
-			bsmInterface.stopRecording = function(){
+			bsmInterface.stopRecording = function(bufferCB){
 				isRecording=false;
 				audioRecorder.stop();
-				audioRecorder.exportWAV( doneEncoding );
+				// return audio buffer if requested
+				if (bufferCB){
+					audioRecorder.getBuffer(bufferCB);
+				} else{ // pop up dialog box to save as audio file
+					audioRecorder.exportWAV( doneEncoding );
+				}
 				console.log("Done recording!");
 			}
 
