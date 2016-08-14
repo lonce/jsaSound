@@ -18,6 +18,8 @@ function(workerF){
 
   var WORKER_PATH = getUrlForWorker(workerF);
 
+  // This is a CONSTRUCTOR called with "new".
+  // all the this.XXX properties live on the constructed object
   var Recorder = function(source, cfg){
     var config = cfg || {};
     var bufferLen = config.bufferLen || 4096;
@@ -76,13 +78,17 @@ function(workerF){
       worker.postMessage({ command: 'getBuffer' })
     }
 
-    this.exportWAV = function(cb, type){
+    this.exportWAV = function(cb, info){
       currCallback = cb || config.callback;
-      type = type || config.type || 'audio/wav';
+      var info = info  || {};
+      console.log("in worker.exportWav with info = " + info);
+      info.type = info.type || config.type || 'audio/wav';
+      info.sampleLength = info.sampleLength || null;
       if (!currCallback) throw new Error('Callback not set');
       worker.postMessage({
         command: 'exportWAV',
-        type: type
+        type: info.type,
+        len: info.sampleLength
       });
     }
 
@@ -95,6 +101,7 @@ function(workerF){
     this.node.connect(this.context.destination);    //this should not be necessary (don't get callbacks to this recording node without it!)
   };
 
+  // This weird thing is a property on the constructor function. Oi.
   Recorder.forceDownload = function(blob, filename){
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
     var link = window.document.createElement('a');
@@ -106,6 +113,7 @@ function(workerF){
     link.dispatchEvent(click);
   }
 
+  // WTF...
   window.Recorder = Recorder;
 
 }

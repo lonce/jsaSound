@@ -21,7 +21,7 @@ function(){
           record(e.data.buffer);
           break;
         case 'exportWAV':
-          exportWAV(e.data.type);
+          exportWAV(e.data.type, e.data.len);
           break;
         case 'getBuffer':
           getBuffer();
@@ -43,10 +43,20 @@ function(){
       recLength += inputBuffer[0].length;
     }
 
-    function exportWAV(type){
+    function exportWAV(type, len){
       //console.log("recordWorker.exportWAV with type = " + type);
-      var bufferL = mergeBuffers(recBuffersL, recLength);
-      var bufferR = mergeBuffers(recBuffersR, recLength);
+      console.log("--------------in exportWav, requested len is " + len + ", and recLenth is " + recLength + ", will set to min val = " );
+
+      if (len) {
+        len = Math.min(len, recLength);
+      } else{
+        len = recLength;
+      }
+
+      console.log("--------------so, in exportWav, setting  len to " + len );
+
+      var bufferL = mergeBuffers(recBuffersL, recLength, len);
+      var bufferR = mergeBuffers(recBuffersR, recLength, len);
       var interleaved = interleave(bufferL, bufferR);
       var dataview = encodeWAV(interleaved);
 
@@ -70,14 +80,16 @@ function(){
       recBuffersR = [];
     }
 
-    function mergeBuffers(recBuffers, recLength){
+    // reclength is the total length of all the buffers.
+    // Requestlength chops to something shorter if that is what you want
+    function mergeBuffers(recBuffers, recLength, requestLength){
       var result = new Float32Array(recLength);
       var offset = 0;
       for (var i = 0; i < recBuffers.length; i++){
-        result.set(recBuffers[i], offset);
+        result.set(recBuffers[i], offset);  // puts the buffers end to end in result
         offset += recBuffers[i].length;
       }
-      return result;
+      return result.slice(0, requestLength || recLength);
     }
 
     function interleave(inputL, inputR){

@@ -64,6 +64,8 @@ define(
 			bsmInterface.nodeType="GraphNode";
 			bsmInterface.isPlaying=false;
 
+			bsmInterface.getAudioContext = function (){return config.audioContext;}
+
 			/**
 			* @method setAboutText
 			* @param {String} i_text text descritption of model, hints, etc
@@ -192,6 +194,32 @@ define(
 						return null;
 				}
 			}
+
+			/** 
+			* Get specified information about a parameter
+			* @method getAllParamVals
+			* @param {Boolean} returns normed values if true, natural values otherwise 
+			* @param {Boolean} returns non-numeric values as well if true 
+			* @return object of param nam, normed value pairs (plus non-numeric values)
+			*/
+			bsmInterface.getAllParamVals = function(normed, extended){
+				retval = {};
+				for(var i=0;i<snd.getNumParams();i++){
+					if (bsmInterface.getParam(i,"type") != "range"){
+						if (extended){
+							retval[bsmInterface.getParam(i,"name")] = bsmInterface.getParam(i,"val")
+						}
+					} else { // type === "range"
+						if (normed){
+							retval[bsmInterface.getParam(i,"name")] = bsmInterface.getParam(i,"normval")
+						} else{
+							retval[bsmInterface.getParam(i,"name")] = bsmInterface.getParam(i,"val")
+						}
+					}
+				}
+				return retval;
+			}
+
 
 			/** 
 			* Set the parameter using values in [0,1]
@@ -443,13 +471,15 @@ define(
 			* Stop recording audio output from the model 
 			* @method stopRecording 
 			*/
-			bsmInterface.stopRecording = function(bufferCB){
+			bsmInterface.stopRecording = function(cb,sampleLength){//, blobCB){
 				isRecording=false;
 				audioRecorder.stop();
 				// return audio buffer if requested
-				if (bufferCB){
-					audioRecorder.getBuffer(bufferCB);
-				} else{ // pop up dialog box to save as audio file
+				if (cb){ // pass the blob back to the app
+					//audioRecorder.getBuffer(cb);
+					audioRecorder.exportWAV( cb, {"sampleLength" : sampleLength});
+				}
+				else { // bring up a dialog box to save file locally
 					audioRecorder.exportWAV( doneEncoding );
 				}
 				console.log("Done recording!");
