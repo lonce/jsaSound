@@ -78,7 +78,7 @@ define(
                     oscModulatorNode.connect(m_CarrierNode);
                     oscModulatorNode.start(now);
 
-                    console.log("pent sound play");
+                    //console.log("pent sound play");
                 }
                     
 
@@ -118,12 +118,12 @@ define(
                         oscModulatorNode = null;
                    });
 
-                    console.log("pent sound released");
+                    //console.log("pent sound released");
                 }
             };
 
             myInterface.onStop = function (i_ptime){
-                console.log("pent sound stopped");
+                //console.log("pent sound stopped");
             }
 
 
