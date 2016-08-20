@@ -77,6 +77,8 @@ define(
 
                     oscModulatorNode.connect(m_CarrierNode);
                     oscModulatorNode.start(now);
+
+
                 }
                     
 
@@ -86,7 +88,7 @@ define(
                     gainEnvNode.gain.setValueAtTime(0, now);
                     gainEnvNode.gain.linearRampToValueAtTime(gainLevelNode.gain.value, now + m_attackTime); // go to gain level over .1 secs	
 
-
+/*
                     var stopTime = now + m_attackTime + m_releaseTime;
                     gainEnvNode.gain.linearRampToValueAtTime(0, stopTime);
 
@@ -95,7 +97,7 @@ define(
                         oscModulatorNode && oscModulatorNode.stop(stopTime);
                         oscModulatorNode = null;
                    });
-
+*/
             };
 
             myInterface.onRelease = function (i_ptime) {
