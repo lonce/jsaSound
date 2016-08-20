@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 // You must provide the name of the host and port you are serving from here. 
 define(["require"],
 	function () {
-		//var server="http://localhost:8001/";
-		var server="http://animatedsoundworks.com:8001/";
+		var server="http://localhost:8001/";
+		//var server="http://animatedsoundworks.com:8001/";
 		//var server = "http://"+window.document.location.hostname + ":8001/";
 		console.log("Where do I live: Your sounds will be served and looking form resources from " + server);
 		console.log("If you are serving from elsewhere, change jsaSdLib/wheredoilive.js ");

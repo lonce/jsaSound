@@ -68,8 +68,15 @@ app.get(["/soundList", "/soundList/ModelDescriptors"],function(req, res){
           flist[i]=flist[i].replace(m_useRoot, "");
           //console.log("results are" + flist);
 
+          console.log("readFileSync with path " + "./" + m_useRoot + "/" + flist[i]);
           jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
-          //console.log("jsonObj.file name is " + jsonObj.fileName);
+
+          //jsonObj= JSON.parse(fs.readFileSync("./" + m_useRoot + "/" + flist[i], 'utf8'));
+
+          console.log("done with readFile Sync");
+          console.log("jsonObj is " + jsonObj); 
+
+          console.log("jsonObj.file name is " + jsonObj.fileName);
           // could test for existence here before sending the info back to the client...
           jsonList.push(jsonObj);
         }
