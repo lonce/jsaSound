@@ -136,8 +136,9 @@ define(
                         "val": m_noteNum
                     },
                     function (i_val) {
+                        m_noteNum = i_val;
                         var nomFreq=m_basefreq*Math.pow(2, (i_val-m_lowNote)/12); // audioUtils.note2Freq(notes[0][Math.floor(i_val)])
-                        console.log("nom Freq is " + nomFreq)
+                        //console.log("nom Freq is " + nomFreq)
                         m_car_freq = (.99 +.02*Math.random())*nomFreq;
                         m_CarrierNode.setParam("carrierFrequency", m_car_freq);
 

@@ -120,8 +120,8 @@ define(
                     function (i_val) {
                         m_noteNum=i_val;
                         m_frequency=m_basefreq*Math.pow(2, (i_val-m_lowNote)/12); // audioUtils.note2Freq(notes[0][Math.floor(i_val)])
-                        console.log("nom Freq is " + m_frequency);
-						oscNode.setFrequency(m_frequency);
+                        //console.log("nom Freq is " + m_frequency);
+						oscNode && oscNode.setFrequency(m_frequency);
 					}
 			);
 

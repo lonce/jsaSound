@@ -80,6 +80,7 @@ define(
 				// The rest of the code is for new starts or restarts	
 				stopTime = config.bigNum;
 
+				formantSynthNode && formantSynthNode.stop();
 				buildModelArchitecture();
 				// if no input, remember from last time set
 				gainLevelNode.gain.value = m_gainLevel;
@@ -118,7 +119,7 @@ define(
                     function (i_val) {
                     	m_noteNum=i_val;
                         m_freq=m_basefreq*Math.pow(2, (i_val-m_lowNote)/12); // audioUtils.note2Freq(notes[0][Math.floor(i_val)])
-                        console.log("nom Freq is " + m_freq);
+                        //console.log("nom Freq is " + m_freq);
                         formantSynthNode.setParam("Frequency", m_freq);
 					}
 
