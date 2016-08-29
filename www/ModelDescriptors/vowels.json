@@ -1,5 +1,5 @@
 {
-	"displayName": "Vowel Synth",
-	"fileName": "jsaModels/vowels",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"displayName": "Vowels 3oct",
+	"fileName": "jsaModels/Vowels3oct",
+	"modelKeys": ["jsaSoundDemo", "AntScore", "Authorship"]
 }
