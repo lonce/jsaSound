@@ -72,7 +72,7 @@ define(
 					buffLoaded = true;
 					console.log("Buffer Loaded!");	
 
-					i_loadedCB && i_loadedCB(myInterface);			
+							
 			}
 
 
@@ -305,6 +305,7 @@ define(
 			buffLoaded = false;
 			// don't load since user might want a different sound!!!!!
 			//myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+			i_loadedCB && i_loadedCB(myInterface);	
 			return myInterface;
 		};
 	}

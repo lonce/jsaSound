@@ -531,7 +531,7 @@ define(
 
 
 									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
-									pstring += "});\n"
+									pstring += "        });\n"
 									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
 
 									pstring += "\n\n";
@@ -550,7 +550,7 @@ define(
 							}
 
 							pstring += "        cb && cb(" + userSndName + ");\n"
-							pstring+="            });\n";
+							pstring+="    });\n";
 
 							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
 							pstring += "        while(!retval){\n";
