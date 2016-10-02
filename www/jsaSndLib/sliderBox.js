@@ -494,16 +494,16 @@ define(
 							var userSndName = "snd";
 							var pstring="";
 
-							console.log("now write config stuff")
+							//console.log("now write config stuff")
 							pstring +="require.config({\n";
 							pstring += "    paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}\n";
 							pstring += "});\n"
-							console.log("pstring is now " + pstring);
-							console.log("proceed");
+							//console.log("pstring is now " + pstring);
+							//console.log("proceed");
 
 
 							pstring += "// Set path to models served from animatedsoundworks \n"
-							pstring += 
+							
 
 							pstring+="// To use the sound on a web page with its current parameters (and without the slider box):\n"
 
