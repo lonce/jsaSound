@@ -542,7 +542,7 @@ define(
 							pstring+="});\n";
 
 							pstring += "if (!cb){ // BLOCK and return snd synchronously";
-							pstirng += "    while(!retval){};\n";
+							pstring += "    while(!retval){};\n";
 							pstring +="}\n";
 
 							//pstring += "return(snd);\n"
