@@ -73,7 +73,7 @@ define(
 				myWindow.document.write("<input id = \"" + controllerID + "\" type = \"range\" min = " + parseFloat(i_sm.getParam(paramName,"min")) + " max = " + parseFloat(i_sm.getParam(paramName,"max")) + " step = \"0.01\" value = " + parseFloat(val) + " style = \"width: 300px; height: 20px;\" />");
 
 				// Output will look like this: <input id = "bar_textID" type = "text"  name = "textfield" size = 4 /> <br />
-				myWindow.document.write("<input id = " + textID +   " type = \"text\"  value = " + parseFloat(val) + " name = \"textfield\" size = 2 /> ");
+				myWindow.document.write("<input id = " + textID +   " type = \"text\"  value = " + parseFloat(val) + " name = \"textfield\" size = 5 /> ");
 
 				myWindow.document.write("<input type=\"checkbox\" id="+ checkID + ">");
 				// For each slider/text field pair, set up a callback to change the text field when the slider moves.
