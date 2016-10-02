@@ -509,10 +509,10 @@ define(
 
 							pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
 							pstring+="function(" + userSndName + "Factory){\n";
-							pstring+= "return function(cb){\n"
-							pstring+= "var retval;\n";
+							pstring+= "  return function(cb){\n"
+							pstring+= "    var retval;\n";
 							//pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
-							pstring+= userSndName + "Factory(function(" + userSndName  + "){\n\n"
+							pstring+= "    " + userSndName + "Factory(function(" + userSndName  + "){\n\n"
 
 
 							for (i = 0; i < i_sm.getNumParams(); i++) {
@@ -536,14 +536,15 @@ define(
 							}
 
 
-							pstring += "retval=" + userSndName + ";\n";
+							pstring += "    retval=" + userSndName + ";\n";
 
-							pstring += "cb && cb(" + userSndName + ");\n"
-							pstring+="});\n";
+							pstring += "    cb && cb(" + userSndName + ");\n"
+							pstring+="  });\n";
 
-							pstring += "if (!cb){ // BLOCK and return snd synchronously\n";
+							pstring += "  if (!cb){ // BLOCK and return snd synchronously\n";
 							pstring += "    while(!retval){};\n";
-							pstring +="}\n";
+							pstring += "    return retval;\n"
+							pstring +="  }\n";
 
 							//pstring += "return(snd);\n"
 							pstring += "}\n";
