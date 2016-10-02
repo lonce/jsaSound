@@ -525,23 +525,23 @@ define(
 									pstring += "    console.log(\"----- sound loaded, so Play!\");\n";
 									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
 									pstring += "});\n"
-									pstring += "" + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
+									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
 
 									pstring += "\n\n";
 									
 								} else { 
-									pstring += userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
+									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
 									pstring += "\n";
 								}
 							}
 
 
-							pstring += "retval=" + userSndName;
+							pstring += "retval=" + userSndName + ";\n";
 
 							pstring += "cb && cb(" + userSndName + ");\n"
 							pstring+="});\n";
 
-							pstring += "if (!cb){ // BLOCK and return snd synchronously";
+							pstring += "if (!cb){ // BLOCK and return snd synchronously\n";
 							pstring += "    while(!retval){};\n";
 							pstring +="}\n";
 
