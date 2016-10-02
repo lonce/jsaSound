@@ -20,7 +20,7 @@ define(
 		var soundBuff = config.audioContext.createBuffer(2,2,44100); 
 		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/130014__ermfilm__ruber-duck-big-1(lw.excerpt).mp3";
 
-		return function () {
+		return function (i_loadedCB) {
 
 			var gainLevelNode = config.audioContext.createGain();
 			var sourceNode;
@@ -102,7 +102,7 @@ define(
 
 			};
 
-
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

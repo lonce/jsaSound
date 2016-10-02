@@ -17,7 +17,7 @@ define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/SonicSGChirp", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	//["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, DongFactory, jsaEventPhasor) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 
@@ -137,6 +137,7 @@ define(
 				}
 			);
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

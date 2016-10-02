@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/FilteredNoiseBand",  "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, childFactory, voiceData, utils) {
-		return function () {
+		return function (i_loadedCB) {
 
 			m_Position=0;
 
@@ -108,7 +108,7 @@ define(
 			// Other methods for the interface
 			//----------------------------------------------------------------------------------
 
-				
+			i_loadedCB && i_loadedCB(myInterface);	
 			return myInterface;
 		};
 	}

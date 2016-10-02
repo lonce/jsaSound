@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
-		return function () {
+		return function (i_loadedCB) {
 			
 			var oscNodes=[];
 			var numOscs=10; 
@@ -209,6 +209,7 @@ define(
 				});
 			};
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

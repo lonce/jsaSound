@@ -16,7 +16,7 @@ define(
 	//["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaBufferNoiseNode"],
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker"],
 	function (config, baseSM, noiseNodeFactoryMaker) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var noiseNodeFactory = noiseNodeFactoryMaker();
 
@@ -155,7 +155,8 @@ define(
 			};
 
 
-			//console.log("paramlist = " + myInterface.getParamList().prettySstring());					
+			//console.log("paramlist = " + myInterface.getParamList().prettySstring());	
+			i_loadedCB && i_loadedCB(myInterface);				
 			return myInterface;
 		};
 	}

@@ -16,7 +16,7 @@ Date: July 2012
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/jsaDrumSample", "jsaSound/jsaSndLib/poly", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, jsaDrumFactory, poly, jsaEventPhasor) {
-		return function (i_fname, i_poly) {
+		return function (i_fname, i_poly, i_loadedCB) {
 
 			var fooURL = i_fname;
 			var m_poly = i_poly || 8;
@@ -162,6 +162,7 @@ define(
 
 			//child.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
 			polySource.setParam("Sound URL", myInterface.getParam("Sound URL", "val"));
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

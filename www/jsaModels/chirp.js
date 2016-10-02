@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
     ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
     function (config, baseSM) {
-        return function () {
+        return function (i_loadedCB) {
             
             var oscNode;// = config.audioContext.createOscillator();  // have to keep recreating this node every time we want to play (if we are not already playing)
             var gainEnvNode = config.audioContext.createGain();
@@ -221,6 +221,7 @@ define(
                 });
             };
 
+            i_loadedCB && i_loadedCB(myInterface);
             return myInterface;
         };
     }

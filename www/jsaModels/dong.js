@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/nativeFModOsc","jsaSound/jsaSndLib/GraphNode", "jsaSound/jsaSndLib/audioUtils"],
 	function (config, baseSM, fmodOscFactory, GraphNode, audioUtils) {
-        return function () {
+        return function (i_loadedCB) {
 
             var m_cfRatio = 4.01
             
@@ -212,6 +212,7 @@ define(
 
             myInterface.setParam("Note Number", m_noteNum);
 
+            i_loadedCB && i_loadedCB(myInterface);
             return myInterface;
         };
     }

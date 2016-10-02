@@ -26,7 +26,7 @@ doesn't push the ALLOW button, the model will not work properly.
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM",  "jsaSound/jsaSndLib/jsaOpCodes/jsaMicInputNode", "jsaSound/jsaSndLib/jsaOpCodes/ringModulatorNode"],
 	function (config, baseSM, micInputNode, ringModulatorFactory) {
-		return function () {
+		return function (i_loadedCB) {
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
 			// They are created here (before they are used) so that methods that set their parameters can be called without referencing undefined objects
 			var	gainEnvNode = config.audioContext.createGain(),
@@ -153,6 +153,7 @@ define(
 			myInterface.registerChildParam(rm, "modFreq");
 			myInterface.registerChildParam(rm, "DryWet");
 				
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

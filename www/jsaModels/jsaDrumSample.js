@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
-		return function (i_fname) {
+		return function (i_fname, i_loadedCB) {
 
 			var buffLoaded = false;
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 
@@ -118,6 +118,7 @@ define(
 
 			buffLoaded = false;
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

@@ -21,7 +21,7 @@ define(
 		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/emperor_penguin_lastsyllable.mp3";
 
 
-		return function () {
+		return function (i_loadedCB) {
 
 
 			var gainLevelNode = config.audioContext.createGain();
@@ -107,6 +107,7 @@ define(
 			};
 
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

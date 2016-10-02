@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
-		return function () {
+		return function (i_loadedCB) {
 			//Useful addition:
 			//When the file finishes playing, change release time to 0;
 			//otherwise it's confusing: Press release and it will wait for the release time, but won't really DO anything
@@ -165,7 +165,7 @@ define(
 
 
 
-
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

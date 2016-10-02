@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/googleJungle", "jsaSound/jsaSndLib/jsaOpCodes/jsaMicInputNode"],
 	function (config, baseSM, jungleNodeFactory, micInputNode) {
-		return function () {
+		return function (i_loadedCB) {
 
 
 			// defined outside "aswNoisyFMInterface" so that they can't be seen be the user of the sound models.
@@ -97,7 +97,7 @@ define(
 			);
 
 
-
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

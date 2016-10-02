@@ -15,7 +15,7 @@ Date: June 2013
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/jsaPluck", "jsaSound/jsaSndLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaSndLib/audioUtils"],
 	function (config, baseSM, childNodeFactory, jsaConvolverFactory, jsaEventPhasor, audioUtils) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var notes=[];
 			notes[0] = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"];  // C major pentatonic
@@ -249,6 +249,7 @@ define(
 				}
 			);
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

@@ -28,7 +28,7 @@ define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/testModels/JSNodeNoiseTick2", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	//["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/BufferNodeNoiseTick2", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, JSNodeNoiseTick2Factory, jsaEventPhasor) {
-		return function () {
+		return function (i_loadedCB) {
 			var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
 
 			var m_rate = 1;  // in events per second
@@ -127,6 +127,7 @@ define(
 				}
 			);
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

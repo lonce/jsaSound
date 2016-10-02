@@ -1,4 +1,4 @@
-/* ---------------------------------------------------------------------------------------
+i_loadedCB && i_loadedCB(myInterface);/* ---------------------------------------------------------------------------------------
 This jsaSound Code is distributed under LGPL 3
 Copyright (C) 2012 National University of Singapore
 Inquiries: director@anclab.org
@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaModels/jsaMicThru", "jsaSound/jsaModels/jsaMonsterVoice"],
 	function (config, baseSM, utils, jsaMicThruFactory, jsaMonsterFactory) {
-		return function () {
+		return function (i_loadedCB) {
 			var	childModel = [];
 			var k_maxNumChildren = 2;
 
@@ -126,7 +126,8 @@ define(
 
 			);
 
-			//console.log("paramlist = " + myInterface.getParamList().prettyString());			
+			//console.log("paramlist = " + myInterface.getParamList().prettyString());	
+			i_loadedCB && i_loadedCB(myInterface);		
 			return myInterface;
 		};
 	}

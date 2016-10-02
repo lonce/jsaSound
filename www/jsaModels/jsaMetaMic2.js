@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils", "jsaSound/jsaModels/jsaMicThru", "jsaSound/jsaModels/wilsonTelephoneSpeech"],
 	function (config, baseSM, utils, jsaMicThruFactory, jsaTelephoneSpeechFactory) {
-		return function () {
+		return function (i_loadedCB) {
 			var	childModel = [];
 			var k_maxNumChildren = 2;
 
@@ -125,7 +125,8 @@ define(
 
 			);
 
-			//console.log("paramlist = " + myInterface.getParamList().prettyString());			
+			//console.log("paramlist = " + myInterface.getParamList().prettyString());	
+			i_loadedCB && i_loadedCB(myInterface);		
 			return myInterface;
 		};
 	}

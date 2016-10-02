@@ -22,7 +22,7 @@ define(
 		var m_soundUrl = config.resourcesPath + "jsaResources/sounds/141252__oroborosnz__parrots-in-tree.mp3";
 
 
-		return function () {
+		return function (i_loadedCB) {
 
 
 			var playWhenBufferLoadsP =false;
@@ -168,7 +168,7 @@ define(
 				});
 			};
 
-
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

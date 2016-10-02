@@ -15,7 +15,7 @@ Date: June 2013
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaBufferNoiseNodeFactoryMaker", "jsaSound/jsaSndLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor"],
 	function (config, baseSM, BufferNoiseNodeFactoryMaker, jsaConvolverFactory, jsaEventPhasor) {
-		return function () {
+		return function (i_loadedCB) {
 
 			 var BufferNoiseNodeFactory = BufferNoiseNodeFactoryMaker();
 
@@ -86,6 +86,7 @@ define(
 				}
 			);
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

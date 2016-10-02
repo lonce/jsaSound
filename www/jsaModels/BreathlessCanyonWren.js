@@ -20,7 +20,7 @@ Date: May 2013
 define(
         ["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM",  "jsaSound/jsaSndLib/jsaOpCodes/jsaEventPhasor", "jsaSound/jsaModels/chirp"],
         function (config, baseSM,  jsaEventPhasor, chirpFactory) {
-                return function () {
+                return function (i_loadedCB) {
 
                         var k_gain_factor=1; // for sounds that just need a boost
                         var m_futureinterval = 0.05;  // the amount of time to compute events ahead of now
@@ -170,6 +170,7 @@ define(
                                 }
                         );
 
+                        i_loadedCB && i_loadedCB(myInterface);
                         return myInterface;
                 };
         }

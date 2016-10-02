@@ -18,7 +18,7 @@ Date: July 2012
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/jsaConvolveNode", "jsaSound/jsaModels/jsaBeatPatternPhasor"],
 	function (config, baseSM, jsaConvolverFactory, jsaPatternFactory) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var m_rate = 4.0;
 			var m_gainLevel = 0.9;
@@ -141,6 +141,7 @@ define(
 
 			);
 
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}

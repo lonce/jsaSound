@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaModels/vowels/jsaFormantSynth", "jsaSound/jsaModels/vowels/voiceData", "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, formantSynthFactory, voiceData, utils) {
-		return function () {
+		return function (i_loadedCB) {
 
 			k_numFormants=5;
 			var i=0;
@@ -199,6 +199,7 @@ define(
 			myInterface.onStop = function (i_ptime) {
 				console.log("vowles: onStop");
 			}
+			i_loadedCB && i_loadedCB(myInterface);
 			return myInterface;
 		};
 	}
