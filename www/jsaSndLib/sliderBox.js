@@ -490,6 +490,8 @@ define(
 				  		["jsaSound/jsaSndLib/FileSaver.req"],
 				  		function(fileSaver) {
 
+				  			var waitForResourceLoading = false ; // if sound has wave files to load, then we will wait until the loadedresources callback is called before setting retval
+
 				  			console.log("the filesaver file module has been loaded as " + fileSaver);
 							var userSndName = "snd";
 							var pstring="";
@@ -521,13 +523,20 @@ define(
 									
 									pstring += "\n";
 									pstring += "  //URL params can take some time to load - when done, they trigger the \"resourceLoaded\" event. \n"
-									pstring += "  "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
-									pstring += "    console.log(\"----- sound loaded, so Play!\");\n";
+									pstring += "        "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
+									pstring += "          console.log(\"----- sound loaded, so Play!\");\n";
+
+									waitForResourceLoading = true;
+									pstring += "          retval = " + userSndName + ";\n";
+
+
 									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
 									pstring += "});\n"
 									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
 
 									pstring += "\n\n";
+
+									waitForResourceLoading = true;
 									
 								} else { 
 									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", " + i_sm.getParam(i, "val") + ");";
@@ -536,13 +545,17 @@ define(
 							}
 
 
-							pstring += "        retval=" + userSndName + ";\n";
+							if (! waitForResourceLoading ) { // if sound doesn't load resources, then set retval for returning sound
+								pstring += "        retval=" + userSndName + ";\n";
+							}
 
 							pstring += "        cb && cb(" + userSndName + ");\n"
 							pstring+="    });\n";
 
 							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
-							pstring += "        while(!retval){};\n";
+							pstring += "        while(!retval){\n";
+							pstring += "           var foo = 3; // something to hang a breakpoint on \n"
+							pstring += "    };\n";
 							pstring += "        return retval;\n"
 							pstring +="    }\n";
 
