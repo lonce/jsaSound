@@ -512,8 +512,10 @@ define(
 							pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
 							pstring+="function(" + userSndName + "Factory){\n";
 							pstring+= "  return function(cb){\n"
-							pstring+= "    var retval;\n";
+							pstring+= "    var retval=\"waiting\";\n";
 							//pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
+							pstring+= "setTimeout(function(){ retval = undefined}, 500);\n"
+
 							pstring+= "    " + userSndName + "Factory(function(" + userSndName  + "){\n\n"
 
 
@@ -553,7 +555,7 @@ define(
 							pstring+="    });\n";
 
 							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
-							pstring += "        while(!retval){\n";
+							pstring += "        while(retval===\"waiting\"){\n";
 							pstring += "           var foo = 3; // something to hang a breakpoint on \n"
 							pstring += "        };\n";
 							pstring += "        return retval;\n"
