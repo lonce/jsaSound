@@ -550,12 +550,12 @@ define(
 							}
 
 							pstring += "        cb && cb(" + userSndName + ");\n"
-							pstring+="    });\n";
+							pstring+="            });\n";
 
 							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
 							pstring += "        while(!retval){\n";
 							pstring += "           var foo = 3; // something to hang a breakpoint on \n"
-							pstring += "    };\n";
+							pstring += "        };\n";
 							pstring += "        return retval;\n"
 							pstring +="    }\n";
 
