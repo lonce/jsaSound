@@ -510,7 +510,7 @@ define(
 							pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
 							pstring+="function(" + userSndName + "Factory){\n";
 							pstring+= "return function(cb){\n"
-							pstring+= retval;
+							pstring+= "var retval;\n";
 							//pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
 							pstring+= userSndName + "Factory(function(" + userSndName  + "){\n\n"
 
