@@ -512,9 +512,8 @@ define(
 							pstring+="define(\n [\"jsaSound/" + sm_string_name + "\"],\n\n";
 							pstring+="function(" + userSndName + "Factory){\n";
 							pstring+= "  return function(cb){\n"
-							pstring+= "    var retval=\"waiting\";\n";
-							//pstring+="  var " + userSndName + " = " + userSndName + "Factory();\n\n"
-							pstring+= "setTimeout(function(){ retval = undefined}, 500);\n"
+							//pstring+= "    var retval=\"waiting\";\n";
+
 
 							pstring+= "    " + userSndName + "Factory(function(" + userSndName  + "){\n\n"
 
@@ -528,10 +527,9 @@ define(
 									pstring += "        "+ userSndName + ".on(\"resourceLoaded\", function(){\n";
 									pstring += "          console.log(\"----- sound loaded, so Play!\");\n";
 
+
+									//pstring += "          retval = " + userSndName + ";\n";
 									waitForResourceLoading = true;
-									pstring += "          retval = " + userSndName + ";\n";
-
-
 									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
 									pstring += "        });\n"
 									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
@@ -548,18 +546,20 @@ define(
 
 
 							if (! waitForResourceLoading ) { // if sound doesn't load resources, then set retval for returning sound
-								pstring += "        retval=" + userSndName + ";\n";
+								pstring += "        cb && cb(" + userSndName + ");\n"
 							}
 
-							pstring += "        cb && cb(" + userSndName + ");\n"
+							
 							pstring+="    });\n";
 
+							/*
 							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
 							pstring += "        while(retval===\"waiting\"){\n";
 							pstring += "           var foo = 3; // something to hang a breakpoint on \n"
 							pstring += "        };\n";
 							pstring += "        return retval;\n"
 							pstring +="    }\n";
+							*/
 
 							//pstring += "return(snd);\n"
 							pstring += "  }\n";
