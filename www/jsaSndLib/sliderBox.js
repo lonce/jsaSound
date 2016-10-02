@@ -494,10 +494,11 @@ define(
 							var userSndName = "snd";
 							var pstring="";
 
+/*
 							pstring+="require.config({\n";
 							pstring += "    paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}\n"
 							pstring += "});\n"
-
+*/
 
 							pstring += "// Set path to models served from animatedsoundworks \n"
 							pstring += 
