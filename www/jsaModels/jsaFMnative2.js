@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/jsaOpCodes/nativeFModOsc","jsaSound/jsaSndLib/GraphNode"],
 	function (config, baseSM, fmodOscFactory, GraphNode) {
-        return function () {
+        return function (i_loadedCB) {
             var	oscModulatorNode;
             var m_CarrierNode;
             var	gainEnvNode;
@@ -211,7 +211,7 @@ define(
             */
 
 
-
+            i_loadedCB && i_loadedCB(myInterface);
             return myInterface;
         };
     }

@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, utils) {
-		return function () {
+		return function (i_loadedCB) {
 
 			var tempNum = 0;
 			var i = 0;
@@ -70,7 +70,9 @@ define(
 					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
 
 					buffLoaded = true;
-					console.log("Buffer Loaded!");				
+					console.log("Buffer Loaded!");	
+
+					i_loadedCB && i_loadedCB(myInterface);			
 			}
 
 
