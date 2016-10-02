@@ -492,7 +492,13 @@ define(
 
 				  			console.log("the filesaver file module has been loaded as " + fileSaver);
 							var userSndName = "snd";
-							var pstring="";
+							var pstring+="require.config({\n";
+							pstring += "    paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}\n"
+							pstring += "});\n"
+							
+
+							pstring += "// Set path to models served from animatedsoundworks \n"
+							pstring += 
 
 							pstring+="// To use the sound on a web page with its current parameters (and without the slider box):\n"
 
