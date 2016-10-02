@@ -536,18 +536,18 @@ define(
 							}
 
 
-							pstring += "    retval=" + userSndName + ";\n";
+							pstring += "        retval=" + userSndName + ";\n";
 
-							pstring += "    cb && cb(" + userSndName + ");\n"
-							pstring+="  });\n";
+							pstring += "        cb && cb(" + userSndName + ");\n"
+							pstring+="    });\n";
 
-							pstring += "  if (!cb){ // BLOCK and return snd synchronously\n";
-							pstring += "    while(!retval){};\n";
-							pstring += "    return retval;\n"
-							pstring +="  }\n";
+							pstring += "    if (!cb){ // BLOCK and return snd synchronously\n";
+							pstring += "        while(!retval){};\n";
+							pstring += "        return retval;\n"
+							pstring +="    }\n";
 
 							//pstring += "return(snd);\n"
-							pstring += "}\n";
+							pstring += "  }\n";
 							pstring+="});\n";
 
 
