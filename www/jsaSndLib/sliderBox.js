@@ -530,6 +530,8 @@ define(
 
 									//pstring += "          retval = " + userSndName + ";\n";
 									waitForResourceLoading = true;
+									pstring += "          cb && cb(" + userSndName + ");\n";
+
 									pstring += "  // " + userSndName + ".setParam(\"play\", 1);\n";
 									pstring += "        });\n"
 									pstring += "        " + userSndName + ".setParam(\"" + i_sm.getParam(i, "name") + "\", \"" + i_sm.getParam(i, "val") + "\");";
