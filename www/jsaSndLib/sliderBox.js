@@ -515,7 +515,7 @@ define(
 							//pstring+= "    var retval=\"waiting\";\n";
 
 
-							pstring+= "    " + userSndName + "Factory(function(" + userSndName  + "){\n\n"
+							pstring+= "    return " + userSndName + "Factory(function(" + userSndName  + "){\n\n"
 
 
 							for (i = 0; i < i_sm.getNumParams(); i++) {

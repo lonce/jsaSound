@@ -45,7 +45,7 @@ define(
 
 
 			var playingP=false;
-			var child = childNodeFactory(k_impulseDuration); // short burst, created only once
+			var child = childNodeFactory(); // short burst, created only once
 			//var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/GlottalPulse.wav");
 			var m_conv = jsaConvolverFactory(config.resourcesPath + "jsaResources/sounds/knock.wav");
 			var m_roomConv = jsaConvolverFactory(config.resourcesPath + "jsaResources/impulse-response/diffusor3.wav");

@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM"],
 	function (config, baseSM) {
-		return function (i_fname, i_loadedCB) {
+		return function (i_loadedCB, i_fname) {
 
 			var buffLoaded = false;
 			var soundBuff = config.audioContext.createBuffer(2,2,44100); 

@@ -82,8 +82,10 @@ define(
 				
 			}
 
+			var source;
+			var grainWindowNode;
 			function scheduleGrain() {
-				var source = config.audioContext.createBufferSource();
+				source = config.audioContext.createBufferSource();
 
 				//console.log("scheduleGrain triggered");
 				//console.log("source created");
@@ -141,6 +143,10 @@ define(
 			}
 
 			myInterface.onPlay = function (i_ptime) {
+
+				//if (source) source.stop(0);
+				if (grainWindowNode) grainWindowNode.stop(0);
+
 				if (buffLoaded) {
 					realTime = config.audioContext.currentTime;
 					grainTime=0;
