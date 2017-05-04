@@ -297,11 +297,13 @@ define(
 			};
 
 			buffLoaded = false;
+			/*
 			myInterface.on("resourceLoaded", function(){
 						console.log("Granny Swing: soundReady");
 						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
+			*/
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 
 			return myInterface;
