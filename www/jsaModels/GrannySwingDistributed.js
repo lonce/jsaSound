@@ -60,6 +60,10 @@ define(
 			myInterface.setName("Granny Swing");
 			myInterface.setAboutText("Granular Synthesis");
 
+			var init = (function (){
+				i_fname && myInterface.loadAudioResource(i_fname, onLoadAudioResource);
+			}());
+
 			function onLoadAudioResource(b){  
 					console.log("Sound(s) loaded");
 					soundBuff = b;
@@ -70,8 +74,7 @@ define(
 
 					buffLoaded = true;
 					console.log("Granny Swing: Buffer Loaded!");
-					i_loadedCB && i_loadedCB(myInterface);		
-					myInterface.off("resourceLoaded");		
+					i_loadedCB && i_loadedCB(myInterface);			
 			}
 
 
@@ -267,7 +270,7 @@ define(
 				},
 				function (i_val) {
 					val = i_val;
-					buffLoaded = false;
+					//buffLoaded = false;
 					myInterface.loadAudioResource(i_val, onLoadAudioResource);
 				}
 			);
