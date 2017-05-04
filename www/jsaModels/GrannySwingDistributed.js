@@ -303,9 +303,9 @@ define(
 						i_loadedCB && i_loadedCB(myInterface);
 						myInterface.off("resourceLoaded");
 					});
-			*/
+			
 			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
-
+			*/
 			return myInterface;
 		};
 	}
