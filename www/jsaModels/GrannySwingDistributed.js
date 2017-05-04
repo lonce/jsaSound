@@ -69,7 +69,9 @@ define(
 					m_fileLoopEnd = Math.min(bufferDuration, bufferDuration*(p_fileLoopStartRel+p_fileLoopLengthRel));
 
 					buffLoaded = true;
-					console.log("Granny Swing: Buffer Loaded!");				
+					console.log("Granny Swing: Buffer Loaded!");
+					i_loadedCB && i_loadedCB(myInterface);		
+					myInterface.off("resourceLoaded");		
 			}
 
 
