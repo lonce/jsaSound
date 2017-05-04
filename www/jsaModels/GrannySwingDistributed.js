@@ -304,8 +304,9 @@ define(
 						myInterface.off("resourceLoaded");
 					});
 			
-			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 			*/
+			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+
 			return myInterface;
 		};
 	}
