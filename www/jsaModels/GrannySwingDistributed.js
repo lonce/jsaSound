@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 define(
 	["jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/baseSM", "jsaSound/jsaSndLib/utils"],
 	function (config, baseSM, utils) {
-		return function (i_loadedCB) {
+		return function (i_loadedCB, i_fname=null) {
 
 			var tempNum = 0;
 			var i = 0;
