@@ -271,7 +271,9 @@ define(
 				function (i_val) {
 					val = i_val;
 					//buffLoaded = false;
-					myInterface.loadAudioResource(i_val, onLoadAudioResource);
+					if (! buffLoaded){
+						myInterface.loadAudioResource(i_val, onLoadAudioResource);
+					}
 				}
 			);
 
