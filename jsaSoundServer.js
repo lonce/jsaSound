@@ -17,7 +17,7 @@ const fs = require('fs');
 
 var WebSocketServer = require('ws').Server
 
-var options={}
+var options={};
 if (mode=="production"){
   options = {
     key: fs.readFileSync('localssl/cert.key'),
@@ -29,14 +29,6 @@ if (mode=="production"){
     cert: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.comlocalssl/cert.pem')
   };  
 }
-
-
-const options = {
-  key: fs.readFileSync('localssl/cert.key'),
-  cert: fs.readFileSync('localssl/cert.pem')
-};
-
-console.log(window.document.location.hostname)
 
 server = https.createServer(options, app);
 wss = new WebSocketServer({server: server})
