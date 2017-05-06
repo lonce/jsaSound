@@ -17,7 +17,7 @@ const fs = require('fs');
 
 var WebSocketServer = require('ws').Server
 
-const options={}
+var options={}
 if (mode=="production"){
   options = {
     key: fs.readFileSync('localssl/cert.key'),
