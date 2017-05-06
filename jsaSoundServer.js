@@ -1,12 +1,12 @@
-/*
+
 var express = require("express")
 , app = express()
 , server = require('http').createServer(app)
 , WebSocketServer = require('ws').Server
 , wss = new WebSocketServer({server: server})
 , fs = require('fs');
-*/
 
+/*
 const mode = "production"
 
 const express = require("express");
@@ -32,7 +32,7 @@ if (mode=="production"){
 
 server = https.createServer(options, app);
 wss = new WebSocketServer({server: server})
-
+*/
 console.log('so far so good !!!!!!!!!!!!!!!!');
 
 //-------------------------------------------------------------
