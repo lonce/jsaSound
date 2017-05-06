@@ -10,7 +10,7 @@ You should have received a copy of the GNU General Public License and GNU Lesser
 require.config({
 	paths: {		
 		"jsaSound": "..",
-		"jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min"
+		"jquery": "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
 	}
 });
 require(
