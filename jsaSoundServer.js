@@ -1,10 +1,42 @@
 
+const mode="development";
+
+if (mode=="production") {
+    var express = require("express")
+    , app = express()
+    , server = require('http').createServer(app)
+    , WebSocketServer = require('../').Server
+    , wss = new WebSocketServer({server: server})
+    , fs = require('fs');
+} else {
+    console.log('using development mode')
+    var express = require("express");
+    var app = express();
+    var https = require('https');
+    var fs = require('fs');
+
+    var WebSocketServer = require('../').Server
+
+    var options = {
+    //key: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.com/cert.key'),
+    //cert: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.comlocalssl/cert.pem')
+    key: fs.readFileSync('localssl/cert.key'),
+    cert: fs.readFileSync('localssl/cert.pem')
+    };
+
+    console.log('options are ' + options)
+
+    server = https.createServer(options, app);
+    wss = new WebSocketServer({server: server})
+}
+/*
 var express = require("express")
 , app = express()
 , server = require('http').createServer(app)
 , WebSocketServer = require('ws').Server
 , wss = new WebSocketServer({server: server})
 , fs = require('fs');
+*/
 
 /*
 const mode = "production"
