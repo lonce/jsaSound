@@ -1,9 +1,49 @@
+/*
 var express = require("express")
 , app = express()
 , server = require('http').createServer(app)
 , WebSocketServer = require('ws').Server
 , wss = new WebSocketServer({server: server})
 , fs = require('fs');
+*/
+
+const mode = "production"
+
+const express = require("express");
+const app = express();
+const https = require('https');
+const fs = require('fs');
+
+
+var WebSocketServer = require('ws').Server
+
+const options={}
+if (mode=="production"){
+  options = {
+    key: fs.readFileSync('localssl/cert.key'),
+    cert: fs.readFileSync('localssl/cert.pem')
+  }
+} else {
+  options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.com/cert.key'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.comlocalssl/cert.pem')
+  };  
+}
+
+
+const options = {
+  key: fs.readFileSync('localssl/cert.key'),
+  cert: fs.readFileSync('localssl/cert.pem')
+};
+
+console.log(window.document.location.hostname)
+
+server = https.createServer(options, app);
+wss = new WebSocketServer({server: server})
+
+console.log('so far so good !!!!!!!!!!!!!!!!');
+
+//-------------------------------------------------------------
 
 var k_portnum = 8082;
 
