@@ -5,7 +5,7 @@ if (mode=="production") {
     var express = require("express")
     , app = express()
     , server = require('http').createServer(app)
-    , WebSocketServer = require('../').Server
+    , WebSocketServer = require('ws').Server
     , wss = new WebSocketServer({server: server})
     , fs = require('fs');
 } else {
@@ -15,7 +15,7 @@ if (mode=="production") {
     var https = require('https');
     var fs = require('fs');
 
-    var WebSocketServer = require('../').Server
+    var WebSocketServer = require('ws').Server
 
     var options = {
     //key: fs.readFileSync('/etc/letsencrypt/live/animatedsoundworks.com/cert.key'),
