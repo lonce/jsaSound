@@ -1,5 +1,20 @@
 
-const mode="production";
+var k_portnum = 8082;
+
+console.log("hey myserver is starting with command line arguments:");
+process.argv.forEach(function (val, index, array) {
+  console.log(index + ': ' + val);
+});
+if (process.argv.length < 4){
+    console.log("usage: node myserver portnum mode (production or dev)");
+    process.exit(1);
+}
+
+var k_portnum=process.argv[2];
+var mode=process.argv[3];
+//****************************************************************************
+
+
 
 if (mode=="production") {
     var express = require("express")
@@ -69,20 +84,7 @@ console.log('so far so good !!!!!!!!!!!!!!!!');
 
 //-------------------------------------------------------------
 
-var k_portnum = 8082;
 
-console.log("hey myserver is starting with command line arguments:");
-process.argv.forEach(function (val, index, array) {
-  console.log(index + ': ' + val);
-});
-if (process.argv.length < 3){
-    console.log("usage: node myserver portnum");
-    process.exit(1);
-}
-k_portnum=process.argv[2];
-
-
-//****************************************************************************
 var m_useRoot="/www";
 
 // For serving individual sounds with query strings -----------
