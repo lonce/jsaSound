@@ -1,5 +1,5 @@
 
-const mode="development";
+const mode="production";
 
 if (mode=="production") {
     var express = require("express")
