@@ -1,6 +1,6 @@
 require.config({
         paths: {
-                "jsaSound": "http://animatedsoundworks.com:8001/"}
+                "jsaSound": "https://animatedsoundworks.com"}
 });
 require(
 	["jsaSound/jsaModels/jsaFMnative2"], 

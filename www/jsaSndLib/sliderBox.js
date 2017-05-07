@@ -435,7 +435,7 @@ define(
 
 				pstring+="// To use the sound on a web page with its current parameters (and without the slider box):<br>"
 
-				pstring+="require.config({<br>&#160&#160&#160 paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}<br>});<br>";
+				pstring+="require.config({<br>&#160&#160&#160 paths: {\"jsaSound\": \"https://animatedsoundworks.com\"}<br>});<br>";
 				pstring+="require(<br>&#160&#160&#160 [\"jsaSound/" + sm_string_name + "\"],<br><br>";
 				pstring+="function(" + userSndName + "Factory){<br>";
 				pstring+="&#160&#160&#160 var " + userSndName + " = " + userSndName + "Factory();<br><br>"
@@ -498,7 +498,7 @@ define(
 
 							//console.log("now write config stuff")
 							pstring +="require.config({\n";
-							pstring += "    paths: {\"jsaSound\": \"http://animatedsoundworks.com:8001\"}\n";
+							pstring += "    paths: {\"jsaSound\": \"https://animatedsoundworks.com\"}\n";
 							pstring += "});\n"
 							//console.log("pstring is now " + pstring);
 							//console.log("proceed");

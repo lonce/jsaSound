@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------------------------------------
 
 require.config({
- 	paths: {"jsaSound": "http://animatedsoundworks.com:8001/"}});
+ 	paths: {"jsaSound": "https://animatedsoundworks.com/"}});
 require(
 	["require", "utils", "jsaSound/jsaModels/son/swish"],
 

@@ -270,10 +270,11 @@ define(
 			*/
 			bsmInterface.play = function (i_time) {
 				if (i_time === undefined) i_time=0;
-				bsmInterface.isPlaying=true;
+
 				bsmInterface.qClear(i_time);
 
 				bsmInterface.onPlay(i_time);
+				bsmInterface.isPlaying=true;
 
 				// if not connected in a graph or to a recorder, connect ouput to desination to be heard
 				//if ((bsmInterface.getNumOutConnections() === 0) || (isRecording && (bsmInterface.getNumOutConnections() === 1))){

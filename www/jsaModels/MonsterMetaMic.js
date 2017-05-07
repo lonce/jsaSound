@@ -1,4 +1,4 @@
-i_loadedCB && i_loadedCB(myInterface);/* ---------------------------------------------------------------------------------------
+/* ---------------------------------------------------------------------------------------
 This jsaSound Code is distributed under LGPL 3
 Copyright (C) 2012 National University of Singapore
 Inquiries: director@anclab.org
