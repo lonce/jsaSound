@@ -1,3 +1,5 @@
+Fix running locally - a good test is having a sound resource (wave file) that a model uses that is stored locally, not on animatedsoundworks.com./
+
 
 1) Fix "Code Capture" for Sound URL's
    a) http... needs quotation in the "Paraters in array form" section
