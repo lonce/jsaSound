@@ -31,7 +31,7 @@ define(
 			m_loopStartPhase=0;
 
 			//hard-coded file name
-			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/CrowdLaughingLoop.wav";
+			var m_soundUrl = config.resourcesPath + "jsaResources/sounds/sheepfarmXcowdlaughing.wav";
 
 
 			var m_attackTime = 1,
