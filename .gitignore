@@ -2,6 +2,7 @@
 *.swp
 *.lnk
 *.link
+**/._*
 www/Demo/jsaCore
 www/Demo/jsaOpCodes
 www/Demo/jsaModels

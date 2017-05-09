@@ -70,9 +70,9 @@ define(
 
 			function onLoadAudioResource(b){
 				soundBuff = b;
-				m_bufferDuration = soundBuff.duration;
+				m_bufferDuration = soundBuff.duration; // in seconds
 				buffLoaded = true;
-				console.log("Rain loop: Buffer Loaded!");
+				console.log("Crowd loop: Buffer Loaded, buf duration is " + m_bufferDuration);
 			}
 
 
