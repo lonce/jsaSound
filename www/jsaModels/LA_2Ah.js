@@ -39,7 +39,7 @@ define(
 			sm.now = 0.0;
 
 
-			var fname = "jsaResources/sounds/LaurieAnderson2Ah.wav";
+			var fname = "jsaResources/sounds/LaurieAnderson2aAh.wav";
 			console.log("audio source file is " + fname);
 			var m_defaultsoundURL = config.resourcesPath + fname;
 
