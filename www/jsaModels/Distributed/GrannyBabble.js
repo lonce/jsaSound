@@ -67,7 +67,7 @@ define(
 			var continuePlaying = true;
 
 			var myInterface = baseSM({},[],[gainLevelNode]);
-			myInterface.setAboutText("Granular Synthesis");
+			myInterface.setAboutText("Random Babbling (Distributed)");
 
 
 
@@ -81,8 +81,7 @@ define(
 
 					buffLoaded = true;
 					console.log("Buffer Loaded!");	
-
-							
+					i_loadedCB && i_loadedCB(myInterface);
 			}
 
 
@@ -321,7 +320,10 @@ define(
 			buffLoaded = false;
 			// don't load since user might want a different sound!!!!!
 			//myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
-			i_loadedCB && i_loadedCB(myInterface);	
+			buffLoaded = false;
+			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+
+			//i_loadedCB && i_loadedCB(myInterface);	call in onLoadAudioResource
 			return myInterface;
 		};
 	}
