@@ -23,7 +23,8 @@ define(
 			sfiles[0]="jsaResources/sounds/wavenetbabble5.0.wav";
 			// choose one
 			fname=sfiles[numsfiles*Math.random()];
-
+			console.log("audio source file is " + fname);
+			var m_defaultsoundURL = config.resourcesPath + fname;
 
 
 			var buffLoaded = false;
@@ -281,12 +282,12 @@ define(
 				"Sound URL",
 				"url",
 				{
-					"val": config.resourcesPath + fname
+					"val": m_defaultsoundURL
 				},
 				function (i_val) {
-					val = i_val;
-					buffLoaded = false;
-					myInterface.loadAudioResource(i_val, onLoadAudioResource);
+					if (! buffLoaded){
+						myInterface.loadAudioResource(i_val, onLoadAudioResource);
+					}
 				}
 			);
 
