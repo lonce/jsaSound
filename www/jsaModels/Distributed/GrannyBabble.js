@@ -22,7 +22,7 @@ define(
 			sfiles[0]="jsaResources/sounds/Glossolalia5.0.wav";
 			sfiles[0]="jsaResources/sounds/wavenetbabble5.0.wav";
 			// choose one
-			fname=sfiles[numsfiles*Math.random()];
+			fname=sfiles[Math.floor(numsfiles*Math.random())];
 			console.log("audio source file is " + fname);
 			var m_defaultsoundURL = config.resourcesPath + fname;
 
