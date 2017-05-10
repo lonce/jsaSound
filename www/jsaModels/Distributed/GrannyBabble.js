@@ -20,7 +20,7 @@ define(
 			var sfiles=[];
 			numsfiles=2;
 			sfiles[0]="jsaResources/sounds/Glossolalia5.0.wav";
-			sfiles[0]="jsaResources/sounds/wavenetbabble5.0.wav";
+			sfiles[1]="jsaResources/sounds/wavenetbabble5.0.wav";
 			// choose one
 			fname=sfiles[Math.floor(numsfiles*Math.random())];
 			console.log("audio source file is " + fname);
