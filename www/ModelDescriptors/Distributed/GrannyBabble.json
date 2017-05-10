@@ -1,5 +1,5 @@
 {
 	"displayName": "Distrubuted Babbling",
-	"fileName": "jsaModels/GrannyBabble",
+	"fileName": "jsaModels/Distributed/GrannyBabble",
 	"modelKeys": ["jsaSoundDemo", "Slork"]
 }
