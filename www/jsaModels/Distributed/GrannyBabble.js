@@ -277,7 +277,7 @@ define(
 				}
 			);
 
-
+/*
 			myInterface.registerParam(
 				"Sound URL",
 				"url",
@@ -290,7 +290,7 @@ define(
 					}
 				}
 			);
-
+*/
 			myInterface.registerParam(
 				"Gain",
 				"range",
@@ -319,10 +319,10 @@ define(
 			};
 
 			buffLoaded = false;
-			// don't load since user might want a different sound!!!!!
+			// not a parameter - we want to save the model and load it with a different URL each time
 			//myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
 			buffLoaded = false;
-			myInterface.loadAudioResource(myInterface.getParam("Sound URL", "val"), onLoadAudioResource);
+			myInterface.loadAudioResource(m_defaultsoundURL, onLoadAudioResource);
 
 			//i_loadedCB && i_loadedCB(myInterface);	call in onLoadAudioResource
 			return myInterface;
