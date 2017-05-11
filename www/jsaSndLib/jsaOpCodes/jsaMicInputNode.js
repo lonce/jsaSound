@@ -67,7 +67,7 @@ define(
 
 			if (!navigator.getUserMedia){
 				console.log("Error: getUserMedia not supported!");
-				return();
+				return;
 			}
 
 		    navigator.getUserMedia({audio:true}, gotAudio, function(e) {
