@@ -37,13 +37,13 @@ define(
 				micWrapper.connect(connect_to);
 				*/
 
-				microphone.connect(connect_to);
+				//microphone.connect(connect_to);
 
 
 			}
 
 			function error() {
-				alert('Stream generation failed. Must a) run this sound in the sound-input enabled browser such as Chrome, b) run on a proper server,  c) explicity allow the browser to use sound by pushing the button on the main page.');
+				console.log('Stream generation failed. Must a) run this sound in the sound-input enabled browser such as Chrome, b) run on a proper server,  c) explicity allow the browser to use sound by pushing the button on the main page.');
 			}
 
 
@@ -60,10 +60,10 @@ define(
 				navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 			if (!navigator.getUserMedia)
-				return(alert("Error: getUserMedia not supported!"));
+				return(console.log("Error: getUserMedia not supported!"));
 
 		    navigator.getUserMedia({audio:true}, gotAudio, function(e) {
-		            alert('Error in getUserMedia');
+		            console.log('Error in getUserMedia');
 		            console.log(e);
 		        });
 
