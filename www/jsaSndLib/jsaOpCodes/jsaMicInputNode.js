@@ -37,7 +37,7 @@ define(
 				micWrapper.connect(connect_to);
 				*/
 
-				//microphone.connect(connect_to);
+				microphone.connect(connect_to);
 
 
 			}
@@ -56,17 +56,20 @@ define(
 			}
 			*/
 
+/*----------------------
 			if (!navigator.getUserMedia)
 				navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-			if (!navigator.getUserMedia)
-				return(console.log("Error: getUserMedia not supported!"));
+			if (!navigator.getUserMedia){
+				console.log("Error: getUserMedia not supported!");
+				return();
+			}
 
 		    navigator.getUserMedia({audio:true}, gotAudio, function(e) {
 		            console.log('Error in getUserMedia');
 		            console.log(e);
 		        });
-
+*/
 
 		};
 	}
