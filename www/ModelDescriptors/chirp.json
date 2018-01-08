@@ -1,5 +1,5 @@
 {
 	"displayName": "chirp",
 	"fileName": "jsaModels/chirp",
-	"modelKeys": ["jsaSoundDemo"]
+	"modelKeys": ["jsaSoundDemo", "DemoAList"]
 }

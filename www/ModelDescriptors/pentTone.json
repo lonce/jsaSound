@@ -1,5 +1,5 @@
 {
 	"displayName": "Pentatonic Tone",
 	"fileName": "jsaModels/pentTone",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "DemoAList"]
 }

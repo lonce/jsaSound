@@ -1,5 +1,5 @@
 {
 	"displayName": "Noisy FM",
 	"fileName": "jsaModels/NoisyFM",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "DemoAList"]
 }

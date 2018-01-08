@@ -1,5 +1,5 @@
 {
 	"displayName": "Metadrone 2",
 	"fileName": "jsaModels/jsaMetaDrone2",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "DemoAList"]
 }

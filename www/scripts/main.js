@@ -20,7 +20,8 @@ require(
 		var soundSelectorElem = document.getElementById("soundSelector");
 
 		var soundList;
-		var useList=["jsaSoundDemo"];
+		//var useList=["jsaSoundDemo"];
+		var useList=["DemoAList"];                               
 		// Create the html select box using the hard-coded soundList above
 		function makeSoundListSelector() {
 			var i;

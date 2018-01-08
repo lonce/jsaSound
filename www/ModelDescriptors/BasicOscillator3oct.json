@@ -1,5 +1,5 @@
 {
 	"displayName": "Basic Oscillator 3oct",
 	"fileName": "jsaModels/BasicOscillator3oct",
-	"modelKeys": ["jsaSoundDemo", "AntScore", "Authorship"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "Authorship", "DemoAList"]
 }

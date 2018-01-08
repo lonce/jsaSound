@@ -1,5 +1,5 @@
 {
 	"displayName": "Creaky Door",
 	"fileName": "jsaModels/CreakyDoor",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "DemoAList"]
 }

@@ -1,5 +1,5 @@
 {
 	"displayName": "Sono BP 1",
 	"fileName": "jsaModels/ICMCStory/sonobp1",
-	"modelKeys": ["jsaSoundDemo", "ICMCStory"]
+	"modelKeys": ["jsaSoundDemo", "ICMCStory", "DemoAList"]
 }

@@ -1,5 +1,5 @@
 {
 	"displayName": "Simple mp3 player",
 	"fileName": "jsaModels/jsaMp3",
-	"modelKeys": ["requiredURL", "jsaSoundDemo"]
+	"modelKeys": ["requiredURL", "jsaSoundDemo", "DemoAList"]
 }

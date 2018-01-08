@@ -1,5 +1,5 @@
 {
 	"displayName": "Filtered Noise Band",
 	"fileName": "jsaModels/FilteredNoiseBand",
-	"modelKeys": ["jsaSoundDemo"]
+	"modelKeys": ["jsaSoundDemo", "DemoAList"]
 }

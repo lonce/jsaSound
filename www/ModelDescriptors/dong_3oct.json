@@ -1,5 +1,5 @@
 {
 	"displayName": "Dong 3oct",
 	"fileName": "jsaModels/dong_3oct",
-	"modelKeys": ["jsaSoundDemo", "AntScore", "Authorship"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "Authorship", "DemoAList"]
 }

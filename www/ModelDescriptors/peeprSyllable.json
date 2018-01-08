@@ -1,5 +1,5 @@
 {
 	"displayName": "Peeper Syllable",
 	"fileName": "jsaModels/peeperSyllable",
-	"modelKeys": ["jsaSoundDemo", "AntScore"]
+	"modelKeys": ["jsaSoundDemo", "AntScore", "DemoAList"]
 }
