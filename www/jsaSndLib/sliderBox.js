@@ -26,6 +26,7 @@ define(
 	function (baseSM, utils, config, require ) {
 
 		return function (i_sm, sm_string_name) {  // argument is a sound model, and a name for the slider box title bar
+
 			var i;
 			var val;
 

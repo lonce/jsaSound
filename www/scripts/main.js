@@ -95,5 +95,10 @@ require(
 
 		makeSoundListSelector();
 		soundSelectorElem.addEventListener("change", soundChoice);
+
+		if (confirm("permit audio")){
+		}
+
+
 	}
 );
