@@ -14,8 +14,8 @@ require.config({
 	}
 });
 require(
-	["require", "jsaSound/jsaSndLib/sliderBox", "jsaSound/jsaSndLib/utils",  "jquery"],
-	function (require, makeSliderBox, utils) {
+	["require", "jsaSound/jsaSndLib/config", "jsaSound/jsaSndLib/sliderBox", "jsaSound/jsaSndLib/utils",  "jquery"],
+	function (require, config, makeSliderBox, utils) {
 		var currentSndModel;
 		var soundSelectorElem = document.getElementById("soundSelector");
 
@@ -97,6 +97,7 @@ require(
 		soundSelectorElem.addEventListener("change", soundChoice);
 
 		if (confirm("permit audio")){
+			config.audioContext.resume();
 		}
 
 
