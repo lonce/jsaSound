@@ -163,8 +163,9 @@ define(
 						i_sm.setParam(paramName, val);
 						if (val >= 1)
 							buttonElement.value = "Release";
-						else
+						else 
 							buttonElement.value = "Play";
+						
 					};
 					return cb;
 				}(controllerElement, buttonElement, paramName)); // control element is the url text box, not the button. 
@@ -174,12 +175,13 @@ define(
 					if (val >= 1){
 						//myInterface.release();
 						//i_sm.release();
+
 						myInterface.setParam("play", 0);
 					}
 					else{
 						//myInterface.play();
 						//i_sm.play();
-
+						config.audioContext.resume();
 						myInterface.setParam("play", 1);
 					}
 				}
