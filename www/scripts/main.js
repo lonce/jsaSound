@@ -96,10 +96,14 @@ require(
 		makeSoundListSelector();
 		soundSelectorElem.addEventListener("change", soundChoice);
 
-		if (confirm("permit audio")){
+		window.addEventListener('load', (event) => {
+		  console.log('page is fully loaded');
+		  if (confirm("permit audio")){
 			console.log("OK resumeing!")
 			config.audioContext.resume();
-		}
+			}
+		});
+		
 
 
 	}
