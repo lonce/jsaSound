@@ -97,6 +97,7 @@ require(
 		soundSelectorElem.addEventListener("change", soundChoice);
 
 		if (confirm("permit audio")){
+			console.log("OK resumeing!")
 			config.audioContext.resume();
 		}
 
