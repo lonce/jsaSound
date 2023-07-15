@@ -102,7 +102,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(__dirname + m_useRoot));
-app.use(express.static("/Demo", __dirname ));
+//app.use(express.static("/Demo", __dirname ));
 
 server.listen(process.argv[2] || k_portnum);
 console.log("Connected and listening on port " + k_portnum);

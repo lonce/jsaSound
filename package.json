@@ -4,11 +4,10 @@
   "description": "sound modeling library based on Web Audio API, and exposing a nice user API",
   "main": "www/scripts/main.js",
   "dependencies": {
-    "express": "~3.1.0",
-    "require": "^2.4.20",
-    "ws": "~0.4.25"
+    "express": "^3.21.2",
+    "require": "^0.4.4",
+    "ws": "^8.13.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
